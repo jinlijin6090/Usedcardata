@@ -53,7 +53,7 @@
 
 ## 规模（实测）
 
-`count_species.py` 按过滤条件直接数物种；N ≤ 5 时与网络闭包的结果逐个一致。
+`count_species.py` 按过滤条件直接数物种；N ≤ 9 时与网络闭包得到的物种数完全一致。
 默认限制：大分子（> 5 个重原子）最多 1 个 O、1 个 π 键、1 个自由价。
 
 每层物种数（恰好 N 个重原子）：
@@ -71,7 +71,28 @@
 
 每个大分子平均产生约 150–800 个反应（主要是与小分子池的 H 转移），单核处理约 0.05–0.4 s。
 
-RUN_RESULTS_PLACEHOLDER
+完整网络实测（默认配置，`--max-heavy 9 --nproc 4`）：
+
+| 项目 | 结果 |
+|---|---|
+| 物种数 | 12,773（与 `count_species.py` 的预测完全一致：闭包到达了所有满足条件的物种） |
+| 反应数 | 7,288,960（b1f0 57,212 / b0f1 57,212 / b1f1 7,174,536） |
+| 其中小分子段（≤ 5 个重原子）内部 | 4,804,883（固定开销，与 max_heavy 无关） |
+| 耗时 | 4 核 7.5 分钟 |
+| `reactions.csv` 大小 | 550 MB |
+| YARP 注释（`--yarp`） | 12,773 个全部成功，yarpecule hash 无重复（4 核 22 s）；其中 182 个卡宾类物种 YARP 给出两性离子 Lewis 结构（如 `[C]=O` → `[C-]#[O+]`） |
+
+由此外推到 25 个重原子（大分子每个约 150–800 个反应，单核 0.05–0.4 s；C20 以上每行反应约 150 字节）：
+
+| 方案 | 物种数 | 反应数 | 计算量 | 反应表 |
+|---|---:|---:|---:|---:|
+| 全部 ≤ 2 个支链（`config.yaml`） | ~5 × 10⁸ | ~10¹¹ | ~3 万核时 | ~15 TB |
+| 全部 ≤ 1 个支链 | ~3 × 10⁷ | ~10¹⁰ | ~2000 核时 | ~1.5 TB |
+| ≤ 12 个重原子允许 2 个支链，13–25 只保留直链（`config_c25_tiered.yaml`） | ~1.0 × 10⁶ | ~2.5 × 10⁸ | ~50 核时 | ~30 GB |
+| 全部直链 | ~8 × 10⁵ | ~2 × 10⁸ | ~40 核时 | ~25 GB |
+
+`config_c25_tiered.yaml` 的物种数在 N ≤ 21 时是 `count_species.py` 的精确计数（累计 461,333），
+N = 22–25 按每层约 1.28 倍外推。
 
 ## 安装
 
@@ -89,8 +110,8 @@ cd ftc_network
 # 1. 先估算规模（只数物种，不枚举反应）
 python count_species.py --max-heavy 14 --max-branches 2
 
-# 2. 枚举网络（大分子段多进程并行）
-python run_enumeration.py -c config.yaml -o output/ --nproc 32
+# 2. 枚举网络（多进程并行）；C25 建议用分档配置
+python run_enumeration.py -c config_c25_tiered.yaml -o output/ --nproc 32
 
 # 小规模试跑 + 用 YARP 生成 Lewis 结构并校验去重
 python run_enumeration.py -o output_small/ --max-heavy 4 --yarp
@@ -114,7 +135,8 @@ python -m pytest -q tests
 
 ```
 ftc_network/
-├── config.yaml            # 所有限制条件与开关
+├── config.yaml            # 所有限制条件与开关（全部 ≤ 2 个支链）
+├── config_c25_tiered.yaml # C25 可行版：≤ 12 个重原子 2 个支链，更大的只保留直链
 ├── run_enumeration.py     # 主程序
 ├── count_species.py       # 规模估算
 ├── ftc_enum/

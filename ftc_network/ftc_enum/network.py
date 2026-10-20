@@ -12,11 +12,13 @@
 每个反应物组合（单个物种，或一对物种）只会被处理一次，所以反应去重只需要在
 一次处理内部进行，不需要全局的反应集合（大规模运行时省内存）。
 
-执行分两段：
-  1. 小分子段（重原子 <= full_max_heavy）按重原子数顺序串行处理；
+执行分两段（nproc > 1 时）：
+  1. 小分子段（重原子 <= full_max_heavy）按"轮"并行：同一轮中第 k 个物种与
+     已处理物种以及本轮前 k 个物种配对，每对仍只计算一次；
   2. 大分子只和小分子池 + 自身反应，按"轮"批量交给多进程并行处理。
-     若大分子反应又产生了新的小分子，先串行处理这些小分子（和所有已处理物种配对），
+     若大分子反应又产生了新的小分子，串行处理这些小分子（和所有已处理物种配对），
      再继续下一轮。
+nproc = 1 时全部按重原子数顺序串行。最终网络与处理顺序无关。
 """
 
 import csv
@@ -112,6 +114,11 @@ class Reactor:
         return out
 
 
+def eligible(h1, h2, pool_max, full_max):
+    """两个物种（重原子数 h1、h2）之间是否计算双分子反应。"""
+    return min(h1, h2) <= pool_max or max(h1, h2) <= full_max
+
+
 # 子进程全局状态
 _W = {}
 
@@ -123,6 +130,22 @@ def _worker_init(cfg, pool_species):
 
 def _worker_react(s):
     return _W["reactor"].react(s, _W["pool"])
+
+
+def _worker_init_round(cfg, processed, batch):
+    _W["reactor"] = Reactor(cfg)
+    _W["processed"] = processed
+    _W["batch"] = batch
+    p = cfg["partners"]
+    _W["lim"] = (p["pool_max_heavy"], p["full_max_heavy"])
+
+
+def _worker_react_round(k):
+    """处理本轮第 k 个物种：与已处理物种 + 本轮前 k 个物种配对（每对只算一次）。"""
+    s = _W["batch"][k]
+    cand = _W["processed"] + _W["batch"][:k]
+    partners = [b for b in cand if eligible(s.heavy, b.heavy, *_W["lim"])]
+    return _W["reactor"].react(s, partners)
 
 
 class Network:
@@ -190,7 +213,7 @@ class Network:
     def _partners(self, s):
         out = []
         for h, lst in self.processed_by_heavy.items():
-            if min(h, s.heavy) <= self.pool_max or max(h, s.heavy) <= self.full_max:
+            if eligible(h, s.heavy, self.pool_max, self.full_max):
                 out.extend(lst)
         return out
 
@@ -214,6 +237,21 @@ class Network:
         workers, workers_pool_size = None, -1
         try:
             while self.queue:
+                # 0) 还没有处理过大分子时，小分子按轮并行（每轮内部按顺序配对，结果与串行相同）
+                if self.nproc > 1 and self.queue[0][0] <= self.full_max and \
+                        not any(h > self.full_max for h in self.processed_by_heavy):
+                    batch = []
+                    while self.queue and self.queue[0][0] <= self.full_max:
+                        _, sid = heapq.heappop(self.queue)
+                        batch.append(self.by_id[sid])
+                    processed = [x for lst in self.processed_by_heavy.values() for x in lst]
+                    with Pool(self.nproc, initializer=_worker_init_round,
+                              initargs=(self.cfg, processed, batch)) as rp:
+                        for s, res in zip(batch, rp.imap(_worker_react_round, range(len(batch)))):
+                            self._write(res)
+                            self._mark_processed(s)
+                            self._log(t0)
+                    continue
                 # 1) 小分子（以及只用单进程时的所有物种）：串行
                 while self.queue and (self.queue[0][0] <= self.full_max or self.nproc == 1):
                     _, sid = heapq.heappop(self.queue)
