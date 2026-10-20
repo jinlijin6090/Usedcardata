@@ -127,7 +127,7 @@ def main():
 
     fig.text(0.06, 0.965, "费托反应网络规模随重原子上限的变化", color=INK, fontsize=15, weight="bold",
              va="top")
-    fig.text(0.06, 0.905, "默认配置（≤ 2 个支链）；由 N = 12 的完整网络按重原子上限截取"
+    fig.text(0.06, 0.905, f"默认配置（≤ 2 个支链）；由 N = {max(n)} 的完整网络按重原子上限截取"
              "（反应中所有物种都 ≤ N）。左：节点数与反应数；右：平均每个节点的反应数",
              color=INK_2, fontsize=10.5, va="top")
     fig.subplots_adjust(left=0.07, right=0.97, top=0.80, bottom=0.12)

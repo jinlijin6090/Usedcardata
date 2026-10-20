@@ -1,4 +1,6 @@
-output/
+output*/
+venv/
+classes.json
 __pycache__/
 *.pyc
 .pytest_cache/
