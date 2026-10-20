@@ -39,8 +39,15 @@ def _one(args):
         return sid, "", "", -1, -1, repr(e)[:200]
 
 
-def annotate(species, path, nproc=1):
-    jobs = [(s.id, s.elems, s.hs, s.edges) for s in species]
+def annotate(species, path, nproc=1, smiles=None):
+    from .species import unpack
+    jobs = []
+    for s in species:
+        if s.elems is None:   # 已处理的大分子瘦身过，从紧凑表示还原连接关系
+            elems, hs, edges = unpack(s.packed)
+            jobs.append((s.id, elems, hs, edges))
+        else:
+            jobs.append((s.id, s.elems, s.hs, s.edges))
     if nproc > 1:
         with Pool(nproc) as pool:
             rows = pool.map(_one, jobs, chunksize=64)
@@ -59,6 +66,6 @@ def annotate(species, path, nproc=1):
                 dup.append((hash_owner[yh], sid))
             else:
                 hash_owner[yh] = sid
-            w.writerow([sid, species[sid].smiles(), ysmi, yh, nrad, fc, err])
+            w.writerow([sid, smiles[sid] if smiles else "", ysmi, yh, nrad, fc, err])
     return {"yarp_annotated": len(rows) - failed, "yarp_failed": failed,
             "yarp_hash_duplicates": dup[:20], "n_yarp_hash_duplicates": len(dup)}

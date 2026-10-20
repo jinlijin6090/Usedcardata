@@ -23,7 +23,7 @@ class Species:
     """一个规范化之后的物种。只读，构造请用 make_species()。"""
 
     __slots__ = ("elems", "hs", "edges", "nbrs", "key", "heavy", "nC", "nO", "nH",
-                 "free_valence", "n_pi", "branches", "bond_orders", "radicals", "id")
+                 "free_valence", "n_pi", "branches", "bond_orders", "radicals", "id", "packed")
 
     def __repr__(self):
         return f"Species({self.smiles()})"
@@ -174,10 +174,22 @@ def make_species(elems, hs, edges, flt=None):
     s.nH = sum(hs) + elems.count("H")
     s.branches = sum(c - 2 for i, c in enumerate(cdeg) if c > 2 and elems[i] == "C")
     s.id = None
+    s.packed = None
     if flt is not None and not flt(s):
         return None
     s.key = _connectivity_key(s.elems, s.hs, s.edges)
     return s
+
+
+def pack(s):
+    """保持原子顺序的紧凑表示 (elems 字符串, hs 字节, 扁平化 edges 字节)。重原子数 < 256。"""
+    return ("".join(s.elems), bytes(s.hs), bytes(i for e in s.edges for i in e))
+
+
+def unpack(packed):
+    """pack() 的逆：返回 (elems, hs, edges)，原子顺序与打包前相同。"""
+    el, hs, ed = packed
+    return list(el), list(hs), [(ed[k], ed[k + 1]) for k in range(0, len(ed), 2)]
 
 
 def species_from_key(key):

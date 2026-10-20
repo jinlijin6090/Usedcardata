@@ -1,0 +1,65 @@
+{
+  "n_species": 12773,
+  "n_reactions": 7288960,
+  "reactions_by_type": {
+    "b1f0": 57212,
+    "b0f1": 57212,
+    "b1f1": 7174536
+  },
+  "species_by_heavy_atoms": {
+    "0": 2,
+    "1": 8,
+    "2": 16,
+    "3": 51,
+    "4": 199,
+    "5": 859,
+    "6": 364,
+    "7": 1015,
+    "8": 2801,
+    "9": 7458
+  },
+  "truncated_by_max_species": false,
+  "elapsed_s": 64.5,
+  "config": {
+    "max_heavy": 9,
+    "seeds": [
+      "[C-]#[O+]",
+      "[H][H]"
+    ],
+    "reactions": {
+      "b1f0": true,
+      "b0f1": true,
+      "b1f1": true,
+      "b1f1_bimolecular_open_shell_acceptor": true,
+      "b1f1_bimolecular_group_transfer": false
+    },
+    "partners": {
+      "self_reaction": true,
+      "pool_max_heavy": 3,
+      "full_max_heavy": 5
+    },
+    "max_branches": 2,
+    "forbid_O_O": true,
+    "limits": [
+      {
+        "max_heavy": 1,
+        "max_free_valence": 4,
+        "max_pi": null,
+        "max_O": 1
+      },
+      {
+        "max_heavy": 5,
+        "max_free_valence": 2,
+        "max_pi": null,
+        "max_O": 2
+      },
+      {
+        "max_heavy": 25,
+        "max_free_valence": 1,
+        "max_pi": 1,
+        "max_O": 1
+      }
+    ],
+    "max_species": 5000000
+  }
+}

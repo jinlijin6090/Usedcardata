@@ -24,7 +24,7 @@ nproc = 1 时全部按重原子数顺序串行。最终网络与处理顺序无�
   * 同一次处理中重复出现的产物图只做一次规范化（大分子 H 转移的产物对所有小分子池
     伙伴都相同），小产物跨调用缓存；
   * 子进程对已经发送过的产物只回传规范键，不再回传整个物种对象；
-  * 大分子处理完后只保留键与统计量（slim），需要时从键重建；
+  * 大分子处理完后只保留键、统计量和紧凑的连接表（slim），需要时按原原子顺序重建；
   * compact 模式下反应表写成 gzip、不带反应 SMILES。
 """
 
@@ -38,7 +38,7 @@ import time
 from multiprocessing import Pool
 
 from .rules import bimolecular, unimolecular
-from .species import make_species, species_from_key, species_from_smiles
+from .species import make_species, pack, species_from_smiles, unpack
 
 
 def _tier(cfg, heavy):
@@ -290,13 +290,15 @@ class Network:
 
     @staticmethod
     def _rehydrate(x):
-        full = species_from_key(x.key)
+        # 按打包前的原子顺序重建，保证反应的生成顺序（从而物种 id、反应行号）与不瘦身时相同
+        full = make_species(*unpack(x.packed))
         full.id = x.id
         return full
 
     def _mark_processed(self, s):
         if s.heavy > self.full_max:
-            # 大分子之后只会作为"小分子池物种"的伙伴出现（少见），需要时从键重建
+            # 大分子之后只会作为"小分子池物种"的伙伴出现（少见），需要时按原顺序重建
+            s.packed = pack(s)
             s.elems = s.hs = s.edges = s.nbrs = None
         self.processed_by_heavy.setdefault(s.heavy, []).append(s)
 
@@ -363,9 +365,9 @@ class Network:
             if workers is not None:
                 workers.close()
                 workers.join()
+            self._rxn_fh.close()   # 出错时也把已写出的反应完整落盘（gzip 需要正常关闭）
         if log_every:
             self._log(t0, force=True)
-        self._rxn_fh.close()
         self.write_species()
         summary = self.summary(time.time() - t0)
         with open(os.path.join(self.out_dir, "summary.json"), "w") as fh:

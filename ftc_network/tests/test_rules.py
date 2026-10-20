@@ -96,3 +96,27 @@ def test_network_two_heavy_atoms(tmp_path):
         assert S(smi).key in keys, smi
     assert summary["n_species"] == 26
     assert summary["species_by_heavy_atoms"] == {0: 2, 1: 8, 2: 16}
+
+
+def test_pack_unpack_preserves_atom_order():
+    from ftc_enum.species import pack, unpack, species_from_key
+    for smi in ["[H]", "[H][H]", "CCCCCC=C", "OCC(C)CC", "CCCCCCCCCC=CCCCCCCCCCCCO"]:
+        s = S(smi)
+        elems, hs, edges = unpack(pack(s))
+        assert (tuple(elems), tuple(hs), tuple(edges)) == (s.elems, s.hs, s.edges)
+        assert make_species(elems, hs, edges).key == s.key == species_from_key(s.key).key
+
+
+def test_slimmed_partner_rehydrates_in_original_order(tmp_path):
+    # 大分子先被处理并瘦身，之后的小分子以它为伙伴时，必须按原原子顺序重建
+    import yaml
+    with open(os.path.join(os.path.dirname(__file__), "..", "config.yaml")) as fh:
+        cfg = yaml.safe_load(fh)
+    cfg["max_heavy"] = 7
+    net = Network(cfg, str(tmp_path))
+    seed = net.add_seed("CCCCCC=C")
+    order = (seed.elems, seed.hs, seed.edges)
+    net._mark_processed(seed)
+    assert seed.nbrs is None
+    full = net._rehydrate(seed)
+    assert (full.elems, full.hs, full.edges) == order and full.id == seed.id and full.key == seed.key
