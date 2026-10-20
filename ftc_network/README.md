@@ -89,7 +89,11 @@
 * 从 N = 10 起 b1f0 多于 b0f1：例如 C10 → C4 + C6 的均裂会被枚举，但 C4 + C6 两者都不在小分子池、
   也不都在小分子段，按配对规则不计算它们的结合。
 
-从 N = 12 的结果按重原子上限截取子网络（反应中所有物种都 ≤ N）：
+从 N = 12 的结果按重原子上限截取子网络（反应中所有物种都 ≤ N；`subnet_stats.py` 生成
+`results/subnet_scale_n12.csv`，`plot_scale.py` 画出 `results/scale_vs_max_heavy.png`）：
+
+![网络规模随重原子上限的变化](results/scale_vs_max_heavy.png)
+
 
 | N | 物种（节点） | 反应 | 平均每个节点 |
 |---:|---:|---:|---:|
@@ -142,7 +146,11 @@ python run_enumeration.py -c config_c25_tiered.yaml -o output_c25/ --nproc 32 --
 # 小规模试跑 + 用 YARP 生成 Lewis 结构并校验去重
 python run_enumeration.py -o output_small/ --max-heavy 4 --yarp
 
-# 3. 测试
+# 3. 按重原子上限统计子网络规模并画图
+python subnet_stats.py output_n12/ -o results/subnet_scale_n12.csv
+python plot_scale.py results/subnet_scale_n12.csv -o results/scale_vs_max_heavy.png   # 需要 matplotlib
+
+# 4. 测试
 python -m pytest -q tests
 ```
 
@@ -166,6 +174,9 @@ ftc_network/
 ├── config_c25_tiered.yaml # C25 可行版：≤ 12 个重原子 2 个支链，更大的只保留直链
 ├── run_enumeration.py     # 主程序
 ├── count_species.py       # 规模估算
+├── subnet_stats.py        # 按重原子上限统计子网络的节点数与反应数
+├── plot_scale.py          # 画规模随重原子上限变化的图
+├── results/               # 实测 summary、子网络规模表与图
 ├── ftc_enum/
 │   ├── species.py         # 物种表示、键级分配、规范键
 │   ├── rules.py           # b1f0 / b0f1 / b1f1 规则
