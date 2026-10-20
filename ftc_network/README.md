@@ -1,5 +1,7 @@
 # 费托合成（FT）气相自由基反应网络枚举
 
+> 全部进展、结论与下一步见 [HANDOFF.md](HANDOFF.md)；随机参数 MKM（进行中）见 [mkm/README.md](mkm/README.md)。
+
 从 CO + H₂ 出发，按 **b1f0 / b0f1 / b1f1** 三类基元反应反复迭代，直到网络不再产生新物种，
 得到最多 25 个重原子（C + O）的反应网络。物种的 Lewis 结构（键级、形式电荷、自由基位置）
 和去重校验由 [YARP](https://github.com/Savoie-Research-Group/yarp)（Savoie 组）完成。
@@ -182,5 +184,8 @@ ftc_network/
 │   ├── rules.py           # b1f0 / b0f1 / b1f1 规则
 │   ├── network.py         # 闭包迭代、配对规则、并行
 │   └── yarp_annotate.py   # YARP Lewis 结构注释
+├── tools/                 # 物种化学分类、两次运行比对
+├── mkm/                   # 表面网络 + 随机能量 + MKM（进行中）
+├── HANDOFF.md             # 交接文档
 └── tests/test_rules.py
 ```
