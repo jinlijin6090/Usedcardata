@@ -1,0 +1,41 @@
+# 费托合成反应网络枚举配置
+# 重原子 = C + O（H 不计）
+
+max_heavy: 25            # 物种最大重原子数
+
+seeds:                   # 初始物种（只取连接关系，键级会重新分配）
+  - "[C-]#[O+]"          # CO
+  - "[H][H]"             # H2
+
+reactions:
+  b1f0: true             # 断 1 个 σ 键：均裂、β-断裂
+  b0f1: true             # 成 1 个 σ 键：自由基结合、自由基加成到 π 键
+  b1f1: true             # 断 1 成 1（共用一个原子）：分子内 H 迁移/1,2-迁移；分子间 H 抽提/歧化
+  # 分子间 b1f1 的接受方必须是开壳层（自由基/卡宾）。
+  # 关掉会加入 CH4 + C2H4 -> CH3 + C2H5 这类闭壳层之间的 H 转移，反应数放大约 100 倍
+  b1f1_bimolecular_open_shell_acceptor: true
+  # 分子间 SH2 取代与重原子片段转移（R + CH3-R' -> R-CH3 + R'），气相中动力学上可忽略
+  b1f1_bimolecular_group_transfer: false
+
+partners:                # 双分子反应配对规则
+  self_reaction: true    # A + A 总是计算
+  pool_max_heavy: 3      # 小分子池：任何物种都和 <=3 个重原子的物种反应
+  full_max_heavy: 5      # 小分子段：<=5 个重原子的物种之间全部两两反应
+
+# 骨架限制
+max_branches: 2          # 碳骨架支链数上限：sum over C of max(0, C 邻居数 - 2)；不成环
+forbid_O_O: true         # 不允许 O–O 键（进料中没有 O2）
+
+# 按重原子数分档的限制（按 max_heavy 从小到大匹配第一档）
+#   max_free_valence: 自由价上限（自由基电子 + 卡宾，CH3=1, CH2=2, CH=3, C=4）
+#   max_pi:           π 键数上限（C=C、C=O 各算 1，三键算 2）
+#   max_O:            O 原子数上限
+#   max_branches:     （可选）该档的支链数上限，覆盖上面的全局 max_branches。
+#                     例：{max_heavy: 12, max_branches: 2}, {max_heavy: 25, max_branches: 0}
+#                     表示 <=12 个重原子允许 2 个支链，更大的只保留直链。上限应随 N 不增。
+limits:
+  - {max_heavy: 1,  max_free_valence: 4, max_pi: null, max_O: 1}   # C、CH、CH2、CH3、OH ...
+  - {max_heavy: 5,  max_free_valence: 2, max_pi: null, max_O: 2}   # 小分子段（含 CO2、HCOOH、乙烯酮 ...）
+  - {max_heavy: 25, max_free_valence: 1, max_pi: 1,    max_O: 1}   # 大分子：闭壳层或单自由基，最多 1 个 π 键
+
+max_species: 5000000     # 安全上限，超过后停止注册新物种（summary 中会标记 truncated）

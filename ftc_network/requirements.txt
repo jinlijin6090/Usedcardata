@@ -1,0 +1,13 @@
+rdkit>=2023.9
+numpy
+pyyaml
+pytest
+# YARP（Savoie 组，注意不是 PyPI 上同名的 yarp 库）及其依赖，仅 --yarp 注释时需要
+git+https://github.com/Savoie-Research-Group/yarp.git
+openbabel-wheel
+scipy
+networkx
+ipython
+scikit-learn
+h5py
+ase
