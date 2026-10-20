@@ -180,6 +180,20 @@ def make_species(elems, hs, edges, flt=None):
     return s
 
 
+def species_from_key(key):
+    """从连接关系规范键（isotope = H 数 + 1 的 SMILES）重建物种。"""
+    mol = Chem.MolFromSmiles(key, sanitize=False)
+    if mol is None:
+        raise ValueError(f"无法解析物种键: {key}")
+    elems = [a.GetSymbol() for a in mol.GetAtoms()]
+    hs = [a.GetIsotope() - 1 for a in mol.GetAtoms()]
+    edges = [(b.GetBeginAtomIdx(), b.GetEndAtomIdx()) for b in mol.GetBonds()]
+    sp = make_species(elems, hs, edges)
+    if sp is None or sp.key != key:
+        raise ValueError(f"物种键重建失败: {key}")
+    return sp
+
+
 def species_from_smiles(smi):
     """从 SMILES 读入物种（只取连接关系，键级会被重新分配）。"""
     mol = Chem.MolFromSmiles(smi, sanitize=False)

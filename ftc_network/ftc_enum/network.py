@@ -19,9 +19,18 @@
      若大分子反应又产生了新的小分子，串行处理这些小分子（和所有已处理物种配对），
      再继续下一轮。
 nproc = 1 时全部按重原子数顺序串行。最终网络与处理顺序无关。
+
+为了做到 C25（~10^6 物种、~10^8 反应）：
+  * 同一次处理中重复出现的产物图只做一次规范化（大分子 H 转移的产物对所有小分子池
+    伙伴都相同），小产物跨调用缓存；
+  * 子进程对已经发送过的产物只回传规范键，不再回传整个物种对象；
+  * 大分子处理完后只保留键与统计量（slim），需要时从键重建；
+  * compact 模式下反应表写成 gzip、不带反应 SMILES。
 """
 
 import csv
+import gc
+import gzip
 import heapq
 import json
 import os
@@ -29,7 +38,7 @@ import time
 from multiprocessing import Pool
 
 from .rules import bimolecular, unimolecular
-from .species import make_species, species_from_smiles
+from .species import make_species, species_from_key, species_from_smiles
 
 
 def _tier(cfg, heavy):
@@ -80,14 +89,35 @@ class Reactor:
         self.open_shell_acceptor = r.get("b1f1_bimolecular_open_shell_acceptor", True)
         self.self_rxn = cfg["partners"].get("self_reaction", True)
         self.max_heavy = cfg["max_heavy"]
+        self.small_max = cfg["partners"]["full_max_heavy"]
+        self._small_cache = {}   # 原始产物图 -> Species/None，只存小产物，跨调用复用
 
-    def _collect(self, gen, reactants, out):
+    def _make(self, g, cache):
+        """带缓存的 make_species。g = (elems, hs, edges)，edges 中每项是 (i, j) 元组。"""
+        k = (tuple(g[0]), tuple(g[1]), tuple(g[2]))
+        p = cache.get(k, cache)
+        if p is not cache:
+            return p
+        p = self._small_cache.get(k, cache)
+        if p is not cache:
+            return p
+        p = make_species(*g, flt=self.flt)
+        if p is not None and p.heavy <= self.small_max:
+            if len(self._small_cache) > 500000:
+                self._small_cache.clear()
+            self._small_cache[k] = p
+        else:
+            cache[k] = p
+        return p
+
+    def _collect(self, gen, reactants, out, cache):
         r_keys = tuple(sorted(x.key for x in reactants))
+        r_ids = tuple(sorted(x.id for x in reactants))
         seen = set()
         for rtype, raw in gen:
             prods = []
             for g in raw:
-                p = make_species(*g, flt=self.flt)
+                p = self._make(g, cache)
                 if p is None:
                     break
                 prods.append(p)
@@ -96,11 +126,13 @@ class Reactor:
                 if p_keys == r_keys or p_keys in seen:
                     continue  # 简并交换（CH4 + CH3 -> CH3 + CH4）或重复
                 seen.add(p_keys)
-                out.append((rtype, r_keys, prods))
+                out.append((rtype, r_ids, prods))
 
     def react(self, s, partners):
+        """返回 [(rtype, 反应物 id 元组, [产物 Species])]。s 与 partners 都必须带 id。"""
         out = []
-        self._collect(unimolecular(s, b1f0=self.do["b1f0"], b1f1=self.do["b1f1"]), [s], out)
+        cache = {}
+        self._collect(unimolecular(s, b1f0=self.do["b1f0"], b1f1=self.do["b1f1"]), [s], out, cache)
         partners = list(partners)
         if self.self_rxn:
             partners.append(s)
@@ -110,7 +142,7 @@ class Reactor:
             self._collect(bimolecular(s, b, b0f1=b0f1, b1f1=self.do["b1f1"],
                                       group_transfer=self.group_transfer,
                                       open_shell_acceptor=self.open_shell_acceptor),
-                          [s, b], out)
+                          [s, b], out, cache)
         return out
 
 
@@ -123,17 +155,40 @@ def eligible(h1, h2, pool_max, full_max):
 _W = {}
 
 
+def _shrink(res):
+    """已经回传过的产物只回传规范键。
+
+    主进程按任务顺序（imap）处理结果，而同一子进程的任务也是按顺序领取的，
+    所以只回传键时，主进程一定已经从更早的结果里注册过这个物种（被 max_species
+    截断的除外，那时主进程会丢弃该反应）。
+    """
+    sent = _W["sent"]
+    out = []
+    for rtype, r_ids, prods in res:
+        ps = []
+        for p in prods:
+            if p.key in sent:
+                ps.append(p.key)
+            else:
+                sent.add(p.key)
+                ps.append(p)
+        out.append((rtype, r_ids, ps))
+    return out
+
+
 def _worker_init(cfg, pool_species):
     _W["reactor"] = Reactor(cfg)
     _W["pool"] = pool_species
+    _W["sent"] = set()
 
 
 def _worker_react(s):
-    return _W["reactor"].react(s, _W["pool"])
+    return _shrink(_W["reactor"].react(s, _W["pool"]))
 
 
 def _worker_init_round(cfg, processed, batch):
     _W["reactor"] = Reactor(cfg)
+    _W["sent"] = set()
     _W["processed"] = processed
     _W["batch"] = batch
     p = cfg["partners"]
@@ -145,11 +200,11 @@ def _worker_react_round(k):
     s = _W["batch"][k]
     cand = _W["processed"] + _W["batch"][:k]
     partners = [b for b in cand if eligible(s.heavy, b.heavy, *_W["lim"])]
-    return _W["reactor"].react(s, partners)
+    return _shrink(_W["reactor"].react(s, partners))
 
 
 class Network:
-    def __init__(self, cfg, out_dir, nproc=1):
+    def __init__(self, cfg, out_dir, nproc=1, compact=False):
         self.cfg = cfg
         self.reactor = Reactor(cfg)
         self.flt = self.reactor.flt
@@ -167,11 +222,20 @@ class Network:
         if self.pool_max > self.full_max:
             raise ValueError("partners.pool_max_heavy 不能大于 partners.full_max_heavy")
         self.max_species = cfg.get("max_species")
+        self.compact = compact
         os.makedirs(out_dir, exist_ok=True)
-        self._rxn_fh = open(os.path.join(out_dir, "reactions.csv"), "w", newline="")
-        self._rxn_w = csv.writer(self._rxn_fh)
-        self._rxn_w.writerow(["rxn_id", "type", "molecularity", "reactant_ids", "product_ids",
-                              "reaction_smiles"])
+        if compact:
+            # 行号即 rxn_id（从 0 开始，不含表头）；反应 SMILES 可由 species.csv 还原
+            self._rxn_fh = gzip.open(os.path.join(out_dir, "reactions.csv.gz"), "wt",
+                                     compresslevel=3, newline="")
+            self._rxn_w = csv.writer(self._rxn_fh)
+            self._rxn_w.writerow(["type", "reactant_ids", "product_ids"])
+        else:
+            self._rxn_fh = open(os.path.join(out_dir, "reactions.csv"), "w", newline="")
+            self._rxn_w = csv.writer(self._rxn_fh)
+            self._rxn_w.writerow(["rxn_id", "type", "molecularity", "reactant_ids", "product_ids",
+                                  "reaction_smiles"])
+        self.n_written = 0
         self.truncated = False
 
     # ------------------------------------------------------------ species
@@ -186,6 +250,7 @@ class Network:
         self.species[s.key] = s
         self.by_id.append(s)
         self.smiles.append(s.smiles())
+        s.bond_orders = s.radicals = None   # 只用于生成 SMILES，之后不再需要
         heapq.heappush(self.queue, (s.heavy, s.id))
         return s
 
@@ -197,27 +262,42 @@ class Network:
 
     # ------------------------------------------------------------ reactions
     def _write(self, results):
-        for rtype, r_keys, prods in results:
-            reg = [self._register(p) for p in prods]
-            if any(x is None for x in reg):
-                continue
-            r_ids = sorted(self.species[k].id for k in r_keys)
-            p_ids = sorted(x.id for x in reg)
-            rid = sum(self.n_rxn.values())
-            self.n_rxn[rtype] += 1
-            smi = ".".join(self.smiles[i] for i in r_ids) + ">>" + \
-                  ".".join(self.smiles[i] for i in p_ids)
-            self._rxn_w.writerow([rid, rtype, len(r_keys), " ".join(map(str, r_ids)),
-                                  " ".join(map(str, p_ids)), smi])
+        for rtype, r_ids, prods in results:
+            reg = []
+            for p in prods:
+                x = self.species.get(p) if isinstance(p, str) else self._register(p)
+                if x is None:
+                    break   # 只可能发生在 max_species 截断之后
+                reg.append(x)
+            else:
+                p_ids = sorted(x.id for x in reg)
+                self.n_rxn[rtype] += 1
+                rs, ps = " ".join(map(str, r_ids)), " ".join(map(str, p_ids))
+                if self.compact:
+                    self._rxn_w.writerow([rtype, rs, ps])
+                else:
+                    smi = ".".join(self.smiles[i] for i in r_ids) + ">>" + \
+                          ".".join(self.smiles[i] for i in p_ids)
+                    self._rxn_w.writerow([self.n_written, rtype, len(r_ids), rs, ps, smi])
+                self.n_written += 1
 
     def _partners(self, s):
         out = []
         for h, lst in self.processed_by_heavy.items():
             if eligible(h, s.heavy, self.pool_max, self.full_max):
-                out.extend(lst)
+                out.extend(x if x.nbrs is not None else self._rehydrate(x) for x in lst)
         return out
 
+    @staticmethod
+    def _rehydrate(x):
+        full = species_from_key(x.key)
+        full.id = x.id
+        return full
+
     def _mark_processed(self, s):
+        if s.heavy > self.full_max:
+            # 大分子之后只会作为"小分子池物种"的伙伴出现（少见），需要时从键重建
+            s.elems = s.hs = s.edges = s.nbrs = None
         self.processed_by_heavy.setdefault(s.heavy, []).append(s)
 
     def _pool(self):
@@ -245,6 +325,7 @@ class Network:
                         _, sid = heapq.heappop(self.queue)
                         batch.append(self.by_id[sid])
                     processed = [x for lst in self.processed_by_heavy.values() for x in lst]
+                    gc.freeze()   # 减少 fork 后 GC 触发的写时复制
                     with Pool(self.nproc, initializer=_worker_init_round,
                               initargs=(self.cfg, processed, batch)) as rp:
                         for s, res in zip(batch, rp.imap(_worker_react_round, range(len(batch)))):
@@ -271,6 +352,7 @@ class Network:
                     if workers is not None:
                         workers.close()
                         workers.join()
+                    gc.freeze()
                     workers = Pool(self.nproc, initializer=_worker_init, initargs=(self.cfg, pool))
                     workers_pool_size = len(pool)
                 for s, res in zip(batch, workers.imap(_worker_react, batch, chunksize=16)):
