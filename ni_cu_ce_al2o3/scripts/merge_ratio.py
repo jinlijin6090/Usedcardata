@@ -35,6 +35,10 @@ def fill_cu(p, types, n_cu, seed=0):
         idx = np.where(types == typ)[0]
         key = np.round(dist_edge[idx], 1) + rng.random(len(idx)) * 1e-3  # ring by ring, random ties
         picked += list(idx[np.argsort(key)])
+    # surface full -> remaining Cu goes in shell by shell, nearest to the surface first
+    rest = np.setdiff1d(np.arange(len(p)), picked)
+    depth = cKDTree(p.positions[picked]).query(p.positions[rest])[0]
+    picked += list(rest[np.argsort(depth, kind="stable")])
     p.symbols[picked[:n_cu]] = "Cu"
     return p
 
