@@ -1,0 +1,2 @@
+doi,year,first_author,location,system,site_type,functional,U_eV,dispersion,coverage_ML,quantity_type,reaction_id,species,reaction_text,value_eV,reference_state,direction,temperature_K,is_free_energy,notes
+10.1021/acscatal.5c07743,2026,Naveen,Table S1,Ni(111),terrace,PBE,,none,?,TS_barrier,R2,,CH4* -> CH3* + H*,0.98,IS adsorbed,forward,,0,example row: refined value used in the paper workbook
