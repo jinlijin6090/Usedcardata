@@ -1,0 +1,48 @@
+{
+  "_comment": "Literature-based intervals for the energy-space analysis. 'base' = value used in the current model (paper 'Refined params' for R1-R17, CokeParams / FilamentParams for the extension). TS: forward barrier in eV, absolute interval. Species: deviation of the species energy from the base value in eV (symmetric unless stated). 'source': N-SI = Naveen et al. 2026 SI Tables S1-S3 spread; LIT = typical spread across Ni(111)/Ni(211)/Ni-CeO2 DFT studies (GGA, with/without U), to be verified against the user's database; EXT = coke extension, no DFT in the paper. 'confidence': high = taken from the paper's own compilation, medium = well known spread, low = rough estimate.",
+  "transition_states": {
+    "R1":  {"base": 0.010, "min": 0.00, "max": 0.15, "source": "LIT", "confidence": "high", "note": "CH4 physisorption, non-activated"},
+    "R2":  {"base": 0.976, "min": 0.10, "max": 1.20, "source": "N-SI Table S1: 9-114 kJ/mol", "confidence": "high", "note": "Ni(111) 0.9-1.1, Ni(211) 0.6-0.8, Ni/CeO2 interface 0.4-0.6"},
+    "R3":  {"base": 0.731, "min": 0.45, "max": 0.95, "source": "LIT", "confidence": "medium"},
+    "R4":  {"base": 0.481, "min": 0.20, "max": 0.60, "source": "LIT", "confidence": "medium"},
+    "R5":  {"base": 0.657, "min": 0.60, "max": 1.50, "source": "LIT", "confidence": "medium", "note": "Ni(111) terrace 1.2-1.5, steps / interface lower"},
+    "R6":  {"base": 0.511, "min": 0.50, "max": 1.00, "source": "N-SI Table S2: 74-195 kJ/mol (full spread); 0.5-1.0 kept as the physically relevant window", "confidence": "medium"},
+    "R7":  {"base": 1.572, "min": 1.00, "max": 1.70, "source": "LIT", "confidence": "low"},
+    "R8":  {"base": 0.242, "min": 0.15, "max": 0.60, "source": "LIT", "confidence": "low"},
+    "R9":  {"base": 1.106, "min": 0.80, "max": 1.60, "source": "LIT", "confidence": "medium", "note": "C*+O* on Ni(111) 1.2-1.6, steps 0.8-1.2"},
+    "R10": {"base": 0.632, "min": 0.60, "max": 1.90, "source": "LIT", "confidence": "medium", "note": "equals CO* binding energy; GGA overbinds CO on Ni by 0.3-0.5 eV"},
+    "R11": {"base": 1.506, "min": 0.80, "max": 2.00, "source": "LIT", "confidence": "low", "note": "interfacial O transport; tied to vacancy formation at the Ni/CeO2 interface"},
+    "R12": {"base": 0.014, "min": 0.00, "max": 0.30, "source": "LIT", "confidence": "medium"},
+    "R13": {"base": 1.860, "min": 1.30, "max": 2.70, "source": "N-SI Table S3: 126-260 kJ/mol", "confidence": "high"},
+    "R14": {"base": 0.164, "min": 0.00, "max": 0.50, "source": "LIT", "confidence": "medium"},
+    "R15": {"base": 1.650, "min": 1.00, "max": 2.00, "source": "LIT", "confidence": "low"},
+    "R16": {"base": 1.370, "min": 0.50, "max": 1.50, "source": "LIT", "confidence": "low", "note": "H spillover metal -> ceria 0.5-1.2 in most studies"},
+    "R17": {"base": 2.395, "min": 1.20, "max": 2.40, "source": "LIT", "confidence": "low"},
+    "R18": {"base": 2.20, "min": 1.00, "max": 2.80, "source": "EXT; single-step C+C on Ni(111) 1.0-1.6, effective terrace nucleation higher", "confidence": "low"},
+    "R19": {"base": 1.40, "min": 0.80, "max": 2.00, "source": "EXT", "confidence": "low"},
+    "R20": {"base": 1.20, "min": 0.80, "max": 2.40, "source": "EXT; C dissolution / graphitic growth 1.0-1.5", "confidence": "low"}
+  },
+  "species_deviation": {
+    "CH4*": {"dev": 0.10, "source": "LIT", "confidence": "high"},
+    "CH3*": {"dev": 0.30, "source": "LIT", "confidence": "medium"},
+    "CH2*": {"dev": 0.30, "source": "LIT", "confidence": "medium"},
+    "CH*":  {"dev": 0.30, "source": "LIT", "confidence": "medium"},
+    "C*":   {"dev": 0.40, "source": "LIT", "confidence": "medium", "note": "step vs terrace binding differs by ~0.5 eV"},
+    "H*":   {"dev": 0.20, "source": "LIT", "confidence": "high"},
+    "O*":   {"dev": 0.40, "source": "LIT", "confidence": "medium"},
+    "CO*":  {"dev": 0.50, "source": "LIT", "confidence": "high", "note": "GGA CO overbinding"},
+    "CHO*": {"dev": 0.30, "source": "LIT", "confidence": "low"},
+    "C2*":  {"dev": 0.50, "source": "EXT", "confidence": "low"},
+    "CO2v": {"dev": 0.30, "source": "LIT", "confidence": "low"},
+    "CO3v": {"dev": 0.40, "source": "LIT", "confidence": "low"},
+    "OHv":  {"dev": 0.40, "source": "LIT", "confidence": "medium", "note": "OH on CeO2(111): depends on U, coverage, vacancy density"},
+    "Ov":   {"dev": 0.60, "source": "LIT", "confidence": "medium", "note": "vacancy formation energy CeO2(111) 1.5-3.0 eV in DFT+U; Ni/CeO2 interface 0.5-1.5"}
+  },
+  "bulk_carbon_scenario_C": {
+    "dH_sol": {"base": 0.10, "min": -0.20, "max": 0.50, "source": "LIT subsurface C in Ni", "confidence": "low"},
+    "dG_gr":  {"base": 0.50, "min": 0.30, "max": 0.70, "source": "Ni-C solubility 0.1-1 at% at 900-1100 K", "confidence": "medium"},
+    "E_D":    {"base": 1.41, "min": 1.30, "max": 1.60, "source": "C diffusion in Ni (Lander 1952 and later)", "confidence": "high"},
+    "E_isl":  {"base": 3.6, "min": 2.5, "max": 4.5, "source": "effective, no DFT", "confidence": "low"},
+    "E_nuc":  {"base": 3.4, "min": 2.5, "max": 4.5, "source": "effective, no DFT", "confidence": "low"}
+  }
+}
