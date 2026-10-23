@@ -17,6 +17,9 @@ s3_drc.py             degree of rate control of DRM rate / coke rate / coke sele
 s4_sobol.py           Sobol global sensitivity (python s4_sobol.py N PROCS)
 s5_blocking.py        scenario B: coke stays on Ni sites, steady state + transient
 s6_maps.py            2-D operating maps of coke selectivity
+filament.py           scenario C engine: bulk dissolution / diffusion / filament precipitation +
+                      surface carbon islands with perimeter-limited growth (site-normalised ODE)
+s7_filament.py        scenario C analyses: pure routes, regime map, particle-population model
 results/              CSV tables
 figures/              PNG figures
 ```
@@ -25,7 +28,7 @@ Run everything (needs numpy scipy pandas matplotlib openpyxl SALib):
 
 ```bash
 python s1_barrier_scan.py; python s2_condition_sweeps.py; python s3_drc.py
-python s4_sobol.py 256 4; python s5_blocking.py; python s6_maps.py
+python s4_sobol.py 256 4; python s5_blocking.py; python s6_maps.py; python s7_filament.py
 ```
 
 Change the coke parameters in `mkmc/coke.py` (`CokeParams`) or pass

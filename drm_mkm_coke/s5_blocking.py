@@ -34,11 +34,12 @@ print(df[df.Ea_gas == 1.8].to_string(index=False, float_format=lambda v: f"{v:.3
 
 # transient: integrate from clean surface, Ea_gas = 1.8
 cp = CokeParams(Ea_cc=EA_CC, Ea_gas=1.8); rc = load_model(cp)
-def transient(pp, t_end=1e5):
+def transient(pp, t_end=1e3):
     sites = calculate_sites(*pp.as_site_args()); geom = net.build_geom(sites, pp.Zsm, pp.Zms)
     y0 = np.zeros(len(net.SPECIES)); y0[0] = 1; y0[net.SPECIES.index("Ov")] = 0.7; y0[net.SPECIES.index("v")] = 0.3
-    rhs = lambda t, y: net.STOICH @ net_rates(rate_vector(y, rc.k, pp.p, geom))
-    t_eval = np.logspace(-3, np.log10(t_end), 400)
+    norm = np.array([sites.NSm / 6.022e23] * net.N_METAL + [sites.NSs / 6.022e23] * (len(net.SPECIES) - net.N_METAL))
+    rhs = lambda t, y: (net.STOICH @ net_rates(rate_vector(y, rc.k, pp.p, geom))) / norm   # site-normalised ODE (true time)
+    t_eval = np.logspace(-5, np.log10(t_end), 400)
     res = solve_ivp(rhs, (0, t_end), y0, method="BDF", t_eval=t_eval, rtol=1e-7, atol=1e-11)
     rdrm = np.array([net_rates(rate_vector(y, rc.k, pp.p, geom))[5] for y in res.y.T])
     return res.t, res.y.T, rdrm, sites.NSm / 6.022e23
@@ -46,7 +47,7 @@ fig, ax = plt.subplots(1, 3, figsize=(13, 3.8)); trows = []
 for lab, pp in [("base", ProcessParams()), ("pCH4=1.0", pp_with(pCH4=1.0)), ("pCH4=1.5", pp_with(pCH4=1.5)), ("rm=8nm", pp_with(rm=8.0)), ("pCO2=0.1", pp_with(pCO2=0.1)), ("rint=1.14", pp_with(rsm=1.14))]:
     t, y, r, nsm = transient(pp)
     thCg = y[:, net.SPECIES.index("Cg*")]
-    m = t > 1e-1                                   # skip the fast surface-filling transient
+    m = t > 1e-4                                   # skip the fast surface-filling transient
     r0 = r[np.argmax(m)]                           # clean-surface activity
     tof = r0 / nsm                                 # turnovers per surface Ni site per second
     ax[0].semilogx(t[m], thCg[m], label=lab); ax[1].semilogx(t[m], r[m] / r0, label=lab); ax[2].semilogx(t[m] * tof, r[m] / r0, label=lab)

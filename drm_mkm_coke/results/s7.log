@@ -1,0 +1,55 @@
+clean state : {'thC': '0.08856', 'thf': '0.9113', 'r_DRM': '0.1243', 'S': '11.14', 'Zmm': '5.935', 'N_surf': '3124'}
+whisker state: {'thC': '0.01393', 'thf': '0.9859', 'r_DRM': '0.1454', 'S': '1.656', 'r_fil': '0.04296', 'f': '1', 'x': '0.00426'}
+x_eq=2.572e-03  k_diff=3.734e+04  kf_sol=1.235e+07
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:31: RuntimeWarning: overflow encountered in power
+  cov = np.prod(theta ** net.COV_EXP, axis=1)   # 0**0 == 1, integer powers
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+/usr/local/lib/python3.13/dist-packages/scipy/integrate/_ivp/common.py:356: RuntimeWarning: overflow encountered in multiply
+  new_factor = NUM_JAC_FACTOR_INCREASE * factor[ind]
+/home/user/Usedcardata/drm_mkm_coke/filament.py:83: RuntimeWarning: invalid value encountered in scalar multiply
+  return min(self.fp.c_edge * np.sqrt(n * thCg), thCg)
+/usr/local/lib/python3.13/dist-packages/scipy/integrate/_ivp/common.py:378: RuntimeWarning: overflow encountered in multiply
+  factor[max_diff < NUM_JAC_DIFF_SMALL * scale] *= NUM_JAC_FACTOR_INCREASE
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:31: RuntimeWarning: overflow encountered in power
+  cov = np.prod(theta ** net.COV_EXP, axis=1)   # 0**0 == 1, integer powers
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+   var        x  thC_clean  thC_whisker  S_clean  J_isl_clean    J_fil  whisker_fraction  t_half_activity  t_encap_whisker  fil_rate_w  act_w
+  pCH4      0.2    0.00824      0.00824    0.978     5.77e-06        0                 0         1.21e+05         1.73e+05           0      1
+  pCH4      0.3     0.0237       0.0103     2.85     4.78e-05  0.00017              0.78         5.74e+04         1.11e+05      0.0145   1.03
+  pCH4      0.5     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+  pCH4      0.7      0.192       0.0175     26.1      0.00312   0.0314             0.909         3.84e+04         3.85e+04      0.0708   1.48
+  pCH4        1       0.36       0.0227     56.6        0.011    0.154             0.933         3.38e+04         2.29e+04       0.112   2.33
+  pCH4      1.5      0.567       0.0311      111       0.0273    0.597             0.956         2.78e+04         1.22e+04       0.179   5.01
+  pCH4        2       0.69       0.0391      157       0.0405     1.21             0.968         2.26e+04         7.69e+03       0.244   9.62
+  pCO2     0.05      0.345       0.0163     53.6       0.0101    0.137             0.932         6.37e+04         4.41e+04      0.0618   2.25
+  pCO2      0.1       0.25       0.0158     35.8      0.00533   0.0602             0.919         5.48e+04          4.7e+04      0.0578   1.72
+  pCO2      0.2      0.169       0.0151     22.5      0.00241   0.0231             0.905         4.83e+04         5.13e+04      0.0525    1.4
+  pCO2      0.5     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+  pCO2        1     0.0502       0.0127     6.14     0.000214  0.00131              0.86         4.56e+04         7.24e+04      0.0337   1.08
+  pCO2        2     0.0271       0.0113     3.25     6.22e-05 0.000253             0.803            5e+04         9.16e+04      0.0227   1.03
+     T      873     0.0886       0.0322     19.3     4.88e-06  0.00016              0.97         1.23e+06         1.55e+06      0.0274   1.13
+     T      923     0.0886       0.0193     14.4     6.51e-05    0.001             0.939         2.54e+05         3.25e+05      0.0376   1.16
+     T      973     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+     T 1.02e+03     0.0886        0.013      8.8      0.00543    0.022             0.802         5.47e+03         8.59e+03       0.044   1.17
+     T 1.07e+03     0.0886       0.0141     7.12       0.0364   0.0814             0.691              528         1.08e+03      0.0427   1.17
+    rm        2      0.123       0.0118     15.9     0.000319   0.0111             0.972         3.12e+05         3.44e+05       0.104   1.27
+    rm        3     0.0995        0.013     12.6     0.000472  0.00672             0.934         1.02e+05         1.25e+05      0.0626    1.2
+    rm        4     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+    rm        6     0.0844       0.0156     10.6      0.00137  0.00457              0.77         1.27e+04         2.15e+04      0.0248   1.16
+    rm        8     0.0987       0.0171     12.5      0.00333  0.00659             0.664         4.71e+03         1.01e+04      0.0169   1.19
+    rm       10      0.141       0.0187     18.4       0.0106   0.0151             0.588         2.33e+03         5.34e+03      0.0129    1.3
+   pH2        0     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+   pH2    0.005      0.776       0.0165      200       0.0512     1.97             0.975         1.58e+05          4.3e+04       0.064   19.4
+   pH2     0.02      0.794       0.0164      211       0.0536     2.19             0.976         1.68e+05         4.36e+04      0.0638     23
+   pH2     0.05        0.8       0.0163      215       0.0544     2.27             0.977         1.73e+05         4.44e+04      0.0633   24.4
+Ea_sol        1     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.09e+04       0.043   1.17
+Ea_sol      1.2     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+Ea_sol      1.4     0.0886       0.0142     11.1     0.000666  0.00511             0.885          4.3e+04         5.87e+04      0.0427   1.17
+Ea_sol      1.6     0.0886       0.0166     11.1     0.000666  0.00511             0.885         3.15e+04         4.29e+04      0.0402   1.16
+ dG_gr      0.3     0.0886       0.0869     1.03     0.000666 3.17e-08          4.75e-05         1.04e+03         1.56e+03    0.000615      1
+ dG_gr      0.4     0.0886       0.0309     3.38     0.000666 0.000282             0.297         1.39e+03         1.23e+04      0.0283   1.13
+ dG_gr      0.5     0.0886       0.0139     11.1     0.000666  0.00511             0.885         4.45e+04         6.07e+04       0.043   1.17
+ dG_gr      0.6     0.0886      0.00891     36.7     0.000666   0.0634              0.99         1.27e+05         1.48e+05      0.0491   1.18
+ dG_gr      0.7     0.0886      0.00742      121     0.000666    0.716             0.999         1.86e+05         2.14e+05      0.0513   1.19
