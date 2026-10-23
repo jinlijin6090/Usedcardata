@@ -89,3 +89,62 @@ def sweep(var_values, make_pp, make_rc, keys=None):
         o["x"] = v
         rows.append(o)
     return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
+# Robust steady state for strongly perturbed parameter sets (Sobol samples):
+# 1) the engine's solver, 2) site-normalised ODE, 3) Newton root-finding from
+# the base-case steady state with the site balances enforced.
+# ---------------------------------------------------------------------------
+from scipy.integrate import solve_ivp as _solve_ivp
+from scipy.optimize import root as _root
+from mkmc.sites import calculate_sites as _calc_sites
+from mkmc.config import NA as _NA
+
+def _site_norm(pp):
+    s = _calc_sites(*pp.as_site_args())
+    n_metal = net.N_METAL
+    return np.array([s.NSm / _NA] * n_metal + [s.NSs / _NA] * (len(net.SPECIES) - n_metal))
+
+def _theta0():
+    y = np.zeros(len(net.SPECIES)); y[net.SPECIES.index("*")] = 1; y[net.SPECIES.index("Ov")] = 0.7; y[net.SPECIES.index("v")] = 0.3
+    return y
+
+def steady_state_robust(rc, pp, theta_guess=None):
+    """Steady state reached from the clean surface: engine solver first, then the
+    site-normalised ODE (Radau/BDF, tiny first step).  No root-finding fallback,
+    because the network can have several steady states and only the one reached
+    from the fresh catalyst is meaningful."""
+    from mkmc.solver import steady_state as _ss
+    from mkmc.rates import make_geom
+    geom = make_geom(pp)
+    norm = _site_norm(pp)
+    rhs = lambda t, y: (net.STOICH @ net_rates(rate_vector(np.clip(y, 0, None), rc.k, pp.p, geom))) / norm
+    y = _theta0(); t_end = 1e3
+    def imbalance(y):
+        r = rate_vector(np.clip(y, 0, None), rc.k, pp.p, geom)
+        return np.max(np.abs(net.STOICH @ net_rates(r))) / max(np.max(np.abs(r)), 1e-300)
+    try:
+        t, th, g = _ss(rc.k, pp)
+        if imbalance(th[-1]) < 1e-5:                    # net production of every species << largest rate
+            return th[-1], geom
+        y = np.clip(th[-1], 0, None)                    # otherwise continue from there in real time
+    except Exception:
+        pass
+    for attempt in range(6):
+        res = _solve_ivp(rhs, (0, t_end), y, method="BDF", rtol=1e-7, atol=1e-12)
+        if not res.success or res.y.shape[1] < 2:
+            res = _solve_ivp(rhs, (0, t_end), y, method="Radau", rtol=1e-7, atol=1e-12, first_step=1e-12)
+        if not res.success or res.y.shape[1] < 2:
+            raise RuntimeError("normalised ODE failed")
+        y = np.clip(res.y[:, -1], 0, None)
+        if imbalance(y) < 1e-5:
+            return y, geom
+        t_end *= 100
+    raise RuntimeError("robust steady state did not converge")
+
+def solve_robust(rc, pp, theta_guess=None):
+    ss, geom = steady_state_robust(rc, pp, theta_guess)
+    r = rate_vector(ss, rc.k, pp.p, geom); rn = net_rates(r)
+    return dict(r_DRM=rn[5], r_CH4=rn[0], r_coke=2.0 * rn[19], S_coke=2.0 * rn[19] / rn[0] if rn[0] > 0 else np.nan,
+                th_C=ss[net.SPECIES.index("C*")], th_O=ss[net.SPECIES.index("O*")], _ss=ss)

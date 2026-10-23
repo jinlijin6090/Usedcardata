@@ -69,17 +69,23 @@ if __name__ == "__main__":
     def f(x):
         ds = dict(zip(SP, x[:len(SP)])); dt = dict(zip(TS, x[len(SP):]))
         rc = perturb(rc0, ds, dt, 973.15)
-        signal.signal(signal.SIGALRM, _timeout); signal.alarm(20)       # per-sample limit: stiff outliers are skipped
+        signal.signal(signal.SIGALRM, _timeout); signal.alarm(15)       # per-sample limit: stiff outliers are skipped
         try:
-            o = solve(rc, CONDS["base"]); return [o["S_coke"], o["r_DRM"]]
+            o = solve_robust(rc, CONDS["base"], theta_guess=BASE_SS); return [o["S_coke"], o["r_DRM"]]
         except Exception:
             return [np.nan, np.nan]
         finally:
             signal.alarm(0)
     globals()["f"] = f
+    BASE_SS = solve(rc0, CONDS["base"])["_ss"]; globals()["BASE_SS"] = BASE_SS
     print(f"\nSobol: {len(X)} evaluations")
+    import time
+    Y = []; t0 = time.time()
     with Pool(procs) as pool:
-        Y = np.array(pool.map(f, X, chunksize=16))
+        for n, y in enumerate(pool.imap(f, X, chunksize=4)):
+            Y.append(y)
+            if n % 200 == 0: print(f"  {n}/{len(X)}  {time.time() - t0:.0f}s", flush=True)
+    Y = np.array(Y)
     ok = np.isfinite(Y).all(axis=1); print("failed:", (~ok).sum()); Y[~ok] = np.nanmedian(Y[ok], axis=0)
     rows = []
     for j, metric in enumerate(["log10 S_coke", "log10 r_DRM"]):

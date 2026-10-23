@@ -1,0 +1,65 @@
+  name     mu  mu_star  sigma
+ TS R2 -1.774    1.774  0.973
+E(OHv) -0.900    0.900  0.603
+ TS R9  0.529    0.664  0.765
+TS R13  0.576    0.576  0.494
+ TS R6  0.416    0.416  0.285
+TS R18 -0.396    0.396  0.291
+TS R11  0.369    0.369  0.333
+TS R16 -0.189    0.189  0.549
+ E(Ov) -0.080    0.177  0.710
+ E(C*)  0.154    0.154  0.139
+ E(O*)  0.135    0.135  0.525
+TS R17  0.093    0.093  0.113
+
+Sobol on 10 screened energies: 11264 evaluations
+  0/11264 1s
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:38: RuntimeWarning: invalid value encountered in subtract
+  return r[0::2] - r[1::2]
+  1000/11264 70s
+  2000/11264 114s
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+  3000/11264 167s
+  4000/11264 182s
+  5000/11264 218s
+  6000/11264 254s
+  7000/11264 290s
+  8000/11264 326s
+  9000/11264 363s
+  10000/11264 442s
+  11000/11264 453s
+failed in first pass: 31
+failed after continuation repair: 31
+
+strongest pairwise interactions (S2) for log10 coke selectivity:
+   TS R2        x TS R9         S2 = +0.051
+   TS R2        x E(OHv)        S2 = +0.036
+   TS R2        x TS R13        S2 = +0.035
+   TS R11       x TS R16        S2 = -0.034
+   TS R11       x E(Ov)         S2 = -0.033
+   TS R11       x E(C*)         S2 = -0.032
+
+Sobol indices, log10 coke selectivity:
+  name     S1  S1_conf    ST  ST_conf
+ TS R2  0.501    0.110 0.584    0.072
+E(OHv)  0.152    0.053 0.205    0.036
+TS R13  0.069    0.043 0.112    0.028
+ TS R9  0.048    0.044 0.101    0.026
+ E(C*)  0.016    0.034 0.069    0.056
+TS R11  0.036    0.030 0.065    0.026
+ TS R6  0.035    0.034 0.057    0.023
+TS R18  0.031    0.034 0.053    0.028
+TS R16 -0.001    0.026 0.034    0.028
+ E(Ov) -0.002    0.023 0.018    0.023
+sum S1 = 0.885

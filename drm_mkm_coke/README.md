@@ -20,6 +20,11 @@ s6_maps.py            2-D operating maps of coke selectivity
 filament.py           scenario C engine: bulk dissolution / diffusion / filament precipitation +
                       surface carbon islands with perimeter-limited growth (site-normalised ODE)
 s7_filament.py        scenario C analyses: pure routes, regime map, particle-population model
+energy_perturb.py     Campbell-type perturbations of species / transition-state energies
+s8_energy_sensitivity.py  local energy sensitivity (tornado plots) of coke selectivity / rate / DRM rate
+s8b_energy_whisker.py local energy sensitivity of the whisker-vs-encapsulation outcome
+s8d_morris_clean.py   Morris screening of all 34 energies (±0.10 eV)
+s8c_global_energy.py  Sobol over the 10 screened energies (python s8c_global_energy.py PROCS N)
 results/              CSV tables
 figures/              PNG figures
 ```
@@ -29,6 +34,8 @@ Run everything (needs numpy scipy pandas matplotlib openpyxl SALib):
 ```bash
 python s1_barrier_scan.py; python s2_condition_sweeps.py; python s3_drc.py
 python s4_sobol.py 256 4; python s5_blocking.py; python s6_maps.py; python s7_filament.py
+python s8_energy_sensitivity.py 4 --local; python s8b_energy_whisker.py
+python s8d_morris_clean.py 4 80; python s8c_global_energy.py 4 512
 ```
 
 Change the coke parameters in `mkmc/coke.py` (`CokeParams`) or pass

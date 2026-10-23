@@ -56,8 +56,102 @@ species CO3v +0.000            -0.000
 species CH4* -0.000            +0.000
 species   O* -0.000            +0.000
 
-Sobol: 4608 evaluations
+Sobol: 9216 evaluations
+  0/9216  1s
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+  200/9216  8s
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+  400/9216  46s
 /usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
   return f(*arrays, *other_args, **kwargs)
 /home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
   return k * geom * cov * pres
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+  600/9216  49s
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+  800/9216  59s
+  1000/9216  72s
+  1200/9216  131s
+  1400/9216  136s
+  1600/9216  143s
+  1800/9216  172s
+  2000/9216  172s
+  2200/9216  222s
+  2400/9216  228s
+  2600/9216  235s
+  2800/9216  242s
+  3000/9216  250s
+  3200/9216  258s
+  3400/9216  264s
+  3600/9216  283s
+  3800/9216  283s
+  4000/9216  292s
+  4200/9216  299s
+  4400/9216  307s
+  4600/9216  327s
+  4800/9216  327s
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+  5000/9216  347s
+  5200/9216  347s
+  5400/9216  364s
+  5600/9216  364s
+  5800/9216  407s
+  6000/9216  409s
+  6200/9216  426s
+  6400/9216  427s
+  6600/9216  435s
+  6800/9216  441s
+  7000/9216  488s
+  7200/9216  489s
+  7400/9216  496s
+  7600/9216  505s
+  7800/9216  569s
+  8000/9216  577s
+  8200/9216  581s
+  8400/9216  606s
+  8600/9216  606s
+  8800/9216  615s
+  9000/9216  634s
+  9200/9216  651s
+failed: 514
+
+Sobol total indices, log10 coke selectivity, base condition, all energies +-0.15 eV:
+   name     S1    ST  ST_conf
+  TS R2  0.222 0.829    0.233
+ TS R17 -0.008 0.632    0.373
+E(CHO*) -0.032 0.631    0.318
+ E(C2*) -0.143 0.627    0.344
+ TS R16  0.008 0.623    0.233
+ TS R13  0.043 0.612    0.225
+  E(H*) -0.026 0.561    0.288
+ TS R12 -0.031 0.557    0.305
+  TS R9 -0.007 0.546    0.221
+ TS R10 -0.102 0.528    0.202
+ TS R11 -0.023 0.502    0.284
+  E(Ov) -0.102 0.500    0.253
+ TS R19 -0.041 0.499    0.254
+  TS R5 -0.051 0.495    0.315
+ TS R15 -0.053 0.493    0.361

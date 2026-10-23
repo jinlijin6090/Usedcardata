@@ -1,0 +1,62 @@
+evaluations: 2800
+  0/2800 0s
+  500/2800 26s
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+  1000/2800 46s
+/usr/local/lib/python3.13/dist-packages/numpy/_core/function_base.py:163: RuntimeWarning: invalid value encountered in multiply
+  y *= step
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_function_base_impl.py:1540: RuntimeWarning: invalid value encountered in subtract
+  a = op(a[slice1], a[slice2])
+  1500/2800 119s
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
+  2000/2800 180s
+  2500/2800 207s
+failed: 7  (timeouts 1, solver errors 6); median solve time 0.13s, 95% 0.2s
+
+Morris (clean), log10 S_coke: mean |effect| per +0.1 eV, averaged over the ±0.10 eV cube
+  name  n_steps     mu  mu_star  sigma  mu_star_conf
+ TS R2       77 -1.774    1.774  0.973         0.217
+E(OHv)       74 -0.900    0.900  0.603         0.137
+ TS R9       73  0.529    0.664  0.765         0.149
+TS R13       75  0.576    0.576  0.494         0.112
+ TS R6       75  0.416    0.416  0.285         0.065
+TS R18       75 -0.396    0.396  0.291         0.066
+TS R11       76  0.369    0.369  0.333         0.075
+TS R16       76 -0.189    0.189  0.549         0.123
+ E(Ov)       77 -0.080    0.177  0.710         0.155
+ E(C*)       78  0.154    0.154  0.139         0.031
+ E(O*)       77  0.135    0.135  0.525         0.117
+TS R17       73  0.093    0.093  0.113         0.026
+TS R20       72  0.077    0.077  0.652         0.151
+E(CO*)       75 -0.061    0.061  0.525         0.119
+
+Morris (clean), log10 r_DRM: mean |effect| per +0.1 eV, averaged over the ±0.10 eV cube
+   name  n_steps     mu  mu_star  sigma  mu_star_conf
+  TS R2       80 -0.689    0.713  1.211         0.262
+  E(O*)       80  0.449    0.449  1.261         0.276
+ TS R16       80 -0.345    0.367  1.153         0.251
+ TS R13       80  0.255    0.340  1.060         0.227
+  E(Ov)       79 -0.307    0.307  1.071         0.236
+  TS R6       80  0.144    0.253  0.880         0.187
+  E(C*)       80  0.132    0.132  0.143         0.031
+ E(OHv)       78  0.124    0.124  0.128         0.029
+E(CO3v)       80 -0.097    0.097  0.606         0.133
+ TS R11       80 -0.068    0.068  0.081         0.018
+  TS R1       80 -0.055    0.055  0.488         0.107
+ TS R12       80 -0.055    0.055  0.488         0.107
+ TS R18       79 -0.045    0.045  0.072         0.016
+  TS R9       80 -0.033    0.033  0.045         0.010
