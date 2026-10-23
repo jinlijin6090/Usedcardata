@@ -1,0 +1,63 @@
+
+== base: sensitivity of coke selectivity (X = dln S/d(-G/kT); last column = change in log10 S per +0.1 eV)
+   kind name      X  dlog10_per_0p1eV
+     ts   R2 +4.157            -2.153
+species  OHv +2.386            -1.236
+     ts  R13 -1.614            +0.836
+     ts   R9 -1.530            +0.792
+     ts   R6 -1.108            +0.574
+     ts  R18 +0.941            -0.487
+     ts  R11 -0.863            +0.447
+species   C* -0.352            +0.182
+     ts  R16 +0.172            -0.089
+     ts  R17 -0.172            +0.089
+species CO2v +0.008            -0.004
+species   Ov +0.001            -0.001
+species CO3v +0.001            -0.000
+species   H* -0.000            +0.000
+     ts  R15 +0.000            -0.000
+species   O* -0.000            +0.000
+
+== pCH4=1.0: sensitivity of coke selectivity (X = dln S/d(-G/kT); last column = change in log10 S per +0.1 eV)
+   kind name      X  dlog10_per_0p1eV
+     ts   R2 +2.329            -1.206
+species  OHv +1.603            -0.830
+     ts  R11 -1.051            +0.544
+     ts   R6 -0.723            +0.374
+species   C* -0.677            +0.351
+     ts  R18 +0.615            -0.318
+     ts  R13 -0.610            +0.316
+     ts   R9 -0.552            +0.286
+     ts  R16 +0.158            -0.082
+     ts  R17 -0.158            +0.082
+species CO2v +0.005            -0.003
+species   Ov +0.001            -0.000
+species CO3v +0.000            -0.000
+species   H* -0.000            +0.000
+species CH4* -0.000            +0.000
+     ts   R3 +0.000            -0.000
+
+== pCO2=0.1: sensitivity of coke selectivity (X = dln S/d(-G/kT); last column = change in log10 S per +0.1 eV)
+   kind name      X  dlog10_per_0p1eV
+     ts   R2 +2.134            -1.105
+species  OHv +1.235            -0.639
+     ts  R13 -1.011            +0.524
+     ts   R9 -0.868            +0.450
+     ts  R18 +0.689            -0.357
+     ts   R6 -0.573            +0.297
+species   C* -0.511            +0.265
+     ts  R11 -0.368            +0.191
+     ts  R16 +0.089            -0.046
+     ts  R17 -0.089            +0.046
+species CO2v +0.003            -0.001
+species   Ov +0.001            -0.000
+species   H* -0.000            +0.000
+species CO3v +0.000            -0.000
+species CH4* -0.000            +0.000
+species   O* -0.000            +0.000
+
+Sobol: 4608 evaluations
+/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py:1138: LinAlgWarning: Diagonal number 16 is exactly zero. Singular matrix.
+  return f(*arrays, *other_args, **kwargs)
+/home/user/Usedcardata/drm_mkm_coke/mkmc/rates.py:33: RuntimeWarning: invalid value encountered in multiply
+  return k * geom * cov * pres
