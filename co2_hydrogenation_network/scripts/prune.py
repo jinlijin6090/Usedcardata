@@ -123,13 +123,6 @@ SCENARIOS = {
 }
 
 
-def formula_quadratic(net_species_rads, an):
-    """Unrestricted (all-radical) H-transfer counts inside a reduced species set."""
-    nrad = net_species_rads
-    bh = sum(r["beta_H"] for r in an)
-    return {"h_abstr": comb(nrad, 2), "dispro": bh * nrad}
-
-
 def run(name, products, with_ox):
     sk = skeleton_closure(products)
     sp = set(sk) | c1_entry()
