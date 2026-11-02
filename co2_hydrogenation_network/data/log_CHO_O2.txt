@@ -6,3 +6,4 @@ h=5: 356 molecules  gen 0.2s  analyze 0.4s
 h=6: 2067 molecules  gen 0.5s  analyze 2.3s
 h=7: 13327 molecules  gen 4.4s  analyze 19.0s
 h=8: 97664 molecules  gen 40.5s  analyze 197.0s
+h=9: 788902 molecules  gen 438.1s  analyze 1993.5s

@@ -1,0 +1,7 @@
+h=1: 1 molecules  gen 0.0s  analyze 0.1s
+h=2: 3 molecules  gen 0.0s  analyze 0.1s
+h=3: 6 molecules  gen 0.0s  analyze 0.0s
+h=4: 27 molecules  gen 0.0s  analyze 0.1s
+h=5: 103 molecules  gen 0.1s  analyze 0.3s
+h=6: 544 molecules  gen 0.4s  analyze 0.9s
+h=7: 3084 molecules  gen 1.6s  analyze 6.0s

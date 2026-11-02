@@ -1,0 +1,280 @@
+family,reactants,products
+H_recomb,C,[CH3] + [H]
+H_recomb,C=O,[CH]=O + [H]
+H_recomb,CO,C[O] + [H]
+H_recomb,CO,[CH2]O + [H]
+H_recomb,COC,[CH2]OC + [H]
+H_recomb,COC=O,CO[C]=O + [H]
+H_recomb,COC=O,[CH2]OC=O + [H]
+H_recomb,COCO,COC[O] + [H]
+H_recomb,COCO,CO[CH]O + [H]
+H_recomb,COCO,[CH2]OCO + [H]
+H_recomb,O,[H] + [OH]
+H_recomb,O=CO,O=[C]O + [H]
+H_recomb,O=CO,[H] + [O]C=O
+H_recomb,OCO,O[CH]O + [H]
+H_recomb,OCO,[H] + [O]CO
+add_H,C=O + [H],C[O]
+add_H,C=O + [H],[CH2]O
+add_H,COC=O + [H],COC[O]
+add_H,COC=O + [H],CO[CH]O
+add_H,O=C=O + [H],O=[C]O
+add_H,O=C=O + [H],[O]C=O
+add_H,O=CO + [H],O[CH]O
+add_H,O=CO + [H],[O]CO
+add_beta,C=O + C[O],COC[O]
+add_beta,C=O + [CH2]O,[CH2]OCO
+add_beta,C=O + [CH3],[CH2]OC
+add_beta,C=O + [CH]=O,[CH2]OC=O
+add_beta,C=O + [OH],[O]CO
+add_beta,CO[CH]O,O=CO + [CH3]
+add_beta,CO[C]=O,O=C=O + [CH3]
+co_add,CO[C]=O,C[O] + [C-]#[O+]
+co_add,O=[C]O,[C-]#[O+] + [OH]
+co_add,[C-]#[O+] + [H],[CH]=O
+dispro,C + C=O,C[O] + [CH3]
+dispro,C + C=O,[CH2]O + [CH3]
+dispro,C + COC=O,COC[O] + [CH3]
+dispro,C + COC=O,CO[CH]O + [CH3]
+dispro,C + O=C=O,O=[C]O + [CH3]
+dispro,C + O=C=O,[CH3] + [O]C=O
+dispro,C + O=CO,O[CH]O + [CH3]
+dispro,C + O=CO,[CH3] + [O]CO
+dispro,C=O + C=O,C[O] + [CH]=O
+dispro,C=O + C=O,[CH2]O + [CH]=O
+dispro,C=O + CO,C[O] + C[O]
+dispro,C=O + CO,C[O] + [CH2]O
+dispro,C=O + CO,[CH2]O + [CH2]O
+dispro,C=O + COC=O,COC[O] + [CH]=O
+dispro,C=O + COC=O,CO[CH]O + [CH]=O
+dispro,C=O + O,C[O] + [OH]
+dispro,C=O + O,[CH2]O + [OH]
+dispro,C=O + O=C=O,O=[C]O + [CH]=O
+dispro,C=O + O=C=O,[CH]=O + [O]C=O
+dispro,C=O + O=CO,C[O] + O=[C]O
+dispro,C=O + O=CO,C[O] + [O]C=O
+dispro,C=O + O=CO,O=[C]O + [CH2]O
+dispro,C=O + O=CO,O[CH]O + [CH]=O
+dispro,C=O + O=CO,[CH2]O + [O]C=O
+dispro,C=O + O=CO,[CH]=O + [O]CO
+dispro,C=O + OCO,C[O] + O[CH]O
+dispro,C=O + OCO,C[O] + [O]CO
+dispro,C=O + OCO,O[CH]O + [CH2]O
+dispro,C=O + OCO,[CH2]O + [O]CO
+dispro,C=O + [H][H],C[O] + [H]
+dispro,C=O + [H][H],[CH2]O + [H]
+dispro,CO + COC=O,COC[O] + C[O]
+dispro,CO + COC=O,COC[O] + [CH2]O
+dispro,CO + COC=O,CO[CH]O + C[O]
+dispro,CO + COC=O,CO[CH]O + [CH2]O
+dispro,CO + O=C=O,C[O] + O=[C]O
+dispro,CO + O=C=O,C[O] + [O]C=O
+dispro,CO + O=C=O,O=[C]O + [CH2]O
+dispro,CO + O=C=O,[CH2]O + [O]C=O
+dispro,CO + O=CO,C[O] + O[CH]O
+dispro,CO + O=CO,C[O] + [O]CO
+dispro,CO + O=CO,O[CH]O + [CH2]O
+dispro,CO + O=CO,[CH2]O + [O]CO
+dispro,COC=O + O,COC[O] + [OH]
+dispro,COC=O + O,CO[CH]O + [OH]
+dispro,COC=O + O=CO,COC[O] + O=[C]O
+dispro,COC=O + O=CO,COC[O] + [O]C=O
+dispro,COC=O + O=CO,CO[CH]O + O=[C]O
+dispro,COC=O + O=CO,CO[CH]O + [O]C=O
+dispro,COC=O + OCO,COC[O] + O[CH]O
+dispro,COC=O + OCO,COC[O] + [O]CO
+dispro,COC=O + OCO,CO[CH]O + O[CH]O
+dispro,COC=O + OCO,CO[CH]O + [O]CO
+dispro,COC=O + [H][H],COC[O] + [H]
+dispro,COC=O + [H][H],CO[CH]O + [H]
+dispro,O + O=C=O,O=[C]O + [OH]
+dispro,O + O=C=O,[OH] + [O]C=O
+dispro,O + O=CO,O[CH]O + [OH]
+dispro,O + O=CO,[OH] + [O]CO
+dispro,O=C=O + O=CO,O=[C]O + O=[C]O
+dispro,O=C=O + O=CO,O=[C]O + [O]C=O
+dispro,O=C=O + O=CO,[O]C=O + [O]C=O
+dispro,O=C=O + OCO,O=[C]O + O[CH]O
+dispro,O=C=O + OCO,O=[C]O + [O]CO
+dispro,O=C=O + OCO,O[CH]O + [O]C=O
+dispro,O=C=O + OCO,[O]C=O + [O]CO
+dispro,O=C=O + [H][H],O=[C]O + [H]
+dispro,O=C=O + [H][H],[H] + [O]C=O
+dispro,O=CO + O=CO,O=[C]O + O[CH]O
+dispro,O=CO + O=CO,O=[C]O + [O]CO
+dispro,O=CO + O=CO,O[CH]O + [O]C=O
+dispro,O=CO + O=CO,[O]C=O + [O]CO
+dispro,O=CO + OCO,O[CH]O + O[CH]O
+dispro,O=CO + OCO,O[CH]O + [O]CO
+dispro,O=CO + OCO,[O]CO + [O]CO
+dispro,O=CO + [H][H],O[CH]O + [H]
+dispro,O=CO + [H][H],[H] + [O]CO
+elim11,C=O,[C-]#[O+] + [H][H]
+elim11,CO + [C-]#[O+],COC=O
+elim11,O + [C-]#[O+],O=CO
+elim4,C + C=O,COC
+elim4,C + O=C=O,COC=O
+elim4,C + O=CO,COCO
+elim4,C=O + C=O,COC=O
+elim4,C=O + CO,COCO
+elim4,C=O + O,OCO
+elim4,C=O + [H][H],CO
+elim4,COC=O + [H][H],COCO
+elim4,O=C=O + [H][H],O=CO
+elim4,O=CO + [H][H],OCO
+h_abstr,C + COC[O],COCO + [CH3]
+h_abstr,C + CO[CH]O,COCO + [CH3]
+h_abstr,C + CO[C]=O,COC=O + [CH3]
+h_abstr,C + C[O],CO + [CH3]
+h_abstr,C + O=[C]O,O=CO + [CH3]
+h_abstr,C + O[CH]O,OCO + [CH3]
+h_abstr,C + [CH2]O,CO + [CH3]
+h_abstr,C + [CH2]OC,COC + [CH3]
+h_abstr,C + [CH2]OC=O,COC=O + [CH3]
+h_abstr,C + [CH2]OCO,COCO + [CH3]
+h_abstr,C + [CH]=O,C=O + [CH3]
+h_abstr,C + [H],[CH3] + [H][H]
+h_abstr,C + [OH],O + [CH3]
+h_abstr,C + [O]C=O,O=CO + [CH3]
+h_abstr,C + [O]CO,OCO + [CH3]
+h_abstr,C=O + COC[O],COCO + [CH]=O
+h_abstr,C=O + CO[CH]O,COCO + [CH]=O
+h_abstr,C=O + CO[C]=O,COC=O + [CH]=O
+h_abstr,C=O + C[O],CO + [CH]=O
+h_abstr,C=O + O=[C]O,O=CO + [CH]=O
+h_abstr,C=O + O[CH]O,OCO + [CH]=O
+h_abstr,C=O + [CH2]O,CO + [CH]=O
+h_abstr,C=O + [CH2]OC,COC + [CH]=O
+h_abstr,C=O + [CH2]OC=O,COC=O + [CH]=O
+h_abstr,C=O + [CH2]OCO,COCO + [CH]=O
+h_abstr,C=O + [H],[CH]=O + [H][H]
+h_abstr,C=O + [OH],O + [CH]=O
+h_abstr,C=O + [O]C=O,O=CO + [CH]=O
+h_abstr,C=O + [O]CO,OCO + [CH]=O
+h_abstr,CO + COC[O],COCO + C[O]
+h_abstr,CO + COC[O],COCO + [CH2]O
+h_abstr,CO + CO[CH]O,COCO + C[O]
+h_abstr,CO + CO[CH]O,COCO + [CH2]O
+h_abstr,CO + CO[C]=O,COC=O + C[O]
+h_abstr,CO + CO[C]=O,COC=O + [CH2]O
+h_abstr,CO + C[O],CO + [CH2]O
+h_abstr,CO + O=[C]O,C[O] + O=CO
+h_abstr,CO + O=[C]O,O=CO + [CH2]O
+h_abstr,CO + O[CH]O,C[O] + OCO
+h_abstr,CO + O[CH]O,OCO + [CH2]O
+h_abstr,CO + [CH2]OC,COC + C[O]
+h_abstr,CO + [CH2]OC,COC + [CH2]O
+h_abstr,CO + [CH2]OC=O,COC=O + C[O]
+h_abstr,CO + [CH2]OC=O,COC=O + [CH2]O
+h_abstr,CO + [CH2]OCO,COCO + C[O]
+h_abstr,CO + [CH2]OCO,COCO + [CH2]O
+h_abstr,CO + [H],C[O] + [H][H]
+h_abstr,CO + [H],[CH2]O + [H][H]
+h_abstr,CO + [OH],C[O] + O
+h_abstr,CO + [OH],O + [CH2]O
+h_abstr,CO + [O]C=O,C[O] + O=CO
+h_abstr,CO + [O]C=O,O=CO + [CH2]O
+h_abstr,CO + [O]CO,C[O] + OCO
+h_abstr,CO + [O]CO,OCO + [CH2]O
+h_abstr,COC + O=[C]O,O=CO + [CH2]OC
+h_abstr,COC + O[CH]O,OCO + [CH2]OC
+h_abstr,COC + [H],[CH2]OC + [H][H]
+h_abstr,COC + [OH],O + [CH2]OC
+h_abstr,COC + [O]C=O,O=CO + [CH2]OC
+h_abstr,COC + [O]CO,OCO + [CH2]OC
+h_abstr,COC=O + O=[C]O,CO[C]=O + O=CO
+h_abstr,COC=O + O=[C]O,O=CO + [CH2]OC=O
+h_abstr,COC=O + O[CH]O,CO[C]=O + OCO
+h_abstr,COC=O + O[CH]O,OCO + [CH2]OC=O
+h_abstr,COC=O + [H],CO[C]=O + [H][H]
+h_abstr,COC=O + [H],[CH2]OC=O + [H][H]
+h_abstr,COC=O + [OH],CO[C]=O + O
+h_abstr,COC=O + [OH],O + [CH2]OC=O
+h_abstr,COC=O + [O]C=O,CO[C]=O + O=CO
+h_abstr,COC=O + [O]C=O,O=CO + [CH2]OC=O
+h_abstr,COC=O + [O]CO,CO[C]=O + OCO
+h_abstr,COC=O + [O]CO,OCO + [CH2]OC=O
+h_abstr,COCO + O=[C]O,COC[O] + O=CO
+h_abstr,COCO + O=[C]O,CO[CH]O + O=CO
+h_abstr,COCO + O=[C]O,O=CO + [CH2]OCO
+h_abstr,COCO + O[CH]O,COC[O] + OCO
+h_abstr,COCO + O[CH]O,CO[CH]O + OCO
+h_abstr,COCO + O[CH]O,OCO + [CH2]OCO
+h_abstr,COCO + [H],COC[O] + [H][H]
+h_abstr,COCO + [H],CO[CH]O + [H][H]
+h_abstr,COCO + [H],[CH2]OCO + [H][H]
+h_abstr,COCO + [OH],COC[O] + O
+h_abstr,COCO + [OH],CO[CH]O + O
+h_abstr,COCO + [OH],O + [CH2]OCO
+h_abstr,COCO + [O]C=O,COC[O] + O=CO
+h_abstr,COCO + [O]C=O,CO[CH]O + O=CO
+h_abstr,COCO + [O]C=O,O=CO + [CH2]OCO
+h_abstr,COCO + [O]CO,COC[O] + OCO
+h_abstr,COCO + [O]CO,CO[CH]O + OCO
+h_abstr,COCO + [O]CO,OCO + [CH2]OCO
+h_abstr,O + O=[C]O,O=CO + [OH]
+h_abstr,O + O[CH]O,OCO + [OH]
+h_abstr,O + [H],[H][H] + [OH]
+h_abstr,O + [O]C=O,O=CO + [OH]
+h_abstr,O + [O]CO,OCO + [OH]
+h_abstr,O=CO + O=[C]O,O=CO + [O]C=O
+h_abstr,O=CO + O[CH]O,O=[C]O + OCO
+h_abstr,O=CO + O[CH]O,OCO + [O]C=O
+h_abstr,O=CO + [H],O=[C]O + [H][H]
+h_abstr,O=CO + [H],[H][H] + [O]C=O
+h_abstr,O=CO + [O]CO,O=[C]O + OCO
+h_abstr,O=CO + [O]CO,OCO + [O]C=O
+h_abstr,OCO + O[CH]O,OCO + [O]CO
+h_abstr,OCO + [H],O[CH]O + [H][H]
+h_abstr,OCO + [H],[H][H] + [O]CO
+h_shift,COC[O],CO[CH]O
+h_shift,COC[O],[CH2]OCO
+h_shift,CO[CH]O,[CH2]OCO
+h_shift,CO[C]=O,[CH2]OC=O
+h_shift,C[O],[CH2]O
+h_shift,O=[C]O,[O]C=O
+h_shift,O[CH]O,[O]CO
+recomb,CO,[CH3] + [OH]
+recomb,COC,C[O] + [CH3]
+recomb,COC=O,C[O] + [CH]=O
+recomb,COC=O,[CH3] + [O]C=O
+recomb,COCO,C[O] + [CH2]O
+recomb,COCO,[CH2]OC + [OH]
+recomb,COCO,[CH3] + [O]CO
+recomb,O=CO,[CH]=O + [OH]
+recomb,OCO,[CH2]O + [OH]
+sh2,C + C[O],COC + [H]
+sh2,C + [OH],CO + [H]
+sh2,C + [O]C=O,COC=O + [H]
+sh2,C + [O]CO,COCO + [H]
+sh2,C=O + C[O],COC=O + [H]
+sh2,C=O + [OH],O=CO + [H]
+sh2,CO + C[O],COC + [OH]
+sh2,CO + C[O],COCO + [H]
+sh2,CO + [CH2]O,COCO + [H]
+sh2,CO + [CH2]O,OCO + [CH3]
+sh2,CO + [CH2]OC,COCO + [CH3]
+sh2,CO + [CH3],COC + [H]
+sh2,CO + [CH]=O,COC=O + [H]
+sh2,CO + [CH]=O,O=CO + [CH3]
+sh2,CO + [H],O + [CH3]
+sh2,CO + [OH],OCO + [H]
+sh2,CO + [O]C=O,COC=O + [OH]
+sh2,CO + [O]CO,COCO + [OH]
+sh2,COC + [CH2]O,COCO + [CH3]
+sh2,COC + [CH]=O,COC=O + [CH3]
+sh2,COC + [OH],COCO + [H]
+sh2,COC + [O]C=O,COC=O + C[O]
+sh2,COC + [O]CO,COCO + C[O]
+sh2,COC=O + [CH2]O,COCO + [CH]=O
+sh2,COC=O + [H],O=CO + [CH3]
+sh2,COC=O + [OH],C[O] + O=CO
+sh2,COC=O + [O]CO,COCO + [O]C=O
+sh2,COCO + [CH2]O,OCO + [CH2]OC
+sh2,COCO + [CH]=O,O=CO + [CH2]OC
+sh2,COCO + [H],O + [CH2]OC
+sh2,COCO + [H],OCO + [CH3]
+sh2,COCO + [OH],C[O] + OCO
+sh2,O + [CH2]O,OCO + [H]
+sh2,O + [CH]=O,O=CO + [H]
+sh2,O=CO + [CH2]O,OCO + [CH]=O
