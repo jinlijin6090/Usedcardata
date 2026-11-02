@@ -151,7 +151,7 @@ def run(name, products, with_ox):
            "maxC": max(counts(Chem.MolFromSmiles(s))[0] for s in sp)}
     tag = name.split(" ")[0] + ("_O" if with_ox else "")
     from reactions import write_csv
-    write_csv(net, os.path.join(DATA, f"network_reduced_{tag}.csv"))
+    write_csv(net, os.path.join(DATA, f"network_reduced_{tag}.csv" + (".gz" if len(net.rxn) > 50000 else "")))
     with open(os.path.join(DATA, f"species_reduced_{tag}.txt"), "w") as f:
         f.write("\n".join(sorted(net.species())) + "\n")
     return tag, out

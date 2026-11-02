@@ -196,7 +196,9 @@ def build(species, pool=None, quadratic=True, near_hshift=False, procs=4, cmax=1
 
 def write_csv(net, path):
     import csv
-    with open(path, "w", newline="") as f:
+    import gzip
+    opener = gzip.open if path.endswith(".gz") else open
+    with opener(path, "wt", newline="") as f:
         w = csv.writer(f)
         w.writerow(["family", "reactants", "products"])
         for (l, r), fam in sorted(net.rxn.items(), key=lambda kv: (kv[1], kv[0])):
