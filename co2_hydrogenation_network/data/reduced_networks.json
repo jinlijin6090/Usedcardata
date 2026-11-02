@@ -1,0 +1,330 @@
+{
+ "A_methanation": {
+  "products": 3,
+  "closed_shell": 10,
+  "radicals": 11,
+  "species": 21,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 155,
+  "linear_reactions": 32,
+  "families": {
+   "H_recomb": 10,
+   "co_add": 2,
+   "elim11": 2,
+   "recomb": 4,
+   "add_H": 6,
+   "h_shift": 3,
+   "elim4": 4,
+   "add_beta": 1,
+   "h_abstr": 55,
+   "sh2": 11,
+   "dispro": 57
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 55,
+   "dispro": 66
+  },
+  "reactions_unrestricted_approx": 164,
+  "maxC": 2,
+  "scenario": "A_methanation (Ni)"
+ },
+ "A_methanation_O": {
+  "products": 3,
+  "closed_shell": 12,
+  "radicals": 16,
+  "species": 28,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 260,
+  "linear_reactions": 51,
+  "families": {
+   "H_recomb": 15,
+   "co_add": 3,
+   "elim11": 3,
+   "recomb": 7,
+   "h_shift": 7,
+   "add_beta": 2,
+   "add_H": 8,
+   "elim4": 6,
+   "h_abstr": 105,
+   "sh2": 27,
+   "dispro": 77
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 120,
+   "dispro": 128
+  },
+  "reactions_unrestricted_approx": 326,
+  "maxC": 2,
+  "scenario": "A_methanation (Ni)"
+ },
+ "B_methanol": {
+  "products": 4,
+  "closed_shell": 12,
+  "radicals": 16,
+  "species": 28,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 279,
+  "linear_reactions": 62,
+  "families": {
+   "H_recomb": 15,
+   "co_add": 3,
+   "elim11": 3,
+   "recomb": 9,
+   "add_H": 8,
+   "h_shift": 7,
+   "elim4": 10,
+   "add_beta": 7,
+   "h_abstr": 105,
+   "dispro": 77,
+   "sh2": 35
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 120,
+   "dispro": 128
+  },
+  "reactions_unrestricted_approx": 345,
+  "maxC": 2,
+  "scenario": "B_methanol (Cu/ZnO, In2O3)"
+ },
+ "B_methanol_O": {
+  "products": 4,
+  "closed_shell": 12,
+  "radicals": 16,
+  "species": 28,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 279,
+  "linear_reactions": 62,
+  "families": {
+   "H_recomb": 15,
+   "co_add": 3,
+   "elim11": 3,
+   "recomb": 9,
+   "add_H": 8,
+   "h_shift": 7,
+   "elim4": 10,
+   "add_beta": 7,
+   "h_abstr": 105,
+   "dispro": 77,
+   "sh2": 35
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 120,
+   "dispro": 128
+  },
+  "reactions_unrestricted_approx": 345,
+  "maxC": 2,
+  "scenario": "B_methanol (Cu/ZnO, In2O3)"
+ },
+ "C_CO2-FTS": {
+  "products": 48,
+  "closed_shell": 54,
+  "radicals": 284,
+  "species": 338,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 6323,
+  "linear_reactions": 1905,
+  "families": {
+   "H_recomb": 283,
+   "recomb": 220,
+   "h_shift": 907,
+   "add_beta": 218,
+   "elim4": 220,
+   "taut13": 9,
+   "co_add": 2,
+   "elim11": 2,
+   "add_H": 44,
+   "h_abstr": 2785,
+   "sh2": 1196,
+   "dispro": 437
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 40186,
+   "dispro": 12496
+  },
+  "reactions_unrestricted_approx": 55783,
+  "maxC": 12,
+  "scenario": "C_CO2-FTS (Fe-K/Na)"
+ },
+ "C_CO2-FTS_O": {
+  "products": 48,
+  "closed_shell": 551,
+  "radicals": 4457,
+  "species": 5008,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 123750,
+  "linear_reactions": 36817,
+  "families": {
+   "H_recomb": 4456,
+   "recomb": 3843,
+   "add_beta": 4110,
+   "h_shift": 18295,
+   "elim4": 4609,
+   "taut13": 178,
+   "elim11": 224,
+   "add_H": 1040,
+   "co_add": 62,
+   "h_abstr": 44515,
+   "sh2": 32021,
+   "dispro": 10397
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 9930196,
+   "dispro": 4635280
+  },
+  "reactions_unrestricted_approx": 14634314,
+  "maxC": 12,
+  "scenario": "C_CO2-FTS (Fe-K/Na)"
+ },
+ "D_CO2-to-aromatics": {
+  "products": 37,
+  "closed_shell": 8924,
+  "radicals": 80654,
+  "species": 89578,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 2074347,
+  "linear_reactions": 637541,
+  "families": {
+   "H_recomb": 80653,
+   "add_H": 40659,
+   "ring_open": 14029,
+   "h_shift": 338062,
+   "elim4": 63501,
+   "taut13": 5817,
+   "diels_alder": 942,
+   "recomb": 50684,
+   "add_beta": 43190,
+   "co_add": 2,
+   "elim11": 2,
+   "h_abstr": 806485,
+   "dispro": 406587,
+   "sh2": 223734
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 3252493531,
+   "dispro": 3279310986
+  },
+  "reactions_unrestricted_approx": 6532665792,
+  "maxC": 12,
+  "scenario": "D_CO2-to-aromatics (oxide/zeolite)"
+ },
+ "D_CO2-to-aromatics_O": {
+  "products": 37,
+  "closed_shell": 138646,
+  "radicals": 1335585,
+  "species": 1474231,
+  "pool": [
+   "C[O]",
+   "O=[C]O",
+   "O[CH]O",
+   "[CH2]O",
+   "[CH3]",
+   "[CH]=O",
+   "[H]",
+   "[OH]",
+   "[O]C=O",
+   "[O]CO"
+  ],
+  "reactions_pool": 39071581,
+  "linear_reactions": 11442237,
+  "families": {
+   "H_recomb": 1335584,
+   "add_H": 725529,
+   "ring_open": 246778,
+   "h_shift": 5944287,
+   "elim4": 1218886,
+   "taut13": 123132,
+   "diels_alder": 15664,
+   "recomb": 919904,
+   "add_beta": 856141,
+   "elim11": 35171,
+   "co_add": 21161,
+   "h_abstr": 13355795,
+   "dispro": 7255287,
+   "sh2": 7018262
+  },
+  "quadratic_unrestricted": {
+   "h_abstr": 891892978320,
+   "dispro": 969005649465
+  },
+  "reactions_unrestricted_approx": 1860917088284,
+  "maxC": 12,
+  "scenario": "D_CO2-to-aromatics (oxide/zeolite)"
+ }
+}
