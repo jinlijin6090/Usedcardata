@@ -1,0 +1,48 @@
+{
+ "1": {
+  "info": {
+   "closed": 9,
+   "radicals": 10,
+   "partners": 10
+  },
+  "species_in_network": 19,
+  "reactions": 141,
+  "families": {
+   "H_recomb": 9,
+   "co_add": 2,
+   "elim11": 2,
+   "recomb": 3,
+   "add_H": 6,
+   "h_shift": 3,
+   "elim4": 4,
+   "add_beta": 1,
+   "h_abstr": 45,
+   "dispro": 57,
+   "sh2": 9
+  }
+ },
+ "2": {
+  "info": {
+   "closed": 38,
+   "radicals": 58,
+   "partners": 58
+  },
+  "species_in_network": 96,
+  "reactions": 4649,
+  "families": {
+   "H_recomb": 57,
+   "recomb": 30,
+   "h_shift": 30,
+   "taut13": 7,
+   "ring_open": 18,
+   "add_H": 43,
+   "elim4": 47,
+   "add_beta": 23,
+   "co_add": 6,
+   "elim11": 7,
+   "h_abstr": 1653,
+   "sh2": 252,
+   "dispro": 2476
+  }
+ }
+}

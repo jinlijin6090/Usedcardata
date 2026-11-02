@@ -1,0 +1,156 @@
+family,reactants,products
+H_recomb,C,[CH3] + [H]
+H_recomb,C=O,[CH]=O + [H]
+H_recomb,CC,[CH2]C + [H]
+H_recomb,CO,C[O] + [H]
+H_recomb,CO,[CH2]O + [H]
+H_recomb,O,[H] + [OH]
+H_recomb,O=CO,O=[C]O + [H]
+H_recomb,O=CO,[H] + [O]C=O
+H_recomb,OCO,O[CH]O + [H]
+H_recomb,OCO,[H] + [O]CO
+add_H,C=O + [H],C[O]
+add_H,C=O + [H],[CH2]O
+add_H,O=C=O + [H],O=[C]O
+add_H,O=C=O + [H],[O]C=O
+add_H,O=CO + [H],O[CH]O
+add_H,O=CO + [H],[O]CO
+add_beta,C=O + [OH],[O]CO
+co_add,O=[C]O,[C-]#[O+] + [OH]
+co_add,[C-]#[O+] + [H],[CH]=O
+dispro,C + C=O,C[O] + [CH3]
+dispro,C + C=O,[CH2]O + [CH3]
+dispro,C + O=C=O,O=[C]O + [CH3]
+dispro,C + O=C=O,[CH3] + [O]C=O
+dispro,C + O=CO,O[CH]O + [CH3]
+dispro,C + O=CO,[CH3] + [O]CO
+dispro,C=O + C=O,C[O] + [CH]=O
+dispro,C=O + C=O,[CH2]O + [CH]=O
+dispro,C=O + CO,C[O] + C[O]
+dispro,C=O + CO,C[O] + [CH2]O
+dispro,C=O + CO,[CH2]O + [CH2]O
+dispro,C=O + O,C[O] + [OH]
+dispro,C=O + O,[CH2]O + [OH]
+dispro,C=O + O=C=O,O=[C]O + [CH]=O
+dispro,C=O + O=C=O,[CH]=O + [O]C=O
+dispro,C=O + O=CO,C[O] + O=[C]O
+dispro,C=O + O=CO,C[O] + [O]C=O
+dispro,C=O + O=CO,O=[C]O + [CH2]O
+dispro,C=O + O=CO,O[CH]O + [CH]=O
+dispro,C=O + O=CO,[CH2]O + [O]C=O
+dispro,C=O + O=CO,[CH]=O + [O]CO
+dispro,C=O + OCO,C[O] + O[CH]O
+dispro,C=O + OCO,C[O] + [O]CO
+dispro,C=O + OCO,O[CH]O + [CH2]O
+dispro,C=O + OCO,[CH2]O + [O]CO
+dispro,C=O + [H][H],C[O] + [H]
+dispro,C=O + [H][H],[CH2]O + [H]
+dispro,CO + O=C=O,C[O] + O=[C]O
+dispro,CO + O=C=O,C[O] + [O]C=O
+dispro,CO + O=C=O,O=[C]O + [CH2]O
+dispro,CO + O=C=O,[CH2]O + [O]C=O
+dispro,CO + O=CO,C[O] + O[CH]O
+dispro,CO + O=CO,C[O] + [O]CO
+dispro,CO + O=CO,O[CH]O + [CH2]O
+dispro,CO + O=CO,[CH2]O + [O]CO
+dispro,O + O=C=O,O=[C]O + [OH]
+dispro,O + O=C=O,[OH] + [O]C=O
+dispro,O + O=CO,O[CH]O + [OH]
+dispro,O + O=CO,[OH] + [O]CO
+dispro,O=C=O + O=CO,O=[C]O + O=[C]O
+dispro,O=C=O + O=CO,O=[C]O + [O]C=O
+dispro,O=C=O + O=CO,[O]C=O + [O]C=O
+dispro,O=C=O + OCO,O=[C]O + O[CH]O
+dispro,O=C=O + OCO,O=[C]O + [O]CO
+dispro,O=C=O + OCO,O[CH]O + [O]C=O
+dispro,O=C=O + OCO,[O]C=O + [O]CO
+dispro,O=C=O + [H][H],O=[C]O + [H]
+dispro,O=C=O + [H][H],[H] + [O]C=O
+dispro,O=CO + O=CO,O=[C]O + O[CH]O
+dispro,O=CO + O=CO,O=[C]O + [O]CO
+dispro,O=CO + O=CO,O[CH]O + [O]C=O
+dispro,O=CO + O=CO,[O]C=O + [O]CO
+dispro,O=CO + OCO,O[CH]O + O[CH]O
+dispro,O=CO + OCO,O[CH]O + [O]CO
+dispro,O=CO + OCO,[O]CO + [O]CO
+dispro,O=CO + [H][H],O[CH]O + [H]
+dispro,O=CO + [H][H],[H] + [O]CO
+elim11,C=O,[C-]#[O+] + [H][H]
+elim11,O + [C-]#[O+],O=CO
+elim4,C=O + O,OCO
+elim4,C=O + [H][H],CO
+elim4,O=C=O + [H][H],O=CO
+elim4,O=CO + [H][H],OCO
+h_abstr,C + C[O],CO + [CH3]
+h_abstr,C + O=[C]O,O=CO + [CH3]
+h_abstr,C + O[CH]O,OCO + [CH3]
+h_abstr,C + [CH2]C,CC + [CH3]
+h_abstr,C + [CH2]O,CO + [CH3]
+h_abstr,C + [CH]=O,C=O + [CH3]
+h_abstr,C + [H],[CH3] + [H][H]
+h_abstr,C + [OH],O + [CH3]
+h_abstr,C + [O]C=O,O=CO + [CH3]
+h_abstr,C + [O]CO,OCO + [CH3]
+h_abstr,C=O + C[O],CO + [CH]=O
+h_abstr,C=O + O=[C]O,O=CO + [CH]=O
+h_abstr,C=O + O[CH]O,OCO + [CH]=O
+h_abstr,C=O + [CH2]C,CC + [CH]=O
+h_abstr,C=O + [CH2]O,CO + [CH]=O
+h_abstr,C=O + [H],[CH]=O + [H][H]
+h_abstr,C=O + [OH],O + [CH]=O
+h_abstr,C=O + [O]C=O,O=CO + [CH]=O
+h_abstr,C=O + [O]CO,OCO + [CH]=O
+h_abstr,CC + C[O],CO + [CH2]C
+h_abstr,CC + O=[C]O,O=CO + [CH2]C
+h_abstr,CC + O[CH]O,OCO + [CH2]C
+h_abstr,CC + [CH2]O,CO + [CH2]C
+h_abstr,CC + [H],[CH2]C + [H][H]
+h_abstr,CC + [OH],O + [CH2]C
+h_abstr,CC + [O]C=O,O=CO + [CH2]C
+h_abstr,CC + [O]CO,OCO + [CH2]C
+h_abstr,CO + C[O],CO + [CH2]O
+h_abstr,CO + O=[C]O,C[O] + O=CO
+h_abstr,CO + O=[C]O,O=CO + [CH2]O
+h_abstr,CO + O[CH]O,C[O] + OCO
+h_abstr,CO + O[CH]O,OCO + [CH2]O
+h_abstr,CO + [H],C[O] + [H][H]
+h_abstr,CO + [H],[CH2]O + [H][H]
+h_abstr,CO + [OH],C[O] + O
+h_abstr,CO + [OH],O + [CH2]O
+h_abstr,CO + [O]C=O,C[O] + O=CO
+h_abstr,CO + [O]C=O,O=CO + [CH2]O
+h_abstr,CO + [O]CO,C[O] + OCO
+h_abstr,CO + [O]CO,OCO + [CH2]O
+h_abstr,O + O=[C]O,O=CO + [OH]
+h_abstr,O + O[CH]O,OCO + [OH]
+h_abstr,O + [H],[H][H] + [OH]
+h_abstr,O + [O]C=O,O=CO + [OH]
+h_abstr,O + [O]CO,OCO + [OH]
+h_abstr,O=CO + O=[C]O,O=CO + [O]C=O
+h_abstr,O=CO + O[CH]O,O=[C]O + OCO
+h_abstr,O=CO + O[CH]O,OCO + [O]C=O
+h_abstr,O=CO + [H],O=[C]O + [H][H]
+h_abstr,O=CO + [H],[H][H] + [O]C=O
+h_abstr,O=CO + [O]CO,O=[C]O + OCO
+h_abstr,O=CO + [O]CO,OCO + [O]C=O
+h_abstr,OCO + O[CH]O,OCO + [O]CO
+h_abstr,OCO + [H],O[CH]O + [H][H]
+h_abstr,OCO + [H],[H][H] + [O]CO
+h_shift,C[O],[CH2]O
+h_shift,O=[C]O,[O]C=O
+h_shift,O[CH]O,[O]CO
+recomb,CC,[CH3] + [CH3]
+recomb,CO,[CH3] + [OH]
+recomb,O=CO,[CH]=O + [OH]
+recomb,OCO,[CH2]O + [OH]
+sh2,C + [CH3],CC + [H]
+sh2,C + [OH],CO + [H]
+sh2,C=O + [OH],O=CO + [H]
+sh2,CC + [OH],CO + [CH3]
+sh2,CO + [CH2]O,OCO + [CH3]
+sh2,CO + [CH]=O,O=CO + [CH3]
+sh2,CO + [H],O + [CH3]
+sh2,CO + [OH],OCO + [H]
+sh2,O + [CH2]O,OCO + [H]
+sh2,O + [CH]=O,O=CO + [H]
+sh2,O=CO + [CH2]O,OCO + [CH]=O
