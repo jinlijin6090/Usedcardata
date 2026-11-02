@@ -37,7 +37,7 @@ CH_KEYS = LIN + ["birad", "hshift_near"]
 
 def load():
     st = {}
-    for fn in ("stats_CHO_O2.json", "stats_CH.json"):
+    for fn in ("stats_CHO_O2.json", "stats_CH.json", "stats_CHcount.json"):
         p = os.path.join(DATA, fn)
         if not os.path.exists(p):
             continue
