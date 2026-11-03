@@ -164,6 +164,7 @@ function drawModule(slide, M, T, o = {}) {
       objectName: `module ${M.id} frame` });
     txt(slide, T, 0.12, 0.05, M.W - 0.24, 0.3, runs(M.title, { fontSize: 8.5 * T.s, color: M.color, bold: true }), { name: `module ${M.id} title` });
   }
+  drawBlocks(slide, T, M.blocks, M.id);
   (M.zones || []).forEach((z) => drawZone(slide, T, z));
   (M.texts || []).forEach(([x, y, w, h, t, oo = {}]) => {
     if (Array.isArray(t)) {
@@ -175,6 +176,7 @@ function drawModule(slide, M, T, o = {}) {
   });
   E.forEach((ed, i) => drawEdge(slide, T, N, ed, i, M.id));
   Object.values(N).forEach((nd) => drawNode(slide, T, nd, M.id, M.cats ? M.cats[nd.id] : null));
+  drawChips(slide, T, M.blocks, M.id);
 }
 function legend(slide, y, x0 = 0.3) {
   const types = [["mol", "分子 / 产物"], ["surf", "表面吸附物种 *"], ["rad", "自由基 •"], ["ion", "离子 / 碳正离子 ⁺"]];
@@ -191,6 +193,51 @@ function legend(slide, y, x0 = 0.3) {
     txt(slide, T, x + 0.47, y + 0.02, 1.75, 0.26, CAT[k].n, { fs: 10, color: C.text1, name: "legend text" });
     x += 2.05;
   });
+}
+
+// ================================================================== CATALYST FORMS (background blocks)
+const CATAL = {
+  OX:   { fill: "DCE7F6", c: "2A5DA8", s: "还原性氧化物", n: "还原性氧化物 · 氧空位（In₂O₃ / ZnZrOₓ / GaZrOₓ）" },
+  CU:   { fill: "D5EEEE", c: "1C7272", s: "Cu 基 / 界面", n: "Cu 基 / Cu–氧化物界面（Cu/ZnO）" },
+  MET:  { fill: "FBE7D2", c: "A85810", s: "过渡金属", n: "过渡金属 Ni / Co / Ru / Fe（CO 解离 · CHₓ · 甲烷化 · 重整）" },
+  CARB: { fill: "F6DCDC", c: "A12F2F", s: "金属碳化物", n: "金属碳化物 χ-Fe₅C₂ / Co₂C（+K / Na 助剂）" },
+  DUAL: { fill: "F2DDEC", c: "86336F", s: "CO 插入双位", n: "CO 插入双位（Co⁰–Co₂C / CuCo / Cu–Fe）" },
+  SUP:  { fill: "E9E6DC", c: "655D47", s: "载体 / 界面", n: "载体 CeO₂ / ZrO₂" },
+  BA:   { fill: "DDEFE1", c: "1D7342", s: "B 酸分子筛", n: "Brønsted 酸分子筛（H-ZSM-5 / SAPO-34 / H-β）" },
+  LA:   { fill: "E9F0CC", c: "5A7410", s: "Lewis 酸改性分子筛", n: "Lewis 酸 Ga / Zn 改性分子筛（脱氢）" },
+  BIF:  { fill: "F2E6D6", c: "7E5226", s: "双功能 金属–酸", n: "双功能 金属–酸（Pt / Ni + 分子筛）" },
+  EC:   { fill: "E6E0F5", c: "5444A0", s: "电催化", n: "电催化阴极（Cu / Ag / Sn / Bi）" },
+  GAS:  { fill: "FBE4EC", c: "B0175A", s: "无催化剂（气相）", n: "无需催化剂：气相 / 均相（高温 · 等离子体 · 光）" },
+};
+const CHIP_FS = 5.2;
+// block = [key, x, y, w, h, chip:[x,y] | null, customLabel?]
+function drawBlocks(slide, T, blocks, mod) {
+  (blocks || []).forEach(([k, x, y, w, h], i) => {
+    const K = CATAL[k];
+    slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: TX(T, x), y: TY(T, y), w: w * T.s, h: h * T.s, rectRadius: 0.08 * T.s,
+      fill: { color: K.fill }, line: { color: K.fill, width: 0.5 }, objectName: `${mod} catalyst block ${i + 1} ${k}` });
+  });
+}
+function drawChips(slide, T, blocks, mod, fs = CHIP_FS) {
+  (blocks || []).forEach(([k, , , , , chip, label], i) => {
+    if (!chip) return;
+    const K = CATAL[k], t = label || K.n, w = textW(t, fs) * 1.1 + 0.16, h = fs / 72 * 1.6;
+    slide.addText(runs(t, { fontSize: fs * T.s, color: "FFFFFF", bold: true }), { x: TX(T, chip[0]), y: TY(T, chip[1]), w: w * T.s, h: h * T.s,
+      shape: pres.shapes.ROUNDED_RECTANGLE, rectRadius: h * T.s / 2, fill: { color: K.c }, line: { color: K.c, width: 0.5 },
+      align: "center", valign: "middle", margin: 0, objectName: `${mod} catalyst label ${i + 1} ${k}` });
+  });
+}
+function catalystLegend(slide, y, x0 = 0.3) {
+  const T = { ox: 0, oy: 0, s: 1 };
+  txt(slide, T, x0, y, 1.25, 0.26, "催化剂形式（色块）", { fs: 10, color: C.text1, bold: true, name: "catalyst legend title" });
+  let x = x0 + 1.4;
+  for (const [k, K] of Object.entries(CATAL)) {
+    slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: y + 0.03, w: 0.42, h: 0.2, rectRadius: 0.05, fill: { color: K.fill },
+      line: { color: K.c, width: 1 }, objectName: `catalyst legend ${k}` });
+    const w = textW(K.s, 10) + 0.12;
+    txt(slide, T, x + 0.48, y, w, 0.26, K.s, { fs: 10, color: C.text1, name: "catalyst legend text" });
+    x += 0.48 + w + 0.22;
+  }
 }
 
 // ================================================================== MODULES (local inches at scale 1)
@@ -224,7 +271,9 @@ MODS.push({ id: "A", color: C.accent3, W: 7.0, H: 6.05,
     ["CO", "COg", "SH", "脱附", { perp: 0.15 }], ["CO", "HCO", "R3", "+H*（次要）", { ly: -0.15 }], ["HCO", "H2CO", "R3", "+H*", { perp: 0.16 }],
     ["E0", "ECO2", "R3", ""], ["ECO2", "EHCOOH", "R3", "+H^{+} + e^{−}", { perp: 0.15 }], ["ECO2", "ECO", "R3", "+H^{+} + e^{−}", { perp: -0.15 }],
   ],
-  texts: [[0.2, 5.75, 2.7, 0.25, "电化学：CO_2 + e^{−} → CO_2•^{−}（单电子中间体）", { color: C.accent3 }]],
+  texts: [],
+  blocks: [["OX", 0.12, 0.42, 6.76, 3.2, [3.95, 3.43]], ["CU", 0.12, 3.65, 4.0, 1.22, [0.15, 4.67], "Cu–氧化物界面 / 氧化物（RWGS · CO 加氢）"],
+           ["EC", 2.5, 4.92, 4.38, 1.06, [2.55, 4.94]]],
   notes: ["In₂O₃：Vₒ（氧空位）是 CO₂ 吸附与活化位；H₂ 在 In–O 对上异裂（In–H⁻ / O–H⁺）。", "甲酸盐路线 HCOO* → H₂COO* → H₂COOH* → H₂CO* → CH₃O* → CH₃OH，每步交替得到 H⁻ / H⁺。",
           "CH₃OH 脱附后 O 留在晶格，H₂ 再把它还原成 H₂O 并重新生成 Vₒ——氧空位循环。", "RWGS 两条路：缔合（COOH*）与氧化还原（CO₂ 把 O 填入 Vₒ）。高温时 RWGS 份额上升（表观 Ea ≈ 117 vs 103 kJ/mol）。",
           "GaZrOₓ：Ga–H 提高 HCOO* 覆盖（郭组 ACS Catal. 2025）。"],
@@ -261,7 +310,10 @@ MODS.push({ id: "B", color: C.accent1, W: 7.0, H: 6.05,
     ["H2", "H", "SH", "解离"], ["H2O", "OH", "R1", "−H*（SMR）", { both: true, ly: -0.15 }], ["OH", "O", "SH", "−H*", { both: true, ly: -0.15 }],
     ["O2", "O", "R1", "POM 解离", { perp: -0.12 }],
   ],
-  texts: [[0.2, 5.25, 2.6, 0.75, ["Boudouard：2CO ⇌ C* + CO_2", "SMR：CH_4 + H_2O ⇌ CO + 3H_2", "DRM：CH_4 + CO_2 ⇌ 2CO + 2H_2", "POM：CH_4 + ½O_2 → CO + 2H_2"], { valign: "top", color: C.accent1 }]],
+  blocks: [["CU", 2.45, 0.55, 4.5, 1.45, [2.5, 0.57], "Cu 基 / Cu–ZnO（不解离加氢 → 甲醇）"], ["MET", 1.2, 0.55, 1.2, 1.5, null],
+           ["MET", 1.42, 2.05, 5.53, 2.4, [1.47, 4.22]], ["SUP", 0.08, 2.05, 1.32, 1.45, [0.1, 3.28], "载体 CeO₂ / ZrO₂"],
+           ["CARB", 0.08, 3.7, 1.32, 1.62, [0.1, 5.12], "碳化物 χ-Fe₅C₂"], ["MET", 2.45, 5.12, 4.48, 0.85, [2.5, 5.14], "金属 + 载体：H₂ 解离 · H₂O 活化 · O 移除"]],
+  texts: [[0.2, 5.42, 2.2, 0.6, ["Boudouard：2CO ⇌ C* + CO_2", "SMR：CH_4 + H_2O ⇌ CO + 3H_2", "DRM：CH_4 + CO_2 ⇌ 2CO + 2H_2", "POM：CH_4 + ½O_2 → CO + 2H_2"], { valign: "top", color: C.accent1, fs: 5 }]],
   notes: ["CO 活化三条路：直接解离（CO* → C* + O*）、H 助解离（经 COH* / HCO* / HCOH*）、加氢不解离（→ CH₃O* → 甲醇，Cu 类）。",
           "C* ⇌ CH* ⇌ CH₂* ⇌ CH₃* ⇌ CH₄：正向为甲烷化，逆向为甲烷 C–H 活化（重整第一步）。", "Fe 催化剂上 C* 与 χ-Fe₅C₂ 互换（渗碳 / 去碳），CH₂* 与 CH₃* 供给链增长（模块 D）。",
           "O* / OH* 由 H* 移除成 H₂O；重整时方向相反（H₂O → OH* + H* → O*）。"],
@@ -300,6 +352,7 @@ MODS.push({ id: "C", color: C.accent6, dash: "dash", fill: "FFF7F9", W: 9.2, H: 
           [5.0, 0.4, 3.5, 0.25, "CH_4 活化 / OCM / POM / C_2", { color: C.accent6, bold: true, fs: 6.5 }],
           [0.2, 4.0, 4.5, 0.25, "H / O 自由基池：引发 · 传递 · 支化 · 终止", { color: C.accent6, bold: true, fs: 6.5 }],
           [7.35, 5.85, 1.8, 0.2, "H_2O_2 → 2OH•（高温）", { color: C.accent6 }], [5.0, 3.75, 3.6, 0.2, "另：•CH_3 + O• → CH_2O + H•", { color: C.accent6 }]],
+  blocks: [["GAS", 0.1, 0.42, 9.0, 5.56, [5.6, 4.0]]],
   notes: ["左上：CO₂ + H• 生成 HOCO•（羧基）或 HCOO•（甲酸根），分别通向 CO 与 HCOOH；HCO• → CH₂O → CH₃O• / •CH₂OH → CH₃OH。",
           "右上：CH₄ 被 H• / OH• / O• 抽氢或高温均裂成 •CH₃，•CH₃ 偶联得 C₂H₆（OCM），再脱氢到 C₂H₄、C₂H₂；•CH₃ + O₂ → CH₃OO• → CH₂O（POM）。",
           "下方：H• + O₂ → OH• + O• 是链支化步；HO₂•、H₂O₂ 是低温储存态；H• + OH• → H₂O 是终止。", "C1 显式枚举：10 个自由基、141 个反应（data/network_full_C1.csv）。"],
@@ -332,8 +385,9 @@ const dN = [], dE = [];
 MODS.push({ id: "D", color: C.accent2, W: 7.4, H: 6.05,
   title: "D  金属位 C–C 链增长（Fe_5C_2 / Co_2C）：CH_x 插入 · CO 插入 · 烯基机理（C_1 → C_4 显式 + 通式）",
   nodes: dN, edges: dE,
-  texts: [[0.2, 0.4, 7.0, 0.25, "行：烷烃（+H* 终止）· 烷基链 · 吸附烯烃 / 酰基 · α-烯烃 / 醇；列：碳数", { color: C.accent2 }],
-          [3.85, 5.7, 3.4, 0.25, "ASF：W_n = n(1−α)^{2} α^{n−1}，α = r_p / (r_p + r_t)", { color: C.accent2 }]],
+  blocks: [["CARB", 0.1, 0.42, 7.2, 5.56, [0.15, 0.44]],
+           ...[1, 2, 3, 4, 5].map((n) => ["DUAL", dX(n) + 0.33 - (n === 5 ? 0.45 : 0.41), 3.3, n === 5 ? 0.9 : 0.82, 1.3, n === 1 ? [0.15, 5.64] : null])],
+  texts: [[3.85, 5.7, 3.4, 0.25, "ASF：W_n = n(1−α)^{2} α^{n−1}，α = r_p / (r_p + r_t)", { color: C.accent2 }]],
   notes: ["碳化物机理：CHₓ* 逐个插入烷基链（CH₃* → C₂H₅* → C₃H₇* → …），每个链节点都有三条出路：+H* 终止成烷烃、β-H 消除成 α-烯烃、+CO* 插入成酰基 → 醇。",
           "烯基机理：CH* + CH₂* → CH=CH₂* → 烯丙基 → 丙烯，解释 Fe 上较高的烯烃选择性。", "CH₃* 插入仲碳得到甲基支链（i-C₄）；α-烯烃再吸附可重新引发链或双键异构成内烯烃。",
           "郭组 Fe 基 CO₂-FTS：K/Na 助剂抑制 +H* 终止、促进 β-H 消除，提高 C₂–C₄= 与 C₅+。"],
@@ -374,12 +428,14 @@ for (let i = 1; i < ARO.length; i++) eE.push([ARO[i - 1][0], ARO[i][0], i === 1 
 eE.push(["K4", "Cyc", "R4", "环化（C_6–C_8 碳正离子）", { pts: [[6.4, 3.34], [6.4, 4.62], [1.0, 4.62], [1.0, 4.92]], lpos: [5.25, 4.62] }]);
 eN.push(["CP", "ion", 9.6, 4.3, "环戊烯基^{+}"], ["Side", "ion", 8.5, 5.75, "外亚甲基 / 乙基侧链^{+}"], ["tSide", "txt", 7.05, 5.75, "→ C_2H_4 / C_3H_6", { tc: C.accent4, bold: true }],
         ["Naph", "mol", 4.4, 5.75, "甲基萘"], ["Coke", "mol", 5.75, 5.75, "多环芳烃 / 积碳"],
-        ["tHT", "txt", 1.65, 5.6, "−3H：氢转移（3 烯烃 → 3 烷烃）或 Ga / Zn 脱氢 −H_2", { tc: C.accent4, w: 2.6, align: "left" }]);
+        ["tHT", "txt", 1.65, 5.8, "−3H：氢转移（3 烯烃 → 3 烷烃）或 Ga / Zn 脱氢 −H_2", { tc: C.accent4, w: 2.6, align: "left" }]);
 eE.push(["Hepta", "CP", "R4", "缩环（paring）", { perp: -0.15 }], ["CP", "Crack", "R4", "释放 C_3^{=} / i-C_4^{=}", { perp: -0.18, lt: 0.45 }],
         ["HMB", "Side", "R4", "侧链甲基化", { perp: -0.16 }], ["Side", "tSide", "R4", ""], ["TMB", "Naph", "R4", "缩合环化", { perp: 0.16 }], ["Naph", "Coke", "R4", "", {}]);
 MODS.push({ id: "E", color: C.accent4, W: 10.4, H: 6.05,
   title: "E  分子筛酸位：甲醇活化 · 第一个 C–C 键 · 烯烃循环（显式 C_2–C_7）· 芳烃循环（苯 → 七甲基苯鎓⁺）· 氢转移 / 积碳",
   nodes: eN, edges: eE,
+  blocks: [["BA", 0.1, 0.42, 10.2, 5.56, [0.15, 1.25], "Brønsted 酸分子筛（H-ZSM-5 / SAPO-34）"], ["OX", 6.35, 0.45, 3.95, 1.5, [9.3, 1.58], "氧化物（OEO）"],
+           ["OX", 0.12, 3.78, 7.1, 0.52, [6.45, 3.95], "氧化物加氢"], ["LA", 0.32, 4.75, 2.43, 0.58, [0.35, 5.36], "Lewis 酸 Ga / Zn（脱氢）"]],
   texts: [[7.35, 3.55, 2.9, 0.62, ["↘ 甲基化 +CH_3^{+}（SMS / CH_3OH / DME）", "↗ 去质子 −H^{+}", "↓ +H（氧化物 H 溢流）/ 氢转移 → 烷烃"], { color: C.accent4 }]],
   notes: [],
 });
@@ -404,6 +460,9 @@ MODS.push({ id: "F", color: C.accent5, W: 5.0, H: 6.05,
     ["C34", "Olig", "R5", "酸催化齐聚", { ly: -0.15 }], ["Olig", "Jet", "R3", "+H_2", { perp: -0.15 }],
   ],
   texts: [[0.2, 4.35, 2.2, 0.25, "单 / 双 / 三支链 i-C_{12} 合并为航煤馏分", { color: C.accent5 }]],
+  blocks: [["BIF", 0.1, 0.42, 4.8, 4.75, [0.15, 4.97]], ["MET", 0.12, 0.5, 2.78, 0.6, [0.15, 0.95], "金属位：脱氢 / 加氢"],
+           ["MET", 0.5, 1.55, 1.5, 2.5, [0.52, 1.52], "金属位：加氢"], ["BA", 2.95, 0.5, 1.93, 4.55, [2.97, 4.95], "酸位：质子化 · PCP · β-断裂"],
+           ["BA", 0.1, 5.25, 2.85, 0.72, [0.12, 5.27], "酸：齐聚"]],
   notes: ["双功能机理：金属位脱氢成烯烃 → 酸位质子化成仲碳正离子 → PCP（质子化环丙烷）逐级支化 → 去质子、金属位加氢得到异构烷烃。",
           "β-断裂速率 A（叔→叔）≫ B（仲↔叔）> C（仲→仲）≫ D：支化越多越容易裂解，异构与裂化存在竞争。",
           "烯烃齐聚制航煤（OTJ）：C₃= / C₄=（来自模块 E 或 FTO）在酸上二聚 / 三聚成 C₈–C₁₆ 烯烃，再加氢得到 SPK。"],
@@ -468,9 +527,17 @@ const OV = { id: "OV", W: 20, H: 12.5, nodes: [], edges: [], zones: [], texts: [
   e("rCH3OO", "rCH2O", "R6", "−OH•", { perp: 0.25 }); e("rH", "rHO2", "R6", "+O_2", { ly: -0.25 }); e("rHO2", "rOH", "R6", "+H•", { ly: -0.25 });
   e("rOH", "rH", "R6", "+H_2 → H_2O", { pts: [[9.35, 10.71], [9.35, 10.88], [7.6, 10.88], [7.6, 10.71]], lpos: [8.5, 10.88] });
   OV.zones.push({ x: 2.45, y: 2.32, w: 7.35, h: 5.68, color: C.accent1, title: "C_1 表面中间体核心（金属 / 金属–氧化物界面）→ 详见 A、B", tx: 4.3, tw: 5.35, talign: "right", fs: 12 },
-                { x: 2.45, y: 8.42, w: 7.35, h: 2.63, color: C.accent6, title: "⑥ 气相 / 均相自由基（POM、OCM、高温）：R• 与上方 R* 对应 → 详见 C", dash: "dash", fill: "FFF7F9", fs: 12 },
+                { x: 2.45, y: 8.42, w: 7.35, h: 2.63, color: C.accent6, title: "⑥ 无需催化剂：气相 / 均相自由基（POM、OCM、高温）→ 详见 C", dash: "dash", fill: CATAL.GAS.fill, fs: 12 },
                 { x: 10.1, y: 1.15, w: 9.5, h: 5.5, color: C.accent4, title: "④ 分子筛酸位：表面甲氧基 / 烃池 / 碳正离子（OX-ZEO）→ 详见 E", fs: 12, ty: 1.22 },
                 { x: 10.1, y: 6.88, w: 9.5, h: 4.17, color: C.accent2, title: "② 金属位 C–C 链增长 → 详见 D · ⑤ 酸位烃类升级 → 详见 F", fs: 12, ty: 6.92, tx: 11.75, tw: 7.7 });
+  OV.blocks = [["EC", 2.4, 1.32, 3.0, 0.86, [4.25, 1.33], "电催化阴极"],
+    ["OX", 2.52, 2.7, 7.21, 2.05, [4.25, 3.72], "还原性氧化物 / Cu–ZnO（甲醇 · RWGS）"],
+    ["MET", 2.52, 4.78, 7.21, 3.17, [6.15, 7.72], "过渡金属 Ni / Co / Ru / Fe（CO 解离 · 甲烷化 · 重整）"],
+    ["BA", 10.18, 1.55, 9.34, 5.02, [14.2, 6.33], "Brønsted 酸分子筛（H-ZSM-5 / SAPO-34）"],
+    ["OX", 10.4, 3.6, 1.8, 0.6, [10.42, 4.22], "氧化物（OEO）"], ["LA", 14.6, 2.05, 2.1, 0.6, [16.72, 2.1], "Ga / Zn（脱氢）"],
+    ["OX", 14.85, 5.05, 4.0, 0.6, [16.45, 5.67], "氧化物加氢"],
+    ["CARB", 10.18, 7.25, 6.62, 3.73, [13.3, 10.74], "碳化物 Fe₅C₂ / Co₂C"], ["DUAL", 10.2, 7.2, 1.65, 1.35, [10.22, 8.58], "CO 插入双位"],
+    ["DUAL", 11.3, 10.12, 2.0, 0.56, null], ["BIF", 16.85, 7.25, 2.67, 3.73, [16.9, 10.72], "双功能 金属–酸"]];
   OV.texts.push([0.45, 1.62, 1.9, 0.28, "电化学 / 光化学 → A", { fs: 11, color: C.accent3, bold: true }],
                 [4.25, 3.42, 3.95, 0.26, "甲酸盐路线：每步 +H*（H_2COOH* → H_2CO* 为 −OH*）", { fs: 10, color: C.accent3, align: "center" }]);
   OV.cats = {};
@@ -488,22 +555,51 @@ const want = (k) => !ONLY || ONLY.includes(k);
 if (want("1")) {
   const s = pres.addSlide({ masterName: "POSTER" });
   s.addText("CO₂ 加氢及 C1 催化反应网络 · 总览（模块 A–F 在后续页展开）", { placeholder: "title" });
-  const T = { ox: 1.2, oy: 0.55, s: 1.04 };
+  const T = { ox: 0.8, oy: -0.54, s: 1.12 };
   (OV.zones).forEach((z) => drawZone(s, T, z));
+  drawBlocks(s, T, OV.blocks, "OV");
   OV.texts.forEach(([x, y, w, h, t, o]) => txt(s, T, x, y, w, h, t, o));
   const [N, E] = buildMap(OV);
   E.forEach((ed, i) => drawEdge(s, T, N, ed, i, "OV"));
   Object.values(N).forEach((nd) => drawNode(s, T, nd, "OV", OV.cats[nd.id]));
+  drawChips(s, T, OV.blocks, "OV", 9);
+  catalystLegend(s, 12.72);
   legend(s, 13.1);
   s.addNotes("总览：去掉羰基化后的完整网络骨架。橙框（C1 核心）在模块 A（氧化物、甲醇合成）与 B（金属、CO 活化 / 甲烷化 / 重整）展开；红色虚线框（自由基）在模块 C 展开；绿框（分子筛）在模块 E 展开；红框（链增长与升级）在模块 D 与 F 展开。");
 }
+// 1b. catalyst classification table
+if (want("1b")) {
+  const s = pres.addSlide({ masterName: "POSTER" });
+  s.addText("催化剂形式分类：网络图中背景色块的含义", { placeholder: "title" });
+  const R = [
+    ["OX", "还原性氧化物 · 氧空位", "In₂O₃、ZnZrOₓ、GaZrOₓ、ZnCrOₓ", "Vₒ 吸附活化 CO₂；M–O 对异裂 H₂；H 溢流加氢烯烃", "甲酸盐路线 → 甲醇；氧化还原 RWGS；OEO 乙烯酮；烯烃加氢（A、E）"],
+    ["CU", "Cu 基 / Cu–氧化物界面", "Cu/ZnO/Al₂O₃、Cu/ZrO₂、Pd–Cu", "Cu⁰–ZnOₓ 界面；CO / 甲酸盐不解离加氢", "甲醇合成、缔合 RWGS、CO 加氢（A、B）"],
+    ["MET", "过渡金属", "Ni、Co、Ru、Rh、Fe⁰", "C–O 解离、C–H 活化、H₂ 解离", "甲烷化、SMR / DRM / POM 表面步骤、积碳（B）"],
+    ["CARB", "金属碳化物（+K / Na）", "χ-Fe₅C₂、θ-Fe₃C、Co₂C", "生成并插入 CHₓ；碱金属抑制终止加氢、促进 β-H 消除", "费托 / FTO 链增长、α-烯烃、支化（D）"],
+    ["DUAL", "CO 插入双位", "Co⁰–Co₂C、CuCo、Cu–Fe、Rh", "解离位供 CHₓ*，非解离位供 CO*", "烷基 + CO* → 酰基 → C₂₊ 醇（D）"],
+    ["SUP", "载体 / 金属–载体界面", "CeO₂、ZrO₂、MgO、La₂O₃", "碱性位与氧空位活化 CO₂；参与 WGS", "DRM 中 CO₂ 活化、WGS（B）"],
+    ["BA", "Brønsted 酸分子筛", "H-ZSM-5、SAPO-34、H-β、MOR", "质子化、表面甲氧基、碳正离子、孔道择形", "甲醇 → DME → 烯烃 / 芳烃双循环、裂解、齐聚（E、F）"],
+    ["LA", "Lewis 酸 / 金属改性分子筛", "Ga-ZSM-5、Zn-ZSM-5", "脱氢放出 H₂，绕过氢转移的芳烃上限", "脱氢芳构化（E）"],
+    ["BIF", "双功能 金属–酸", "Pt、Pd、Ni + 分子筛 / 无定形硅铝", "金属脱氢 / 加氢 + 酸位质子化、PCP 异构、β-断裂", "蜡与正构烷加氢异构 / 裂化 → 航煤（F）"],
+    ["EC", "电催化阴极", "Cu、Ag、Au、Sn、Bi", "单电子还原 CO₂ → CO₂•⁻", "HCOOH / CO（A）"],
+    ["GAS", "无需催化剂", "高温、等离子体、光解", "自由基链引发与传递", "OCM、POM、气相自由基加氢链（C）"],
+  ];
+  const th = ["色块", "催化剂形式", "代表材料", "活性位 / 作用", "对应反应路径（模块）"].map((t) => ({ text: t, options: { bold: true, color: C.background1, fill: { color: C.text2 } } }));
+  s.addTable([th, ...R.map(([k, a, b, c2, d]) => [
+    { text: CATAL[k].s, options: { fill: { color: CATAL[k].fill }, color: CATAL[k].c, bold: true } },
+    { text: a, options: { bold: true } }, { text: b }, { text: c2 }, { text: d }])],
+    { x: 0.3, y: 0.95, w: 23.4, colW: [2.6, 3.6, 4.6, 6.4, 6.2], rowH: 0.92, fontSize: 15, color: C.text1,
+      border: { type: "solid", pt: 0.5, color: "D6DADC" }, margin: [0, 0.12, 0, 0.12], valign: "middle", objectName: "catalyst table" });
+  s.addNotes("色块表示该段反应路径需要的催化剂形式；同一个物种可能位于两种色块的交界（例如 CO* 同时在过渡金属与碳化物上反应）。");
+}
 // 2. all modules on one slide
-const POS = { A: [0.25, 0.85], B: [7.27, 0.85], C: [14.3, 0.85], D: [0.25, 6.98], E: [7.67, 6.98], F: [18.07, 6.98] };
-const SP = 0.985;
+const POS = { A: [0.3, 0.8], B: [7.15, 0.8], C: [14.0, 0.8], D: [0.3, 6.72], E: [7.55, 6.72], F: [17.65, 6.72] };
+const SP = 0.95;
 if (want("2")) {
   const s = pres.addSlide({ masterName: "POSTER" });
   s.addText("细致反应网络总图：六个模块全部展开（可放大查看）", { placeholder: "title" });
   for (const M of MODS) drawModule(s, M, { ox: POS[M.id][0], oy: POS[M.id][1], s: SP });
+  catalystLegend(s, 12.72);
   legend(s, 13.1);
   s.addNotes("六个模块的完整细节放在同一页，字号较小，适合放大或打印查看；每个模块在后面单独放大。");
 }
@@ -512,7 +608,7 @@ MODS.forEach((M, i) => {
   if (!want(String(3 + i))) return;
   const s = pres.addSlide({ masterName: "POSTER" });
   s.addText(runs(M.title.replace(/^([A-F])  /, "模块 $1 · "), { fontSize: 24, bold: true, color: C.text1 }), { placeholder: "title" });
-  const availW = 23.4, availH = 12.15;
+  const availW = 23.4, availH = 11.78;
   let sc = Math.min(availW / M.W, availH / M.H);
   const panel = M.notes && M.notes.length && availW - M.W * sc >= 3.6;
   if (!panel && M.notes && M.notes.length) sc = Math.min(sc, (availW - 0) / M.W);
@@ -526,6 +622,7 @@ MODS.forEach((M, i) => {
                ...M.notes.map((t, k) => ({ text: t, options: { bullet: true, fontSize: 15, color: C.text1, breakLine: k < M.notes.length - 1, paraSpaceAfter: 10 } }))],
       { x: px + 0.25, y: oy + 0.25, w: pw - 0.5, h: M.H * sc - 0.5, valign: "top", margin: 0, isTextBox: true, objectName: "notes text" });
   }
+  catalystLegend(s, 12.72);
   legend(s, 13.1);
   s.addNotes((M.notes && M.notes.length ? M.notes.join("\n") : "") || M.title);
 });
