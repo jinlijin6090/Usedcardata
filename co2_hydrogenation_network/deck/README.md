@@ -99,3 +99,18 @@ NODE_PATH=<node_modules> node detailed_network.js out.pptx
 - 背景色块表示所需的催化剂形式，与 `detailed_network.js` 的分类一致。灰色虚线节点是跨区引用的副本。
 
 重建：`NODE_PATH=$PWD/node_modules node isomer_network.js out.pptx`
+
+## CO2一步热催化加氢_C1-C10全同分异构体网络.pptx（单页，12 203 个节点 / 35 583 条边）
+
+C1–C10 每个构造异构体都画成一个点：烃、碳正离子、自由基、吸附烷基、含氧化合物、芳烃，总数和 `scripts/isomer_scale.py` 的 C10 枚举一致（不含伯碳正离子）。
+
+- **布局**：列 = 碳数，C1 列是手工排布的表面核心（甲酸盐路线和 CO* 路线、CH₂*/CO*/SMS 枢纽）；行 = 物种类别，共 13 行。格内按碳骨架排序，直链在左；格左上角是该格的异构体数。
+- **颜色**：背景色块 = 催化剂形式；边按反应族着色（质子化、H/烷基迁移、PCP、β-断裂/齐聚、甲基化、成环、氢转移、加氢、金属位 β-H/CH₂/CO 插入、含氧化合物、自由基、芳烃）。
+- **SMILES 标签**：每个点下方都标了 SMILES。pptx 里是 200 dpi 位图；`_矢量可缩放.pdf` 是同一张图的矢量版，可以无限放大看清每个异构体。
+
+重建步骤：
+```
+DUMP=g10.json.gz python ../scripts/isomer_scale.py 10      # 或直接用 data/isomer_graph_C10.json.gz
+python c10_layout.py ../data/isomer_graph_C10.json.gz 200 --pdf
+NODE_PATH=$PWD/node_modules node c10_slide.js out.pptx
+```

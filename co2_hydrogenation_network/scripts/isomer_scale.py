@@ -25,6 +25,7 @@ Usage: python isomer_scale.py [CMAX]   -> data/isomer_scale_C{CMAX}.json
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from collections import Counter, defaultdict
@@ -472,3 +473,211 @@ out = {
 Path(__file__).resolve().parents[1].joinpath("data", f"isomer_scale_C{CMAX}.json").write_text(
     json.dumps(out, indent=1, ensure_ascii=False))
 print(json.dumps(out, indent=1, ensure_ascii=False))
+
+
+# ---------------------------------------------------------------- explicit graph dump (DUMP=path.json.gz)
+def _dump_graph(path):
+    import gzip
+
+    S, D = Chem.BondType.SINGLE, Chem.BondType.DOUBLE
+    nodes, edges = {}, set()
+
+    def skel(s):
+        m = Chem.RWMol(mol(s))
+        for b in m.GetBonds():
+            if not b.GetIsAromatic():
+                b.SetBondType(S)
+        for a in m.GetAtoms():
+            a.SetFormalCharge(0)
+        for i in sorted((a.GetIdx() for a in m.GetAtoms() if a.GetSymbol() == "O"), reverse=True):
+            m.RemoveAtom(i)
+        return canon(m) or s
+
+    def node(cls, s):
+        nid = f"{cls}|{s}"
+        if nid not in nodes:
+            nodes[nid] = ("hub", 1, s) if cls == "hub" else (cls, nC(mol(s)), skel(s))
+        return nid
+
+    def edge(u, v, fam):
+        if u != v:
+            edges.add((min(u, v), max(u, v), fam))
+
+    def edit(s, fn):
+        rw = Chem.RWMol(mol(s))
+        try:
+            fn(rw)
+        except Exception:
+            return None
+        return canon(rw)
+
+    for cls, ss in SPEC.items():
+        for s in ss:
+            node(cls, s)
+    hub = {k: node("hub", k) for k in ("CH2*", "CO*", "CH3OH/SMS")}
+    # ---- carbenium ions (no primary)
+    def ion_cls(s):
+        return "ion_cyc" if any(ch.isdigit() for ch in s) else "ion_alkenyl" if "=" in s else "ion_alkyl"
+    for o, c in prot_edges:
+        if c not in prim:
+            edge(node(ion_cls(c), c), next(f"{k}|{o}" for k in SPEC if o in SPEC[k]), "Z:prot")
+    for fam, v in E.items():
+        if fam == "ringopen":
+            continue
+        for x in v:
+            if not no_prim(fam, x):
+                continue
+            if fam in ("beta-scission/oligo", "methylation (SMS)"):
+                s, ip, ole = x
+                on = next(f"{k}|{ole}" for k in SPEC if ole in SPEC[k])
+                sn = node(ion_cls(s), s)
+                edge(sn, on, "Z:beta")
+                edge(sn, hub["CH3OH/SMS"] if ip == "[CH3+]" else node(ion_cls(ip), ip), "Z:beta" if ip != "[CH3+]" else "Z:meth")
+            else:
+                a, b = tuple(x)
+                edge(node(ion_cls(a), a), node(ion_cls(b), b), "Z:" + fam)
+    # ---- alkyl sites: adsorbed alkyl R*, radical R., oxygenates
+    sites = set()
+    for s in alkanes:
+        m = mol(s)
+        for i in classes(m).values():
+            if m.GetAtomWithIdx(i).GetTotalNumHs():
+                rw = Chem.RWMol(m)
+                rw.GetAtomWithIdx(i).SetFormalCharge(1)
+                sites.add((canon(rw), s))
+    for key, alk in sites:
+        ads, rad = node("ads", key), node("rad", key)
+        an = f"alkane|{alk}"
+        edge(ads, an, "M:hyd")
+        edge(rad, an, "R:abs")
+        m = mol(key)
+        a = cation_idx(m)
+        A = m.GetAtomWithIdx(a)
+        nh = A.GetTotalNumHs()
+        # beta-H elimination -> alkene
+        for B in A.GetNeighbors():
+            if B.GetTotalNumHs():
+                def f(rw, b=B.GetIdx()):
+                    rw.GetBondBetweenAtoms(a, b).SetBondType(D)
+                    rw.GetAtomWithIdx(a).SetFormalCharge(0)
+                ol = edit(key, f)
+                if ol in alkenes:
+                    edge(ads, f"alkene|{ol}", "M:betaH")
+        if nC(m) < CMAX:
+            def ins(rw):
+                j = rw.AddAtom(Chem.Atom(6))
+                rw.AddBond(a, j, S)
+                rw.GetAtomWithIdx(a).SetFormalCharge(0)
+                rw.GetAtomWithIdx(j).SetFormalCharge(1)
+            k2 = edit(key, ins)
+            if k2:
+                edge(ads, node("ads", k2), "M:CH2")
+                edge(hub["CH2*"], node("ads", k2), "M:hub")
+
+            def coi(rw):
+                j = rw.AddAtom(Chem.Atom(6))
+                o = rw.AddAtom(Chem.Atom(8))
+                rw.AddBond(a, j, S)
+                rw.AddBond(j, o, D)
+                rw.GetAtomWithIdx(a).SetFormalCharge(0)
+            ald = edit(key, coi)
+            if ald:
+                edge(ads, node("aldehyde", ald), "M:CO")
+                edge(hub["CO*"], node("aldehyde", ald), "M:hub")
+        # oxygenates on this site
+        def oh(rw):
+            o = rw.AddAtom(Chem.Atom(8))
+            rw.AddBond(a, o, S)
+            rw.GetAtomWithIdx(a).SetFormalCharge(0)
+        alc = node("alcohol", edit(key, oh))
+        for B in A.GetNeighbors():
+            if B.GetTotalNumHs():
+                def f(rw, b=B.GetIdx()):
+                    rw.GetBondBetweenAtoms(a, b).SetBondType(D)
+                    rw.GetAtomWithIdx(a).SetFormalCharge(0)
+                ol = edit(key, f)
+                if ol in alkenes:
+                    edge(alc, f"alkene|{ol}", "O:dehyd")
+        def co(rw):
+            o = rw.AddAtom(Chem.Atom(8))
+            rw.AddBond(a, o, D)
+            rw.GetAtomWithIdx(a).SetFormalCharge(0)
+        if nh == 2 or (nh == 3 and A.GetDegree() == 0):     # CH3 site -> aldehyde, acid
+            ald = node("aldehyde", edit(key, co))
+            edge(ald, alc, "O:hyd")
+            def acid(rw):
+                o = rw.AddAtom(Chem.Atom(8))
+                o2 = rw.AddAtom(Chem.Atom(8))
+                rw.AddBond(a, o, D)
+                rw.AddBond(a, o2, S)
+                rw.GetAtomWithIdx(a).SetFormalCharge(0)
+            edge(ald, node("acid", edit(key, acid)), "O:ox")
+        elif nh == 1 and A.GetDegree() == 2:                # CH2 site -> ketone
+            edge(node("ketone", edit(key, co)), alc, "O:hyd")
+        # radical beta-scission
+        for fam, prods in ion_moves(key):
+            if fam != "beta" or any(p is None for p in prods):
+                continue
+            ip = next(p for p in prods if "+" in p)
+            ole = next(p for p in prods if "+" not in p)
+            if ole in alkenes and not any(ch.isdigit() for ch in ip) and "=" not in ip:
+                edge(rad, f"alkene|{ole}", "R:beta")
+                edge(rad, node("rad", ip), "R:beta")
+    # ---- hydrogenation / hydrogen transfer between closed-shell classes
+    def parents(s):
+        m = mol(s)
+        out = set()
+        for b in m.GetBonds():
+            if b.GetBondType() == D:
+                rw = Chem.RWMol(m)
+                rw.GetBondWithIdx(b.GetIdx()).SetBondType(S)
+                out.add(canon(rw))
+        return out
+    for s in alkenes:
+        for p in parents(s):
+            edge(f"alkene|{s}", f"alkane|{p}", "H:hyd")
+    for s in dienes:
+        for p in parents(s):
+            if p in alkenes:
+                edge(f"diene|{s}", f"alkene|{p}", "Z:HT")
+    for s in cyc1:
+        for p in parents(s):
+            if p in naph:
+                edge(f"cycloalkene|{s}", f"naphthene|{p}", "H:hyd")
+    for s in cyc2:
+        for p in parents(s):
+            if p in cyc1:
+                edge(f"cyclodiene|{s}", f"cycloalkene|{p}", "Z:HT")
+        m = mol(s)
+        ring = m.GetRingInfo().AtomRings()[0]
+        if len(ring) == 6:
+            rw = Chem.RWMol(m)
+            rs = set(ring)
+            for b in rw.GetBonds():
+                if b.GetBeginAtomIdx() in rs and b.GetEndAtomIdx() in rs:
+                    b.SetBondType(Chem.BondType.AROMATIC)
+                    b.SetIsAromatic(True)
+            for i in rs:
+                rw.GetAtomWithIdx(i).SetIsAromatic(True)
+            ar = canon(rw)
+            if ar in arom:
+                edge(f"cyclodiene|{s}", f"aromatic|{ar}", "Z:HT")
+    # ---- aromatics
+    for s, _, p in aro_meth:
+        edge(f"aromatic|{s}", f"aromatic|{p}", "A:meth")
+        edge(hub["CH3OH/SMS"], f"aromatic|{p}", "A:hub")
+    for x in aro_iso:
+        a, b = tuple(x)
+        edge(f"aromatic|{a}", f"aromatic|{b}", "A:iso")
+    for s, ion, p in aro_fc:
+        edge(f"aromatic|{s}", f"aromatic|{p}", "A:FC")
+        edge(node(ion_cls(ion), ion), f"aromatic|{p}", "A:FC")
+    edges_ok = [e for e in edges if e[0] in nodes and e[1] in nodes]
+    data = {"cmax": CMAX, "nodes": [[k, *v] for k, v in nodes.items()], "edges": [list(e) for e in edges_ok]}
+    with gzip.open(path, "wt") as fh:
+        json.dump(data, fh)
+    log("graph dumped", len(nodes), "nodes", len(edges_ok), "edges", Counter(e[2] for e in edges_ok).most_common())
+
+
+if os.environ.get("DUMP"):
+    _dump_graph(os.environ["DUMP"])
