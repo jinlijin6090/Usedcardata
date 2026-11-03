@@ -32,6 +32,7 @@ src = Path(ARGS[0] if len(ARGS) > 0 else "../data/net_C16_full")
 dst = Path(ARGS[1] if len(ARGS) > 1 else "lod_full")
 CH = int(ARGS[2]) if len(ARGS) > 2 else 40000
 JS = "--js" in sys.argv
+META_ONLY = "--meta-only" in sys.argv
 stats = json.loads((src / "stats.json").read_text())
 CMAX, FULL = stats["cmax"], stats["full_upto"]
 
@@ -106,13 +107,14 @@ cnt = {k: len(v) for k, v in cells.items()}
 colmax = {c: max([cnt.get((r, c), 0) for r in range(len(ROWS))] + [1]) for c in range(2, CMAX + 1)}
 rowmax = {r: max([cnt.get((r, c), 0) for c in range(2, CMAX + 1)] + [1]) for r in range(len(ROWS))}
 C1W = 6.0
-wraw = {c: max(1.6, math.sqrt(colmax[c])) for c in range(2, CMAX + 1)}
+EXP = 0.5 if NS < 1_000_000 else 1 / 3          # cube-root scaling keeps small columns visible for millions of species
+wraw = {c: max(1.6 if EXP == 0.5 else 2.0, colmax[c] ** EXP) for c in range(2, CMAX + 1)}
 sc = (W - C1W) / sum(wraw.values())
 colx, x = {1: (0.0, C1W)}, C1W
 for c in range(2, CMAX + 1):
     colx[c] = (x, x + wraw[c] * sc)
     x += wraw[c] * sc
-hraw = {r: max(18.0, math.sqrt(rowmax[r])) for r in range(len(ROWS))}
+hraw = {r: max(18.0 if EXP == 0.5 else 6.0, rowmax[r] ** EXP) for r in range(len(ROWS))}
 H = round(W * 0.78, 3)
 sr = H / sum(hraw.values())
 rowy, y = {}, 0.0
@@ -206,6 +208,32 @@ for Lv in range(1, int(lev.max()) + 1):
             m2 = (lev[o] == Lv) & ~is_pool[o]
             np.add.at(cnt_p, o[m2], cnt_p[ins_c[m][m2]])
 lcount = np.where(cnt_p > 0, np.log10(np.maximum(cnt_p, 1e-300)), -1).astype(np.float32)
+# shortest-path parents per species (tight producing reaction family + carbon-carrying input), max 12 each
+RANK = ["C1", "M:CH2", "M:CO", "M:betaH", "M:hyd", "Z:meth", "Z:prot", "Z:beta", "H:hyd", "Z:HT", "A:meth"]
+frank = np.array([RANK.index(f) if f in RANK else 50 for f in FAMS], dtype=np.int64)
+po, pf, pi_ = [], [], []
+for j in (0, 1):
+    ins = din[:, j]
+    ic = np.maximum(ins, 0)
+    okin = (ins >= 0) & (elev > 0) & ~is_pool[ic] & (lev[ic] == elev - 1)
+    if j == 1:
+        okin &= din[:, 1] != din[:, 0]
+    for k in (0, 1):
+        outs = dout[:, k]
+        oc = np.maximum(outs, 0)
+        m = okin & (outs >= 0) & (lev[oc] == elev) & ~is_pool[oc]
+        po.append(outs[m]); pf.append(dfam[m].astype(np.int64)); pi_.append(ins[m])
+po, pf, pi_ = np.concatenate(po), np.concatenate(pf), np.concatenate(pi_)
+key = (po * 64 + pf) * NS + pi_
+key, first = np.unique(key, return_index=True)
+po, pf, pi_ = po[first], pf[first], pi_[first]
+o = np.lexsort((pi_, frank[pf], po))
+po, pf, pi_ = po[o], pf[o], pi_[o]
+grp_start = np.searchsorted(po, po, side="left")
+keep = (np.arange(len(po)) - grp_start) < 12
+po, pf, pi_ = po[keep], pf[keep], pi_[keep]
+par_start = np.searchsorted(po, np.arange(NS + 1))
+log("path parents", len(po))
 log("pathway counts done; max log10", float(lcount.max()))
 
 # ---------------------------------------------------------------- aggregated cell flows (zoomed-out view)
@@ -264,6 +292,15 @@ def write_chunk(k):
     labs = "\n".join(g_lab[g0:g1]).encode()
     blob = struct.pack("<II", n, len(labs)) + g_cls[g0:g1].tobytes() + lev[g0:g1].astype(np.int16).tobytes()
     blob += b"\0" * ((-len(blob)) % 4) + lcount[g0:g1].tobytes() + labs
+    pb = bytearray()
+    for g in range(g0, g1):
+        a0, a1 = int(par_start[g]), int(par_start[g + 1])
+        uvar(a1 - a0, pb)
+        for q in range(a0, a1):
+            d = int(pi_[q]) - g
+            pb.append(int(pf[q]))
+            uvar((d << 1) if d >= 0 else ((-d << 1) - 1), pb)
+    blob += bytes(pb)
     lb = gzip.compress(blob, 9)
     (dst / "l" / f"{k}.bin").write_bytes(lb)
     s0, s1 = int(starts[g0]), int(starts[g1])
@@ -297,8 +334,12 @@ def write_chunk(k):
 
 import multiprocessing as mp  # noqa: E402
 
+if META_ONLY:
+    for k in range(nchunks):
+        sizes["l"] += (dst / "l" / f"{k}.bin").stat().st_size
+        sizes["x"] += (dst / "x" / f"{k}.bin").stat().st_size
 with mp.get_context("fork").Pool(4) as pool:
-    for k, nl, nx in pool.imap_unordered(write_chunk, range(nchunks)):
+    for k, nl, nx in ([] if META_ONLY else pool.imap_unordered(write_chunk, range(nchunks))):
         sizes["l"] += nl; sizes["x"] += nx
         if k % 10 == 0:
             log(f"chunk {k}/{nchunks}  l {sizes['l'] / 1e6:.1f} MB  x {sizes['x'] / 1e6:.1f} MB")
@@ -307,8 +348,8 @@ def geom(key):
     r, c = key
     x0, x1 = colx[c]
     y0, y1 = rowy[r]
-    pad = 0.012 * (x1 - x0) + 0.05
-    top = 0.035 * (y1 - y0) + 0.18
+    pad = min(0.012 * (x1 - x0) + 0.05, 0.08 * (x1 - x0), 0.08 * (y1 - y0))
+    top = min(0.035 * (y1 - y0) + 0.18, 0.18 * (y1 - y0))
     w, h = x1 - x0 - 2 * pad, y1 - y0 - top - pad
     n = cnt[key]
     ncol = max(1, round(math.sqrt(n * w / h)))

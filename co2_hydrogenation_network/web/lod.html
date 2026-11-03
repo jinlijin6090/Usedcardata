@@ -250,8 +250,8 @@ async function gunzip(buf) {
 }
 let active = 0; const waitq = [];
 async function limited(fn) { if (active >= 6) await new Promise((r) => waitq.push(r)); active++; try { return await fn(); } finally { active--; const n = waitq.shift(); if (n) n(); } }
-// Opened from disk (file://): fetch() is blocked, so chunks come as <script> files that call window.__lodChunk.
-const LOCAL = location.protocol === "file:";
+// Chunks come as <script> files that call window.__lodChunk (works from disk, where fetch() is blocked, and online).
+const LOCAL = true;   // chunks are always .js script files: they load from file:// and from artifact hosting (which serves scripts, not .bin)
 const jsWait = new Map();
 window.__lodChunk = (kind, k, b64) => { const r = jsWait.get(kind + k); if (r) { jsWait.delete(kind + k); r(b64); } };
 window.__lodMeta = window.__lodMeta || null;
@@ -277,7 +277,11 @@ function parseL(u) {
   let o = 8 + 3 * n; o += (4 - (o % 4)) % 4;
   const lc = new Float32Array(u.slice(o, o + 4 * n).buffer);
   const labels = new TextDecoder().decode(u.subarray(o + 4 * n, o + 4 * n + lb)).split("\n");
-  return { n, cls, lev, lc, labels };
+  // shortest-path parents: per species varint count, then (family byte, zigzag gid delta)
+  let p = o + 4 * n + lb; const poff = new Uint32Array(n + 1);
+  const rv = () => { let v = 0, s = 1, b; do { b = u[p++]; v += (b & 0x7f) * s; s *= 128; } while (b & 0x80); return v; };
+  for (let i = 0; i < n; i++) { poff[i] = p; const c = rv(); for (let j = 0; j < c; j++) { p++; rv(); } } poff[n] = p;
+  return { n, cls, lev, lc, labels, u, poff };
 }
 function parseX(u, k) {
   const dv = new DataView(u.buffer, u.byteOffset, u.byteLength); const n = dv.getUint32(0, true);
@@ -552,18 +556,19 @@ async function renderRx(g, recs) {
   }
 }
 // pathway search, loading chunks lazily: tight producing reactions of s and their carbon-carrying inputs
+function parents(s) {   // precomputed on the server: [(family, input gid)] of tight producing reactions
+  const k = Math.floor(s / M.chunk), L = Lc.get(k); const i = s - k * M.chunk; const u = L.u; let p = L.poff[i];
+  const rv = () => { let v = 0, sc = 1, b; do { b = u[p++]; v += (b & 0x7f) * sc; sc *= 128; } while (b & 0x80); return v; };
+  const c = rv(), out = []; for (let j = 0; j < c; j++) { const f = u[p++], z = rv(); out.push([f, s + (z % 2 ? -(z + 1) / 2 : z / 2)]); } return out;
+}
 async function tight(s) {
-  await needX(s); const recs = records(s); const out = [];
-  await needL(recs.flatMap((r) => r.others.map(([o]) => o)));
-  const Ls = info(s).lev;
-  for (const r of recs) {
-    if (M.fams[r.fam] === "A:hcp" && r.side === 0) continue;          // one-way: arene -> HCP only
-    const ins = r.others.filter(([, sd]) => sd !== r.side).map(([o]) => o);
-    const levs = ins.map((o) => info(o).lev); if (levs.some((v) => v < 0)) continue;
-    if (1 + Math.max(0, ...levs) !== Ls) continue;
-    const main = [...new Set(ins.filter((o, k) => !POOLSET.has(o) && levs[k] === Ls - 1))];
-    for (const m of main) out.push({ rec: r, from: m, to: s });
+  await Promise.all([needL([s]), needX(s)]);
+  const recs = records(s), out = [];
+  for (const [f, from] of parents(s)) {
+    const r = recs.find((r) => r.fam === f && (M.fams[f] !== "A:hcp" || r.side === 1) && r.others.some(([o, sd]) => o === from && sd !== r.side));
+    if (r) out.push({ rec: r, from, to: s });
   }
+  await needL(out.flatMap((st) => st.rec.others.map(([o]) => o)));
   return out;
 }
 async function listPaths(t, K, onProgress) {

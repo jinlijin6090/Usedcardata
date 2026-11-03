@@ -5,7 +5,7 @@
 | 页面 | 网络 | 在线链接（私有，需在页面 Share 菜单共享后别人才能打开） |
 |---|---|---|
 | `index.html`（主页面） | 推荐版：C1–C12 全部构造异构体，C13–C16 按 ZSM-5 择形。128 384 个物种、367 369 条基元反应 | https://claude.ai/artifact/HZveP1trkXVhuSSLBMFgQs |
-| `lod.html`（分级加载） | 全量版：C1–C16 全部构造异构体（规模见 `../data/net_C16_full/stats.json`） | 见下文“全量版” |
+| `lod.html`（分级加载） | 全量版：C1–C16 全部构造异构体，4 775 997 个物种、15 500 138 条基元反应 | https://claude.ai/artifact/VtySkQMp49et3pLUvEaaCK |
 
 ## 主页面功能
 
@@ -39,11 +39,18 @@
 - 数据块按物种编号切分，每块约 4 万个物种，用 gzip 压缩，浏览器里用 `DecompressionStream` 解压。
 - 路径搜索只沿路径逐步下载需要的数据块。最少步数和最短路径数已经由 `lod_build.py` 在服务器端算好。
 
-重建命令：
+- **存储格式**：数据块以 `.js` 文件保存，页面用 `<script>` 标签加载。这样从本地硬盘双击打开时也能读取（本地文件不能用 `fetch()` 读取），在线托管也能加载（托管平台不支持 `.bin`）。在线版和离线版因此用的是同一套文件。
+- **服务器端预先计算**：每个物种的最短路径父节点（每个物种最多 12 个）。浏览器只沿着路径逐步下载需要的数据块，搜索正十六烷的路径只需几秒。
+- **全量数据规模**：
+  - 共 120 个数据块，`.js` 格式合计 213 MB；
+  - 22 步内可以到达 4 775 980 个物种，只有 17 个物种无法从 CO₂ 出发生成。
+
+重建步骤：
 ```
-python lod_build.py ../data/net_C16_full lod_full 40000
+python ../scripts/network_gen.py --cmax 16 --full-upto 16 --out /path/net_C16_full      # 4 核约 68 分钟，约 6 GB 内存
+python lod_build.py /path/net_C16_full /path/pkg/data 40000 --js                        # 约 4 分钟
+python lod_package.py /path/pkg                                                         # 打包成双击即可打开的离线版
 ```
-然后把 `lod.html` 放进 `lod_full/` 目录（命名为 index.html）发布，或者在该目录运行 `python -m http.server` 后本地打开。
 
 ## 文件
 
