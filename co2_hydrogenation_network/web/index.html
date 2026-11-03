@@ -1,0 +1,680 @@
+<title>CO₂ 加氢 C12 异构体网络</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap">
+<style>
+/* Layout: instrument-panel app — filters | WebGL network canvas | species detail; stacks on phones */
+:root {
+  --bg: #EEF1F4; --panel: #FFFFFF; --canvas: #FAFBFC; --fg: #14171C; --muted: #5A6372; --faint: #8C95A3;
+  --line: #D9DEE5; --accent: #2A6FD6; --accent-ink: #FFFFFF; --chip: #F2F4F7;
+  --band-MET: #FBE5E3; --band-GAS: #ECEDEF; --band-OX: #FBF2DF; --band-BA: #DFEAF8; --band-BA2: #EBF1FA; --band-AR: #E0F2E6;
+  --core: #F4F5F7; --sep: #FFFFFF;
+  --f-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
+  --line: #232A33; --accent: #5E9DEB; --accent-ink: #07111F; --chip: #1A2028;
+  --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
+  --core: #14181E; --sep: #07090C; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
+  --line: #232A33; --accent: #5E9DEB; --accent-ink: #07111F; --chip: #1A2028;
+  --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
+  --core: #14181E; --sep: #07090C; color-scheme: dark; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 13px; line-height: 1.5; }
+.app { height: 100%; box-sizing: border-box; display: grid; grid-template-columns: 268px minmax(0, 1fr) 340px;
+  grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; min-width: 0; }
+.brand { min-width: 0; flex: 1 1 380px; }
+.brand h1 { font-family: var(--f-display); font-size: 21px; line-height: 1.25; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.brand p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.stats { display: flex; gap: 18px; }
+.stat { display: flex; flex-direction: column; align-items: flex-end; }
+.stat b { font-family: var(--f-mono); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+.search { position: relative; flex: 0 1 340px; min-width: 220px; }
+.search input { width: 100%; box-sizing: border-box; font: 13px var(--f-body); color: var(--fg); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+.search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#qres { position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; right: 0; margin: 0; padding: 4px; list-style: none;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.18); max-height: 360px; overflow: auto; }
+#qres li button { width: 100%; display: grid; grid-template-columns: 10px minmax(0,1fr) auto; gap: 8px; align-items: center; text-align: left;
+  background: none; border: 0; color: var(--fg); font: inherit; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+#qres li button:hover, #qres li button:focus-visible { background: var(--chip); outline: none; }
+#qres .sm { font-family: var(--f-mono); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#qres .meta { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+aside, .stage { min-height: 0; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: auto; }
+.filters { padding: 12px 12px 16px; display: flex; flex-direction: column; gap: 16px; }
+.filters h2, .detail h2 { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; margin: 0 0 6px; text-transform: uppercase; }
+.rowchips { display: flex; flex-direction: column; gap: 2px; }
+.tg { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 8px; align-items: center; width: 100%; background: none; border: 0;
+  color: var(--fg); font: inherit; text-align: left; padding: 4px 6px; border-radius: 6px; cursor: pointer; }
+.tg:hover { background: var(--chip); }
+.tg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tg[aria-pressed="false"] { opacity: 0.38; }
+.tg .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tg .dots { display: inline-flex; gap: 2px; }
+.tg .sw { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+.blk { font-size: 10.5px; color: var(--faint); margin: 6px 6px 1px; letter-spacing: 0.04em; }
+.range { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 6px 10px; align-items: center; }
+.range label { font-size: 12px; color: var(--muted); }
+.range output { font-family: var(--f-mono); font-size: 12px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.checks { display: flex; flex-direction: column; gap: 6px; }
+.checks label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+.btnrow { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn { font: 12px var(--f-body); color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.btn:hover { border-color: var(--faint); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.note { color: var(--faint); font-size: 11.5px; line-height: 1.55; margin: 0; }
+.stage { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--canvas); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#ov { touch-action: none; cursor: grab; }
+#ov.drag { cursor: grabbing; }
+.zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 4px; z-index: 5; }
+.zoom button { width: 32px; height: 32px; font: 600 16px var(--f-mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 7px; cursor: pointer; }
+.zoom button:focus-visible { outline: 2px solid var(--accent); }
+.hint { position: absolute; left: 10px; bottom: 10px; z-index: 5; font-size: 11px; color: var(--muted); background: color-mix(in srgb, var(--panel) 86%, transparent);
+  border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; pointer-events: none; }
+#tip { position: absolute; z-index: 6; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 7px;
+  padding: 6px 9px; box-shadow: 0 6px 20px rgba(0,0,0,.18); max-width: 320px; }
+#tip .sm { font-family: var(--f-mono); font-size: 12px; word-break: break-all; }
+#tip .meta { color: var(--muted); font-size: 11px; }
+#loading { position: absolute; inset: 0; z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: var(--canvas); color: var(--muted); text-align: center; padding: 20px; }
+#loading .bar { width: 220px; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+#loading .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.detail { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.dname { font-family: var(--f-display); font-size: 19px; margin: 0; line-height: 1.3; word-break: break-all; }
+.smiles { display: flex; gap: 6px; align-items: flex-start; }
+.smiles code { font-family: var(--f-mono); font-size: 12.5px; background: var(--chip); border-radius: 6px; padding: 4px 8px; word-break: break-all; flex: 1; min-width: 0; }
+.struct { background: var(--canvas); border: 1px solid var(--line); border-radius: 8px; height: 190px; display: flex; align-items: center; justify-content: center; }
+.struct svg { width: 100%; height: 100%; }
+.struct .ph { color: var(--faint); font-size: 12px; padding: 12px; text-align: center; }
+.kv { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.kv div { background: var(--chip); border-radius: 7px; padding: 6px 8px; }
+.kv b { display: block; font-family: var(--f-mono); font-size: 16px; font-variant-numeric: tabular-nums; }
+.kv span { font-size: 11px; color: var(--muted); }
+.rx { display: flex; flex-direction: column; gap: 10px; }
+.rxg h3 { display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin: 0 0 5px; font-weight: 600; }
+.rxg h3 .n { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-weight: 400; }
+.nb { display: flex; flex-wrap: wrap; gap: 4px; }
+.nb button { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; font: 11.5px var(--f-mono); color: var(--fg); background: var(--chip);
+  border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; cursor: pointer; }
+.nb button span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb button:hover { border-color: var(--accent); }
+.nb button:focus-visible { outline: 2px solid var(--accent); }
+.more { font: 11.5px var(--f-body); color: var(--accent); background: none; border: 0; cursor: pointer; padding: 2px 4px; }
+@media (max-width: 1100px) { .app { grid-template-columns: 236px minmax(0,1fr) 300px; } }
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  .app { height: auto; display: flex; flex-direction: column; }
+  .stage { height: 64vh; min-height: 360px; order: 2; }
+  .detail { order: 3; } .filters { order: 4; }
+  .stats { gap: 12px; } .stat b { font-size: 15px; }
+  .search { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) { #loading .bar i { transition: none; } }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>CO₂ 一步热催化加氢 · C1–C12 全同分异构体反应网络</h1>
+      <p>每个点是一个构造异构体：烃、碳正离子、气相自由基、吸附烷基、含氧化合物、芳烃。列为碳数，行为物种类别，背景色为所需催化剂形式。</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="st-n">—</b><span>物种</span></div>
+      <div class="stat"><b id="st-e">—</b><span>基元反应</span></div>
+      <div class="stat"><b id="st-v">—</b><span>当前显示</span></div>
+    </div>
+    <div class="search">
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="搜索名称或 SMILES，如 对二甲苯、C=CC" aria-label="搜索物种">
+      <ul id="qres" hidden></ul>
+    </div>
+  </header>
+
+  <aside class="panel filters" aria-label="筛选">
+    <section><h2>物种类别</h2><div class="rowchips" id="rows"></div></section>
+    <section><h2>反应类型</h2><div class="rowchips" id="fams"></div></section>
+    <section>
+      <h2>碳数范围</h2>
+      <div class="range">
+        <label for="cmin">最小</label><input id="cmin" type="range" min="1" max="12" value="1">
+        <label for="cmax">最大</label><input id="cmax" type="range" min="1" max="12" value="12">
+        <span></span><output id="crange">C1 – C12</output>
+      </div>
+    </section>
+    <section>
+      <h2>显示</h2>
+      <div class="range"><label for="alpha">边浓度</label><input id="alpha" type="range" min="2" max="60" value="16"></div>
+      <div class="checks" style="margin-top:8px">
+        <label><input id="lab" type="checkbox" checked> 放大后显示 SMILES 标签</label>
+        <label><input id="focus" type="checkbox"> 选中时只显示它的反应</label>
+      </div>
+      <div class="btnrow" style="margin-top:10px">
+        <button class="btn" id="reset">恢复全部筛选</button>
+        <button class="btn" id="fit">全图</button>
+      </div>
+    </section>
+    <p class="note">不含伯碳正离子。双分子负氢转移（R⁺ + R′H，约 7×10⁸ 对）不逐条画出。吸附烷基 R* 与自由基 R• 用烷基正离子的 SMILES 位点标记（* / •）。物种与反应由 RDKit 显式枚举，脚本 scripts/isomer_scale.py。</p>
+  </aside>
+
+  <main class="stage" id="stage">
+    <canvas id="bg"></canvas><canvas id="gl"></canvas><canvas id="ov" tabindex="0" aria-label="反应网络画布：拖动平移，滚轮或双指缩放，单击选择物种"></canvas>
+    <div id="tip" hidden></div>
+    <div class="zoom"><button id="zin" aria-label="放大">+</button><button id="zout" aria-label="缩小">−</button></div>
+    <div class="hint">拖动平移 · 滚轮/双指缩放 · 单击查看物种</div>
+    <div id="loading"><div>正在载入网络数据…</div><div class="bar"><i id="lbar"></i></div><div id="lmsg" style="font-size:12px"></div></div>
+  </main>
+
+  <aside class="panel detail" id="detail" aria-live="polite">
+    <div class="ph" style="color:var(--faint)">载入后显示选中物种的结构和全部反应。</div>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/smiles-drawer@2.4.1/dist/smiles-drawer.min.js"></script>
+<script>
+"use strict";
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => n.toLocaleString("en-US");
+const CLASS_CN = { alcohol: "醇", aldehyde: "醛 / 酰基*", ketone: "酮", acid: "羧酸", ads: "吸附烷基 R*", rad: "烷基自由基 R•",
+  alkane: "烷烃", alkene: "烯烃", ion_alkyl: "烷基碳正离子", diene: "二烯", ion_alkenyl: "烯基碳正离子", naphthene: "环烷",
+  cycloalkene: "环烯", ion_cyc: "环状碳正离子", cyclodiene: "环二烯", aromatic: "芳烃", core: "C1 表面物种", hub: "C1 单体枢纽" };
+const CLASS_COL = { alcohol: "#8E5BB5", aldehyde: "#C2508A", ketone: "#C77A2E", acid: "#6A3D9A", ads: "#D64545", rad: "#6E7380",
+  alkane: "#2F3338", alkene: "#E07B00", ion_alkyl: "#1F5FBF", diene: "#C9A100", ion_alkenyl: "#3D8FE0", naphthene: "#5C6B73",
+  cycloalkene: "#2F9C95", ion_cyc: "#6C4FD1", cyclodiene: "#0E7C66", aromatic: "#1E8C3A", core: "#14171C", hub: "#14171C" };
+const CLASS_COL_DARK = { alkane: "#C7CDD6", rad: "#8E96A3", naphthene: "#8FA0AA", core: "#E4E8EE", hub: "#E4E8EE", acid: "#9A6CD0", ion_alkyl: "#4C86E0" };
+const FAM_CN = { "Z:prot": "质子化 / 去质子", "Z:hshift": "1,2-H 迁移", "Z:alkylshift": "烷基迁移（A 型）", "Z:pcp": "PCP 支化（B 型）",
+  "Z:beta": "β-断裂 / 齐聚", "Z:meth": "SMS 甲基化", "Z:cyclise": "烯基正离子成环", "Z:HT": "氢转移 HT", "H:hyd": "加氢 / 脱氢",
+  "M:betaH": "β-H 消除", "M:CH2": "CH₂* 插入（链增长）", "M:CO": "CO* 插入", "M:hyd": "表面加氢终止", "M:hub": "CH₂*/CO* 供给",
+  "O:dehyd": "醇脱水", "O:hyd": "羰基加氢", "O:ox": "醛 → 酸", "R:abs": "H 抽提 / 复合", "R:beta": "自由基 β-断裂",
+  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hub": "甲醇供甲基", "C1": "C1 表面核心" };
+const FAM_COL = { "Z:prot": "#5B9BE8", "Z:hshift": "#3A78D4", "Z:alkylshift": "#6A63DB", "Z:pcp": "#8C5AD8", "Z:beta": "#2C5DB8",
+  "Z:meth": "#2FB0E0", "Z:cyclise": "#7B4CCB", "Z:HT": "#13A39A", "H:hyd": "#D99A00", "M:betaH": "#D64545", "M:CH2": "#E2603A",
+  "M:CO": "#C2385E", "M:hyd": "#B04848", "M:hub": "#E58A8A", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
+  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hub": "#7FCB97", "C1": "#14171C" };
+const FAM_GROUPS = [
+  ["分子筛 Brønsted 酸", ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise"]],
+  ["氢转移 / 加氢", ["Z:HT", "H:hyd"]],
+  ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:hyd", "M:hub"]],
+  ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox"]],
+  ["气相自由基", ["R:abs", "R:beta"]],
+  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:hub"]],
+];
+const BLOCK_CN = { MET: "金属/碳化物 + 氧化物", GAS: "气相", OX: "氧化物 H 溢流", BA: "分子筛酸位", BA2: "分子筛 HT / 成环", AR: "芳烃池" };
+const HUB_ALPHA = { "M:hub": 0.22, "A:hub": 0.3, "Z:meth": 0.35, "C1": 0 };
+
+let coreEdges = [], dirtyOv = false;
+let D, N, NE, label, cls, cn, xy, sz, eu, ev, ef, adjOff, adjNb, adjF, classes, fams, rowOfCls, cells, alias, aliasRev;
+const S = { k: 1, cx: 50, cy: 26, clsOn: null, famOn: null, cmin: 1, cmax: 12, alpha: 0.16, labels: true, focus: false, sel: -1, hover: -1 };
+let gl, pE, pN, nE = 0, vw = 0, vh = 0, dpr = 1, dirty = true, dark = false;
+const bgc = $("#bg"), glc = $("#gl"), ovc = $("#ov");
+const bx = bgc.getContext("2d"), ox = ovc.getContext("2d");
+
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function isDark() { return css("color-scheme").includes("dark") || getComputedStyle(document.body).colorScheme === "dark"; }
+function hex(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
+function ccol(c) { return (dark && CLASS_COL_DARK[c]) || CLASS_COL[c]; }
+function b64(s, T) { const bin = atob(s); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new T(u.buffer); }
+
+async function load() {
+  const res = await fetch("network.json");
+  if (!res.ok) throw new Error("network.json " + res.status);
+  const total = +res.headers.get("content-length") || 0;
+  let txt;
+  if (res.body && total) {
+    const rd = res.body.getReader(); const parts = []; let got = 0;
+    for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); got += value.length;
+      $("#lbar").style.width = Math.min(100, 100 * got / total) + "%"; $("#lmsg").textContent = (got / 1e6).toFixed(1) + " / " + (total / 1e6).toFixed(1) + " MB"; }
+    const all = new Uint8Array(got); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; }
+    txt = new TextDecoder().decode(all);
+  } else { $("#lbar").style.width = "60%"; txt = await res.text(); }
+  $("#lmsg").textContent = "构建网络…";
+  await new Promise((r) => setTimeout(r, 20));
+  D = JSON.parse(txt);
+  N = D.n_nodes; NE = D.n_edges; classes = D.classes; fams = D.fams;
+  label = D.label.split("\n"); cls = b64(D.cls, Uint8Array); cn = b64(D.cn, Uint8Array);
+  xy = b64(D.xy, Float32Array); sz = b64(D.sz, Float32Array);
+  eu = b64(D.eu, Uint32Array); ev = b64(D.ev, Uint32Array); ef = b64(D.ef, Uint8Array);
+  alias = D.alias || {}; aliasRev = Object.entries(alias).map(([s, n]) => [n, s]);
+  S.clsOn = new Float32Array(classes.length).fill(1); S.famOn = new Float32Array(fams.length).fill(1);
+  S.cmax = D.cmax; $("#cmin").max = $("#cmax").max = D.cmax; $("#cmax").value = D.cmax;
+  rowOfCls = new Int16Array(classes.length).fill(-1);
+  D.rows.forEach((r, i) => r.cls.forEach((c) => { rowOfCls[classes.indexOf(c)] = i; }));
+  // adjacency (CSR)
+  const deg = new Uint32Array(N + 1);
+  for (let i = 0; i < NE; i++) { deg[eu[i]]++; deg[ev[i]]++; }
+  adjOff = new Uint32Array(N + 1); for (let i = 0; i < N; i++) adjOff[i + 1] = adjOff[i] + deg[i];
+  adjNb = new Uint32Array(adjOff[N]); adjF = new Uint8Array(adjOff[N]); const fill = adjOff.slice(0, N);
+  for (let i = 0; i < NE; i++) { const a = eu[i], b = ev[i]; adjNb[fill[a]] = b; adjF[fill[a]++] = ef[i]; adjNb[fill[b]] = a; adjF[fill[b]++] = ef[i]; }
+  // cell buckets for labels / picking
+  cells = new Map();
+  for (let i = 0; i < N; i++) { const r = rowOfCls[cls[i]]; const key = (cn[i] === 1 || r < 0) ? "core" : r * 100 + cn[i];
+    let a = cells.get(key); if (!a) cells.set(key, a = []); a.push(i); }
+  const c1 = fams.indexOf("C1"); coreEdges = []; for (let i = 0; i < NE; i++) if (ef[i] === c1) coreEdges.push(i);
+  $("#st-n").textContent = fmt(N); $("#st-e").textContent = fmt(NE);
+}
+
+function buildUI() {
+  const rows = $("#rows"); let lastBlk = "";
+  D.rows.forEach((r) => {
+    if (r.block !== lastBlk) { const h = document.createElement("div"); h.className = "blk"; h.textContent = BLOCK_CN[r.block]; rows.append(h); lastBlk = r.block; }
+    const b = document.createElement("button"); b.className = "tg"; b.setAttribute("aria-pressed", "true");
+    b.innerHTML = `<span class="dots">${r.cls.map((c) => `<i class="dot" style="background:${CLASS_COL[c]}"></i>`).join("")}</span><span>${r.label}</span><span class="n">${fmt(r.n)}</span>`;
+    b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); r.cls.forEach((c) => { S.clsOn[classes.indexOf(c)] = on ? 1 : 0; }); changed(); };
+    rows.append(b);
+  });
+  const fe = $("#fams");
+  for (const [g, list] of FAM_GROUPS) {
+    const h = document.createElement("div"); h.className = "blk"; h.textContent = g; fe.append(h);
+    for (const f of list) {
+      const n = D.fam_counts[f] || 0; if (!n) continue;
+      const b = document.createElement("button"); b.className = "tg"; b.setAttribute("aria-pressed", "true");
+      b.innerHTML = `<i class="sw" style="background:${FAM_COL[f]}"></i><span>${FAM_CN[f]}</span><span class="n">${fmt(n)}</span>`;
+      b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); S.famOn[fams.indexOf(f)] = on ? 1 : 0; changed(); };
+      fe.append(b);
+    }
+  }
+  const cr = () => { let a = +$("#cmin").value, b = +$("#cmax").value; if (a > b) { if (document.activeElement === $("#cmin")) b = a, $("#cmax").value = b; else a = b, $("#cmin").value = a; }
+    S.cmin = a; S.cmax = b; $("#crange").textContent = `C${a} – C${b}`; changed(); };
+  $("#cmin").oninput = cr; $("#cmax").oninput = cr;
+  $("#alpha").oninput = (e) => { S.alpha = e.target.value / 100; dirty = true; };
+  $("#lab").onchange = (e) => { S.labels = e.target.checked; dirty = true; };
+  $("#focus").onchange = (e) => { S.focus = e.target.checked; dirty = true; };
+  $("#reset").onclick = () => { S.clsOn.fill(1); S.famOn.fill(1); document.querySelectorAll(".tg").forEach((b) => b.setAttribute("aria-pressed", "true"));
+    $("#cmin").value = 1; $("#cmax").value = D.cmax; S.cmin = 1; S.cmax = D.cmax; $("#crange").textContent = `C1 – C${D.cmax}`; changed(); };
+  $("#fit").onclick = () => fly(D.W / 2, D.H / 2, fitK());
+  $("#zin").onclick = () => zoomAt(vw / 2, vh / 2, 1.6);
+  $("#zout").onclick = () => zoomAt(vw / 2, vh / 2, 1 / 1.6);
+}
+
+function visNode(i) { return S.clsOn[cls[i]] > 0 && cn[i] >= S.cmin && cn[i] <= S.cmax; }
+function changed() {
+  let nv = 0, evc = 0;
+  for (let i = 0; i < N; i++) if (visNode(i)) nv++;
+  for (let i = 0; i < NE; i++) if (S.famOn[ef[i]] && visNode(eu[i]) && visNode(ev[i])) evc++;
+  $("#st-v").textContent = `${fmt(nv)} / ${fmt(evc)}`;
+  dirty = true;
+}
+
+// ---------------------------------------------------------------- WebGL
+const VS_E = `#version 300 es
+in vec2 a_pos; in vec3 a_m; in vec2 a_c;
+uniform vec4 u_view; uniform float u_clsOn[18]; uniform float u_famOn[24]; uniform float u_famA[24]; uniform vec3 u_famCol[24];
+uniform vec2 u_cr; uniform float u_alpha;
+out vec4 v_c;
+void main() {
+  int f = int(a_m.x + 0.5); int ca = int(a_m.y + 0.5); int cb = int(a_m.z + 0.5);
+  float vis = u_famOn[f] * u_clsOn[ca] * u_clsOn[cb];
+  if (a_c.x < u_cr.x - 0.5 || a_c.x > u_cr.y + 0.5 || a_c.y < u_cr.x - 0.5 || a_c.y > u_cr.y + 0.5) vis = 0.0;
+  gl_Position = vis > 0.5 ? vec4(a_pos * u_view.xy + u_view.zw, 0.0, 1.0) : vec4(2.0, 2.0, 2.0, 1.0);
+  float a = u_alpha * u_famA[f];
+  v_c = vec4(u_famCol[f] * a, a);
+}`;
+const FS_E = `#version 300 es
+precision mediump float; in vec4 v_c; out vec4 o; void main() { o = v_c; }`;
+const VS_N = `#version 300 es
+in vec2 a_pos; in float a_s; in vec2 a_cc;
+uniform vec4 u_view; uniform float u_k; uniform float u_dpr; uniform float u_clsOn[18]; uniform vec3 u_clsCol[18]; uniform vec2 u_cr; uniform float u_dim;
+out vec3 v_col; out float v_a;
+void main() {
+  int c = int(a_cc.x + 0.5);
+  float vis = u_clsOn[c];
+  if (a_cc.y < u_cr.x - 0.5 || a_cc.y > u_cr.y + 0.5 || c >= 16) vis = 0.0;
+  gl_Position = vis > 0.5 ? vec4(a_pos * u_view.xy + u_view.zw, 0.0, 1.0) : vec4(2.0, 2.0, 2.0, 1.0);
+  gl_PointSize = clamp(a_s * 0.5 * u_k, 1.6, 30.0) * u_dpr;
+  v_col = u_clsCol[c]; v_a = u_dim;
+}`;
+const FS_N = `#version 300 es
+precision mediump float; in vec3 v_col; in float v_a; out vec4 o;
+void main() { vec2 p = gl_PointCoord * 2.0 - 1.0; float r = dot(p, p); if (r > 1.0) discard;
+  float a = v_a * (1.0 - smoothstep(0.7, 1.0, r)); o = vec4(v_col * a, a); }`;
+
+function shader(t, src) { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+function program(vs, fs) { const p = gl.createProgram(); gl.attachShader(p, shader(gl.VERTEX_SHADER, vs)); gl.attachShader(p, shader(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p)); p.u = {}; return p; }
+function U(p, n) { return p.u[n] ?? (p.u[n] = gl.getUniformLocation(p, n)); }
+function attr(p, name, data, size, type) { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(p, name); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, size, type, false, 0, 0); }
+
+function initGL() {
+  gl = glc.getContext("webgl2", { antialias: true, premultipliedAlpha: true, alpha: true });
+  if (!gl) throw new Error("此浏览器不支持 WebGL2，无法绘制 30 万条边。");
+  pE = program(VS_E, FS_E); pN = program(VS_N, FS_N);
+  // edges
+  const pos = new Float32Array(NE * 4), m = new Uint8Array(NE * 6), c = new Uint8Array(NE * 4);
+  for (let i = 0; i < NE; i++) {
+    const a = eu[i], b = ev[i];
+    pos[i * 4] = xy[a * 2]; pos[i * 4 + 1] = xy[a * 2 + 1]; pos[i * 4 + 2] = xy[b * 2]; pos[i * 4 + 3] = xy[b * 2 + 1];
+    for (let k = 0; k < 2; k++) { m[i * 6 + k * 3] = ef[i]; m[i * 6 + k * 3 + 1] = cls[a]; m[i * 6 + k * 3 + 2] = cls[b]; c[i * 4 + k * 2] = cn[a]; c[i * 4 + k * 2 + 1] = cn[b]; }
+  }
+  pE.vao = gl.createVertexArray(); gl.bindVertexArray(pE.vao);
+  attr(pE, "a_pos", pos, 2, gl.FLOAT); attr(pE, "a_m", m, 3, gl.UNSIGNED_BYTE); attr(pE, "a_c", c, 2, gl.UNSIGNED_BYTE);
+  nE = NE * 2;
+  // nodes
+  const cc = new Uint8Array(N * 2); for (let i = 0; i < N; i++) { cc[i * 2] = cls[i]; cc[i * 2 + 1] = cn[i]; }
+  pN.vao = gl.createVertexArray(); gl.bindVertexArray(pN.vao);
+  attr(pN, "a_pos", xy, 2, gl.FLOAT); attr(pN, "a_s", sz, 1, gl.FLOAT); attr(pN, "a_cc", cc, 2, gl.UNSIGNED_BYTE);
+  gl.bindVertexArray(null);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+}
+
+function view() { return [2 * S.k / vw, -2 * S.k / vh, -2 * S.k * S.cx / vw, 2 * S.k * S.cy / vh]; }
+function w2s(x, y) { return [(x - S.cx) * S.k + vw / 2, (y - S.cy) * S.k + vh / 2]; }
+function s2w(X, Y) { return [(X - vw / 2) / S.k + S.cx, (Y - vh / 2) / S.k + S.cy]; }
+
+function drawGL() {
+  gl.viewport(0, 0, glc.width, glc.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+  const v = view(), cr = [S.cmin, S.cmax];
+  const famCol = new Float32Array(24 * 3), famA = new Float32Array(24);
+  fams.forEach((f, i) => { famCol.set(hex(FAM_COL[f]), i * 3); famA[i] = HUB_ALPHA[f] ?? 1; });
+  const clsCol = new Float32Array(18 * 3); classes.forEach((c, i) => clsCol.set(hex(ccol(c)), i * 3));
+  const sel = S.sel >= 0;
+  gl.useProgram(pE); gl.bindVertexArray(pE.vao);
+  gl.uniform4fv(U(pE, "u_view"), v); gl.uniform1fv(U(pE, "u_clsOn"), S.clsOn); gl.uniform1fv(U(pE, "u_famOn"), S.famOn);
+  gl.uniform1fv(U(pE, "u_famA"), famA); gl.uniform3fv(U(pE, "u_famCol"), famCol); gl.uniform2fv(U(pE, "u_cr"), cr);
+  gl.uniform1f(U(pE, "u_alpha"), sel ? (S.focus ? 0 : S.alpha * 0.35) : S.alpha * (dark ? 0.9 : 1));
+  gl.drawArrays(gl.LINES, 0, nE);
+  gl.useProgram(pN); gl.bindVertexArray(pN.vao);
+  gl.uniform4fv(U(pN, "u_view"), v); gl.uniform1f(U(pN, "u_k"), S.k); gl.uniform1f(U(pN, "u_dpr"), dpr);
+  gl.uniform1fv(U(pN, "u_clsOn"), S.clsOn); gl.uniform3fv(U(pN, "u_clsCol"), clsCol); gl.uniform2fv(U(pN, "u_cr"), cr);
+  gl.uniform1f(U(pN, "u_dim"), sel ? 0.45 : 1);
+  gl.drawArrays(gl.POINTS, 0, N);
+  gl.bindVertexArray(null);
+}
+
+// ---------------------------------------------------------------- 2D layers
+function drawBG() {
+  bx.setTransform(dpr, 0, 0, dpr, 0, 0); bx.clearRect(0, 0, vw, vh);
+  const C1 = D.cols[0].x1, muted = css("--muted");
+  for (const r of D.rows) {
+    const [x0, y0] = w2s(C1, r.y0), [x1, y1] = w2s(D.W, r.y1);
+    bx.fillStyle = css("--band-" + r.block); bx.fillRect(x0, y0 + 0.5, x1 - x0, y1 - y0 - 1);
+  }
+  bx.strokeStyle = css("--sep"); bx.lineWidth = Math.max(1, Math.min(3, S.k * 0.08));
+  for (const c of D.cols.slice(2)) { const [x] = w2s(c.x0, 0); const [, y0] = w2s(0, 0), [, y1] = w2s(0, D.H); bx.beginPath(); bx.moveTo(x, y0); bx.lineTo(x, y1); bx.stroke(); }
+  const [cx0, cy0] = w2s(0.1, 0.1), [cx1, cy1] = w2s(C1 - 0.12, D.H - 0.1);
+  bx.fillStyle = css("--core"); bx.strokeStyle = css("--line"); bx.lineWidth = 1;
+  bx.beginPath(); bx.roundRect(cx0, cy0, cx1 - cx0, cy1 - cy0, Math.min(10, S.k * 0.4)); bx.fill(); bx.stroke();
+  // cell counts
+  bx.fillStyle = muted; bx.textBaseline = "top";
+  for (const [r, c, n] of D.cells) {
+    const col = D.cols[c - 1], row = D.rows[r];
+    const [x0, y0] = w2s(col.x0, row.y0), [x1] = w2s(col.x1, row.y0);
+    if (x1 - x0 < 26 || x1 < 0 || x0 > vw || y0 > vh) continue;
+    bx.font = `${Math.min(13, Math.max(9, (x1 - x0) * 0.06))}px ${css("--f-mono")}`;
+    bx.fillText(fmt(n), x0 + 4, y0 + 3);
+  }
+}
+
+function pill(x, y, text, dark_, font) {
+  ox.font = font; const w = ox.measureText(text).width + 10, h = parseFloat(font) + 8;
+  ox.fillStyle = dark_ ? css("--fg") : css("--panel"); ox.strokeStyle = css("--fg"); ox.lineWidth = 1;
+  ox.beginPath(); ox.roundRect(x - w / 2, y - h / 2, w, h, h / 2); ox.fill(); ox.stroke();
+  ox.fillStyle = dark_ ? css("--panel") : css("--fg"); ox.textAlign = "center"; ox.textBaseline = "middle"; ox.fillText(text, x, y + 0.5);
+  return w;
+}
+
+function drawOV() {
+  ox.setTransform(dpr, 0, 0, dpr, 0, 0); ox.clearRect(0, 0, vw, vh);
+  const fg = css("--fg"), muted = css("--muted"), panel = css("--panel"), mono = css("--f-mono"), body = css("--f-body");
+  // C1 core edges + pills
+  const coreFont = `${Math.round(Math.min(13, Math.max(8, S.k * 0.7)))}px ${body}`;
+  ox.strokeStyle = fg; ox.globalAlpha = 0.75; ox.lineWidth = 1.3;
+  for (const i of coreEdges) { const [a, b] = w2s(xy[eu[i] * 2], xy[eu[i] * 2 + 1]), [c, d] = w2s(xy[ev[i] * 2], xy[ev[i] * 2 + 1]); ox.beginPath(); ox.moveTo(a, b); ox.lineTo(c, d); ox.stroke(); }
+  ox.globalAlpha = 1;
+  const coreW = (D.cols[0].x1 - D.cols[0].x0) * S.k;
+  for (const i of cells.get("core") || []) { if (cn[i] !== 1) continue; const [x, y] = w2s(xy[i * 2], xy[i * 2 + 1]);
+    if (coreW < 150) { ox.fillStyle = fg; ox.beginPath(); ox.arc(x, y, classes[cls[i]] === "hub" ? 3.5 : 2.2, 0, 7); ox.fill(); }
+    else pill(x, y, nodeName(i), classes[cls[i]] === "hub", coreFont); }
+  // selection
+  if (S.sel >= 0) {
+    const i = S.sel, [sx, sy] = w2s(xy[i * 2], xy[i * 2 + 1]);
+    ox.lineWidth = 1.4;
+    const nb = [], nbCount = adjOff[i + 1] - adjOff[i];
+    for (let k = adjOff[i]; k < adjOff[i + 1]; k++) {
+      const j = adjNb[k], f = adjF[k]; if (!S.famOn[f] || !visNode(j)) continue;
+      const [tx, ty] = w2s(xy[j * 2], xy[j * 2 + 1]);
+      ox.strokeStyle = FAM_COL[fams[f]]; ox.globalAlpha = nbCount > 300 ? 0.45 : 0.9; ox.beginPath(); ox.moveTo(sx, sy); ox.lineTo(tx, ty); ox.stroke(); nb.push([j, tx, ty]);
+    }
+    ox.globalAlpha = 1;
+    const many = nb.length > 160, rr = many ? 2.6 : 4.5;
+    for (const [j, tx, ty] of nb) { ox.fillStyle = ccol(classes[cls[j]]); ox.beginPath(); ox.arc(tx, ty, rr, 0, 7); ox.fill(); if (!many) { ox.strokeStyle = panel; ox.lineWidth = 1.5; ox.stroke(); } }
+    if (nb.length <= 90) {
+      ox.font = `11px ${mono}`; ox.textAlign = "left"; ox.textBaseline = "middle";
+      for (const [j, tx, ty] of nb) { if (cn[j] === 1) continue; const t = nodeName(j); const w = ox.measureText(t).width;
+        ox.fillStyle = panel; ox.globalAlpha = 0.85; ox.fillRect(tx + 6, ty - 7, w + 6, 14); ox.globalAlpha = 1; ox.fillStyle = fg; ox.fillText(t, tx + 9, ty); }
+    }
+    ox.strokeStyle = fg; ox.lineWidth = 2.2; ox.beginPath(); ox.arc(sx, sy, 9, 0, 7); ox.stroke();
+    ox.strokeStyle = panel; ox.lineWidth = 1; ox.beginPath(); ox.arc(sx, sy, 11.5, 0, 7); ox.stroke();
+  }
+  // SMILES labels when zoomed in
+  if (S.labels) {
+    let drawn = 0; ox.textAlign = "center"; ox.textBaseline = "top"; ox.fillStyle = muted;
+    const [wx0, wy0] = s2w(0, 0), [wx1, wy1] = s2w(vw, vh);
+    for (const [r, c] of D.cells) {
+      const col = D.cols[c - 1], row = D.rows[r];
+      if (col.x1 < wx0 || col.x0 > wx1 || row.y1 < wy0 || row.y0 > wy1) continue;
+      const list = cells.get(r * 100 + c); if (!list || !list.length) continue;
+      const sp = sz[list[0]] * S.k; if (sp < 46) continue;
+      ox.font = `${Math.min(13, Math.max(8.5, sp * 0.13))}px ${mono}`;
+      for (const i of list) {
+        if (!visNode(i)) continue;
+        const x = xy[i * 2], y = xy[i * 2 + 1]; if (x < wx0 || x > wx1 || y < wy0 || y > wy1) continue;
+        const [X, Y] = w2s(x, y); let t = nodeName(i);
+        if (ox.measureText(t).width > sp * 0.96) { const cw = ox.measureText("M").width; t = t.slice(0, Math.max(3, Math.floor(sp * 0.96 / cw) - 1)) + "…"; }
+        ox.fillText(t, X, Y + Math.min(15, sp * 0.25) + 2);
+        if (++drawn > 2500) break;
+      }
+      if (drawn > 2500) break;
+    }
+  }
+  // hover ring
+  if (S.hover >= 0 && S.hover !== S.sel) { const [x, y] = w2s(xy[S.hover * 2], xy[S.hover * 2 + 1]); ox.strokeStyle = fg; ox.lineWidth = 1.5; ox.beginPath(); ox.arc(x, y, 7, 0, 7); ox.stroke(); }
+  // sticky column headers
+  ox.fillStyle = panel; ox.globalAlpha = 0.9; ox.fillRect(0, 0, vw, 24); ox.globalAlpha = 1;
+  ox.strokeStyle = css("--line"); ox.beginPath(); ox.moveTo(0, 24.5); ox.lineTo(vw, 24.5); ox.stroke();
+  ox.textBaseline = "middle"; ox.textAlign = "center";
+  for (const c of D.cols) {
+    const [x0] = w2s(c.x0, 0), [x1] = w2s(c.x1, 0); if (x1 < 0 || x0 > vw) continue;
+    const cxp = Math.min(Math.max((x0 + x1) / 2, Math.max(x0, 0) + 30), Math.min(x1, vw) - 30);
+    const head = c.c === 1 ? "C1 核心" : `C${c.c}`; const w = x1 - x0;
+    ox.font = `600 12px ${body}`; ox.fillStyle = fg;
+    if (w > 70) { ox.fillText(head, cxp - 18, 12); ox.font = `11px ${mono}`; ox.fillStyle = muted; ox.textAlign = "left"; ox.fillText(fmt(c.n), cxp - 2, 12.5); ox.textAlign = "center"; }
+    else if (w > 22) ox.fillText(head, cxp, 12);
+  }
+  // sticky row labels (right side)
+  ox.textAlign = "right"; ox.font = `11.5px ${body}`;
+  const [gx] = w2s(D.W, 0); const xr = Math.min(vw - 8, gx - 6);
+  if (xr > 140) for (const r of D.rows) {
+    const [, y0] = w2s(0, r.y0), [, y1] = w2s(0, r.y1); if (y1 - y0 < 15 || y1 < 26 || y0 > vh) continue;
+    const y = Math.min(Math.max((y0 + y1) / 2, 34), vh - 10);
+    const w = ox.measureText(r.label).width + 12;
+    ox.fillStyle = panel; ox.globalAlpha = 0.86; ox.beginPath(); ox.roundRect(xr - w, y - 9, w, 18, 9); ox.fill(); ox.globalAlpha = 1;
+    ox.fillStyle = fg; ox.fillText(r.label, xr - 6, y + 0.5);
+  }
+}
+
+function render() {
+  if (!D) return;
+  if (dirty) { dirty = false; dirtyOv = false; dark = isDark(); drawBG(); drawGL(); drawOV(); }
+  else if (dirtyOv) { dirtyOv = false; drawOV(); }
+}
+function loop() { render(); requestAnimationFrame(loop); }
+
+function resize() {
+  const r = $("#stage").getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1);
+  const first = !vw; vw = r.width; vh = r.height;
+  for (const c of [bgc, glc, ovc]) { c.width = Math.round(vw * dpr); c.height = Math.round(vh * dpr); }
+  if (first && D) { S.k = fitK(); S.cx = D.W / 2; S.cy = D.H / 2; }
+  dirty = true;
+}
+function fitK() { return Math.min((vw - 16) / D.W, (vh - 34) / D.H); }
+
+// ---------------------------------------------------------------- interaction
+function nodeName(i) { const l = label[i]; return alias[l] ? `${alias[l]}` : l; }
+let grid = null;
+function buildGrid() {
+  const G = 220, GH = Math.ceil(G * D.H / D.W); grid = { G, GH, cell: new Map() };
+  for (let i = 0; i < N; i++) { const gx = Math.floor(xy[i * 2] / D.W * G), gy = Math.floor(xy[i * 2 + 1] / D.H * GH); const k = gy * G + gx; let a = grid.cell.get(k); if (!a) grid.cell.set(k, a = []); a.push(i); }
+}
+function pick(X, Y) {
+  const [x, y] = s2w(X, Y); const rad = Math.max(10, 6) / S.k;
+  const { G, GH } = grid; const gx0 = Math.floor((x - rad) / D.W * G), gx1 = Math.floor((x + rad) / D.W * G), gy0 = Math.floor((y - rad) / D.H * GH), gy1 = Math.floor((y + rad) / D.H * GH);
+  let best = -1, bd = Infinity;
+  for (let gy = gy0; gy <= gy1; gy++) for (let gx = gx0; gx <= gx1; gx++) {
+    const a = grid.cell.get(gy * G + gx); if (!a) continue;
+    for (const i of a) { if (!visNode(i) && cn[i] !== 1) continue; const dx = xy[i * 2] - x, dy = xy[i * 2 + 1] - y, d = dx * dx + dy * dy;
+      const lim = Math.max(rad, cn[i] === 1 ? 1.0 : sz[i] * 0.5); if (d < lim * lim && d < bd) { bd = d; best = i; } }
+  }
+  return best;
+}
+function zoomAt(X, Y, f) {
+  const [wx, wy] = s2w(X, Y); const k = Math.min(Math.max(S.k * f, fitK() * 0.5), 4000);
+  S.k = k; S.cx = wx - (X - vw / 2) / k; S.cy = wy - (Y - vh / 2) / k; dirty = true;
+}
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fly(cx, cy, k) {
+  if (reduce) { S.cx = cx; S.cy = cy; S.k = k; dirty = true; return; }
+  const a = { cx: S.cx, cy: S.cy, k: S.k }, t0 = performance.now(), T = 520;
+  const step = (t) => { const u = Math.min(1, (t - t0) / T), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+    const lk = Math.exp(Math.log(a.k) + (Math.log(k) - Math.log(a.k)) * e);
+    S.cx = a.cx + (cx - a.cx) * e; S.cy = a.cy + (cy - a.cy) * e; S.k = lk; dirty = true; if (u < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+const ptrs = new Map(); let downAt = null, pinch0 = null;
+ovc.addEventListener("pointerdown", (e) => { ovc.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]); downAt = [e.offsetX, e.offsetY, S.cx, S.cy, performance.now()];
+  if (ptrs.size === 2) { const [p, q] = [...ptrs.values()]; pinch0 = { d: Math.hypot(p[0] - q[0], p[1] - q[1]), k: S.k, m: [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], w: s2w((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) }; }
+  ovc.classList.add("drag"); });
+ovc.addEventListener("pointermove", (e) => {
+  if (!D) return;
+  if (ptrs.has(e.pointerId)) {
+    ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (ptrs.size === 2 && pinch0) { const [p, q] = [...ptrs.values()]; const d = Math.hypot(p[0] - q[0], p[1] - q[1]); const m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+      S.k = Math.min(Math.max(pinch0.k * d / pinch0.d, fitK() * 0.5), 4000); S.cx = pinch0.w[0] - (m[0] - vw / 2) / S.k; S.cy = pinch0.w[1] - (m[1] - vh / 2) / S.k; dirty = true; return; }
+    if (downAt && ptrs.size === 1) { S.cx = downAt[2] - (e.offsetX - downAt[0]) / S.k; S.cy = downAt[3] - (e.offsetY - downAt[1]) / S.k; dirty = true; }
+    $("#tip").hidden = true; return;
+  }
+  if (e.pointerType !== "mouse") return;
+  const i = pick(e.offsetX, e.offsetY);
+  if (i !== S.hover) { S.hover = i; dirtyOv = true; }
+  const tip = $("#tip");
+  if (i >= 0) { tip.hidden = false; const c = classes[cls[i]];
+    tip.innerHTML = `<div class="sm">${esc(nodeName(i))}</div><div class="meta">${alias[label[i]] ? esc(label[i]) + " · " : ""}${CLASS_CN[c]} · C${cn[i]} · ${adjOff[i + 1] - adjOff[i]} 个反应</div>`;
+    const x = Math.min(e.offsetX + 14, vw - tip.offsetWidth - 6), y = Math.min(e.offsetY + 14, vh - tip.offsetHeight - 6); tip.style.left = x + "px"; tip.style.top = y + "px";
+  } else tip.hidden = true;
+});
+function up(e) {
+  const p = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = null;
+  if (!ptrs.size) ovc.classList.remove("drag");
+  if (p && downAt && Math.hypot(p[0] - downAt[0], p[1] - downAt[1]) < 6 && performance.now() - downAt[4] < 600 && !ptrs.size) {
+    const i = pick(p[0], p[1]); select(i, false);
+  }
+  if (!ptrs.size) downAt = null;
+}
+ovc.addEventListener("pointerup", up); ovc.addEventListener("pointercancel", up);
+ovc.addEventListener("pointerleave", () => { if (S.hover >= 0) { S.hover = -1; dirtyOv = true; } $("#tip").hidden = true; });
+ovc.addEventListener("wheel", (e) => { e.preventDefault(); zoomAt(e.offsetX, e.offsetY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0016))); }, { passive: false });
+ovc.addEventListener("keydown", (e) => { if (e.key === "+" || e.key === "=") zoomAt(vw / 2, vh / 2, 1.4); else if (e.key === "-") zoomAt(vw / 2, vh / 2, 1 / 1.4); else if (e.key === "Escape") select(-1); });
+function esc(s) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+// ---------------------------------------------------------------- detail panel
+function structSmiles(i) { const c = classes[cls[i]]; let s = label[i]; if (c === "rad" || c === "ads") s = s.replace("+]", "]"); return s; }
+function select(i, flyTo) {
+  S.sel = i; dirty = true; renderDetail();
+  if (i >= 0 && flyTo) { const k = Math.max(S.k, Math.min(4000, 70 / Math.max(sz[i], 0.05))); fly(xy[i * 2], xy[i * 2 + 1], cn[i] === 1 ? Math.max(S.k, 60) : k); }
+}
+function renderDetail() {
+  const el = $("#detail"), i = S.sel;
+  if (i < 0) { el.innerHTML = `<h2>物种</h2><p class="note">在画布上单击任意点，或在上方搜索名称 / SMILES，查看它的结构和参与的全部基元反应。</p>`; return; }
+  const c = classes[cls[i]], l = label[i], name = alias[l];
+  const groups = new Map();
+  for (let k = adjOff[i]; k < adjOff[i + 1]; k++) { const f = adjF[k]; let a = groups.get(f); if (!a) groups.set(f, a = []); a.push(adjNb[k]); }
+  const order = [...groups.keys()].sort((a, b) => a - b);
+  const nn = new Set(adjNb.slice(adjOff[i], adjOff[i + 1])).size;
+  const isCore = cn[i] === 1 && (c === "core" || c === "hub");
+  el.innerHTML = `
+    <div class="eyebrow"><span class="chip"><i class="dot" style="background:${ccol(c)}"></i>${CLASS_CN[c]}</span><span class="chip">C${cn[i]}</span><span class="chip">${BLOCK_CN[D.rows[rowOfCls[cls[i]]]?.block] || "C1 核心"}</span></div>
+    <h2 style="margin:0">选中物种</h2>
+    <p class="dname">${esc(name || (isCore ? l : l))}</p>
+    ${isCore ? "" : `<div class="smiles"><code id="smi">${esc(l)}</code><button class="btn" id="copy">复制</button></div>`}
+    <div class="struct" id="struct"><div class="ph">${isCore ? "C1 表面中间体 / 枢纽节点" : "结构式载入中…"}</div></div>
+    <div class="kv"><div><b>${fmt(adjOff[i + 1] - adjOff[i])}</b><span>基元反应</span></div><div><b>${fmt(nn)}</b><span>相邻物种</span></div><div><b>${order.length}</b><span>反应类型</span></div></div>
+    <div class="rx">${order.map((f) => rxGroup(f, groups.get(f))).join("")}</div>`;
+  el.querySelectorAll("[data-n]").forEach((b) => (b.onclick = () => select(+b.dataset.n, true)));
+  el.querySelectorAll("[data-more]").forEach((b) => (b.onclick = () => { const f = +b.dataset.more; const box = b.previousElementSibling; box.innerHTML = groups.get(f).map(nbBtn).join(""); box.querySelectorAll("[data-n]").forEach((x) => (x.onclick = () => select(+x.dataset.n, true))); b.remove(); }));
+  const cp = $("#copy"); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(l); cp.textContent = "已复制"; } catch { const r = document.createRange(); r.selectNodeContents($("#smi")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); cp.textContent = "已选中"; } setTimeout(() => (cp.textContent = "复制"), 1400); };
+  if (!isCore) drawStruct(structSmiles(i), c);
+}
+function nbBtn(j) { return `<button data-n="${j}" title="${esc(label[j])}"><i class="dot" style="background:${ccol(classes[cls[j]])}"></i><span class="t">${esc(nodeName(j))}</span></button>`; }
+function rxGroup(f, list) {
+  const name = fams[f], show = list.slice(0, 36);
+  return `<div class="rxg"><h3><i class="sw" style="display:inline-block;width:16px;height:3px;border-radius:2px;background:${FAM_COL[name]}"></i>${FAM_CN[name]}<span class="n">${list.length}</span></h3>
+    <div class="nb">${show.map(nbBtn).join("")}</div>${list.length > show.length ? `<button class="more" data-more="${f}">再显示 ${list.length - show.length} 个</button>` : ""}</div>`;
+}
+function drawStruct(smi, c) {
+  const box = $("#struct");
+  if (!window.SmilesDrawer) { box.innerHTML = `<div class="ph">结构式库未能载入，SMILES 见上方。</div>`; return; }
+  box.innerHTML = `<svg id="svgs" xmlns="http://www.w3.org/2000/svg"></svg>`;
+  const w = box.clientWidth || 300, h = box.clientHeight || 190;
+  try {
+    const drawer = new SmilesDrawer.SvgDrawer({ width: w, height: h, bondThickness: 1.1, padding: 18, compactDrawing: false, terminalCarbons: false });
+    SmilesDrawer.parse(smi, (tree) => { drawer.draw(tree, "svgs", isDark() ? "dark" : "light"); if (c === "ads" || c === "rad") note(c === "ads" ? "* 处为表面吸附位" : "• 处为自由基中心"); },
+      () => { box.innerHTML = `<div class="ph">该 SMILES 无法绘制。</div>`; });
+  } catch (err) { box.innerHTML = `<div class="ph">结构式绘制失败。</div>`; }
+  function note(t) { const p = document.createElement("div"); p.className = "ph"; p.style.cssText = "position:absolute;font-size:11px;padding:4px 8px"; p.textContent = t; box.style.position = "relative"; p.style.left = "0"; p.style.top = "0"; box.append(p); }
+}
+
+// ---------------------------------------------------------------- search
+let qt = 0;
+$("#q").addEventListener("input", () => { clearTimeout(qt); qt = setTimeout(search, 110); });
+$("#q").addEventListener("keydown", (e) => { if (e.key === "Enter") { const b = $("#qres button"); if (b) b.click(); } else if (e.key === "Escape") { $("#qres").hidden = true; } else if (e.key === "ArrowDown") { const b = $("#qres button"); if (b) { e.preventDefault(); b.focus(); } } });
+document.addEventListener("click", (e) => { if (!e.target.closest(".search")) $("#qres").hidden = true; });
+function search() {
+  const q = $("#q").value.trim(); const ul = $("#qres");
+  if (!q || !D) { ul.hidden = true; return; }
+  const hits = [], seen = new Set();
+  const add = (i) => { if (i >= 0 && !seen.has(i) && hits.length < 14) { seen.add(i); hits.push(i); } };
+  const byLabel = (l) => { const out = []; for (let i = 0; i < N; i++) if (label[i] === l) out.push(i); return out; };
+  for (const [n, s] of aliasRev) if (n.includes(q)) byLabel(s).sort((a, b) => order(a) - order(b)).forEach(add);
+  for (const i of byLabel(q)) add(i);
+  const ql = q.toLowerCase();
+  for (let i = 0; i < N && hits.length < 14; i++) if (label[i].toLowerCase().includes(ql)) add(i);
+  ul.innerHTML = hits.length ? hits.map((i) => `<li><button data-i="${i}"><i class="dot" style="background:${ccol(classes[cls[i]])}"></i><span class="sm">${esc(nodeName(i))}${alias[label[i]] ? ` <span style="color:var(--muted)">${esc(label[i])}</span>` : ""}</span><span class="meta">${CLASS_CN[classes[cls[i]]]} · C${cn[i]}</span></button></li>`).join("")
+    : `<li style="padding:8px;color:var(--muted)">没有找到“${esc(q)}”。试试 SMILES 片段，例如 c1ccc 或 [C+]。</li>`;
+  ul.hidden = false;
+  ul.querySelectorAll("button").forEach((b) => (b.onclick = () => { ul.hidden = true; select(+b.dataset.i, true); }));
+  ul.querySelectorAll("button").forEach((b, k, all) => b.addEventListener("keydown", (e) => { if (e.key === "ArrowDown" && all[k + 1]) { e.preventDefault(); all[k + 1].focus(); } if (e.key === "ArrowUp") { e.preventDefault(); (all[k - 1] || $("#q")).focus(); } }));
+}
+function order(i) { const pref = ["alkene", "alkane", "aromatic", "alcohol", "aldehyde", "ketone", "acid", "diene"]; const p = pref.indexOf(classes[cls[i]]); return p < 0 ? 99 : p; }
+
+// ---------------------------------------------------------------- boot
+const themeObs = () => { dirty = true; if (S.sel >= 0) renderDetail(); };
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", themeObs);
+new MutationObserver(themeObs).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+new ResizeObserver(resize).observe($("#stage"));
+(async () => {
+  try {
+    await load(); buildUI(); resize(); initGL(); buildGrid(); changed();
+    S.k = fitK(); S.cx = D.W / 2; S.cy = D.H / 2;
+    let start = -1; for (let i = 0; i < N; i++) if (label[i] === "C=CC" && classes[cls[i]] === "alkene") { start = i; break; }
+    select(start, false);
+    $("#loading").hidden = true; dirty = true; loop();
+    if (document.fonts) document.fonts.ready.then(() => { dirty = true; });
+  } catch (err) {
+    $("#loading").innerHTML = `<div style="color:var(--fg);font-weight:600">网络未能载入</div><div>${esc(String(err.message || err))}</div><div>请刷新页面重试；需要支持 WebGL2 的浏览器。</div>`;
+  }
+})();
+</script>
