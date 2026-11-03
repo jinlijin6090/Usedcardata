@@ -250,11 +250,21 @@ async function gunzip(buf) {
 }
 let active = 0; const waitq = [];
 async function limited(fn) { if (active >= 6) await new Promise((r) => waitq.push(r)); active++; try { return await fn(); } finally { active--; const n = waitq.shift(); if (n) n(); } }
+// Opened from disk (file://): fetch() is blocked, so chunks come as <script> files that call window.__lodChunk.
+const LOCAL = location.protocol === "file:";
+const jsWait = new Map();
+window.__lodChunk = (kind, k, b64) => { const r = jsWait.get(kind + k); if (r) { jsWait.delete(kind + k); r(b64); } };
+window.__lodMeta = window.__lodMeta || null;
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = () => { s.remove(); res(); }; s.onerror = () => rej(new Error("无法读取 " + src + "（请确认数据文件夹和网页在同一目录）")); document.head.append(s); }); }
+async function getChunkBytes(kind, k) {
+  if (!LOCAL) { const res = await fetch(`${kind}/${k}.bin`); if (!res.ok) throw new Error(`${kind}/${k}.bin ${res.status}`); return res.arrayBuffer(); }
+  const got = new Promise((r) => jsWait.set(kind + k, r)); await loadScript(`${kind}/${k}.js`); const b64 = await got;
+  const bin = atob(b64); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer;
+}
 function fetchChunk(kind, k) {
   const key = kind + k; if (inflight.has(key)) return inflight.get(key);
   const p = limited(async () => {
-    const res = await fetch(`${kind}/${k}.bin`); if (!res.ok) throw new Error(`${kind}/${k}.bin ${res.status}`);
-    const buf = await res.arrayBuffer(); bytesLoaded += buf.byteLength;
+    const buf = await getChunkBytes(kind, k); bytesLoaded += buf.byteLength;
     const u = await gunzip(buf);
     const out = kind === "l" ? parseL(u) : parseX(u, k);
     (kind === "l" ? Lc : Xc).set(k, out); updLoaded(); dirty = true; return out;
@@ -641,7 +651,7 @@ new MutationObserver(themeObs).observe(document.documentElement, { attributes: t
 new ResizeObserver(resize).observe($("#stage"));
 (async () => {
   try {
-    const res = await fetch("meta.json"); if (!res.ok) throw new Error("meta.json " + res.status); M = await res.json();
+    if (LOCAL) { await loadScript("meta.js"); M = window.__lodMeta; } else { const res = await fetch("meta.json"); if (!res.ok) throw new Error("meta.json " + res.status); M = await res.json(); }
     CELLS = M.cells; famIdx = Object.fromEntries(M.fams.map((f, i) => [f, i]));
     POOLSET = new Set(M.special.map((s, i) => (s.cls === "pool" ? i : -1)).filter((i) => i >= 0));
     M.aliasRev = {}; for (const [n, g] of Object.entries(M.alias)) M.aliasRev[g] = n;

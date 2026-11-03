@@ -14,6 +14,7 @@ so the page can place species procedurally from (cell, local index) without down
 Distances and pathway counts are computed here with a level-synchronous hypergraph BFS from CO2 with
 H2, H*, H+, H2O, [H], H. always available (same rules as the page used before).
 """
+import base64
 import gzip
 import json
 import math
@@ -26,9 +27,11 @@ from pathlib import Path
 import numpy as np
 
 T0 = time.time()
-src = Path(sys.argv[1] if len(sys.argv) > 1 else "../data/net_C16_full")
-dst = Path(sys.argv[2] if len(sys.argv) > 2 else "lod_full")
-CH = int(sys.argv[3]) if len(sys.argv) > 3 else 40000
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+src = Path(ARGS[0] if len(ARGS) > 0 else "../data/net_C16_full")
+dst = Path(ARGS[1] if len(ARGS) > 1 else "lod_full")
+CH = int(ARGS[2]) if len(ARGS) > 2 else 40000
+JS = "--js" in sys.argv
 stats = json.loads((src / "stats.json").read_text())
 CMAX, FULL = stats["cmax"], stats["full_upto"]
 
@@ -286,6 +289,9 @@ def write_chunk(k):
             q += 1
     xb = gzip.compress(bytes(out), 9)
     (dst / "x" / f"{k}.bin").write_bytes(xb)
+    if JS:   # offline twins: <script> files that work from file://
+        for kind, data in (("l", lb), ("x", xb)):
+            (dst / kind / f"{k}.js").write_text(f'window.__lodChunk("{kind}",{k},"{base64.b64encode(data).decode()}");')
     return k, len(lb), len(xb)
 
 
@@ -350,4 +356,6 @@ meta = {
     "sizes_MB": {k: round(v / 1e6, 1) for k, v in sizes.items()},
 }
 (dst / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, separators=(",", ":")))
+if JS:
+    (dst / "meta.js").write_text("window.__lodMeta = " + json.dumps(meta, ensure_ascii=False, separators=(",", ":")) + ";")
 log("done", meta["sizes_MB"], "chunks", nchunks)
