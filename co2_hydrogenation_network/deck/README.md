@@ -83,3 +83,19 @@ NODE_PATH=<node_modules> node full_network.js out.pptx
 ```bash
 NODE_PATH=<node_modules> node detailed_network.js out.pptx
 ```
+
+## CO2一步热催化加氢_同分异构体完整网络.pptx（单页，`isomer_network.js`）
+
+一页（44 × 24.75 in）完整的 CO2 一步热催化加氢反应网络，同分异构体逐个分开画：
+
+- 范围：C1–C4 全部展开，包括表面物种、气相自由基、碳正离子，以及每一个烯烃、烷烃、醛、醇的异构体（1-/cis-2-/trans-2-/i-C4H8、n-/i-C4H10、n-/i-C3H7•、sec-/i-/t-C4H9• 和 ⁺ 等）；C6–C10 烷基苯 36 个异构体全部列出（xylene ×3、TMB ×3、TeMB ×3、乙基甲苯 ×3、DMEB ×6、DEB ×3、cymene ×3、propyltoluene ×3、butylbenzene ×4 等），另有萘、甲基萘和 PAH；C5+ 脂肪族按类别合并。
+- 规模：213 个节点（89 个分子、52 个表面物种、18 个自由基、18 个碳正离子、33 个引用副本），259 条边。
+- 分区：
+  - A：C1 表面核心，包括甲酸盐路线（OX）和 CO*/碳化物路线（MET）；
+  - R：气相自由基链；
+  - F：金属位链增长、CO 插入含氧化物、双功能升级到航煤；
+  - Z：分子筛 MTO/MTH 碳正离子化学和氧化物 H 溢流加氢；
+  - AR：芳烃池甲基化、脱烷基、乙基/丙基/丁基苯和稠环。
+- 背景色块表示所需的催化剂形式，与 `detailed_network.js` 的分类一致。灰色虚线节点是跨区引用的副本。
+
+重建：`NODE_PATH=$PWD/node_modules node isomer_network.js out.pptx`
