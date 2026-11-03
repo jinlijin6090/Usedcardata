@@ -1,13 +1,13 @@
-<title>CO₂ 加氢 C12 异构体网络</title>
+<title>CO₂ 加氢 C16 异构体网络</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap">
 <style>
-/* Layout: instrument-panel app — filters | WebGL network canvas | species detail; stacks on phones */
+/* Layout: instrument-panel app — filters | WebGL network canvas | species detail (reactions / pathways); stacks on phones */
 :root {
   --bg: #EEF1F4; --panel: #FFFFFF; --canvas: #FAFBFC; --fg: #14171C; --muted: #5A6372; --faint: #8C95A3;
-  --line: #D9DEE5; --accent: #2A6FD6; --accent-ink: #FFFFFF; --chip: #F2F4F7;
+  --line: #D9DEE5; --accent: #2A6FD6; --path: #E8590C; --chip: #F2F4F7; --shape: rgba(20, 40, 80, 0.05);
   --band-MET: #FBE5E3; --band-GAS: #ECEDEF; --band-OX: #FBF2DF; --band-BA: #DFEAF8; --band-BA2: #EBF1FA; --band-AR: #E0F2E6;
   --core: #F4F5F7; --sep: #FFFFFF;
   --f-display: "Noto Serif SC", "Songti SC", "STSong", serif;
@@ -16,17 +16,17 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
-  --line: #232A33; --accent: #5E9DEB; --accent-ink: #07111F; --chip: #1A2028;
+  --line: #232A33; --accent: #5E9DEB; --path: #FF8A3D; --chip: #1A2028; --shape: rgba(255, 255, 255, 0.035);
   --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
   --core: #14181E; --sep: #07090C; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
-  --line: #232A33; --accent: #5E9DEB; --accent-ink: #07111F; --chip: #1A2028;
+  --line: #232A33; --accent: #5E9DEB; --path: #FF8A3D; --chip: #1A2028; --shape: rgba(255, 255, 255, 0.035);
   --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
   --core: #14181E; --sep: #07090C; color-scheme: dark; }
 html, body { height: 100%; }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 13px; line-height: 1.5; }
-.app { height: 100%; box-sizing: border-box; display: grid; grid-template-columns: 268px minmax(0, 1fr) 340px;
+.app { height: 100%; box-sizing: border-box; display: grid; grid-template-columns: 262px minmax(0, 1fr) 380px;
   grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding-block: 10px;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 header.top { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; min-width: 0; }
@@ -61,7 +61,7 @@ aside, .stage { min-height: 0; }
 .tg[aria-pressed="false"] { opacity: 0.38; }
 .tg .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .tg .dots { display: inline-flex; gap: 2px; }
-.tg .sw { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+.sw { width: 16px; height: 3px; border-radius: 2px; display: inline-block; flex: none; }
 .blk { font-size: 10.5px; color: var(--faint); margin: 6px 6px 1px; letter-spacing: 0.04em; }
 .range { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 6px 10px; align-items: center; }
 .range label { font-size: 12px; color: var(--muted); }
@@ -81,8 +81,8 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 4px; z-index: 5; }
 .zoom button { width: 32px; height: 32px; font: 600 16px var(--f-mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 7px; cursor: pointer; }
 .zoom button:focus-visible { outline: 2px solid var(--accent); }
-.hint { position: absolute; left: 10px; bottom: 10px; z-index: 5; font-size: 11px; color: var(--muted); background: color-mix(in srgb, var(--panel) 86%, transparent);
-  border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; pointer-events: none; }
+.hint { position: absolute; left: 10px; bottom: 10px; z-index: 5; font-size: 11px; color: var(--muted); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; pointer-events: none; opacity: 0.92; }
 #tip { position: absolute; z-index: 6; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 7px;
   padding: 6px 9px; box-shadow: 0 6px 20px rgba(0,0,0,.18); max-width: 320px; }
 #tip .sm { font-family: var(--f-mono); font-size: 12px; word-break: break-all; }
@@ -97,24 +97,40 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 .dname { font-family: var(--f-display); font-size: 19px; margin: 0; line-height: 1.3; word-break: break-all; }
 .smiles { display: flex; gap: 6px; align-items: flex-start; }
 .smiles code { font-family: var(--f-mono); font-size: 12.5px; background: var(--chip); border-radius: 6px; padding: 4px 8px; word-break: break-all; flex: 1; min-width: 0; }
-.struct { background: var(--canvas); border: 1px solid var(--line); border-radius: 8px; height: 190px; display: flex; align-items: center; justify-content: center; }
+.struct { position: relative; background: var(--canvas); border: 1px solid var(--line); border-radius: 8px; height: 170px; display: flex; align-items: center; justify-content: center; }
 .struct svg { width: 100%; height: 100%; }
-.struct .ph { color: var(--faint); font-size: 12px; padding: 12px; text-align: center; }
+.ph { color: var(--faint); font-size: 12px; padding: 12px; text-align: center; }
 .kv { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
 .kv div { background: var(--chip); border-radius: 7px; padding: 6px 8px; }
 .kv b { display: block; font-family: var(--f-mono); font-size: 16px; font-variant-numeric: tabular-nums; }
 .kv span { font-size: 11px; color: var(--muted); }
-.rx { display: flex; flex-direction: column; gap: 10px; }
-.rxg h3 { display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin: 0 0 5px; font-weight: 600; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tabs button { font: 600 12.5px var(--f-body); color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 10px; cursor: pointer; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); }
+.rx { display: flex; flex-direction: column; gap: 12px; }
+.rxg h3 { display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin: 0 0 4px; font-weight: 600; }
 .rxg h3 .n { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-weight: 400; }
-.nb { display: flex; flex-wrap: wrap; gap: 4px; }
-.nb button { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; font: 11.5px var(--f-mono); color: var(--fg); background: var(--chip);
-  border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; cursor: pointer; }
-.nb button span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nb button:hover { border-color: var(--accent); }
-.nb button:focus-visible { outline: 2px solid var(--accent); }
-.more { font: 11.5px var(--f-body); color: var(--accent); background: none; border: 0; cursor: pointer; padding: 2px 4px; }
-@media (max-width: 1100px) { .app { grid-template-columns: 236px minmax(0,1fr) 300px; } }
+.eqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.eq { font: 11.5px/1.6 var(--f-mono); background: var(--chip); border-radius: 6px; padding: 3px 7px; word-break: break-all; }
+.eq .op { color: var(--faint); padding: 0 3px; }
+.eq button { font: inherit; color: var(--fg); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.eq button:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.eq .me { font-weight: 600; color: var(--accent); }
+.eq .pool { color: var(--muted); }
+.more { font: 11.5px var(--f-body); color: var(--accent); background: none; border: 0; cursor: pointer; padding: 2px 4px; align-self: flex-start; }
+.pathsum { background: var(--chip); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+.pathsum b { font-family: var(--f-mono); }
+.plist { display: flex; flex-direction: column; gap: 6px; }
+.pcard { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; background: var(--panel); }
+.pcard[aria-current="true"] { border-color: var(--path); box-shadow: inset 3px 0 0 var(--path); }
+.pcard > button { width: 100%; display: flex; justify-content: space-between; gap: 8px; font: 600 12px var(--f-body); color: var(--fg); background: none; border: 0; padding: 2px 0; cursor: pointer; text-align: left; }
+.pcard > button:focus-visible { outline: 2px solid var(--accent); }
+.steps { margin: 4px 0 2px; padding-left: 22px; display: flex; flex-direction: column; gap: 3px; }
+.steps li { font: 11.5px/1.55 var(--f-mono); word-break: break-all; }
+.steps .fam { font-family: var(--f-body); color: var(--muted); font-size: 11px; }
+.need { font-family: var(--f-body); font-size: 11px; color: var(--muted); }
+@media (max-width: 1180px) { .app { grid-template-columns: 236px minmax(0,1fr) 330px; } }
 @media (max-width: 900px) {
   html, body { height: auto; }
   .app { height: auto; display: flex; flex-direction: column; }
@@ -129,16 +145,16 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 <div class="app">
   <header class="top">
     <div class="brand">
-      <h1>CO₂ 一步热催化加氢 · C1–C12 全同分异构体反应网络</h1>
-      <p>每个点是一个构造异构体：烃、碳正离子、气相自由基、吸附烷基、含氧化合物、芳烃。列为碳数，行为物种类别，背景色为所需催化剂形式。</p>
+      <h1>CO₂ 一步热催化加氢 · C1–C16 同分异构体反应网络</h1>
+      <p id="sub">C1–C12 全部构造异构体；C13–C16（航煤区间 C8–C16 的重端）只保留 ZSM-5 孔道可容纳的骨架。列为碳数，行为物种类别，背景色为所需催化剂形式。</p>
     </div>
     <div class="stats">
       <div class="stat"><b id="st-n">—</b><span>物种</span></div>
       <div class="stat"><b id="st-e">—</b><span>基元反应</span></div>
-      <div class="stat"><b id="st-v">—</b><span>当前显示</span></div>
+      <div class="stat"><b id="st-v">—</b><span>当前显示 物种 / 连线</span></div>
     </div>
     <div class="search">
-      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="搜索名称或 SMILES，如 对二甲苯、C=CC" aria-label="搜索物种">
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="搜索名称或 SMILES，如 对二甲苯、正十六烷" aria-label="搜索物种">
       <ul id="qres" hidden></ul>
     </div>
   </header>
@@ -149,14 +165,14 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
     <section>
       <h2>碳数范围</h2>
       <div class="range">
-        <label for="cmin">最小</label><input id="cmin" type="range" min="1" max="12" value="1">
-        <label for="cmax">最大</label><input id="cmax" type="range" min="1" max="12" value="12">
-        <span></span><output id="crange">C1 – C12</output>
+        <label for="cmin">最小</label><input id="cmin" type="range" min="1" max="16" value="1">
+        <label for="cmax">最大</label><input id="cmax" type="range" min="1" max="16" value="16">
+        <span></span><output id="crange">C1 – C16</output>
       </div>
     </section>
     <section>
       <h2>显示</h2>
-      <div class="range"><label for="alpha">边浓度</label><input id="alpha" type="range" min="2" max="60" value="16"></div>
+      <div class="range"><label for="alpha">连线浓度</label><input id="alpha" type="range" min="2" max="60" value="14"></div>
       <div class="checks" style="margin-top:8px">
         <label><input id="lab" type="checkbox" checked> 放大后显示 SMILES 标签</label>
         <label><input id="focus" type="checkbox"> 选中时只显示它的反应</label>
@@ -166,7 +182,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
         <button class="btn" id="fit">全图</button>
       </div>
     </section>
-    <p class="note">不含伯碳正离子。双分子负氢转移（R⁺ + R′H，约 7×10⁸ 对）不逐条画出。吸附烷基 R* 与自由基 R• 用烷基正离子的 SMILES 位点标记（* / •）。物种与反应由 RDKit 显式枚举，脚本 scripts/isomer_scale.py。</p>
+    <p class="note" id="foot">每条基元反应都显式记录了全部反应物和产物（下载的 reactions.tsv.gz 与本页 id 一致）。不含伯碳正离子；双分子负氢转移（R⁺ + R′H）只计数不逐条列出。吸附烷基 R* 与自由基 R• 用 * / • 标出位点。路径搜索把 CO₂、H₂ 以及 H*、H⁺、H₂O、[H]、H• 视为始终可用。</p>
   </aside>
 
   <main class="stage" id="stage">
@@ -178,7 +194,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
   </main>
 
   <aside class="panel detail" id="detail" aria-live="polite">
-    <div class="ph" style="color:var(--faint)">载入后显示选中物种的结构和全部反应。</div>
+    <p class="ph">载入后显示选中物种的结构、全部反应和从 CO₂ + H₂ 出发的路径。</p>
   </aside>
 </div>
 
@@ -187,37 +203,42 @@ input[type=range] { width: 100%; accent-color: var(--accent); }
 "use strict";
 const $ = (s) => document.querySelector(s);
 const fmt = (n) => n.toLocaleString("en-US");
+const NONE = 0xFFFFFFFF;
 const CLASS_CN = { alcohol: "醇", aldehyde: "醛 / 酰基*", ketone: "酮", acid: "羧酸", ads: "吸附烷基 R*", rad: "烷基自由基 R•",
   alkane: "烷烃", alkene: "烯烃", ion_alkyl: "烷基碳正离子", diene: "二烯", ion_alkenyl: "烯基碳正离子", naphthene: "环烷",
-  cycloalkene: "环烯", ion_cyc: "环状碳正离子", cyclodiene: "环二烯", aromatic: "芳烃", core: "C1 表面物种", hub: "C1 单体枢纽" };
+  cycloalkene: "环烯", ion_cyc: "环状碳正离子", cyclodiene: "环二烯", aromatic: "芳烃", core: "C1 表面物种 / 枢纽", pool: "H/O 池" };
 const CLASS_COL = { alcohol: "#8E5BB5", aldehyde: "#C2508A", ketone: "#C77A2E", acid: "#6A3D9A", ads: "#D64545", rad: "#6E7380",
   alkane: "#2F3338", alkene: "#E07B00", ion_alkyl: "#1F5FBF", diene: "#C9A100", ion_alkenyl: "#3D8FE0", naphthene: "#5C6B73",
-  cycloalkene: "#2F9C95", ion_cyc: "#6C4FD1", cyclodiene: "#0E7C66", aromatic: "#1E8C3A", core: "#14171C", hub: "#14171C" };
-const CLASS_COL_DARK = { alkane: "#C7CDD6", rad: "#8E96A3", naphthene: "#8FA0AA", core: "#E4E8EE", hub: "#E4E8EE", acid: "#9A6CD0", ion_alkyl: "#4C86E0" };
+  cycloalkene: "#2F9C95", ion_cyc: "#6C4FD1", cyclodiene: "#0E7C66", aromatic: "#1E8C3A", core: "#14171C", pool: "#8C95A3" };
+const CLASS_COL_DARK = { alkane: "#C7CDD6", rad: "#8E96A3", naphthene: "#8FA0AA", core: "#E4E8EE", acid: "#9A6CD0", ion_alkyl: "#4C86E0" };
 const FAM_CN = { "Z:prot": "质子化 / 去质子", "Z:hshift": "1,2-H 迁移", "Z:alkylshift": "烷基迁移（A 型）", "Z:pcp": "PCP 支化（B 型）",
   "Z:beta": "β-断裂 / 齐聚", "Z:meth": "SMS 甲基化", "Z:cyclise": "烯基正离子成环", "Z:HT": "氢转移 HT", "H:hyd": "加氢 / 脱氢",
-  "M:betaH": "β-H 消除", "M:CH2": "CH₂* 插入（链增长）", "M:CO": "CO* 插入", "M:hyd": "表面加氢终止", "M:hub": "CH₂*/CO* 供给",
+  "M:betaH": "β-H 消除", "M:CH2": "CH₂* 插入（链增长）", "M:CO": "CO* 插入", "M:hyd": "表面加氢终止",
   "O:dehyd": "醇脱水", "O:hyd": "羰基加氢", "O:ox": "醛 → 酸", "R:abs": "H 抽提 / 复合", "R:beta": "自由基 β-断裂",
-  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hub": "甲醇供甲基", "C1": "C1 表面核心" };
+  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hcp": "多甲基苯 → 烃池", "C1": "C1 表面核心" };
 const FAM_COL = { "Z:prot": "#5B9BE8", "Z:hshift": "#3A78D4", "Z:alkylshift": "#6A63DB", "Z:pcp": "#8C5AD8", "Z:beta": "#2C5DB8",
   "Z:meth": "#2FB0E0", "Z:cyclise": "#7B4CCB", "Z:HT": "#13A39A", "H:hyd": "#D99A00", "M:betaH": "#D64545", "M:CH2": "#E2603A",
-  "M:CO": "#C2385E", "M:hyd": "#B04848", "M:hub": "#E58A8A", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
-  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hub": "#7FCB97", "C1": "#14171C" };
+  "M:CO": "#C2385E", "M:hyd": "#B04848", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
+  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hcp": "#7FCB97", "C1": "#14171C" };
 const FAM_GROUPS = [
   ["分子筛 Brønsted 酸", ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise"]],
   ["氢转移 / 加氢", ["Z:HT", "H:hyd"]],
-  ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:hyd", "M:hub"]],
+  ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:hyd"]],
   ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox"]],
   ["气相自由基", ["R:abs", "R:beta"]],
-  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:hub"]],
+  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:hcp"]],
+  ["C1", ["C1"]],
 ];
 const BLOCK_CN = { MET: "金属/碳化物 + 氧化物", GAS: "气相", OX: "氧化物 H 溢流", BA: "分子筛酸位", BA2: "分子筛 HT / 成环", AR: "芳烃池" };
-const HUB_ALPHA = { "M:hub": 0.22, "A:hub": 0.3, "Z:meth": 0.35, "C1": 0 };
+const HUB_LABELS = new Set(["CH₃OH/SMS", "CH₂*", "CO*", "烃池 HCP"]);
+const ONE_WAY = new Set(["A:hcp"]);
 
-let coreEdges = [], dirtyOv = false;
-let D, N, NE, label, cls, cn, xy, sz, eu, ev, ef, adjOff, adjNb, adjF, classes, fams, rowOfCls, cells, alias, aliasRev;
-const S = { k: 1, cx: 50, cy: 26, clsOn: null, famOn: null, cmin: 1, cmax: 12, alpha: 0.16, labels: true, focus: false, sel: -1, hover: -1 };
-let gl, pE, pN, nE = 0, vw = 0, vh = 0, dpr = 1, dirty = true, dark = false;
+let D, N, R, label, cls, cn, xy, sz, rf, ra, rb, pa, pb, classes, fams, rowOfCls, cells, alias, aliasRev;
+let CORE, POOL, coreEdges = [], spOff, spRx, lev, elev, outOff, outE, start0 = [];
+let eu, ev, ef, NE;
+const S = { k: 1, cx: 50, cy: 39, clsOn: null, famOn: null, cmin: 1, cmax: 16, alpha: 0.14, labels: true, focus: false,
+  sel: -1, hover: -1, tab: "rx", path: null };
+let gl, pE, pN, nEv = 0, vw = 0, vh = 0, dpr = 1, dirty = true, dirtyOv = false, dark = false;
 const bgc = $("#bg"), glc = $("#gl"), ovc = $("#ov");
 const bx = bgc.getContext("2d"), ox = ovc.getContext("2d");
 
@@ -226,44 +247,103 @@ function isDark() { return css("color-scheme").includes("dark") || getComputedSt
 function hex(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
 function ccol(c) { return (dark && CLASS_COL_DARK[c]) || CLASS_COL[c]; }
 function b64(s, T) { const bin = atob(s); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new T(u.buffer); }
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+const tick = () => new Promise((r) => setTimeout(r, 15));
+
+async function getJSON(name, p0, p1) {
+  const tag = document.getElementById("data-" + name.replace(".json", ""));
+  if (tag) { $("#lbar").style.width = p1 + "%"; await tick(); return JSON.parse(tag.textContent); }
+  const res = await fetch(name);
+  if (!res.ok) throw new Error(name + " " + res.status);
+  const total = +res.headers.get("content-length") || 0;
+  if (!res.body || !total) { $("#lbar").style.width = p1 + "%"; return res.json(); }
+  const rd = res.body.getReader(); const parts = []; let got = 0;
+  for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); got += value.length;
+    $("#lbar").style.width = (p0 + (p1 - p0) * got / total) + "%"; $("#lmsg").textContent = `${name} ${(got / 1e6).toFixed(1)} / ${(total / 1e6).toFixed(1)} MB`; }
+  const all = new Uint8Array(got); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; }
+  return JSON.parse(new TextDecoder().decode(all));
+}
 
 async function load() {
-  const res = await fetch("network.json");
-  if (!res.ok) throw new Error("network.json " + res.status);
-  const total = +res.headers.get("content-length") || 0;
-  let txt;
-  if (res.body && total) {
-    const rd = res.body.getReader(); const parts = []; let got = 0;
-    for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); got += value.length;
-      $("#lbar").style.width = Math.min(100, 100 * got / total) + "%"; $("#lmsg").textContent = (got / 1e6).toFixed(1) + " / " + (total / 1e6).toFixed(1) + " MB"; }
-    const all = new Uint8Array(got); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; }
-    txt = new TextDecoder().decode(all);
-  } else { $("#lbar").style.width = "60%"; txt = await res.text(); }
-  $("#lmsg").textContent = "构建网络…";
-  await new Promise((r) => setTimeout(r, 20));
-  D = JSON.parse(txt);
-  N = D.n_nodes; NE = D.n_edges; classes = D.classes; fams = D.fams;
+  D = await getJSON("nodes.json", 0, 40);
+  const X = await getJSON("reactions.json", 40, 88);
+  $("#lmsg").textContent = "构建网络与路径层级…"; await tick();
+  N = D.n_nodes; R = X.n_reactions; classes = D.classes; fams = D.fams;
+  CORE = classes.indexOf("core"); POOL = classes.indexOf("pool");
   label = D.label.split("\n"); cls = b64(D.cls, Uint8Array); cn = b64(D.cn, Uint8Array);
   xy = b64(D.xy, Float32Array); sz = b64(D.sz, Float32Array);
-  eu = b64(D.eu, Uint32Array); ev = b64(D.ev, Uint32Array); ef = b64(D.ef, Uint8Array);
+  rf = b64(X.rf, Uint8Array); ra = b64(X.ra, Uint32Array); rb = b64(X.rb, Uint32Array); pa = b64(X.pa, Uint32Array); pb = b64(X.pb, Uint32Array);
   alias = D.alias || {}; aliasRev = Object.entries(alias).map(([s, n]) => [n, s]);
-  S.clsOn = new Float32Array(classes.length).fill(1); S.famOn = new Float32Array(fams.length).fill(1);
-  S.cmax = D.cmax; $("#cmin").max = $("#cmax").max = D.cmax; $("#cmax").value = D.cmax;
+  S.clsOn = new Float32Array(20).fill(1); S.famOn = new Float32Array(24).fill(1);
+  S.cmax = D.cmax; $("#cmin").max = $("#cmax").max = D.cmax; $("#cmax").value = D.cmax; $("#crange").textContent = `C1 – C${D.cmax}`;
   rowOfCls = new Int16Array(classes.length).fill(-1);
   D.rows.forEach((r, i) => r.cls.forEach((c) => { rowOfCls[classes.indexOf(c)] = i; }));
-  // adjacency (CSR)
+  // drawable edges: every non-pool reactant -- every non-pool product
+  let ne = 0;
+  const parts = (a, b) => (b === NONE ? [a] : [a, b]);
+  for (let r = 0; r < R; r++) for (const a of parts(ra[r], rb[r])) if (cls[a] !== POOL) for (const b of parts(pa[r], pb[r])) if (cls[b] !== POOL && a !== b) ne++;
+  eu = new Uint32Array(ne); ev = new Uint32Array(ne); ef = new Uint8Array(ne); NE = 0;
+  const c1 = fams.indexOf("C1");
+  for (let r = 0; r < R; r++) for (const a of parts(ra[r], rb[r])) if (cls[a] !== POOL) for (const b of parts(pa[r], pb[r])) if (cls[b] !== POOL && a !== b) {
+    eu[NE] = a; ev[NE] = b; ef[NE] = rf[r]; if (rf[r] === c1) coreEdges.push(NE); NE++; }
+  // species -> reactions (non-pool participants)
   const deg = new Uint32Array(N + 1);
-  for (let i = 0; i < NE; i++) { deg[eu[i]]++; deg[ev[i]]++; }
-  adjOff = new Uint32Array(N + 1); for (let i = 0; i < N; i++) adjOff[i + 1] = adjOff[i] + deg[i];
-  adjNb = new Uint32Array(adjOff[N]); adjF = new Uint8Array(adjOff[N]); const fill = adjOff.slice(0, N);
-  for (let i = 0; i < NE; i++) { const a = eu[i], b = ev[i]; adjNb[fill[a]] = b; adjF[fill[a]++] = ef[i]; adjNb[fill[b]] = a; adjF[fill[b]++] = ef[i]; }
-  // cell buckets for labels / picking
+  const each = (r, f) => { const v = [ra[r], rb[r], pa[r], pb[r]]; for (let k = 0; k < 4; k++) { const s = v[k]; if (s === NONE || cls[s] === POOL) continue; if (k === 1 && s === v[0]) continue; if (k === 3 && s === v[2]) continue; f(s); } };
+  for (let r = 0; r < R; r++) each(r, (s) => deg[s]++);
+  spOff = new Uint32Array(N + 1); for (let i = 0; i < N; i++) spOff[i + 1] = spOff[i] + deg[i];
+  spRx = new Uint32Array(spOff[N]); const fill = spOff.slice(0, N);
+  for (let r = 0; r < R; r++) each(r, (s) => { spRx[fill[s]++] = r; });
+  computeLevels();
   cells = new Map();
-  for (let i = 0; i < N; i++) { const r = rowOfCls[cls[i]]; const key = (cn[i] === 1 || r < 0) ? "core" : r * 100 + cn[i];
+  for (let i = 0; i < N; i++) { if (cls[i] === POOL) continue; const r = rowOfCls[cls[i]]; const key = (cls[i] === CORE || cn[i] <= 1 || r < 0) ? "core" : r * 100 + cn[i];
     let a = cells.get(key); if (!a) cells.set(key, a = []); a.push(i); }
-  const c1 = fams.indexOf("C1"); coreEdges = []; for (let i = 0; i < NE; i++) if (ef[i] === c1) coreEdges.push(i);
-  $("#st-n").textContent = fmt(N); $("#st-e").textContent = fmt(NE);
+  $("#st-n").textContent = fmt(N - D.class_counts.pool); $("#st-e").textContent = fmt(R);
+  const sub = $("#sub");
+  if (D.full_upto >= D.cmax) sub.textContent = `C1–C${D.cmax} 全部构造异构体。列为碳数，行为物种类别，背景色为所需催化剂形式。`;
+  else sub.textContent = `C1–C${D.full_upto} 全部构造异构体；C${D.full_upto + 1}–C${D.cmax}（航煤 C8–C16 的重端）只保留 ZSM-5 孔道可容纳的骨架：仅甲基支链、至多 2 个支链、无季碳。列为碳数，行为物种类别，背景色为所需催化剂形式。`;
+  document.querySelector("h1").textContent = `CO₂ 一步热催化加氢 · C1–C${D.cmax} 同分异构体反应网络`;
 }
+
+// ---------------------------------------------------------------- pathway levels (hypergraph BFS from CO2 + H2)
+// directed hyperedge d = 2r (forward: reactants -> products) or 2r+1 (reverse); level(d) = 1 + max level(inputs)
+function dIn(d) { const r = d >> 1; return (d & 1) ? [pa[r], pb[r]] : [ra[r], rb[r]]; }
+function dOut(d) { const r = d >> 1; return (d & 1) ? [ra[r], rb[r]] : [pa[r], pb[r]]; }
+function computeLevels() {
+  const ND = 2 * R;
+  const need = new Uint8Array(ND), inDeg = new Uint32Array(N + 1), oDeg = new Uint32Array(N + 1);
+  const usable = (d) => !((d & 1) && ONE_WAY.has(fams[rf[d >> 1]]));
+  for (let d = 0; d < ND; d++) { if (!usable(d)) continue; for (const s of dIn(d)) if (s !== NONE) { need[d]++; inDeg[s]++; } for (const s of dOut(d)) if (s !== NONE) oDeg[s]++; }
+  const inOff = new Uint32Array(N + 1); outOff = new Uint32Array(N + 1);
+  for (let i = 0; i < N; i++) { inOff[i + 1] = inOff[i] + inDeg[i]; outOff[i + 1] = outOff[i] + oDeg[i]; }
+  const inE = new Uint32Array(inOff[N]); outE = new Uint32Array(outOff[N]);
+  const fi = inOff.slice(0, N), fo = outOff.slice(0, N);
+  for (let d = 0; d < ND; d++) { if (!usable(d)) continue; for (const s of dIn(d)) if (s !== NONE) inE[fi[s]++] = d; for (const s of dOut(d)) if (s !== NONE) outE[fo[s]++] = d; }
+  lev = new Int32Array(N).fill(-1); elev = new Int32Array(ND).fill(-1);
+  const q = new Uint32Array(N); let h = 0, t = 0;
+  for (let i = 0; i < N; i++) if (cls[i] === POOL || label[i] === "CO₂") { lev[i] = 0; q[t++] = i; start0.push(i); }
+  while (h < t) {
+    const s = q[h++];
+    for (let k = inOff[s]; k < inOff[s + 1]; k++) { const d = inE[k]; if (--need[d] === 0) { elev[d] = lev[s] + 1; for (const o of dOut(d)) if (o !== NONE && lev[o] < 0) { lev[o] = elev[d]; q[t++] = o; } } }
+  }
+}
+// main (carbon-carrying) inputs of a tight directed edge
+function mainInputs(d) { const L = elev[d] - 1; const v = dIn(d).filter((s, k, a) => s !== NONE && cls[s] !== POOL && lev[s] === L && a.indexOf(s) === k); return v; }
+function tightEdges(t) { const out = []; for (let k = outOff[t]; k < outOff[t + 1]; k++) { const d = outE[k]; if (elev[d] === lev[t] && elev[d] > 0 && mainInputs(d).length) out.push(d); } return out; }
+function countPaths(t) {
+  const memo = new Map();
+  const rec = (s) => { if (lev[s] === 0) return 1n; if (memo.has(s)) return memo.get(s); let c = 0n;
+    for (const d of tightEdges(s)) for (const i of mainInputs(d)) c += rec(i); memo.set(s, c); return c; };
+  return rec(t);
+}
+function listPaths(t, K) {
+  const out = [];
+  const rec = (s, acc) => { if (out.length >= K) return; if (lev[s] === 0) { out.push(acc.slice().reverse()); return; }
+    const ds = tightEdges(s).sort((a, b) => famRank(a) - famRank(b));
+    for (const d of ds) for (const i of mainInputs(d)) { acc.push([d, i, s]); rec(i, acc); acc.pop(); if (out.length >= K) return; } };
+  rec(t, []);
+  return out;
+}
+function famRank(d) { return ["C1", "M:CH2", "M:CO", "M:betaH", "M:hyd", "Z:meth", "Z:prot", "Z:beta", "H:hyd", "Z:HT", "A:meth"].indexOf(fams[rf[d >> 1]]) >>> 0; }
 
 function buildUI() {
   const rows = $("#rows"); let lastBlk = "";
@@ -285,7 +365,7 @@ function buildUI() {
       fe.append(b);
     }
   }
-  const cr = () => { let a = +$("#cmin").value, b = +$("#cmax").value; if (a > b) { if (document.activeElement === $("#cmin")) b = a, $("#cmax").value = b; else a = b, $("#cmin").value = a; }
+  const cr = () => { let a = +$("#cmin").value, b = +$("#cmax").value; if (a > b) { if (document.activeElement === $("#cmin")) { b = a; $("#cmax").value = b; } else { a = b; $("#cmin").value = a; } }
     S.cmin = a; S.cmax = b; $("#crange").textContent = `C${a} – C${b}`; changed(); };
   $("#cmin").oninput = cr; $("#cmax").oninput = cr;
   $("#alpha").oninput = (e) => { S.alpha = e.target.value / 100; dirty = true; };
@@ -298,7 +378,7 @@ function buildUI() {
   $("#zout").onclick = () => zoomAt(vw / 2, vh / 2, 1 / 1.6);
 }
 
-function visNode(i) { return S.clsOn[cls[i]] > 0 && cn[i] >= S.cmin && cn[i] <= S.cmax; }
+function visNode(i) { return cls[i] !== POOL && S.clsOn[cls[i]] > 0 && cn[i] >= S.cmin && cn[i] <= S.cmax; }
 function changed() {
   let nv = 0, evc = 0;
   for (let i = 0; i < N; i++) if (visNode(i)) nv++;
@@ -310,8 +390,8 @@ function changed() {
 // ---------------------------------------------------------------- WebGL
 const VS_E = `#version 300 es
 in vec2 a_pos; in vec3 a_m; in vec2 a_c;
-uniform vec4 u_view; uniform float u_clsOn[18]; uniform float u_famOn[24]; uniform float u_famA[24]; uniform vec3 u_famCol[24];
-uniform vec2 u_cr; uniform float u_alpha;
+uniform vec4 u_view; uniform float u_clsOn[20]; uniform float u_famOn[24]; uniform float u_famA[24]; uniform vec3 u_famCol[24];
+uniform vec2 u_cr; uniform float u_alpha; uniform int u_core;
 out vec4 v_c;
 void main() {
   int f = int(a_m.x + 0.5); int ca = int(a_m.y + 0.5); int cb = int(a_m.z + 0.5);
@@ -319,18 +399,19 @@ void main() {
   if (a_c.x < u_cr.x - 0.5 || a_c.x > u_cr.y + 0.5 || a_c.y < u_cr.x - 0.5 || a_c.y > u_cr.y + 0.5) vis = 0.0;
   gl_Position = vis > 0.5 ? vec4(a_pos * u_view.xy + u_view.zw, 0.0, 1.0) : vec4(2.0, 2.0, 2.0, 1.0);
   float a = u_alpha * u_famA[f];
+  if (ca == u_core || cb == u_core) a *= 0.22;
   v_c = vec4(u_famCol[f] * a, a);
 }`;
 const FS_E = `#version 300 es
 precision mediump float; in vec4 v_c; out vec4 o; void main() { o = v_c; }`;
 const VS_N = `#version 300 es
 in vec2 a_pos; in float a_s; in vec2 a_cc;
-uniform vec4 u_view; uniform float u_k; uniform float u_dpr; uniform float u_clsOn[18]; uniform vec3 u_clsCol[18]; uniform vec2 u_cr; uniform float u_dim;
+uniform vec4 u_view; uniform float u_k; uniform float u_dpr; uniform float u_clsOn[20]; uniform vec3 u_clsCol[20]; uniform vec2 u_cr; uniform float u_dim; uniform int u_core;
 out vec3 v_col; out float v_a;
 void main() {
   int c = int(a_cc.x + 0.5);
   float vis = u_clsOn[c];
-  if (a_cc.y < u_cr.x - 0.5 || a_cc.y > u_cr.y + 0.5 || c >= 16) vis = 0.0;
+  if (a_cc.y < u_cr.x - 0.5 || a_cc.y > u_cr.y + 0.5 || c >= u_core) vis = 0.0;
   gl_Position = vis > 0.5 ? vec4(a_pos * u_view.xy + u_view.zw, 0.0, 1.0) : vec4(2.0, 2.0, 2.0, 1.0);
   gl_PointSize = clamp(a_s * 0.5 * u_k, 1.6, 30.0) * u_dpr;
   v_col = u_clsCol[c]; v_a = u_dim;
@@ -350,9 +431,8 @@ function attr(p, name, data, size, type) { const b = gl.createBuffer(); gl.bindB
 
 function initGL() {
   gl = glc.getContext("webgl2", { antialias: true, premultipliedAlpha: true, alpha: true });
-  if (!gl) throw new Error("此浏览器不支持 WebGL2，无法绘制 30 万条边。");
+  if (!gl) throw new Error("此浏览器不支持 WebGL2，无法绘制几十万条连线。");
   pE = program(VS_E, FS_E); pN = program(VS_N, FS_N);
-  // edges
   const pos = new Float32Array(NE * 4), m = new Uint8Array(NE * 6), c = new Uint8Array(NE * 4);
   for (let i = 0; i < NE; i++) {
     const a = eu[i], b = ev[i];
@@ -361,8 +441,7 @@ function initGL() {
   }
   pE.vao = gl.createVertexArray(); gl.bindVertexArray(pE.vao);
   attr(pE, "a_pos", pos, 2, gl.FLOAT); attr(pE, "a_m", m, 3, gl.UNSIGNED_BYTE); attr(pE, "a_c", c, 2, gl.UNSIGNED_BYTE);
-  nE = NE * 2;
-  // nodes
+  nEv = NE * 2;
   const cc = new Uint8Array(N * 2); for (let i = 0; i < N; i++) { cc[i * 2] = cls[i]; cc[i * 2 + 1] = cn[i]; }
   pN.vao = gl.createVertexArray(); gl.bindVertexArray(pN.vao);
   attr(pN, "a_pos", xy, 2, gl.FLOAT); attr(pN, "a_s", sz, 1, gl.FLOAT); attr(pN, "a_cc", cc, 2, gl.UNSIGNED_BYTE);
@@ -378,16 +457,16 @@ function drawGL() {
   gl.viewport(0, 0, glc.width, glc.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
   const v = view(), cr = [S.cmin, S.cmax];
   const famCol = new Float32Array(24 * 3), famA = new Float32Array(24);
-  fams.forEach((f, i) => { famCol.set(hex(FAM_COL[f]), i * 3); famA[i] = HUB_ALPHA[f] ?? 1; });
-  const clsCol = new Float32Array(18 * 3); classes.forEach((c, i) => clsCol.set(hex(ccol(c)), i * 3));
+  fams.forEach((f, i) => { famCol.set(hex(FAM_COL[f]), i * 3); famA[i] = f === "C1" ? 0 : 1; });
+  const clsCol = new Float32Array(20 * 3); classes.forEach((c, i) => clsCol.set(hex(ccol(c)), i * 3));
   const sel = S.sel >= 0;
   gl.useProgram(pE); gl.bindVertexArray(pE.vao);
   gl.uniform4fv(U(pE, "u_view"), v); gl.uniform1fv(U(pE, "u_clsOn"), S.clsOn); gl.uniform1fv(U(pE, "u_famOn"), S.famOn);
-  gl.uniform1fv(U(pE, "u_famA"), famA); gl.uniform3fv(U(pE, "u_famCol"), famCol); gl.uniform2fv(U(pE, "u_cr"), cr);
+  gl.uniform1fv(U(pE, "u_famA"), famA); gl.uniform3fv(U(pE, "u_famCol"), famCol); gl.uniform2fv(U(pE, "u_cr"), cr); gl.uniform1i(U(pE, "u_core"), CORE);
   gl.uniform1f(U(pE, "u_alpha"), sel ? (S.focus ? 0 : S.alpha * 0.35) : S.alpha * (dark ? 0.9 : 1));
-  gl.drawArrays(gl.LINES, 0, nE);
+  gl.drawArrays(gl.LINES, 0, nEv);
   gl.useProgram(pN); gl.bindVertexArray(pN.vao);
-  gl.uniform4fv(U(pN, "u_view"), v); gl.uniform1f(U(pN, "u_k"), S.k); gl.uniform1f(U(pN, "u_dpr"), dpr);
+  gl.uniform4fv(U(pN, "u_view"), v); gl.uniform1f(U(pN, "u_k"), S.k); gl.uniform1f(U(pN, "u_dpr"), dpr); gl.uniform1i(U(pN, "u_core"), CORE);
   gl.uniform1fv(U(pN, "u_clsOn"), S.clsOn); gl.uniform3fv(U(pN, "u_clsCol"), clsCol); gl.uniform2fv(U(pN, "u_cr"), cr);
   gl.uniform1f(U(pN, "u_dim"), sel ? 0.45 : 1);
   gl.drawArrays(gl.POINTS, 0, N);
@@ -398,16 +477,13 @@ function drawGL() {
 function drawBG() {
   bx.setTransform(dpr, 0, 0, dpr, 0, 0); bx.clearRect(0, 0, vw, vh);
   const C1 = D.cols[0].x1, muted = css("--muted");
-  for (const r of D.rows) {
-    const [x0, y0] = w2s(C1, r.y0), [x1, y1] = w2s(D.W, r.y1);
-    bx.fillStyle = css("--band-" + r.block); bx.fillRect(x0, y0 + 0.5, x1 - x0, y1 - y0 - 1);
-  }
+  for (const r of D.rows) { const [x0, y0] = w2s(C1, r.y0), [x1, y1] = w2s(D.W, r.y1); bx.fillStyle = css("--band-" + r.block); bx.fillRect(x0, y0 + 0.5, x1 - x0, y1 - y0 - 1); }
+  if (D.full_upto < D.cmax) { const c0 = D.cols[D.full_upto]; const [x0, y0] = w2s(c0.x0, 0), [x1, y1] = w2s(D.W, D.H); bx.fillStyle = css("--shape"); bx.fillRect(x0, y0, x1 - x0, y1 - y0); }
   bx.strokeStyle = css("--sep"); bx.lineWidth = Math.max(1, Math.min(3, S.k * 0.08));
   for (const c of D.cols.slice(2)) { const [x] = w2s(c.x0, 0); const [, y0] = w2s(0, 0), [, y1] = w2s(0, D.H); bx.beginPath(); bx.moveTo(x, y0); bx.lineTo(x, y1); bx.stroke(); }
   const [cx0, cy0] = w2s(0.1, 0.1), [cx1, cy1] = w2s(C1 - 0.12, D.H - 0.1);
   bx.fillStyle = css("--core"); bx.strokeStyle = css("--line"); bx.lineWidth = 1;
   bx.beginPath(); bx.roundRect(cx0, cy0, cx1 - cx0, cy1 - cy0, Math.min(10, S.k * 0.4)); bx.fill(); bx.stroke();
-  // cell counts
   bx.fillStyle = muted; bx.textBaseline = "top";
   for (const [r, c, n] of D.cells) {
     const col = D.cols[c - 1], row = D.rows[r];
@@ -423,42 +499,45 @@ function pill(x, y, text, dark_, font) {
   ox.fillStyle = dark_ ? css("--fg") : css("--panel"); ox.strokeStyle = css("--fg"); ox.lineWidth = 1;
   ox.beginPath(); ox.roundRect(x - w / 2, y - h / 2, w, h, h / 2); ox.fill(); ox.stroke();
   ox.fillStyle = dark_ ? css("--panel") : css("--fg"); ox.textAlign = "center"; ox.textBaseline = "middle"; ox.fillText(text, x, y + 0.5);
-  return w;
 }
 
 function drawOV() {
   ox.setTransform(dpr, 0, 0, dpr, 0, 0); ox.clearRect(0, 0, vw, vh);
-  const fg = css("--fg"), muted = css("--muted"), panel = css("--panel"), mono = css("--f-mono"), body = css("--f-body");
-  // C1 core edges + pills
-  const coreFont = `${Math.round(Math.min(13, Math.max(8, S.k * 0.7)))}px ${body}`;
+  const fg = css("--fg"), muted = css("--muted"), panel = css("--panel"), mono = css("--f-mono"), body = css("--f-body"), pathc = css("--path");
+  const P = (i) => w2s(xy[i * 2], xy[i * 2 + 1]);
+  // C1 core
   ox.strokeStyle = fg; ox.globalAlpha = 0.75; ox.lineWidth = 1.3;
-  for (const i of coreEdges) { const [a, b] = w2s(xy[eu[i] * 2], xy[eu[i] * 2 + 1]), [c, d] = w2s(xy[ev[i] * 2], xy[ev[i] * 2 + 1]); ox.beginPath(); ox.moveTo(a, b); ox.lineTo(c, d); ox.stroke(); }
+  for (const i of coreEdges) { const [a, b] = P(eu[i]), [c, d] = P(ev[i]); ox.beginPath(); ox.moveTo(a, b); ox.lineTo(c, d); ox.stroke(); }
   ox.globalAlpha = 1;
-  const coreW = (D.cols[0].x1 - D.cols[0].x0) * S.k;
-  for (const i of cells.get("core") || []) { if (cn[i] !== 1) continue; const [x, y] = w2s(xy[i * 2], xy[i * 2 + 1]);
-    if (coreW < 150) { ox.fillStyle = fg; ox.beginPath(); ox.arc(x, y, classes[cls[i]] === "hub" ? 3.5 : 2.2, 0, 7); ox.fill(); }
-    else pill(x, y, nodeName(i), classes[cls[i]] === "hub", coreFont); }
-  // selection
+  const coreW = (D.cols[0].x1 - D.cols[0].x0) * S.k, coreFont = `${Math.round(Math.min(13, Math.max(8, S.k * 0.7)))}px ${body}`;
+  for (const i of cells.get("core") || []) { const [x, y] = P(i); const hub = HUB_LABELS.has(label[i]);
+    if (coreW < 150) { ox.fillStyle = fg; ox.beginPath(); ox.arc(x, y, hub ? 3.5 : 2.2, 0, 7); ox.fill(); } else pill(x, y, nodeName(i), hub, coreFont); }
+  // selection: all reaction partners
   if (S.sel >= 0) {
-    const i = S.sel, [sx, sy] = w2s(xy[i * 2], xy[i * 2 + 1]);
-    ox.lineWidth = 1.4;
-    const nb = [], nbCount = adjOff[i + 1] - adjOff[i];
-    for (let k = adjOff[i]; k < adjOff[i + 1]; k++) {
-      const j = adjNb[k], f = adjF[k]; if (!S.famOn[f] || !visNode(j)) continue;
-      const [tx, ty] = w2s(xy[j * 2], xy[j * 2 + 1]);
-      ox.strokeStyle = FAM_COL[fams[f]]; ox.globalAlpha = nbCount > 300 ? 0.45 : 0.9; ox.beginPath(); ox.moveTo(sx, sy); ox.lineTo(tx, ty); ox.stroke(); nb.push([j, tx, ty]);
-    }
+    const i = S.sel, [sx, sy] = P(i); const nb = [];
+    const tot = spOff[i + 1] - spOff[i];
+    ox.lineWidth = 1.4; ox.globalAlpha = tot > 300 ? 0.45 : 0.9;
+    const seen = new Set();
+    for (let k = spOff[i]; k < spOff[i + 1]; k++) { const r = spRx[k]; if (!S.famOn[rf[r]]) continue;
+      for (const j of [ra[r], rb[r], pa[r], pb[r]]) { if (j === NONE || j === i || cls[j] === POOL || seen.has(j) || !visNode(j) && cls[j] !== CORE) continue; seen.add(j);
+        const [tx, ty] = P(j); ox.strokeStyle = FAM_COL[fams[rf[r]]]; ox.beginPath(); ox.moveTo(sx, sy); ox.lineTo(tx, ty); ox.stroke(); nb.push([j, tx, ty]); } }
     ox.globalAlpha = 1;
     const many = nb.length > 160, rr = many ? 2.6 : 4.5;
     for (const [j, tx, ty] of nb) { ox.fillStyle = ccol(classes[cls[j]]); ox.beginPath(); ox.arc(tx, ty, rr, 0, 7); ox.fill(); if (!many) { ox.strokeStyle = panel; ox.lineWidth = 1.5; ox.stroke(); } }
-    if (nb.length <= 90) {
-      ox.font = `11px ${mono}`; ox.textAlign = "left"; ox.textBaseline = "middle";
-      for (const [j, tx, ty] of nb) { if (cn[j] === 1) continue; const t = nodeName(j); const w = ox.measureText(t).width;
-        ox.fillStyle = panel; ox.globalAlpha = 0.85; ox.fillRect(tx + 6, ty - 7, w + 6, 14); ox.globalAlpha = 1; ox.fillStyle = fg; ox.fillText(t, tx + 9, ty); }
-    }
-    ox.strokeStyle = fg; ox.lineWidth = 2.2; ox.beginPath(); ox.arc(sx, sy, 9, 0, 7); ox.stroke();
-    ox.strokeStyle = panel; ox.lineWidth = 1; ox.beginPath(); ox.arc(sx, sy, 11.5, 0, 7); ox.stroke();
+    if (nb.length <= 90 && !S.path) { ox.font = `11px ${mono}`; ox.textAlign = "left"; ox.textBaseline = "middle";
+      for (const [j, tx, ty] of nb) { if (cls[j] === CORE || cn[j] <= 1) continue; const t = nodeName(j); const w = ox.measureText(t).width;
+        ox.fillStyle = panel; ox.globalAlpha = 0.85; ox.fillRect(tx + 6, ty - 7, w + 6, 14); ox.globalAlpha = 1; ox.fillStyle = fg; ox.fillText(t, tx + 9, ty); } }
   }
+  // highlighted pathway
+  if (S.path) {
+    const pts = [P(start0.find((s) => label[s] === "CO₂")), ...S.path.map(([, , s]) => P(s))];
+    ox.strokeStyle = pathc; ox.lineWidth = 3; ox.lineJoin = "round"; ox.globalAlpha = 0.95;
+    ox.beginPath(); pts.forEach(([x, y], k) => (k ? ox.lineTo(x, y) : ox.moveTo(x, y))); ox.stroke(); ox.globalAlpha = 1;
+    ox.font = `600 10px ${mono}`; ox.textAlign = "center"; ox.textBaseline = "middle";
+    pts.forEach(([x, y], k) => { ox.fillStyle = pathc; ox.beginPath(); ox.arc(x, y, 7.5, 0, 7); ox.fill(); ox.fillStyle = "#fff"; ox.fillText(String(k), x, y + 0.5); });
+  }
+  if (S.sel >= 0) { const [sx, sy] = P(S.sel); ox.strokeStyle = fg; ox.lineWidth = 2.2; ox.beginPath(); ox.arc(sx, sy, 10, 0, 7); ox.stroke();
+    ox.strokeStyle = panel; ox.lineWidth = 1; ox.beginPath(); ox.arc(sx, sy, 12.5, 0, 7); ox.stroke(); }
   // SMILES labels when zoomed in
   if (S.labels) {
     let drawn = 0; ox.textAlign = "center"; ox.textBaseline = "top"; ox.fillStyle = muted;
@@ -469,29 +548,29 @@ function drawOV() {
       const list = cells.get(r * 100 + c); if (!list || !list.length) continue;
       const sp = sz[list[0]] * S.k; if (sp < 46) continue;
       ox.font = `${Math.min(13, Math.max(8.5, sp * 0.13))}px ${mono}`;
+      const cw = ox.measureText("M").width;
       for (const i of list) {
         if (!visNode(i)) continue;
         const x = xy[i * 2], y = xy[i * 2 + 1]; if (x < wx0 || x > wx1 || y < wy0 || y > wy1) continue;
         const [X, Y] = w2s(x, y); let t = nodeName(i);
-        if (ox.measureText(t).width > sp * 0.96) { const cw = ox.measureText("M").width; t = t.slice(0, Math.max(3, Math.floor(sp * 0.96 / cw) - 1)) + "…"; }
+        if (t.length * cw > sp * 0.96) t = t.slice(0, Math.max(3, Math.floor(sp * 0.96 / cw) - 1)) + "…";
         ox.fillText(t, X, Y + Math.min(15, sp * 0.25) + 2);
         if (++drawn > 2500) break;
       }
       if (drawn > 2500) break;
     }
   }
-  // hover ring
-  if (S.hover >= 0 && S.hover !== S.sel) { const [x, y] = w2s(xy[S.hover * 2], xy[S.hover * 2 + 1]); ox.strokeStyle = fg; ox.lineWidth = 1.5; ox.beginPath(); ox.arc(x, y, 7, 0, 7); ox.stroke(); }
+  if (S.hover >= 0 && S.hover !== S.sel) { const [x, y] = P(S.hover); ox.strokeStyle = fg; ox.lineWidth = 1.5; ox.beginPath(); ox.arc(x, y, 7, 0, 7); ox.stroke(); }
   // sticky column headers
-  ox.fillStyle = panel; ox.globalAlpha = 0.9; ox.fillRect(0, 0, vw, 24); ox.globalAlpha = 1;
-  ox.strokeStyle = css("--line"); ox.beginPath(); ox.moveTo(0, 24.5); ox.lineTo(vw, 24.5); ox.stroke();
-  ox.textBaseline = "middle"; ox.textAlign = "center";
+  ox.fillStyle = panel; ox.globalAlpha = 0.92; ox.fillRect(0, 0, vw, 24); ox.globalAlpha = 1;
+  ox.strokeStyle = css("--line"); ox.lineWidth = 1; ox.beginPath(); ox.moveTo(0, 24.5); ox.lineTo(vw, 24.5); ox.stroke();
+  ox.textBaseline = "middle";
   for (const c of D.cols) {
     const [x0] = w2s(c.x0, 0), [x1] = w2s(c.x1, 0); if (x1 < 0 || x0 > vw) continue;
-    const cxp = Math.min(Math.max((x0 + x1) / 2, Math.max(x0, 0) + 30), Math.min(x1, vw) - 30);
-    const head = c.c === 1 ? "C1 核心" : `C${c.c}`; const w = x1 - x0;
-    ox.font = `600 12px ${body}`; ox.fillStyle = fg;
-    if (w > 70) { ox.fillText(head, cxp - 18, 12); ox.font = `11px ${mono}`; ox.fillStyle = muted; ox.textAlign = "left"; ox.fillText(fmt(c.n), cxp - 2, 12.5); ox.textAlign = "center"; }
+    const w = x1 - x0, cxp = Math.min(Math.max((x0 + x1) / 2, Math.max(x0, 0) + 30), Math.min(x1, vw) - 30);
+    const head = c.c === 1 ? "C1 核心" : `C${c.c}`, shape = c.c > D.full_upto;
+    ox.font = `600 12px ${body}`; ox.fillStyle = fg; ox.textAlign = "center";
+    if (w > 92) { ox.textAlign = "right"; ox.fillText(head, cxp - 2, 12); ox.textAlign = "left"; ox.font = `11px ${mono}`; ox.fillStyle = muted; ox.fillText(fmt(c.n) + (shape ? " 择形" : ""), cxp + 4, 12.5); }
     else if (w > 22) ox.fillText(head, cxp, 12);
   }
   // sticky row labels (right side)
@@ -499,71 +578,63 @@ function drawOV() {
   const [gx] = w2s(D.W, 0); const xr = Math.min(vw - 8, gx - 6);
   if (xr > 140) for (const r of D.rows) {
     const [, y0] = w2s(0, r.y0), [, y1] = w2s(0, r.y1); if (y1 - y0 < 15 || y1 < 26 || y0 > vh) continue;
-    const y = Math.min(Math.max((y0 + y1) / 2, 34), vh - 10);
-    const w = ox.measureText(r.label).width + 12;
+    const y = Math.min(Math.max((y0 + y1) / 2, 34), vh - 10); const w = ox.measureText(r.label).width + 12;
     ox.fillStyle = panel; ox.globalAlpha = 0.86; ox.beginPath(); ox.roundRect(xr - w, y - 9, w, 18, 9); ox.fill(); ox.globalAlpha = 1;
     ox.fillStyle = fg; ox.fillText(r.label, xr - 6, y + 0.5);
   }
 }
 
 function render() {
-  if (!D) return;
+  if (!D || !gl) return;
   if (dirty) { dirty = false; dirtyOv = false; dark = isDark(); drawBG(); drawGL(); drawOV(); }
   else if (dirtyOv) { dirtyOv = false; drawOV(); }
 }
 function loop() { render(); requestAnimationFrame(loop); }
-
 function resize() {
   const r = $("#stage").getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1);
-  const first = !vw; vw = r.width; vh = r.height;
+  vw = r.width; vh = r.height;
   for (const c of [bgc, glc, ovc]) { c.width = Math.round(vw * dpr); c.height = Math.round(vh * dpr); }
-  if (first && D) { S.k = fitK(); S.cx = D.W / 2; S.cy = D.H / 2; }
   dirty = true;
 }
 function fitK() { return Math.min((vw - 16) / D.W, (vh - 34) / D.H); }
 
 // ---------------------------------------------------------------- interaction
-function nodeName(i) { const l = label[i]; return alias[l] ? `${alias[l]}` : l; }
+function nodeName(i) { const l = label[i]; return alias[l] || l; }
 let grid = null;
 function buildGrid() {
-  const G = 220, GH = Math.ceil(G * D.H / D.W); grid = { G, GH, cell: new Map() };
-  for (let i = 0; i < N; i++) { const gx = Math.floor(xy[i * 2] / D.W * G), gy = Math.floor(xy[i * 2 + 1] / D.H * GH); const k = gy * G + gx; let a = grid.cell.get(k); if (!a) grid.cell.set(k, a = []); a.push(i); }
+  const G = 240, GH = Math.ceil(G * D.H / D.W); grid = { G, GH, cell: new Map() };
+  for (let i = 0; i < N; i++) { if (cls[i] === POOL) continue; const gx = Math.floor(xy[i * 2] / D.W * G), gy = Math.floor(xy[i * 2 + 1] / D.H * GH); const k = gy * G + gx; let a = grid.cell.get(k); if (!a) grid.cell.set(k, a = []); a.push(i); }
 }
 function pick(X, Y) {
-  const [x, y] = s2w(X, Y); const rad = Math.max(10, 6) / S.k;
-  const { G, GH } = grid; const gx0 = Math.floor((x - rad) / D.W * G), gx1 = Math.floor((x + rad) / D.W * G), gy0 = Math.floor((y - rad) / D.H * GH), gy1 = Math.floor((y + rad) / D.H * GH);
+  const [x, y] = s2w(X, Y); const rad = 10 / S.k;
+  const { G, GH } = grid; const gx0 = Math.floor((x - rad - 1.2) / D.W * G), gx1 = Math.floor((x + rad + 1.2) / D.W * G), gy0 = Math.floor((y - rad - 1.2) / D.H * GH), gy1 = Math.floor((y + rad + 1.2) / D.H * GH);
   let best = -1, bd = Infinity;
   for (let gy = gy0; gy <= gy1; gy++) for (let gx = gx0; gx <= gx1; gx++) {
     const a = grid.cell.get(gy * G + gx); if (!a) continue;
-    for (const i of a) { if (!visNode(i) && cn[i] !== 1) continue; const dx = xy[i * 2] - x, dy = xy[i * 2 + 1] - y, d = dx * dx + dy * dy;
-      const lim = Math.max(rad, cn[i] === 1 ? 1.0 : sz[i] * 0.5); if (d < lim * lim && d < bd) { bd = d; best = i; } }
+    for (const i of a) { const core = cls[i] === CORE || cn[i] <= 1; if (!visNode(i) && !core) continue; const dx = xy[i * 2] - x, dy = xy[i * 2 + 1] - y, d = dx * dx + dy * dy;
+      const lim = Math.max(rad, core ? Math.min(1.0, 14 / S.k + 0.2) : sz[i] * 0.5); if (d < lim * lim && d < bd) { bd = d; best = i; } }
   }
   return best;
 }
-function zoomAt(X, Y, f) {
-  const [wx, wy] = s2w(X, Y); const k = Math.min(Math.max(S.k * f, fitK() * 0.5), 4000);
-  S.k = k; S.cx = wx - (X - vw / 2) / k; S.cy = wy - (Y - vh / 2) / k; dirty = true;
-}
+function zoomAt(X, Y, f) { const [wx, wy] = s2w(X, Y); const k = Math.min(Math.max(S.k * f, fitK() * 0.5), 5000); S.k = k; S.cx = wx - (X - vw / 2) / k; S.cy = wy - (Y - vh / 2) / k; dirty = true; }
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function fly(cx, cy, k) {
   if (reduce) { S.cx = cx; S.cy = cy; S.k = k; dirty = true; return; }
   const a = { cx: S.cx, cy: S.cy, k: S.k }, t0 = performance.now(), T = 520;
   const step = (t) => { const u = Math.min(1, (t - t0) / T), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
-    const lk = Math.exp(Math.log(a.k) + (Math.log(k) - Math.log(a.k)) * e);
-    S.cx = a.cx + (cx - a.cx) * e; S.cy = a.cy + (cy - a.cy) * e; S.k = lk; dirty = true; if (u < 1) requestAnimationFrame(step); };
+    S.cx = a.cx + (cx - a.cx) * e; S.cy = a.cy + (cy - a.cy) * e; S.k = Math.exp(Math.log(a.k) + (Math.log(k) - Math.log(a.k)) * e); dirty = true; if (u < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
-
 const ptrs = new Map(); let downAt = null, pinch0 = null;
 ovc.addEventListener("pointerdown", (e) => { ovc.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]); downAt = [e.offsetX, e.offsetY, S.cx, S.cy, performance.now()];
-  if (ptrs.size === 2) { const [p, q] = [...ptrs.values()]; pinch0 = { d: Math.hypot(p[0] - q[0], p[1] - q[1]), k: S.k, m: [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], w: s2w((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) }; }
+  if (ptrs.size === 2) { const [p, q] = [...ptrs.values()]; pinch0 = { d: Math.hypot(p[0] - q[0], p[1] - q[1]), k: S.k, w: s2w((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) }; }
   ovc.classList.add("drag"); });
 ovc.addEventListener("pointermove", (e) => {
-  if (!D) return;
+  if (!D || !grid) return;
   if (ptrs.has(e.pointerId)) {
     ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
     if (ptrs.size === 2 && pinch0) { const [p, q] = [...ptrs.values()]; const d = Math.hypot(p[0] - q[0], p[1] - q[1]); const m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
-      S.k = Math.min(Math.max(pinch0.k * d / pinch0.d, fitK() * 0.5), 4000); S.cx = pinch0.w[0] - (m[0] - vw / 2) / S.k; S.cy = pinch0.w[1] - (m[1] - vh / 2) / S.k; dirty = true; return; }
+      S.k = Math.min(Math.max(pinch0.k * d / pinch0.d, fitK() * 0.5), 5000); S.cx = pinch0.w[0] - (m[0] - vw / 2) / S.k; S.cy = pinch0.w[1] - (m[1] - vh / 2) / S.k; dirty = true; return; }
     if (downAt && ptrs.size === 1) { S.cx = downAt[2] - (e.offsetX - downAt[0]) / S.k; S.cy = downAt[3] - (e.offsetY - downAt[1]) / S.k; dirty = true; }
     $("#tip").hidden = true; return;
   }
@@ -572,69 +643,105 @@ ovc.addEventListener("pointermove", (e) => {
   if (i !== S.hover) { S.hover = i; dirtyOv = true; }
   const tip = $("#tip");
   if (i >= 0) { tip.hidden = false; const c = classes[cls[i]];
-    tip.innerHTML = `<div class="sm">${esc(nodeName(i))}</div><div class="meta">${alias[label[i]] ? esc(label[i]) + " · " : ""}${CLASS_CN[c]} · C${cn[i]} · ${adjOff[i + 1] - adjOff[i]} 个反应</div>`;
-    const x = Math.min(e.offsetX + 14, vw - tip.offsetWidth - 6), y = Math.min(e.offsetY + 14, vh - tip.offsetHeight - 6); tip.style.left = x + "px"; tip.style.top = y + "px";
+    tip.innerHTML = `<div class="sm">${esc(nodeName(i))}</div><div class="meta">${alias[label[i]] ? esc(label[i]) + " · " : ""}${CLASS_CN[c]} · C${cn[i]} · ${fmt(spOff[i + 1] - spOff[i])} 个反应 · 距 CO₂ ${lev[i] >= 0 ? lev[i] + " 步" : "不可达"}</div>`;
+    tip.style.left = Math.min(e.offsetX + 14, vw - tip.offsetWidth - 6) + "px"; tip.style.top = Math.min(e.offsetY + 14, vh - tip.offsetHeight - 6) + "px";
   } else tip.hidden = true;
 });
 function up(e) {
   const p = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = null;
   if (!ptrs.size) ovc.classList.remove("drag");
-  if (p && downAt && Math.hypot(p[0] - downAt[0], p[1] - downAt[1]) < 6 && performance.now() - downAt[4] < 600 && !ptrs.size) {
-    const i = pick(p[0], p[1]); select(i, false);
-  }
+  if (p && downAt && Math.hypot(p[0] - downAt[0], p[1] - downAt[1]) < 6 && performance.now() - downAt[4] < 600 && !ptrs.size) select(pick(p[0], p[1]), false);
   if (!ptrs.size) downAt = null;
 }
 ovc.addEventListener("pointerup", up); ovc.addEventListener("pointercancel", up);
 ovc.addEventListener("pointerleave", () => { if (S.hover >= 0) { S.hover = -1; dirtyOv = true; } $("#tip").hidden = true; });
 ovc.addEventListener("wheel", (e) => { e.preventDefault(); zoomAt(e.offsetX, e.offsetY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0016))); }, { passive: false });
 ovc.addEventListener("keydown", (e) => { if (e.key === "+" || e.key === "=") zoomAt(vw / 2, vh / 2, 1.4); else if (e.key === "-") zoomAt(vw / 2, vh / 2, 1 / 1.4); else if (e.key === "Escape") select(-1); });
-function esc(s) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
 
 // ---------------------------------------------------------------- detail panel
-function structSmiles(i) { const c = classes[cls[i]]; let s = label[i]; if (c === "rad" || c === "ads") s = s.replace("+]", "]"); return s; }
+function structSmiles(i) { const c = classes[cls[i]]; let s = label[i]; if (c === "rad" || c === "ads") s = s.replace("•]", "]").replace("*]", "]"); return s; }
 function select(i, flyTo) {
-  S.sel = i; dirty = true; renderDetail();
-  if (i >= 0 && flyTo) { const k = Math.max(S.k, Math.min(4000, 70 / Math.max(sz[i], 0.05))); fly(xy[i * 2], xy[i * 2 + 1], cn[i] === 1 ? Math.max(S.k, 60) : k); }
+  S.sel = i; S.path = null; dirty = true; renderDetail();
+  if (i >= 0 && flyTo) { const core = cls[i] === CORE || cn[i] <= 1; fly(xy[i * 2], xy[i * 2 + 1], core ? Math.max(S.k, 60) : Math.max(S.k, Math.min(5000, 70 / Math.max(sz[i], 0.05)))); }
+}
+function tok(j, me) {
+  if (j === NONE) return "";
+  if (cls[j] === POOL) return `<span class="pool">${esc(label[j])}</span>`;
+  if (j === me) return `<span class="me">${esc(nodeName(j))}</span>`;
+  return `<button data-n="${j}" title="${esc(label[j])} · ${CLASS_CN[classes[cls[j]]]}">${esc(nodeName(j))}</button>`;
+}
+function eqHTML(r, me, dir) {
+  const L = dir ? [pa[r], pb[r]] : [ra[r], rb[r]], Rr = dir ? [ra[r], rb[r]] : [pa[r], pb[r]];
+  const side = (v) => v.filter((x) => x !== NONE).map((x) => tok(x, me)).join('<span class="op">+</span>');
+  return `${side(L)}<span class="op">${dir === undefined ? "⇌" : "→"}</span>${side(Rr)}`;
 }
 function renderDetail() {
   const el = $("#detail"), i = S.sel;
-  if (i < 0) { el.innerHTML = `<h2>物种</h2><p class="note">在画布上单击任意点，或在上方搜索名称 / SMILES，查看它的结构和参与的全部基元反应。</p>`; return; }
-  const c = classes[cls[i]], l = label[i], name = alias[l];
-  const groups = new Map();
-  for (let k = adjOff[i]; k < adjOff[i + 1]; k++) { const f = adjF[k]; let a = groups.get(f); if (!a) groups.set(f, a = []); a.push(adjNb[k]); }
-  const order = [...groups.keys()].sort((a, b) => a - b);
-  const nn = new Set(adjNb.slice(adjOff[i], adjOff[i + 1])).size;
-  const isCore = cn[i] === 1 && (c === "core" || c === "hub");
+  if (i < 0) { el.innerHTML = `<h2>物种</h2><p class="note">在画布上单击任意点，或在上方搜索名称 / SMILES，查看它的结构、全部基元反应以及从 CO₂ + H₂ 出发的路径。</p>`; return; }
+  const c = classes[cls[i]], l = label[i], name = alias[l], core = c === "core";
+  const nr = spOff[i + 1] - spOff[i];
+  const nf = new Set(); for (let k = spOff[i]; k < spOff[i + 1]; k++) nf.add(rf[spRx[k]]);
   el.innerHTML = `
-    <div class="eyebrow"><span class="chip"><i class="dot" style="background:${ccol(c)}"></i>${CLASS_CN[c]}</span><span class="chip">C${cn[i]}</span><span class="chip">${BLOCK_CN[D.rows[rowOfCls[cls[i]]]?.block] || "C1 核心"}</span></div>
-    <h2 style="margin:0">选中物种</h2>
-    <p class="dname">${esc(name || (isCore ? l : l))}</p>
-    ${isCore ? "" : `<div class="smiles"><code id="smi">${esc(l)}</code><button class="btn" id="copy">复制</button></div>`}
-    <div class="struct" id="struct"><div class="ph">${isCore ? "C1 表面中间体 / 枢纽节点" : "结构式载入中…"}</div></div>
-    <div class="kv"><div><b>${fmt(adjOff[i + 1] - adjOff[i])}</b><span>基元反应</span></div><div><b>${fmt(nn)}</b><span>相邻物种</span></div><div><b>${order.length}</b><span>反应类型</span></div></div>
-    <div class="rx">${order.map((f) => rxGroup(f, groups.get(f))).join("")}</div>`;
-  el.querySelectorAll("[data-n]").forEach((b) => (b.onclick = () => select(+b.dataset.n, true)));
-  el.querySelectorAll("[data-more]").forEach((b) => (b.onclick = () => { const f = +b.dataset.more; const box = b.previousElementSibling; box.innerHTML = groups.get(f).map(nbBtn).join(""); box.querySelectorAll("[data-n]").forEach((x) => (x.onclick = () => select(+x.dataset.n, true))); b.remove(); }));
-  const cp = $("#copy"); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(l); cp.textContent = "已复制"; } catch { const r = document.createRange(); r.selectNodeContents($("#smi")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); cp.textContent = "已选中"; } setTimeout(() => (cp.textContent = "复制"), 1400); };
-  if (!isCore) drawStruct(structSmiles(i), c);
+    <div class="eyebrow"><span class="chip"><i class="dot" style="background:${ccol(c)}"></i>${CLASS_CN[c]}</span><span class="chip">C${cn[i]}</span><span class="chip">${BLOCK_CN[D.rows[rowOfCls[cls[i]]]?.block] || "C1 核心"}</span>${cn[i] > D.full_upto ? '<span class="chip">ZSM-5 择形</span>' : ""}</div>
+    <p class="dname">${esc(name || l)}</p>
+    ${core ? "" : `<div class="smiles"><code id="smi">${esc(l)}</code><button class="btn" id="copy">复制</button></div>`}
+    <div class="struct" id="struct"><div class="ph">${core ? "C1 表面中间体 / 枢纽节点" : "结构式载入中…"}</div></div>
+    <div class="kv"><div><b>${fmt(nr)}</b><span>基元反应</span></div><div><b>${nf.size}</b><span>反应类型</span></div><div><b>${lev[i] >= 0 ? lev[i] : "—"}</b><span>距 CO₂ 最少步数</span></div></div>
+    <div class="tabs" role="tablist"><button role="tab" id="t-rx" aria-selected="${S.tab === "rx"}">全部反应 · ${fmt(nr)}</button><button role="tab" id="t-path" aria-selected="${S.tab === "path"}">从 CO₂ + H₂ 的路径</button></div>
+    <div id="tabbody"></div>`;
+  $("#t-rx").onclick = () => { S.tab = "rx"; S.path = null; dirtyOv = true; renderDetail(); };
+  $("#t-path").onclick = () => { S.tab = "path"; renderDetail(); };
+  const cp = $("#copy"); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(l); cp.textContent = "已复制"; } catch { const rg = document.createRange(); rg.selectNodeContents($("#smi")); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); cp.textContent = "已选中"; } setTimeout(() => (cp.textContent = "复制"), 1400); };
+  if (S.tab === "rx") renderReactions(i); else renderPaths(i);
+  if (!core) drawStruct(structSmiles(i), c);
 }
-function nbBtn(j) { return `<button data-n="${j}" title="${esc(label[j])}"><i class="dot" style="background:${ccol(classes[cls[j]])}"></i><span class="t">${esc(nodeName(j))}</span></button>`; }
-function rxGroup(f, list) {
-  const name = fams[f], show = list.slice(0, 36);
-  return `<div class="rxg"><h3><i class="sw" style="display:inline-block;width:16px;height:3px;border-radius:2px;background:${FAM_COL[name]}"></i>${FAM_CN[name]}<span class="n">${list.length}</span></h3>
-    <div class="nb">${show.map(nbBtn).join("")}</div>${list.length > show.length ? `<button class="more" data-more="${f}">再显示 ${list.length - show.length} 个</button>` : ""}</div>`;
+function wire(root) { root.querySelectorAll("[data-n]").forEach((b) => (b.onclick = () => select(+b.dataset.n, true))); }
+function renderReactions(i) {
+  const body = $("#tabbody");
+  const groups = new Map();
+  for (let k = spOff[i]; k < spOff[i + 1]; k++) { const r = spRx[k]; let a = groups.get(rf[r]); if (!a) groups.set(rf[r], a = []); if (a[a.length - 1] !== r) a.push(r); }
+  const order = [...groups.keys()].sort((a, b) => a - b);
+  body.className = "rx";
+  body.innerHTML = order.map((f) => `<div class="rxg" data-f="${f}"><h3><i class="sw" style="background:${FAM_COL[fams[f]]}"></i>${FAM_CN[fams[f]]}<span class="n">${fmt(groups.get(f).length)}</span></h3><ul class="eqs"></ul></div>`).join("") || `<p class="note">这个物种没有记录到反应。</p>`;
+  body.querySelectorAll(".rxg").forEach((g) => {
+    const f = +g.dataset.f, list = groups.get(f), ul = g.querySelector("ul"); let shown = 0;
+    const more = () => { const next = list.slice(shown, shown + (shown ? 200 : 20)); ul.insertAdjacentHTML("beforeend", next.map((r) => `<li class="eq">${eqHTML(r, i)}</li>`).join("")); shown += next.length; wire(ul);
+      g.querySelector(".more")?.remove(); if (shown < list.length) { const b = document.createElement("button"); b.className = "more"; b.textContent = `再显示 ${fmt(Math.min(200, list.length - shown))} 个（共 ${fmt(list.length)}）`; b.onclick = more; g.append(b); } };
+    more();
+  });
+}
+function renderPaths(i) {
+  const body = $("#tabbody"); body.className = "rx";
+  if (lev[i] < 0) { body.innerHTML = `<p class="note">在当前网络中，这个物种不能从 CO₂ + H₂ 出发生成。</p>`; return; }
+  if (lev[i] === 0) { body.innerHTML = `<p class="note">这是起始物种。</p>`; return; }
+  const total = countPaths(i), K = 40, paths = listPaths(i, K);
+  const totalStr = total.toLocaleString("en-US");
+  body.innerHTML = `<div class="pathsum">最少需要 <b>${lev[i]}</b> 步基元反应。按“每步跟随碳链主反应物”计，最短路径共 <b>${totalStr}</b> 条${total > BigInt(K) ? `，下面列出前 ${K} 条` : ""}。每一步的其他反应物标在“需要”里（括号内是它自身的最少步数），可以点击继续追溯。</div>
+    <div class="plist">${paths.map((p, k) => `<div class="pcard" data-k="${k}" aria-current="${k === 0}"><button aria-expanded="${k === 0}"><span>路径 ${k + 1}</span><span class="need">${famSummary(p)}</span></button><ol class="steps" ${k === 0 ? "" : "hidden"}>${p.map(stepHTML).join("")}</ol></div>`).join("")}</div>
+    <p class="note">“全部路径”在含可逆反应的网络里是无穷多条（可以绕圈）。这里给出的是步数最少的全部路径计数，以及按反应类型排序的前 ${K} 条。</p>`;
+  S.path = paths[0] || null; dirtyOv = true;
+  body.querySelectorAll(".pcard").forEach((card) => { const btn = card.querySelector(":scope > button");
+    btn.onclick = () => { const k = +card.dataset.k; body.querySelectorAll(".pcard").forEach((c2) => { const on = c2 === card; c2.setAttribute("aria-current", on); c2.querySelector("ol").hidden = !on; c2.querySelector(":scope > button").setAttribute("aria-expanded", on); });
+      S.path = paths[k]; dirtyOv = true; }; });
+  wire(body);
+}
+function famSummary(p) { const c = new Map(); for (const [d] of p) { const f = FAM_CN[fams[rf[d >> 1]]]; c.set(f, (c.get(f) || 0) + 1); } return [...c.entries()].slice(0, 3).map(([f, n]) => `${f}${n > 1 ? "×" + n : ""}`).join(" · "); }
+function stepHTML([d, from, to]) {
+  const r = d >> 1, dir = d & 1;
+  const others = dIn(d).filter((s) => s !== NONE && s !== from && cls[s] !== POOL);
+  return `<li><div class="eq">${eqHTML(r, to, dir)}</div><span class="fam">${FAM_CN[fams[rf[r]]]}${others.length ? ` · 需要 ${others.map((s) => `${tok(s, -1)}（${lev[s]}）`).join("、")}` : ""}</span></li>`;
 }
 function drawStruct(smi, c) {
   const box = $("#struct");
   if (!window.SmilesDrawer) { box.innerHTML = `<div class="ph">结构式库未能载入，SMILES 见上方。</div>`; return; }
   box.innerHTML = `<svg id="svgs" xmlns="http://www.w3.org/2000/svg"></svg>`;
-  const w = box.clientWidth || 300, h = box.clientHeight || 190;
+  const w = box.clientWidth || 300, h = box.clientHeight || 170;
   try {
     const drawer = new SmilesDrawer.SvgDrawer({ width: w, height: h, bondThickness: 1.1, padding: 18, compactDrawing: false, terminalCarbons: false });
-    SmilesDrawer.parse(smi, (tree) => { drawer.draw(tree, "svgs", isDark() ? "dark" : "light"); if (c === "ads" || c === "rad") note(c === "ads" ? "* 处为表面吸附位" : "• 处为自由基中心"); },
+    SmilesDrawer.parse(smi, (tree) => { drawer.draw(tree, "svgs", isDark() ? "dark" : "light");
+      if (c === "ads" || c === "rad") { const p = document.createElement("div"); p.className = "ph"; p.style.cssText = "position:absolute;left:0;top:0;font-size:11px;padding:4px 8px"; p.textContent = c === "ads" ? "去掉一个 H 的位点为表面吸附位 *" : "去掉一个 H 的位点为自由基中心 •"; box.append(p); } },
       () => { box.innerHTML = `<div class="ph">该 SMILES 无法绘制。</div>`; });
   } catch (err) { box.innerHTML = `<div class="ph">结构式绘制失败。</div>`; }
-  function note(t) { const p = document.createElement("div"); p.className = "ph"; p.style.cssText = "position:absolute;font-size:11px;padding:4px 8px"; p.textContent = t; box.style.position = "relative"; p.style.left = "0"; p.style.top = "0"; box.append(p); }
 }
 
 // ---------------------------------------------------------------- search
@@ -642,11 +749,12 @@ let qt = 0;
 $("#q").addEventListener("input", () => { clearTimeout(qt); qt = setTimeout(search, 110); });
 $("#q").addEventListener("keydown", (e) => { if (e.key === "Enter") { const b = $("#qres button"); if (b) b.click(); } else if (e.key === "Escape") { $("#qres").hidden = true; } else if (e.key === "ArrowDown") { const b = $("#qres button"); if (b) { e.preventDefault(); b.focus(); } } });
 document.addEventListener("click", (e) => { if (!e.target.closest(".search")) $("#qres").hidden = true; });
+function order(i) { const pref = ["alkene", "alkane", "aromatic", "alcohol", "aldehyde", "ketone", "acid", "diene", "core"]; const p = pref.indexOf(classes[cls[i]]); return p < 0 ? 99 : p; }
 function search() {
   const q = $("#q").value.trim(); const ul = $("#qres");
   if (!q || !D) { ul.hidden = true; return; }
   const hits = [], seen = new Set();
-  const add = (i) => { if (i >= 0 && !seen.has(i) && hits.length < 14) { seen.add(i); hits.push(i); } };
+  const add = (i) => { if (i >= 0 && !seen.has(i) && cls[i] !== POOL && hits.length < 14) { seen.add(i); hits.push(i); } };
   const byLabel = (l) => { const out = []; for (let i = 0; i < N; i++) if (label[i] === l) out.push(i); return out; };
   for (const [n, s] of aliasRev) if (n.includes(q)) byLabel(s).sort((a, b) => order(a) - order(b)).forEach(add);
   for (const i of byLabel(q)) add(i);
@@ -658,7 +766,6 @@ function search() {
   ul.querySelectorAll("button").forEach((b) => (b.onclick = () => { ul.hidden = true; select(+b.dataset.i, true); }));
   ul.querySelectorAll("button").forEach((b, k, all) => b.addEventListener("keydown", (e) => { if (e.key === "ArrowDown" && all[k + 1]) { e.preventDefault(); all[k + 1].focus(); } if (e.key === "ArrowUp") { e.preventDefault(); (all[k - 1] || $("#q")).focus(); } }));
 }
-function order(i) { const pref = ["alkene", "alkane", "aromatic", "alcohol", "aldehyde", "ketone", "acid", "diene"]; const p = pref.indexOf(classes[cls[i]]); return p < 0 ? 99 : p; }
 
 // ---------------------------------------------------------------- boot
 const themeObs = () => { dirty = true; if (S.sel >= 0) renderDetail(); };
@@ -669,11 +776,12 @@ new ResizeObserver(resize).observe($("#stage"));
   try {
     await load(); buildUI(); resize(); initGL(); buildGrid(); changed();
     S.k = fitK(); S.cx = D.W / 2; S.cy = D.H / 2;
-    let start = -1; for (let i = 0; i < N; i++) if (label[i] === "C=CC" && classes[cls[i]] === "alkene") { start = i; break; }
+    let start = -1; for (let i = 0; i < N; i++) if (label[i] === "Cc1ccc(C)cc1" && classes[cls[i]] === "aromatic") { start = i; break; }
     select(start, false);
     $("#loading").hidden = true; dirty = true; loop();
     if (document.fonts) document.fonts.ready.then(() => { dirty = true; });
   } catch (err) {
+    console.error(err);
     $("#loading").innerHTML = `<div style="color:var(--fg);font-weight:600">网络未能载入</div><div>${esc(String(err.message || err))}</div><div>请刷新页面重试；需要支持 WebGL2 的浏览器。</div>`;
   }
 })();
