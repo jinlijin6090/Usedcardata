@@ -1,0 +1,297 @@
+family,reactants,products,rate_factor,k
+OX3_hyd,ole2 + H2,par2,1,k_hyd
+OX3_hyd,ole3 + H2,par3,1,k_hyd
+OX3_hyd,ole4 + H2,par4,1,k_hyd
+OX3_hyd,ole5 + H2,par5,1,k_hyd
+OX3_hyd,ole6 + H2,par6,1,k_hyd
+OX3_hyd,ole7 + H2,par7,1,k_hyd
+OX3_hyd,ole8 + H2,par8,1,k_hyd
+OX3_hyd,ole9 + H2,par9,1,k_hyd
+OX3_hyd,ole10 + H2,par10,1,k_hyd
+OX3_hyd,ole11 + H2,par11,1,k_hyd
+OX3_hyd,ole12 + H2,par12,1,k_hyd
+OX3_hyd,ole13 + H2,par13,1,k_hyd
+OX3_hyd,ole14 + H2,par14,1,k_hyd
+OX3_hyd,ole15 + H2,par15,1,k_hyd
+OX3_hyd,ole16 + H2,par16,1,k_hyd
+OX3_hyd,ole17 + H2,par17,1,k_hyd
+OX3_hyd,ole18 + H2,par18,1,k_hyd
+OX3_hyd,ole19 + H2,par19,1,k_hyd
+OX3_hyd,ole20 + H2,par20,1,k_hyd
+Z2_init,2MeOH,ole2 + 2H2O,1,k_init
+Z10_ch4,MeOH + H2,CH4 + H2O,1,k_ch4
+Z3_meth,ole2 + MeOH,ole3 + H2O,0.05,k_meth
+Z3_meth,ole2 + DME,ole3 + MeOH,0.05,k_meth
+Z3_meth,ole3 + MeOH,ole4 + H2O,0.5,k_meth
+Z3_meth,ole3 + DME,ole4 + MeOH,0.5,k_meth
+Z3_meth,ole4 + MeOH,ole5 + H2O,1,k_meth
+Z3_meth,ole4 + DME,ole5 + MeOH,1,k_meth
+Z3_meth,ole5 + MeOH,ole6 + H2O,0.999,k_meth
+Z3_meth,ole5 + DME,ole6 + MeOH,0.999,k_meth
+Z3_meth,ole6 + MeOH,ole7 + H2O,0.997,k_meth
+Z3_meth,ole6 + DME,ole7 + MeOH,0.997,k_meth
+Z3_meth,ole7 + MeOH,ole8 + H2O,0.986,k_meth
+Z3_meth,ole7 + DME,ole8 + MeOH,0.986,k_meth
+Z3_meth,ole8 + MeOH,ole9 + H2O,0.946,k_meth
+Z3_meth,ole8 + DME,ole9 + MeOH,0.946,k_meth
+Z3_meth,ole9 + MeOH,ole10 + H2O,0.807,k_meth
+Z3_meth,ole9 + DME,ole10 + MeOH,0.807,k_meth
+Z3_meth,ole10 + MeOH,ole11 + H2O,0.5,k_meth
+Z3_meth,ole10 + DME,ole11 + MeOH,0.5,k_meth
+Z3_meth,ole11 + MeOH,ole12 + H2O,0.193,k_meth
+Z3_meth,ole11 + DME,ole12 + MeOH,0.193,k_meth
+Z3_meth,ole12 + MeOH,ole13 + H2O,0.0543,k_meth
+Z3_meth,ole12 + DME,ole13 + MeOH,0.0543,k_meth
+Z3_meth,ole13 + MeOH,ole14 + H2O,0.0136,k_meth
+Z3_meth,ole13 + DME,ole14 + MeOH,0.0136,k_meth
+Z3_meth,ole14 + MeOH,ole15 + H2O,0.00329,k_meth
+Z3_meth,ole14 + DME,ole15 + MeOH,0.00329,k_meth
+Z3_meth,ole15 + MeOH,ole16 + H2O,0.00079,k_meth
+Z3_meth,ole15 + DME,ole16 + MeOH,0.00079,k_meth
+Z3_meth,ole16 + MeOH,ole17 + H2O,0.000189,k_meth
+Z3_meth,ole16 + DME,ole17 + MeOH,0.000189,k_meth
+Z3_meth,ole17 + MeOH,ole18 + H2O,4.54e-05,k_meth
+Z3_meth,ole17 + DME,ole18 + MeOH,4.54e-05,k_meth
+Z3_meth,ole18 + MeOH,ole19 + H2O,1.09e-05,k_meth
+Z3_meth,ole18 + DME,ole19 + MeOH,1.09e-05,k_meth
+Z3_meth,ole19 + MeOH,ole20 + H2O,2.61e-06,k_meth
+Z3_meth,ole19 + DME,ole20 + MeOH,2.61e-06,k_meth
+Z4_olig,2ole2,ole4,0.0025,k_olig
+Z4_olig,ole2 + ole3,ole5,0.05,k_olig
+Z4_olig,ole2 + ole4,ole6,0.05,k_olig
+Z4_olig,ole2 + ole5,ole7,0.0498,k_olig
+Z4_olig,ole2 + ole6,ole8,0.0493,k_olig
+Z4_olig,ole2 + ole7,ole9,0.0473,k_olig
+Z4_olig,ole2 + ole8,ole10,0.0403,k_olig
+Z4_olig,ole2 + ole9,ole11,0.025,k_olig
+Z4_olig,ole2 + ole10,ole12,0.00967,k_olig
+Z4_olig,ole2 + ole11,ole13,0.00272,k_olig
+Z4_olig,ole2 + ole12,ole14,0.000679,k_olig
+Z4_olig,ole2 + ole13,ole15,0.000164,k_olig
+Z4_olig,ole2 + ole14,ole16,3.95e-05,k_olig
+Z4_olig,ole2 + ole15,ole17,9.47e-06,k_olig
+Z4_olig,ole2 + ole16,ole18,2.27e-06,k_olig
+Z4_olig,ole2 + ole17,ole19,5.44e-07,k_olig
+Z4_olig,ole2 + ole18,ole20,1.3e-07,k_olig
+Z4_olig,2ole3,ole6,0.999,k_olig
+Z4_olig,ole3 + ole4,ole7,0.997,k_olig
+Z4_olig,ole3 + ole5,ole8,0.986,k_olig
+Z4_olig,ole3 + ole6,ole9,0.946,k_olig
+Z4_olig,ole3 + ole7,ole10,0.807,k_olig
+Z4_olig,ole3 + ole8,ole11,0.5,k_olig
+Z4_olig,ole3 + ole9,ole12,0.193,k_olig
+Z4_olig,ole3 + ole10,ole13,0.0543,k_olig
+Z4_olig,ole3 + ole11,ole14,0.0136,k_olig
+Z4_olig,ole3 + ole12,ole15,0.00329,k_olig
+Z4_olig,ole3 + ole13,ole16,0.00079,k_olig
+Z4_olig,ole3 + ole14,ole17,0.000189,k_olig
+Z4_olig,ole3 + ole15,ole18,4.54e-05,k_olig
+Z4_olig,ole3 + ole16,ole19,1.09e-05,k_olig
+Z4_olig,ole3 + ole17,ole20,2.61e-06,k_olig
+Z4_olig,2ole4,ole8,0.986,k_olig
+Z4_olig,ole4 + ole5,ole9,0.946,k_olig
+Z4_olig,ole4 + ole6,ole10,0.807,k_olig
+Z4_olig,ole4 + ole7,ole11,0.5,k_olig
+Z4_olig,ole4 + ole8,ole12,0.193,k_olig
+Z4_olig,ole4 + ole9,ole13,0.0543,k_olig
+Z4_olig,ole4 + ole10,ole14,0.0136,k_olig
+Z4_olig,ole4 + ole11,ole15,0.00329,k_olig
+Z4_olig,ole4 + ole12,ole16,0.00079,k_olig
+Z4_olig,ole4 + ole13,ole17,0.000189,k_olig
+Z4_olig,ole4 + ole14,ole18,4.54e-05,k_olig
+Z4_olig,ole4 + ole15,ole19,1.09e-05,k_olig
+Z4_olig,ole4 + ole16,ole20,2.61e-06,k_olig
+Z4_olig,2ole5,ole10,0.807,k_olig
+Z4_olig,ole5 + ole6,ole11,0.5,k_olig
+Z4_olig,ole5 + ole7,ole12,0.193,k_olig
+Z4_olig,ole5 + ole8,ole13,0.0543,k_olig
+Z4_olig,ole5 + ole9,ole14,0.0136,k_olig
+Z4_olig,ole5 + ole10,ole15,0.00329,k_olig
+Z4_olig,ole5 + ole11,ole16,0.00079,k_olig
+Z4_olig,ole5 + ole12,ole17,0.000189,k_olig
+Z4_olig,ole5 + ole13,ole18,4.54e-05,k_olig
+Z4_olig,ole5 + ole14,ole19,1.09e-05,k_olig
+Z4_olig,ole5 + ole15,ole20,2.61e-06,k_olig
+Z4_olig,2ole6,ole12,0.193,k_olig
+Z4_olig,ole6 + ole7,ole13,0.0543,k_olig
+Z4_olig,ole6 + ole8,ole14,0.0136,k_olig
+Z4_olig,ole6 + ole9,ole15,0.00329,k_olig
+Z4_olig,ole6 + ole10,ole16,0.00079,k_olig
+Z4_olig,ole6 + ole11,ole17,0.000189,k_olig
+Z4_olig,ole6 + ole12,ole18,4.54e-05,k_olig
+Z4_olig,ole6 + ole13,ole19,1.09e-05,k_olig
+Z4_olig,ole6 + ole14,ole20,2.61e-06,k_olig
+Z4_olig,2ole7,ole14,0.0136,k_olig
+Z4_olig,ole7 + ole8,ole15,0.00329,k_olig
+Z4_olig,ole7 + ole9,ole16,0.00079,k_olig
+Z4_olig,ole7 + ole10,ole17,0.000189,k_olig
+Z4_olig,ole7 + ole11,ole18,4.54e-05,k_olig
+Z4_olig,ole7 + ole12,ole19,1.09e-05,k_olig
+Z4_olig,ole7 + ole13,ole20,2.61e-06,k_olig
+Z4_olig,2ole8,ole16,0.00079,k_olig
+Z4_olig,ole8 + ole9,ole17,0.000189,k_olig
+Z4_olig,ole8 + ole10,ole18,4.54e-05,k_olig
+Z4_olig,ole8 + ole11,ole19,1.09e-05,k_olig
+Z4_olig,ole8 + ole12,ole20,2.61e-06,k_olig
+Z4_olig,2ole9,ole18,4.54e-05,k_olig
+Z4_olig,ole9 + ole10,ole19,1.09e-05,k_olig
+Z4_olig,ole9 + ole11,ole20,2.61e-06,k_olig
+Z4_olig,2ole10,ole20,2.61e-06,k_olig
+Z5_crack,ole5,ole2 + ole3,0.407,k_crack
+Z5_crack,ole6,ole2 + ole4,0.0909,k_crack
+Z5_crack,ole6,2ole3,0.909,k_crack
+Z5_crack,ole7,ole2 + ole5,0.224,k_crack
+Z5_crack,ole7,ole3 + ole4,2.24,k_crack
+Z5_crack,ole8,ole2 + ole6,0.288,k_crack
+Z5_crack,ole8,ole3 + ole5,2.88,k_crack
+Z5_crack,ole8,2ole4,2.88,k_crack
+Z5_crack,ole9,ole2 + ole7,0.709,k_crack
+Z5_crack,ole9,ole3 + ole6,7.09,k_crack
+Z5_crack,ole9,ole4 + ole5,7.09,k_crack
+Z5_crack,ole10,ole2 + ole8,1.18,k_crack
+Z5_crack,ole10,ole3 + ole7,11.8,k_crack
+Z5_crack,ole10,ole4 + ole6,11.8,k_crack
+Z5_crack,ole10,2ole5,11.8,k_crack
+Z5_crack,ole11,ole2 + ole9,2.9,k_crack
+Z5_crack,ole11,ole3 + ole8,29,k_crack
+Z5_crack,ole11,ole4 + ole7,29,k_crack
+Z5_crack,ole11,ole5 + ole6,29,k_crack
+Z5_crack,ole12,ole2 + ole10,5.4,k_crack
+Z5_crack,ole12,ole3 + ole9,54,k_crack
+Z5_crack,ole12,ole4 + ole8,54,k_crack
+Z5_crack,ole12,ole5 + ole7,54,k_crack
+Z5_crack,ole12,2ole6,54,k_crack
+Z5_crack,ole13,ole2 + ole11,13.3,k_crack
+Z5_crack,ole13,ole3 + ole10,133,k_crack
+Z5_crack,ole13,ole4 + ole9,133,k_crack
+Z5_crack,ole13,ole5 + ole8,133,k_crack
+Z5_crack,ole13,ole6 + ole7,133,k_crack
+Z5_crack,ole14,ole2 + ole12,26.3,k_crack
+Z5_crack,ole14,ole3 + ole11,263,k_crack
+Z5_crack,ole14,ole4 + ole10,263,k_crack
+Z5_crack,ole14,ole5 + ole9,263,k_crack
+Z5_crack,ole14,ole6 + ole8,263,k_crack
+Z5_crack,ole14,2ole7,263,k_crack
+Z5_crack,ole15,ole2 + ole13,64.6,k_crack
+Z5_crack,ole15,ole3 + ole12,646,k_crack
+Z5_crack,ole15,ole4 + ole11,646,k_crack
+Z5_crack,ole15,ole5 + ole10,646,k_crack
+Z5_crack,ole15,ole6 + ole9,646,k_crack
+Z5_crack,ole15,ole7 + ole8,646,k_crack
+Z5_crack,ole16,ole2 + ole14,133,k_crack
+Z5_crack,ole16,ole3 + ole13,1.33e+03,k_crack
+Z5_crack,ole16,ole4 + ole12,1.33e+03,k_crack
+Z5_crack,ole16,ole5 + ole11,1.33e+03,k_crack
+Z5_crack,ole16,ole6 + ole10,1.33e+03,k_crack
+Z5_crack,ole16,ole7 + ole9,1.33e+03,k_crack
+Z5_crack,ole16,2ole8,1.33e+03,k_crack
+Z5_crack,ole17,ole2 + ole15,327,k_crack
+Z5_crack,ole17,ole3 + ole14,3.27e+03,k_crack
+Z5_crack,ole17,ole4 + ole13,3.27e+03,k_crack
+Z5_crack,ole17,ole5 + ole12,3.27e+03,k_crack
+Z5_crack,ole17,ole6 + ole11,3.27e+03,k_crack
+Z5_crack,ole17,ole7 + ole10,3.27e+03,k_crack
+Z5_crack,ole17,ole8 + ole9,3.27e+03,k_crack
+Z5_crack,ole18,ole2 + ole16,690,k_crack
+Z5_crack,ole18,ole3 + ole15,6.9e+03,k_crack
+Z5_crack,ole18,ole4 + ole14,6.9e+03,k_crack
+Z5_crack,ole18,ole5 + ole13,6.9e+03,k_crack
+Z5_crack,ole18,ole6 + ole12,6.9e+03,k_crack
+Z5_crack,ole18,ole7 + ole11,6.9e+03,k_crack
+Z5_crack,ole18,ole8 + ole10,6.9e+03,k_crack
+Z5_crack,ole18,2ole9,6.9e+03,k_crack
+Z5_crack,ole19,ole2 + ole17,1.7e+03,k_crack
+Z5_crack,ole19,ole3 + ole16,1.7e+04,k_crack
+Z5_crack,ole19,ole4 + ole15,1.7e+04,k_crack
+Z5_crack,ole19,ole5 + ole14,1.7e+04,k_crack
+Z5_crack,ole19,ole6 + ole13,1.7e+04,k_crack
+Z5_crack,ole19,ole7 + ole12,1.7e+04,k_crack
+Z5_crack,ole19,ole8 + ole11,1.7e+04,k_crack
+Z5_crack,ole19,ole9 + ole10,1.7e+04,k_crack
+Z5_crack,ole20,ole2 + ole18,3.66e+03,k_crack
+Z5_crack,ole20,ole3 + ole17,3.66e+04,k_crack
+Z5_crack,ole20,ole4 + ole16,3.66e+04,k_crack
+Z5_crack,ole20,ole5 + ole15,3.66e+04,k_crack
+Z5_crack,ole20,ole6 + ole14,3.66e+04,k_crack
+Z5_crack,ole20,ole7 + ole13,3.66e+04,k_crack
+Z5_crack,ole20,ole8 + ole12,3.66e+04,k_crack
+Z5_crack,ole20,ole9 + ole11,3.66e+04,k_crack
+Z5_crack,ole20,2ole10,3.66e+04,k_crack
+Z6_cyc,ole6,nap6,0.999,k_cyc
+Z6_cyc,ole7,nap7,0.997,k_cyc
+Z6_cyc,ole8,nap8,0.986,k_cyc
+Z6_cyc,ole9,nap9,0.946,k_cyc
+Z6_cyc,ole10,nap10,0.807,k_cyc
+Z6_cyc,ole11,nap11,0.5,k_cyc
+Z6_cyc,ole12,nap12,0.193,k_cyc
+Z6_cyc,ole13,nap13,0.0543,k_cyc
+Z6_cyc,ole14,nap14,0.0136,k_cyc
+Z6_cyc,ole15,nap15,0.00329,k_cyc
+Z6_cyc,ole16,nap16,0.00079,k_cyc
+Z6_cyc,ole17,nap17,0.000189,k_cyc
+Z6_cyc,ole18,nap18,4.54e-05,k_cyc
+Z6_cyc,ole19,nap19,1.09e-05,k_cyc
+Z6_cyc,ole20,nap20,2.61e-06,k_cyc
+Z7_HT,nap6 + 3 olefin,aro6 + 3 paraffin,1,k_ht
+Z7_HT,nap7 + 3 olefin,aro7 + 3 paraffin,1,k_ht
+Z7_HT,nap8 + 3 olefin,aro8 + 3 paraffin,1,k_ht
+Z7_HT,nap9 + 3 olefin,aro9 + 3 paraffin,1,k_ht
+Z7_HT,nap10 + 3 olefin,aro10 + 3 paraffin,1,k_ht
+Z7_HT,nap11 + 3 olefin,aro11 + 3 paraffin,1,k_ht
+Z7_HT,nap12 + 3 olefin,aro12 + 3 paraffin,1,k_ht
+Z7_HT,nap13 + 3 olefin,aro13 + 3 paraffin,1,k_ht
+Z7_HT,nap14 + 3 olefin,aro14 + 3 paraffin,1,k_ht
+Z7_HT,nap15 + 3 olefin,aro15 + 3 paraffin,1,k_ht
+Z7_HT,nap16 + 3 olefin,aro16 + 3 paraffin,1,k_ht
+Z7_HT,nap17 + 3 olefin, + 3 paraffin,0,k_ht
+Z7_HT,nap18 + 3 olefin, + 3 paraffin,0,k_ht
+Z7_HT,nap19 + 3 olefin, + 3 paraffin,0,k_ht
+Z7_HT,nap20 + 3 olefin, + 3 paraffin,0,k_ht
+Z7b_dh,nap6,aro6 + 3H2,1,k_dh
+Z7b_dh,nap7,aro7 + 3H2,1,k_dh
+Z7b_dh,nap8,aro8 + 3H2,1,k_dh
+Z7b_dh,nap9,aro9 + 3H2,1,k_dh
+Z7b_dh,nap10,aro10 + 3H2,1,k_dh
+Z7b_dh,nap11,aro11 + 3H2,1,k_dh
+Z7b_dh,nap12,aro12 + 3H2,1,k_dh
+Z7b_dh,nap13,aro13 + 3H2,1,k_dh
+Z7b_dh,nap14,aro14 + 3H2,1,k_dh
+Z7b_dh,nap15,aro15 + 3H2,1,k_dh
+Z7b_dh,nap16,aro16 + 3H2,1,k_dh
+Z8_ameth,aro6 + MeOH,aro7 + H2O,0.998,k_ameth
+Z8_ameth,aro6 + DME,aro7 + MeOH,0.998,k_ameth
+Z8_ameth,aro7 + MeOH,aro8 + H2O,0.982,k_ameth
+Z8_ameth,aro7 + DME,aro8 + MeOH,0.982,k_ameth
+Z8_ameth,aro8 + MeOH,aro9 + H2O,0.881,k_ameth
+Z8_ameth,aro8 + DME,aro9 + MeOH,0.881,k_ameth
+Z8_ameth,aro9 + MeOH,aro10 + H2O,0.5,k_ameth
+Z8_ameth,aro9 + DME,aro10 + MeOH,0.5,k_ameth
+Z8_ameth,aro10 + MeOH,aro11 + H2O,0.119,k_ameth
+Z8_ameth,aro10 + DME,aro11 + MeOH,0.119,k_ameth
+Z8_ameth,aro11 + MeOH,aro12 + H2O,0.018,k_ameth
+Z8_ameth,aro11 + DME,aro12 + MeOH,0.018,k_ameth
+Z8_ameth,aro12 + MeOH,aro13 + H2O,0.00247,k_ameth
+Z8_ameth,aro12 + DME,aro13 + MeOH,0.00247,k_ameth
+Z8_ameth,aro13 + MeOH,aro14 + H2O,0.000335,k_ameth
+Z8_ameth,aro13 + DME,aro14 + MeOH,0.000335,k_ameth
+Z8_ameth,aro14 + MeOH,aro15 + H2O,4.54e-05,k_ameth
+Z8_ameth,aro14 + DME,aro15 + MeOH,4.54e-05,k_ameth
+Z8_ameth,aro15 + MeOH,aro16 + H2O,6.14e-06,k_ameth
+Z8_ameth,aro15 + DME,aro16 + MeOH,6.14e-06,k_ameth
+Z9_dealk,aro8,aro6 + ole2,0.0808,k_dealk
+Z9_dealk,aro9,aro7 + ole2,0.18,k_dealk
+Z9_dealk,aro9,aro6 + ole3,0.27,k_dealk
+Z9_dealk,aro10,aro8 + ole2,0.4,k_dealk
+Z9_dealk,aro10,aro7 + ole3,0.6,k_dealk
+Z9_dealk,aro11,aro9 + ole2,0.89,k_dealk
+Z9_dealk,aro11,aro8 + ole3,1.34,k_dealk
+Z9_dealk,aro12,aro10 + ole2,1.98,k_dealk
+Z9_dealk,aro12,aro9 + ole3,2.97,k_dealk
+Z9_dealk,aro13,aro11 + ole2,4.41,k_dealk
+Z9_dealk,aro13,aro10 + ole3,6.61,k_dealk
+Z9_dealk,aro14,aro12 + ole2,9.81,k_dealk
+Z9_dealk,aro14,aro11 + ole3,14.7,k_dealk
+Z9_dealk,aro15,aro13 + ole2,21.8,k_dealk
+Z9_dealk,aro15,aro12 + ole3,32.8,k_dealk
+Z9_dealk,aro16,aro14 + ole2,48.6,k_dealk
+Z9_dealk,aro16,aro13 + ole3,72.9,k_dealk
