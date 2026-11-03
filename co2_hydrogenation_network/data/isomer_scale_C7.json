@@ -1,0 +1,164 @@
+{
+ "cmax": 7,
+ "species_by_carbon_number": {
+  "alkane": [
+   1,
+   1,
+   1,
+   2,
+   3,
+   5,
+   9
+  ],
+  "alkene": [
+   0,
+   1,
+   1,
+   3,
+   5,
+   13,
+   27
+  ],
+  "diene": [
+   0,
+   0,
+   0,
+   1,
+   3,
+   11,
+   31
+  ],
+  "naphthene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   5
+  ],
+  "cycloalkene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   5,
+   19
+  ],
+  "cyclodiene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   5,
+   15
+  ],
+  "aromatic": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1
+  ],
+  "alkene E/Z resolved": [
+   0,
+   1,
+   1,
+   4,
+   6,
+   17,
+   36
+  ],
+  "diene E/Z resolved": [
+   0,
+   0,
+   0,
+   1,
+   4,
+   17,
+   53
+  ],
+  "carbenium ions (all)": [
+   0,
+   1,
+   2,
+   6,
+   19,
+   60,
+   180
+  ],
+  "carbenium ions (no primary)": [
+   0,
+   0,
+   1,
+   3,
+   12,
+   40,
+   128
+  ]
+ },
+ "totals": {
+  "closed-shell hydrocarbons": 174,
+  "closed-shell hydrocarbons, E/Z resolved": 218,
+  "oxygenates": {
+   "alcohol (ROH) / alkoxy*": 72,
+   "aldehyde (RCHO) / acyl*": 34,
+   "ketone": 26,
+   "carboxylic acid": 34
+  },
+  "carbenium ions (all)": 268,
+  "carbenium ions (no primary)": 184,
+  "arenium ions": 5,
+  "alkyl radicals = alkyl* = alkoxy* classes": 72
+ },
+ "reactions": {
+  "zeolite (all ions)": {
+   "protonation": 366,
+   "hshift": 177,
+   "pcp": 103,
+   "beta-scission/oligo": 83,
+   "cyclise": 38,
+   "alkylshift": 88,
+   "methylation (SMS)": 101,
+   "ringopen": 38
+  },
+  "zeolite (no primary ions)": {
+   "protonation": 282,
+   "hshift": 94,
+   "pcp": 74,
+   "beta-scission/oligo": 8,
+   "cyclise": 8,
+   "alkylshift": 27,
+   "methylation (SMS)": 80,
+   "ringopen": 8
+  },
+  "zeolite hydride transfer (ion pairs, formula)": 16836,
+  "aromatics": {
+   "methylation": 1,
+   "ring 1,2-shift isomerisation": 0,
+   "Friedel-Crafts alkylation/dealkylation": 0,
+   "transalkylation (methyl, formula)": 0
+  },
+  "metal": {
+   "alkyl* + H* -> alkane": 72,
+   "beta-H elimination alkyl* <-> olefin*": 96,
+   "CH2* insertion (chain growth, all branches)": 33,
+   "olefin adsorption (pi / di-sigma)": 50,
+   "CO insertion -> acyl*": 33,
+   "acyl* -> aldehyde -> alkoxy* -> alcohol (3 steps)": 102,
+   "alcohol dehydration / ketone hydrogenation": 98
+  },
+  "radicals": {
+   "radicals R. (alkyl, all sites)": 72,
+   "beta-scission R. -> olefin + R'.": 184,
+   "H-abstraction by H./CH3./OH (3 per site)": 216,
+   "recombination with H./CH3.": 144,
+   "1,2-H shift (R. <-> R'.)": 177
+  }
+ },
+ "runtime_s": 0.6
+}
