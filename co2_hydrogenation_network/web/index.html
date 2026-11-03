@@ -215,18 +215,18 @@ const FAM_CN = { "Z:prot": "质子化 / 去质子", "Z:hshift": "1,2-H 迁移", 
   "Z:beta": "β-断裂 / 齐聚", "Z:meth": "SMS 甲基化", "Z:cyclise": "烯基正离子成环", "Z:HT": "氢转移 HT", "H:hyd": "加氢 / 脱氢",
   "M:betaH": "β-H 消除", "M:CH2": "CH₂* 插入（链增长）", "M:CO": "CO* 插入", "M:hyd": "表面加氢终止",
   "O:dehyd": "醇脱水", "O:hyd": "羰基加氢", "O:ox": "醛 → 酸", "R:abs": "H 抽提 / 复合", "R:beta": "自由基 β-断裂",
-  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hcp": "多甲基苯 → 烃池", "C1": "C1 表面核心" };
+  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hcp": "多甲基苯 → 烃池", "C1": "C1 表面核心", "O:OH": "R* + OH* 终止成醇", "A:cyc": "侧链脱氢环化（茚满 / 四氢萘）" };
 const FAM_COL = { "Z:prot": "#5B9BE8", "Z:hshift": "#3A78D4", "Z:alkylshift": "#6A63DB", "Z:pcp": "#8C5AD8", "Z:beta": "#2C5DB8",
   "Z:meth": "#2FB0E0", "Z:cyclise": "#7B4CCB", "Z:HT": "#13A39A", "H:hyd": "#D99A00", "M:betaH": "#D64545", "M:CH2": "#E2603A",
   "M:CO": "#C2385E", "M:hyd": "#B04848", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
-  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hcp": "#7FCB97", "C1": "#14171C" };
+  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hcp": "#7FCB97", "C1": "#14171C", "O:OH": "#B07CD8", "A:cyc": "#5FAE3E" };
 const FAM_GROUPS = [
   ["分子筛 Brønsted 酸", ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise"]],
   ["氢转移 / 加氢", ["Z:HT", "H:hyd"]],
   ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:hyd"]],
-  ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox"]],
+  ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox", "O:OH"]],
   ["气相自由基", ["R:abs", "R:beta"]],
-  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:hcp"]],
+  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:cyc", "A:hcp"]],
   ["C1", ["C1"]],
 ];
 const BLOCK_CN = { MET: "金属/碳化物 + 氧化物", GAS: "气相", OX: "氧化物 H 溢流", BA: "分子筛酸位", BA2: "分子筛 HT / 成环", AR: "芳烃池" };

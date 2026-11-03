@@ -141,7 +141,7 @@ assert len(labels) == N
 # ---- reactions
 FAMS = ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise", "Z:HT", "H:hyd",
         "M:betaH", "M:CH2", "M:CO", "M:hyd", "O:dehyd", "O:hyd", "O:ox", "R:abs", "R:beta",
-        "A:meth", "A:iso", "A:FC", "A:hcp", "C1"]
+        "A:meth", "A:iso", "A:FC", "A:hcp", "C1", "O:OH", "A:cyc"]
 NONE = 0xFFFFFFFF
 rf, ra, rb, pa, pb = [], [], [], [], []
 with gzip.open(src / "reactions.tsv.gz", "rt") as fh:

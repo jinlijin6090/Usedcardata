@@ -3,15 +3,15 @@
 [     0.1s] C4: alkanes 2 naphthenes 0 aromatics 0
 [     0.1s] C5: alkanes 3 naphthenes 1 aromatics 0
 [     0.2s] C6: alkanes 5 naphthenes 2 aromatics 1
-[     0.2s] C7: alkanes 9 naphthenes 5 aromatics 1
-[     0.3s] C8: alkanes 18 naphthenes 14 aromatics 4
+[     0.3s] C7: alkanes 9 naphthenes 5 aromatics 1
+[     0.4s] C8: alkanes 18 naphthenes 14 aromatics 4
 [     0.4s] C9: alkanes 35 naphthenes 40 aromatics 9
 [     0.6s] C10: alkanes 75 naphthenes 111 aromatics 28
-[     0.8s] C11: alkanes 159 naphthenes 304 aromatics 75
-[     1.2s] C12: alkanes 355 naphthenes 838 aromatics 229
-[     2.2s] C13: alkanes 802 naphthenes 2286 aromatics 640
-[     5.5s] C14: alkanes 1858 naphthenes 6235 aromatics 1849
-[    13.6s] C15: alkanes 4347 naphthenes 16931 aromatics 5170
-[    36.9s] C16: alkanes 10359 naphthenes 45915 aromatics 14495
-[    42.3s] alkenes 154142
-[    84.3s] dienes 551801
+[     0.9s] C11: alkanes 159 naphthenes 304 aromatics 75
+[     1.4s] C12: alkanes 355 naphthenes 838 aromatics 229
+[     2.4s] C13: alkanes 802 naphthenes 2286 aromatics 640
+[     5.4s] C14: alkanes 1858 naphthenes 6235 aromatics 1849
+[    13.4s] C15: alkanes 4347 naphthenes 16931 aromatics 5170
+[    38.1s] C16: alkanes 10359 naphthenes 45915 aromatics 14495
+[    44.1s] alkenes 154142
+[    86.6s] dienes 551801

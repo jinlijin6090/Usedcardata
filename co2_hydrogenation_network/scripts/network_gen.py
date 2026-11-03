@@ -371,6 +371,7 @@ def w_site(alk):
             rw2.GetAtomWithIdx(a).SetFormalCharge(0)
         alc = f"alcohol|{edit(key, oh)}"
         spec.append(alc)
+        R.append(("O:OH", (ads, "pool|H2O"), (alc, "pool|H*")))     # R* + OH* termination
         for ol in sorted(set(olefins)):
             R.append(("O:dehyd", (alc,), (f"alkene|{ol}", "pool|H2O")))
 
@@ -501,6 +502,47 @@ def w_arom(s):
                     p = canon(rw)
                     if p in arom and s < p:
                         R.add(("A:iso", (me,), (f"aromatic|{p}",)))
+    # side-chain dehydrocyclisation onto the ortho ring position -> indanes (k = 3) / tetralins (k = 4)
+    for i in range(m.GetNumAtoms()):
+        A = m.GetAtomWithIdx(i)
+        if not A.GetIsAromatic():
+            continue
+        orthos = [o.GetIdx() for o in A.GetNeighbors() if o.GetIsAromatic() and o.GetTotalNumHs() > 0]
+        for X in A.GetNeighbors():
+            if X.GetIsAromatic() or X.IsInRing():
+                continue
+            # every simple path of 3 or 4 side-chain carbons starting at X (branched chains included)
+            stack = [[X.GetIdx()]]
+            while stack:
+                path = stack.pop()
+                if len(path) in (3, 4) and m.GetAtomWithIdx(path[-1]).GetTotalNumHs() > 0:
+                    for o in orthos:
+                        rw = Chem.RWMol(m)
+                        rw.AddBond(path[-1], o, S1)
+                        p = canon(rw)
+                        if p in arom:
+                            R.add(("A:cyc", (me,), (f"aromatic|{p}", "pool|H2")))
+                if len(path) < 4:
+                    for y in m.GetAtomWithIdx(path[-1]).GetNeighbors():
+                        if not y.GetIsAromatic() and not y.IsInRing() and y.GetIdx() not in path:
+                            stack.append(path + [y.GetIdx()])
+    # dehydrogenation of a fused saturated 6-ring (tetralin -> naphthalene type)
+    for ring in m.GetRingInfo().AtomRings():
+        if len(ring) != 6 or all(m.GetAtomWithIdx(j).GetIsAromatic() for j in ring):
+            continue
+        if not any(m.GetAtomWithIdx(j).GetIsAromatic() for j in ring):
+            continue
+        rw = Chem.RWMol(m)
+        rs = set(ring)
+        for b in rw.GetBonds():
+            if b.GetBeginAtomIdx() in rs and b.GetEndAtomIdx() in rs:
+                b.SetBondType(AR)
+                b.SetIsAromatic(True)
+        for j in rs:
+            rw.GetAtomWithIdx(j).SetIsAromatic(True)
+        p = canon(rw)
+        if p in arom and p != s:
+            R.add(("Z:HT", (me, "pool|[H]"), (f"aromatic|{p}",)))
     # polymethylbenzenes are hydrocarbon-pool members
     sk = [x for x in m.GetAtoms() if not x.GetIsAromatic()]
     if m.GetRingInfo().NumRings() == 1 and len(sk) >= 2 and all(x.GetDegree() == 1 for x in sk):
