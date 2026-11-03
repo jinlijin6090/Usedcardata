@@ -81,8 +81,8 @@ def fig_sweeps(sw):
     xl = {"T_C": "T (°C)", "P_MPa": "P (MPa)", "GHSV": "GHSV (mL g⁻¹ h⁻¹)", "H2_CO2": "H2/CO2",
           "phi_ox": "oxide mass fraction"}
     rows = [("X_CO2", "CO2 conversion (%)"), ("S_CO", "CO selectivity (%)"),
-            ("C8-C16", "C8-C16 in HC (%)")]
-    fig, axes = plt.subplots(3, 5, figsize=(12, 6.6), sharey="row")
+            ("C8-C16", "C8-C16 in HC (%)"), ("SAF_usable", "SAF-usable C8-C16 (%)")]
+    fig, axes = plt.subplots(4, 5, figsize=(12, 8.6), sharey="row")
     for j, var in enumerate(vals):
         x = vals[var]
         for i, (k, lab) in enumerate(rows):
@@ -92,7 +92,7 @@ def fig_sweeps(sw):
             ax.plot(x, Y[0], "-o", color=S[0], lw=2, ms=4)
             if var == "GHSV":
                 ax.set_xscale("log")
-            if i == 2:
+            if i == len(rows) - 1:
                 ax.set_xlabel(xl[var])
             if j == 0:
                 ax.set_ylabel(lab)

@@ -82,6 +82,8 @@ def _sweep_member(params):
 
 # ------------------------------------------------------------------ 3. DRC
 def drc(params, cond, h=0.05):
+    from model import DEFAULT
+    params = {**{k: tuple(v) for k, v in DEFAULT.items()}, **params}
     base = _summ(params, cond)
     outs = ["X_CO2", "S_CO", "C5+", "aromatics", "C8-C16", "Y_C8-C16", "SAF_usable"]
     res = {}

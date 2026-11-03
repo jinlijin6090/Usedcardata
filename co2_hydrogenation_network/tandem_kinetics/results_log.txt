@@ -1,0 +1,13 @@
+ensemble: 32/32 fits reproduce the G1 targets within 2 sigma
+Traceback (most recent call last):
+  File "/home/user/Usedcardata/co2_hydrogenation_network/tandem_kinetics/analyze.py", line 140, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/Usedcardata/co2_hydrogenation_network/tandem_kinetics/analyze.py", line 130, in main
+    base, d = drc(pcen, C.CASES[G1]["cond"])
+              ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Usedcardata/co2_hydrogenation_network/tandem_kinetics/analyze.py", line 90, in drc
+    up[k] = (params[k][0] * np.exp(h), params[k][1])
+             ~~~~~~^^^
+KeyError: 'K_w'
+exit 1
