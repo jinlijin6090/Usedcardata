@@ -1,0 +1,208 @@
+{
+ "cmax": 11,
+ "species_by_carbon_number": {
+  "alkane": [
+   1,
+   1,
+   1,
+   2,
+   3,
+   5,
+   9,
+   18,
+   35,
+   75,
+   159
+  ],
+  "alkene": [
+   0,
+   1,
+   1,
+   3,
+   5,
+   13,
+   27,
+   66,
+   153,
+   377,
+   914
+  ],
+  "diene": [
+   0,
+   0,
+   0,
+   1,
+   3,
+   11,
+   31,
+   93,
+   262,
+   748,
+   2094
+  ],
+  "naphthene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   5,
+   14,
+   40,
+   111,
+   304
+  ],
+  "cycloalkene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   5,
+   19,
+   67,
+   217,
+   683,
+   2077
+  ],
+  "cyclodiene": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   5,
+   15,
+   47,
+   127,
+   355,
+   944
+  ],
+  "aromatic": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   4,
+   9,
+   28,
+   75
+  ],
+  "alkene E/Z resolved": [
+   0,
+   1,
+   1,
+   4,
+   6,
+   17,
+   36,
+   92,
+   215,
+   542,
+   1328
+  ],
+  "diene E/Z resolved": [
+   0,
+   0,
+   0,
+   1,
+   4,
+   17,
+   53,
+   169,
+   503,
+   1490,
+   4304
+  ],
+  "carbenium ions (all)": [
+   0,
+   1,
+   2,
+   6,
+   19,
+   60,
+   180,
+   522,
+   1489,
+   4196,
+   11718
+  ],
+  "carbenium ions (no primary)": [
+   0,
+   0,
+   1,
+   3,
+   12,
+   40,
+   128,
+   378,
+   1096,
+   3109,
+   8720
+  ]
+ },
+ "totals": {
+  "closed-shell hydrocarbons": 10270,
+  "closed-shell hydrocarbons, E/Z resolved": 14250,
+  "oxygenates": {
+   "alcohol (ROH) / alkoxy*": 2117,
+   "aldehyde (RCHO) / acyl*": 880,
+   "ketone": 817,
+   "carboxylic acid": 880
+  },
+  "carbenium ions (all)": 18193,
+  "carbenium ions (no primary)": 13487,
+  "arenium ions": 579,
+  "alkyl radicals = alkyl* = alkoxy* classes": 2117
+ },
+ "reactions": {
+  "zeolite (all ions)": {
+   "protonation": 27295,
+   "hshift": 13573,
+   "pcp": 10731,
+   "beta-scission/oligo": 11808,
+   "cyclise": 4672,
+   "alkylshift": 9949,
+   "methylation (SMS)": 8270,
+   "ringopen": 4672
+  },
+  "zeolite (no primary ions)": {
+   "protonation": 22589,
+   "hshift": 8868,
+   "pcp": 8994,
+   "beta-scission/oligo": 3009,
+   "cyclise": 1922,
+   "alkylshift": 5745,
+   "methylation (SMS)": 7369,
+   "ringopen": 1922
+  },
+  "zeolite hydride transfer (ion pairs, formula)": 90942841,
+  "aromatics": {
+   "methylation": 110,
+   "ring 1,2-shift isomerisation": 76,
+   "Friedel-Crafts alkylation/dealkylation": 25,
+   "transalkylation (methyl, formula)": 6050
+  },
+  "metal": {
+   "alkyl* + H* -> alkane": 2117,
+   "beta-H elimination alkyl* <-> olefin*": 3106,
+   "CH2* insertion (chain growth, all branches)": 879,
+   "olefin adsorption (pi / di-sigma)": 1560,
+   "CO insertion -> acyl*": 879,
+   "acyl* -> aldehyde -> alkoxy* -> alcohol (3 steps)": 2640,
+   "alcohol dehydration / ketone hydrogenation": 2934
+  },
+  "radicals": {
+   "radicals R. (alkyl, all sites)": 2117,
+   "beta-scission R. -> olefin + R'.": 20078,
+   "H-abstraction by H./CH3./OH (3 per site)": 6351,
+   "recombination with H./CH3.": 4234,
+   "1,2-H shift (R. <-> R'.)": 13573
+  }
+ },
+ "runtime_s": 70.7
+}
