@@ -1,0 +1,35 @@
+[     0.0s] C2: alkanes 1 naphthenes 0 aromatics 0
+[     0.1s] C3: alkanes 1 naphthenes 0 aromatics 0
+[     0.1s] C4: alkanes 2 naphthenes 0 aromatics 0
+[     0.1s] C5: alkanes 3 naphthenes 1 aromatics 0
+[     0.2s] C6: alkanes 5 naphthenes 2 aromatics 1
+[     0.3s] C7: alkanes 9 naphthenes 5 aromatics 1
+[     0.4s] C8: alkanes 18 naphthenes 14 aromatics 4
+[     0.4s] C9: alkanes 35 naphthenes 40 aromatics 9
+[     0.6s] C10: alkanes 75 naphthenes 111 aromatics 28
+[     0.9s] C11: alkanes 159 naphthenes 304 aromatics 75
+[     1.4s] C12: alkanes 355 naphthenes 838 aromatics 229
+[     2.4s] C13: alkanes 802 naphthenes 2286 aromatics 640
+[     5.4s] C14: alkanes 1858 naphthenes 6235 aromatics 1849
+[    13.4s] C15: alkanes 4347 naphthenes 16931 aromatics 5170
+[    38.1s] C16: alkanes 10359 naphthenes 45915 aromatics 14495
+[    44.1s] alkenes 154142
+[    86.6s] dienes 551801
+[   725.3s] cycloalkenes 680705 cyclodienes 197997
+[  1230.2s] ions 2218048
+[  1347.2s]   ion moves 200000/2218048  reactions so far 4631299
+[  1452.5s]   ion moves 400000/2218048  reactions so far 5508710
+[  1555.4s]   ion moves 600000/2218048  reactions so far 6266624
+[  1651.4s]   ion moves 800000/2218048  reactions so far 7036919
+[  1759.7s]   ion moves 1000000/2218048  reactions so far 7748773
+[  1867.0s]   ion moves 1200000/2218048  reactions so far 8421367
+[  1970.8s]   ion moves 1400000/2218048  reactions so far 9095800
+[  2073.0s]   ion moves 1600000/2218048  reactions so far 9729522
+[  2174.2s]   ion moves 1800000/2218048  reactions so far 10323625
+[  2272.5s]   ion moves 2000000/2218048  reactions so far 10914249
+[  2336.4s]   ion moves 2200000/2218048  reactions so far 11232208
+[  2341.9s]   ion moves 2218048/2218048  reactions so far 11238625
+[  2504.2s] site species 860077
+[  2780.8s] raw reactions 15500138 {'Z:prot': 3852277, 'Z:pcp': 1802004, 'Z:alkylshift': 1340941, 'Z:meth': 1282656, 'Z:beta': 975217, 'Z:hshift': 1539169, 'Z:cyclise': 446361, 'M:hyd': 205825, 'R:abs': 205825, 'M:CH2': 80919, 'M:CO': 80919, 'O:OH': 205825, 'O:hyd': 161682, 'O:ox': 80920, 'R:beta': 158402, 'M:betaH': 308152, 'O:dehyd': 308152, 'H:hyd': 834847, 'Z:HT': 1554938, 'A:cyc': 23092, 'A:meth': 21928, 'A:iso': 20770, 'A:FC': 9285, 'A:hcp': 11, 'C1': 21}
+[  3474.6s] species 4776003
+[  4054.6s] done 4776003 species 15500138 reactions
