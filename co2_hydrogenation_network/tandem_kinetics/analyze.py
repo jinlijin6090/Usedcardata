@@ -25,7 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(HERE, "results")
 FIG = os.path.join(HERE, "figures")
 KEYS = ["X_CO2", "S_CO", "S_MeOH+DME", "CH4", "C2-C4=", "C2-C4o", "C5+", "aromatics",
-        "olefins_C5+", "paraffins_C5+", "C8-C16", "C5-C11", "SAF_usable", "Y_C8-C16"]
+        "olefins_C5+", "paraffins_C5+", "C8-C16", "C5-C11", "C17+", "SAF_usable", "Y_C8-C16", "nA_mean"]
 G1 = "G1_GaZrOx_GaZSM5"
 
 
