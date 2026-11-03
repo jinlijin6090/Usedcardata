@@ -253,9 +253,9 @@ def uvar(v, out):
 (dst / "x").mkdir(parents=True, exist_ok=True)
 nchunks = (NS + CH - 1) // CH
 sizes = Counter()
-Al = A.tolist()
-rfl = rf.tolist()
-for k in range(nchunks):
+
+
+def write_chunk(k):
     g0, g1 = k * CH, min(NS, (k + 1) * CH)
     n = g1 - g0
     labs = "\n".join(g_lab[g0:g1]).encode()
@@ -263,26 +263,39 @@ for k in range(nchunks):
     blob += b"\0" * ((-len(blob)) % 4) + lcount[g0:g1].tobytes() + labs
     lb = gzip.compress(blob, 9)
     (dst / "l" / f"{k}.bin").write_bytes(lb)
+    s0, s1 = int(starts[g0]), int(starts[g1])
+    rr = inc_r[s0:s1]
+    rows, fams, sds = A[rr].tolist(), rf[rr].tolist(), inc_side[s0:s1].tolist()
+    counts = (starts[g0 + 1:g1 + 1] - starts[g0:g1]).tolist()
     out = bytearray(struct.pack("<I", n))
-    for g in range(g0, g1):
-        s0, s1 = starts[g], starts[g + 1]
-        uvar(int(s1 - s0), out)
-        for q in range(s0, s1):
-            r = int(inc_r[q]); side = int(inc_side[q])
-            a0, a1, p0, p1 = Al[r]
+    q = 0
+    for i in range(n):
+        g = g0 + i
+        uvar(counts[i], out)
+        for _ in range(counts[i]):
+            a0, a1, p0, p1 = rows[q]
+            side = sds[q]
             others = [(x_, 0) for x_ in (a0, a1) if x_ >= 0] + [(x_, 1) for x_ in (p0, p1) if x_ >= 0]
             others.remove((g, side))
-            out.append(rfl[r] | (side << 5))
+            out.append(fams[q] | (side << 5))
             out.append(len(others))
             for x_, sd in others:
                 d = x_ - g
                 z = (d << 1) if d >= 0 else ((-d << 1) - 1)
                 uvar((z << 1) | sd, out)
+            q += 1
     xb = gzip.compress(bytes(out), 9)
     (dst / "x" / f"{k}.bin").write_bytes(xb)
-    sizes["l"] += len(lb); sizes["x"] += len(xb)
-    if k % 10 == 0:
-        log(f"chunk {k}/{nchunks}  l {sizes['l'] / 1e6:.1f} MB  x {sizes['x'] / 1e6:.1f} MB")
+    return k, len(lb), len(xb)
+
+
+import multiprocessing as mp  # noqa: E402
+
+with mp.get_context("fork").Pool(4) as pool:
+    for k, nl, nx in pool.imap_unordered(write_chunk, range(nchunks)):
+        sizes["l"] += nl; sizes["x"] += nx
+        if k % 10 == 0:
+            log(f"chunk {k}/{nchunks}  l {sizes['l'] / 1e6:.1f} MB  x {sizes['x'] / 1e6:.1f} MB")
 
 def geom(key):
     r, c = key
