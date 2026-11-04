@@ -1,0 +1,21 @@
+# 整个项目的 Python 环境（Windows / macOS / Linux 通用）。
+#   conda env create -f environment.yml    （或 mamba / micromamba）
+#   conda activate co2ec
+# RDKit 用 pip 装固定版本 2026.9.1，以保证规范 SMILES 与仓库数据一致。
+name: co2ec
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - matplotlib
+  - pillow
+  - python-duckdb
+  - pandas
+  - nodejs>=18          # 生成 PPT（co2_hydrogenation_network/deck）需要；在 deck/ 下 npm install
+  - pip
+  - pip:
+      - rdkit==2026.9.1
+      # 可选：网页截图检查
+      # - playwright

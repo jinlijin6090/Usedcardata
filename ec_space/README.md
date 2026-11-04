@@ -25,6 +25,13 @@
    ```
    `submit_example.slurm` 和 `submit_example.pbs` 是 SLURM 和 PBS 的示例。程序会自动读取作业分配到的核数（SLURM / PBS / LSF / SGE），否则使用本机全部核。
 
+**Windows / macOS 或已有 Python 环境**：先按仓库根目录的 `environment.yml`（或 `pip install rdkit==2026.9.1 numpy duckdb`）装好依赖，再用跨平台启动器：
+```bash
+python ec_space/run.py --selftest
+python ec_space/run.py ec_space/config.ini
+```
+多进程在 Linux 上用 fork，在 Windows / macOS 上自动改用 spawn，两种方式结果一致。
+
 想改规模，可以改 `config.ini`，也可以直接在命令行覆盖：
 ```bash
 bash run.sh config.ini --set space.max_heavy=10 --set write.derive_max_heavy=8

@@ -15,6 +15,7 @@ import math
 import multiprocessing as mp
 import os
 import shutil
+import sys
 import time
 import zlib
 from collections import Counter
@@ -23,6 +24,8 @@ from pathlib import Path
 from . import chem
 
 T0 = time.time()
+# Linux: fork (fast, shares nothing we rely on); Windows / macOS: spawn. Override with EC_MP_START=fork|spawn.
+MP_START = os.environ.get("EC_MP_START") or ("fork" if sys.platform.startswith("linux") else "spawn")
 
 
 def log(*a):
@@ -135,7 +138,7 @@ def enumerate_closed(cfg):
         for f in Ln.glob("*"):
             f.unlink()
         W = max(1, cfg.workers)
-        ctx = mp.get_context("fork")
+        ctx = mp.get_context(MP_START)
         q_in, q_out = ctx.Queue(maxsize=4 * W), ctx.Queue()
         procs = [ctx.Process(target=_gen_worker, args=(w, cfgd, n, S, str(tmp), q_in, q_out)) for w in range(W)]
         for p in procs:
@@ -291,7 +294,7 @@ def derive_all(cfg):
         sp_c, rx_c = Counter(), Counter()
         done = 0
         last = time.time()
-        ctx = mp.get_context("fork")
+        ctx = mp.get_context(MP_START)
         with ctx.Pool(W, initializer=_init_derive, initargs=(cfg,)) as pool:
             for np_, a, b in pool.imap_unordered(_derive_task, tasks(), chunksize=1):
                 done += np_

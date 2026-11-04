@@ -1,0 +1,8 @@
+# 不用 conda 时：python -m pip install -r requirements-research.txt （Python 3.10–3.13）
+rdkit==2026.9.1
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
+pillow>=10
+duckdb>=1.0
+pandas>=2.0

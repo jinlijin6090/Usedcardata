@@ -1,0 +1,12 @@
+# 可选：ni_cu_ce_al2o3/ 子项目（模型催化剂建模）需要的环境，与主项目无关。
+name: nicu
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - numpy
+  - matplotlib
+  - ase
+  - pip
+  - pip:
+      - torch
+      - mace-torch

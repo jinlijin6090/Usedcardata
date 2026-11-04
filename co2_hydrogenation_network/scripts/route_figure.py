@@ -24,7 +24,7 @@ from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch, Rectangl
 
 HERE = Path(__file__).resolve().parent
 NET = HERE.parent
-FONT_DIR = Path(os.environ.get("FONT_DIR", "/tmp/claude-0/-home-user-Usedcardata/67811793-2a44-5334-9b5f-f74c375d2e23/scratchpad/fonts"))
+FONT_DIR = Path(os.environ.get("FONT_DIR", str(NET / "assets" / "fonts")))
 for f in FONT_DIR.glob("*.ttf"):
     fm.fontManager.addfont(str(f))
 SANS = ["Noto Sans SC", "DejaVu Sans"]
