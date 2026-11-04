@@ -1,0 +1,10 @@
+#!/bin/bash
+# PBS / Torque 提交示例。用你自己的提交文件时，只需要把最后一行（bash .../run.sh ...）放进去。
+#PBS -N ec_space
+#PBS -l nodes=1:ppn=64
+#PBS -l mem=200gb
+#PBS -l walltime=72:00:00
+#PBS -j oe
+
+export NCPUS=64               # 程序据此决定进程数（也可以在 config.ini 的 [run] workers 里写死）
+bash /path/to/ec_space/run.sh /path/to/ec_space/config.ini

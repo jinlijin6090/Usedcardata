@@ -1,0 +1,10 @@
+EC 化学空间硬枚举程序：共 5 个文件
+  ec_space_程序.zip           程序、配置、网页模板、自检脚本、说明（README.md）
+  ecenv.tar.gz.part-00 ~ 03   打包好的 Python 环境（RDKit 2026.09.1、numpy、DuckDB；Linux x86-64），共 165 MB
+
+使用：
+  1. 解压 ec_space_程序.zip，得到 ec_space/ 目录
+  2. 把 4 个 ecenv.tar.gz.part-* 放进 ec_space/env/
+  3. （可选）自检：bash ec_space/run.sh --selftest
+  4. 在你的提交文件里写一行：bash /path/to/ec_space/run.sh /path/to/ec_space/config.ini
+详细说明见 ec_space/README.md。

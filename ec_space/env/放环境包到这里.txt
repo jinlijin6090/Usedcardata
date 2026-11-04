@@ -1,0 +1,4 @@
+把环境包放到这个目录：
+  ecenv.tar.gz.part-00、part-01、part-02、part-03（4 个分卷，run.sh 会自动合并）
+  或者合并好的 ecenv.tar.gz
+第一次运行 run.sh 时会自动解压到 env/ecenv/（只做一次）。
