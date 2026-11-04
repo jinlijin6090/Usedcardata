@@ -40,15 +40,16 @@ bash run.sh config.ini --stages estimate        # 只看规模估算，不真正
 
 ## 2. 运行流程
 
-程序依次执行下面五个阶段，每个阶段都可以断点续跑：
+程序依次执行下面六个阶段，每个阶段都可以断点续跑：
 
 | 阶段 | 做什么 | 输出 |
 |---|---|---|
 | estimate | 在本机精确枚举前 7 层，外推出各层的物种数、反应数、CPU 和磁盘需求 | `ESTIMATE.md` |
 | enumerate | 逐层生成全部闭壳层分子（每次加一个 C 或 O），在磁盘上按哈希分片去重 | `closed/L{n}/s*.smi.gz` |
 | derive | 对每个闭壳层分子生成它派生的全部自由基、离子、Li⁺ 配位物和基元反应 | `species/`、`reactions/`、`derive/L{n}.json` |
-| stats | 汇总统计 | `stats.json`、`SUMMARY.md`（中文表格） |
-| viewer | 生成本地网页 | `viewer/index.html`，双击即可打开，不需要联网 |
+| solvent | 每个自由基 / 负离子与溶剂分子（`[solvent] solvents`）的双分子反应，见第 7 节 | `solvent/<TAG>/` |
+| stats | 汇总统计 | `stats.json`、`SUMMARY_<TAG>.md`（中文表格） |
+| viewer | 生成本地网页 | `viewer_<TAG>/index.html`，双击即可打开，不需要联网 |
 
 - **断点续跑**：每完成一层就写一个 `DONE.json`。作业中断或超时后，用同一条命令重新提交，已完成的层会被跳过。
 - **超大层只计数**：重原子数大于 `derive_max_heavy` 的层，派生物种和反应不逐条写出，只按 `count_sample` 抽样统计数量。闭壳层分子始终全部写出。
@@ -150,13 +151,47 @@ $P -m ecspace.query ec_space_out --export ledc.parquet "SELECT * FROM species WH
 
 ## 6. 网页预览
 
-`ec_space_out/viewer/index.html` 双击就能打开，不需要联网，也可以拷到别的电脑上看。
+`ec_space_out/viewer_<TAG>/index.html`（例如 `viewer_EC/`；不设溶剂时为 `viewer/`）双击就能打开，不需要联网，也可以拷到别的电脑上看。
 - 列是重原子数，行是物种类别。放大到哪里，就读取哪里的标签和反应。
 - 单击物种可以查看结构式、它参与的全部基元反应，以及从 EC 出发的最短路径（e⁻、Li⁺、H•、H⁺、H⁻ 视为始终可用）。
 - 例如 EC + e⁻ → EC•⁻ → •CH₂CH₂OCO₂⁻ 是 2 步。
 - 网页默认只包含重原子 ≤ 7 的物种（约 140 万个，浏览器里可以流畅加载），可在 `[viewer] max_heavy` 调整。每格物种过多时按 `max_per_cell` 抽样。
 
-## 7. 文件
+## 7. 其他溶剂与混合溶剂：EC、DMC、EA、DME、EC/DMC
+
+`presets/` 里有 5 个预设，详细说明见 `presets/README.md`：
+
+| 预设 | 溶剂 | 起点 |
+|---|---|---|
+| `presets/EC.ini` | EC | EC |
+| `presets/DMC.ini` | DMC | DMC |
+| `presets/EA.ini` | EA | EA |
+| `presets/DME.ini` | DME（1,2-二甲氧基乙烷） | DME |
+| `presets/EC_DMC.ini` | EC + DMC | EC 和 DMC |
+
+要点：
+- EC、DMC、EA、DME 都是 6 个重原子，"两个分子"都是 ≤ 12 个重原子。闭壳层分子和全部自由基、离子、Li⁺ 配位物的空间**与溶剂无关**，只算一次即可。
+- 随溶剂变化的是新增的 `solvent` 阶段：每个定域、不含 Li 的自由基 / 负离子，与每种溶剂分子之间的双分子反应。共四类：
+  - 从溶剂抽 H；
+  - 夺溶剂质子；
+  - 亲核酰基取代（酯交换、EC 开环、Claisen 型 C-酰化）；
+  - SN2 烷基转移（DMC 甲基化、DME 醚断裂）。
+
+  混合溶剂时 EC↔DMC 之间的交叉反应自动包括在内，互逆的反应只记一次。
+- **操作**：
+  1. 第一次 `bash run.sh presets/EC.ini`，完整计算；
+  2. 之后每换一种溶剂，只跑 `bash run.sh presets/DMC.ini --stages solvent,stats,viewer`，共用同一个 `ec_space_out/`。
+  3. 结果分别在 `solvent/<TAG>/`、`SUMMARY_<TAG>.md` 和 `viewer_<TAG>/`。
+
+规模（重原子 ≤ 8 的测试中实测：溶剂反应数与基础反应数之比各层基本不变，下表按此比例外推到默认配置）：
+
+| 体系 | 溶剂反应 / 基础反应 | ≤ 12 重原子的溶剂反应（外推） | 写出（≤ 9 层） | CPU |
+|---|---|---|---|---|
+| EC、DMC | 0.22 | 约 8×10¹⁰ | 约 0.5 GB | 每种溶剂约 50–150 核时（实测为派生阶段的 0.3–0.4 倍），远小于基础空间的约 1 400 核时 |
+| DME、EC+DMC | 0.43 | 约 1.6×10¹¹ | 约 0.9 GB | 同上 |
+| EA | 0.65 | 约 2.4×10¹¹ | 约 1.4 GB | 同上 |
+
+## 8. 文件
 
 ```
 ec_space/
@@ -164,8 +199,9 @@ ec_space/
   config.ini             配置（中文注释）
   submit_example.slurm   SLURM 提交示例
   submit_example.pbs     PBS 提交示例
-  ecspace/               程序（chem.py 化学规则，pipeline.py 并行枚举与去重，viewer.py 网页数据，query.py 查询）
+  ecspace/               程序（chem.py 化学规则，pipeline.py 并行枚举与去重，solvent.py 溶剂双分子反应，viewer.py 网页数据，query.py 查询）
   viewer/                网页模板与 smiles-drawer（MIT 许可证）
-  tests/selftest.sh      自检
+  presets/               溶剂预设：EC、DMC、EA、DME、EC_DMC（说明见 presets/README.md）
+  tests/selftest.sh      自检（含 EC/DMC 溶剂反应检查）
   env/                   放环境包 ecenv.tar.gz 或分卷 ecenv.tar.gz.part-*（Python 3.11、RDKit 2026.09.1、numpy 2.4、DuckDB 2.0；conda-pack 打包，Linux x86-64）
 ```

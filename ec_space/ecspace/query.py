@@ -4,8 +4,10 @@
     python -m ecspace.query <out_dir> --reactions-of "O=C1OCCO1"
     python -m ecspace.query <out_dir> --export species.parquet "SELECT * FROM species WHERE heavy <= 8"
 
+    python -m ecspace.query <out_dir> --solvent EC+DMC --reactions-of "COC(=O)OC"
+
 Views: species(key, type, charge, multiplicity, C, H, O, Li, heavy, parent)
-       reactions(family, reactants, products, parent_heavy)
+       reactions(family, reactants, products, parent_heavy)   -- includes solvent/<TAG>/ (all tags, or --solvent TAG)
        closed(smiles, heavy)            -- every closed-shell molecule of every layer
 """
 import sys
@@ -17,11 +19,17 @@ SP_COLS = "{'key':'VARCHAR','type':'VARCHAR','charge':'INTEGER','multiplicity':'
 RX_COLS = "{'family':'VARCHAR','reactants':'VARCHAR','products':'VARCHAR','parent_heavy':'INTEGER'}"
 
 
-def connect(out):
+def connect(out, tag=None):
     out = Path(out)
     con = duckdb.connect()
     sp = [str(p) for p in sorted((out / "species").glob("L*/part-*.tsv.gz"))] + [str(out / "species" / "POOL.tsv")]
     rx = [str(p) for p in sorted((out / "reactions").glob("L*/part-*.tsv.gz"))]
+    sdirs = [d for d in sorted((out / "solvent").glob("*")) if d.is_dir()] if (out / "solvent").exists() else []
+    if tag is not None:
+        sdirs = [d for d in sdirs if d.name == tag]
+    for d in sdirs:          # solvent-partner reactions and the few new (> derive_max_heavy) product species
+        rx += [str(p) for p in sorted((d / "reactions").glob("L*/part-*.tsv.gz"))]
+        sp += [str(p) for p in sorted((d / "species").glob("L*/part-*.tsv.gz"))]
     cl = sorted((out / "closed").glob("L*/s*.smi.gz"))
     if sp:
         con.execute(f"CREATE VIEW species AS SELECT * FROM read_csv({sp!r}, delim='\\t', header=false, columns={SP_COLS}, quote='', escape='', skip=0, null_padding=true) WHERE key <> 'key'")
@@ -37,7 +45,14 @@ def main():
     if len(sys.argv) < 3:
         print(__doc__)
         return
-    con = connect(sys.argv[1])
+    args = sys.argv[1:]
+    tag = None
+    if "--solvent" in args:
+        i = args.index("--solvent")
+        tag = args[i + 1]
+        del args[i:i + 2]
+    sys.argv = [sys.argv[0]] + args
+    con = connect(sys.argv[1], tag)
     if sys.argv[2] == "--reactions-of":
         k = sys.argv[3].replace("'", "''")
         q = f"SELECT family, reactants || ' ⇌ ' || products AS equation FROM reactions WHERE list_contains(string_split(reactants, ' + '), '{k}') OR list_contains(string_split(products, ' + '), '{k}') ORDER BY family"

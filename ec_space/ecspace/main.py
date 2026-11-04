@@ -1,7 +1,10 @@
 """Entry point:  python -m ecspace.main --config config.ini [--set section.key=value ...] [--stages ...]
 
-Stages (default: all, in order):  estimate  enumerate  derive  stats  viewer
+Stages (default: all, in order):  estimate  enumerate  derive  solvent  stats  viewer
 Every stage is resumable: finished layers are skipped when the job is restarted.
+The closed-shell / derived space does not depend on the solvent; `solvent` (only when [solvent] solvents is set)
+adds the bimolecular steps with the solvent molecules into out/solvent/<TAG>/, so one base run serves every
+solvent system:  --stages solvent,stats,viewer  with another preset and the same run.out.
 """
 from __future__ import annotations
 
@@ -28,6 +31,8 @@ FAM_CN = {
     "electron_capture": "得电子（M + e⁻ ⇌ M•⁻）", "electron_loss": "失电子（M ⇌ M•⁺ + e⁻）", "site_electron_transfer": "位点电子转移（R• ⇌ R⁻ / R⁺）",
     "li_binding": "Li⁺ 配位", "homolysis": "均裂 / 自由基复合", "heterolysis": "异裂 / 离子复合", "beta_scission": "自由基 β-断裂 / 加成",
     "radical_anion_fragmentation": "自由基阴离子断键（含开环）", "radical_cation_fragmentation": "自由基阳离子断键", "pair_steps": "双位点物种的逐步形成",
+    "solvent_h_abstraction": "从溶剂分子抽 H（X• + S ⇌ XH + S•）", "solvent_deprotonation": "夺溶剂质子（X⁻ + S ⇌ XH + S⁻）",
+    "solvent_acyl_transfer": "亲核酰基取代：酯交换 / 开环 / C-酰化（X⁻ + S）", "solvent_alkyl_transfer": "SN2 烷基转移：甲基化 / 醚断裂（X⁻ + S）",
 }
 
 
@@ -128,6 +133,16 @@ def stats(cfg):
     res = {"config": cfg.source, "max_heavy": cfg.max_heavy, "derive_max_heavy": cfg.derive_max_heavy,
            "closed_shell_total": sum(L["closed_shell"] for L in layers), "species_total": tot_sp, "reactions_total": tot_rx,
            "layers": layers}
+    from . import solvent as solv
+    tag = solv.tag_of(cfg)
+    sol = []
+    if tag:
+        for n in range(1, cfg.max_heavy + 1):
+            sj = out / "solvent" / tag / f"L{n}.json"
+            if sj.exists():
+                sol.append(json.loads(sj.read_text()))
+        res["solvent"] = {"tag": tag, "solvents": [k for _, k in solv.resolve(cfg.solvents)], "layers": sol,
+                          "reactions_total": sum(v for L in sol for k, v in L["reactions"].items() if not k.startswith("_"))}
     (out / "stats.json").write_text(json.dumps(res, indent=1, ensure_ascii=False))
     md = [f"# EC 化学空间枚举结果（重原子 ≤ {cfg.max_heavy}）", "",
           f"- 闭壳层中性分子：**{res['closed_shell_total']:,}**（精确）",
@@ -144,7 +159,21 @@ def stats(cfg):
     md += ["", "## 按反应类型", "", "| 反应类型 | 数量 |", "|---|---|"]
     for f in fams:
         md.append(f"| {FAM_CN.get(f, f)} | {sum(L['reactions'].get(f, 0) for L in layers):,} |")
-    (out / "SUMMARY.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    if tag and sol:
+        sfam = sorted({f for L in sol for f in L["reactions"] if not f.startswith("_")})
+        names = "、".join(f"{lab}（{k}）" for lab, k in solv.resolve(cfg.solvents))
+        md += ["", f"## 与溶剂分子的双分子反应：{tag}", "", f"溶剂：{names}。每个自由基 / 负离子（定域、不含 Li）与每种溶剂分子之间的反应；"
+               f"结果在 solvent/{tag}/。", "", "| 重原子（反应物 X） | 反应数 |", "|---|---|"]
+        for L in sol:
+            md.append(f"| {L['n']} | {'' if L['exact'] else '≈ '}{sum(v for k, v in L['reactions'].items() if not k.startswith('_')):,} |")
+        md += ["", "| 反应类型 | 数量 |", "|---|---|"]
+        for f in sfam:
+            md.append(f"| {FAM_CN.get(f, f)} | {sum(L['reactions'].get(f, 0) for L in sol):,} |")
+        md.append(f"| 合计 | {res['solvent']['reactions_total']:,} |")
+    name = f"SUMMARY_{tag}.md" if tag else "SUMMARY.md"
+    (out / name).write_text("\n".join(md) + "\n", encoding="utf-8")
+    if tag:
+        (out / f"stats_{tag}.json").write_text(json.dumps(res, indent=1, ensure_ascii=False))
     print("\n".join(md), flush=True)
 
 
@@ -152,12 +181,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="EC chemical-space brute-force enumeration")
     ap.add_argument("--config", default=None)
     ap.add_argument("--set", action="append", default=[], help="override, e.g. space.max_heavy=10")
-    ap.add_argument("--stages", default="estimate,enumerate,derive,stats,viewer")
+    ap.add_argument("--stages", default="estimate,enumerate,derive,solvent,stats,viewer")
     a = ap.parse_args(argv)
     cfg = config.load(a.config, a.set)
     cfg.out.mkdir(parents=True, exist_ok=True)
     stages = [s.strip() for s in a.stages.split(",") if s.strip()]
-    log(f"EC chemical space  max_heavy={cfg.max_heavy}  derive_max_heavy={cfg.derive_max_heavy}  workers={cfg.workers}  out={cfg.out}")
+    log(f"chemical space  solvents={'+'.join(cfg.solvents) or '-'}  start={','.join(cfg.start)}  max_heavy={cfg.max_heavy}  derive_max_heavy={cfg.derive_max_heavy}  workers={cfg.workers}  out={cfg.out}")
     (cfg.out / "config_used.json").write_text(json.dumps({k: (str(v) if isinstance(v, Path) else v) for k, v in cfg.__dict__.items()},
                                                          indent=1, ensure_ascii=False))
     if "estimate" in stages or cfg.dry_run:
@@ -170,6 +199,9 @@ def main(argv=None):
     if "derive" in stages:
         pipeline.write_headers(cfg)
         pipeline.derive_all(cfg)
+    if "solvent" in stages:
+        from . import solvent
+        solvent.run(cfg)
     if "stats" in stages:
         stats(cfg)
     if "viewer" in stages:

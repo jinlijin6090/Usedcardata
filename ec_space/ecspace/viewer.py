@@ -36,26 +36,35 @@ CLASS_COL = {"closed": "#2F3338", "rad": "#6E7380", "an": "#1F5FBF", "cat": "#D6
              "dist": "#13A39A", "li1": "#E07B00", "li2": "#B85C00", "pool": "#8C95A3"}
 CLASS_CN = {k: lab for k, lab, *_ in ROWS} | {"pool": "电子 / 离子池"}
 FAMS = ["h_loss", "deprotonation", "hydride_loss", "protonation", "electron_capture", "electron_loss", "site_electron_transfer",
-        "li_binding", "homolysis", "heterolysis", "beta_scission", "radical_anion_fragmentation", "radical_cation_fragmentation", "pair_steps"]
+        "li_binding", "homolysis", "heterolysis", "beta_scission", "radical_anion_fragmentation", "radical_cation_fragmentation", "pair_steps",
+        "solvent_h_abstraction", "solvent_deprotonation", "solvent_acyl_transfer", "solvent_alkyl_transfer"]
 FAM_CN = {"h_loss": "失 / 得 H•", "deprotonation": "去质子 / 质子化 C、O", "hydride_loss": "失 / 得 H⁻", "protonation": "O 质子化",
           "electron_capture": "得电子 M•⁻", "electron_loss": "失电子 M•⁺", "site_electron_transfer": "位点电子转移",
           "li_binding": "Li⁺ 配位", "homolysis": "均裂 / 自由基复合", "heterolysis": "异裂 / 离子复合", "beta_scission": "自由基 β-断裂 / 加成",
-          "radical_anion_fragmentation": "自由基阴离子断键 / 开环", "radical_cation_fragmentation": "自由基阳离子断键", "pair_steps": "双位点物种逐步形成"}
+          "radical_anion_fragmentation": "自由基阴离子断键 / 开环", "radical_cation_fragmentation": "自由基阳离子断键", "pair_steps": "双位点物种逐步形成",
+          "solvent_h_abstraction": "从溶剂抽 H（X• + S → XH + S•）", "solvent_deprotonation": "夺溶剂质子（X⁻ + S → XH + S⁻）",
+          "solvent_acyl_transfer": "亲核酰基取代 / 酯交换 / 开环", "solvent_alkyl_transfer": "SN2 烷基转移（甲基化 / 醚断裂）"}
 FAM_COL = {"h_loss": "#8A9099", "deprotonation": "#3A78D4", "hydride_loss": "#C2385E", "protonation": "#D99A00", "electron_capture": "#6A63DB",
            "electron_loss": "#B04848", "site_electron_transfer": "#8C5AD8", "li_binding": "#E07B00", "homolysis": "#5F6670",
            "heterolysis": "#2C5DB8", "beta_scission": "#13A39A", "radical_anion_fragmentation": "#1E9C4B",
-           "radical_cation_fragmentation": "#C77A2E", "pair_steps": "#7FCB97"}
+           "radical_cation_fragmentation": "#C77A2E", "pair_steps": "#7FCB97",
+           "solvent_h_abstraction": "#A0522D", "solvent_deprotonation": "#0B7FAB", "solvent_acyl_transfer": "#C2185B",
+           "solvent_alkyl_transfer": "#7B5E00"}
 FAM_GROUPS = [["电子转移", ["electron_capture", "electron_loss", "site_electron_transfer"]],
               ["H 与质子转移", ["h_loss", "deprotonation", "hydride_loss", "protonation"]],
               ["Li⁺", ["li_binding"]],
               ["断键 / 成键", ["homolysis", "heterolysis", "beta_scission", "radical_anion_fragmentation", "radical_cation_fragmentation"]],
-              ["其他", ["pair_steps"]]]
+              ["其他", ["pair_steps"]],
+              ["与溶剂分子的双分子反应", ["solvent_h_abstraction", "solvent_deprotonation", "solvent_acyl_transfer", "solvent_alkyl_transfer"]]]
 POOL_KEYS = ["[e-]", "[Li+]", "[H]", "[H+]", "[H-]"]
 POOL_LABEL = {"[e-]": "e⁻", "[Li+]": "Li⁺", "[H]": "H•", "[H+]": "H⁺", "[H-]": "H⁻"}
 ALIAS = {"O=C1OCCO1": "EC 碳酸乙烯酯", "O=C=O": "CO₂", "[C-]#[O+]": "CO", "C=C": "乙烯", "O": "H₂O", "OCCO": "乙二醇",
          "O=CO": "甲酸", "O=C(O)O": "碳酸", "C": "甲烷", "CO": "甲醇", "CCO": "乙醇", "C=O": "甲醛", "CC=O": "乙醛",
          "O=C1OC=CO1": "VC 碳酸亚乙烯酯", "COC(=O)OC": "DMC 碳酸二甲酯", "CCOC(=O)OCC": "DEC 碳酸二乙酯",
-         "O=C(O)OCCOC(=O)O": "乙二醇双碳酸（LEDC 母体）"}
+         "O=C(O)OCCOC(=O)O": "乙二醇双碳酸（LEDC 母体）", "CCOC(C)=O": "EA 乙酸乙酯", "COCCOC": "DME 乙二醇二甲醚",
+         "COC": "二甲醚", "CCOC(=O)OC": "EMC 碳酸甲乙酯", "COC(C)=O": "乙酸甲酯", "CC1COC(=O)O1": "PC 碳酸丙烯酯",
+         "CC(=O)O": "乙酸", "C1CCOC1": "THF", "C1COCO1": "DOL 1,3-二氧戊环", "COC(=O)O": "碳酸单甲酯",
+         "COC(=O)OCCO": "EC/DMC 开环产物 HOCH₂CH₂OCO₂CH₃", "COC(=O)OCCOC(=O)OC": "DMDOHC 乙二醇双（碳酸甲酯）"}
 
 
 def row_of(t):
@@ -79,7 +88,11 @@ def _uvar(v, out):
 def build(cfg):
     out = cfg.out
     vmax = min(cfg.max_heavy, cfg.derive_max_heavy, getattr(cfg, "viewer_max_heavy", 99))
-    vdir = out / "viewer"
+    from . import chem, solvent
+    tag = solvent.tag_of(cfg)
+    vdir = out / (f"viewer_{tag}" if tag else "viewer")
+    start_keys = [chem.stable_smiles(chem.Chem.MolFromSmiles(k)) for k in cfg.start]
+    sdirs = [out / "solvent" / tag] if tag else []
     if vdir.exists():
         shutil.rmtree(vdir)
     (vdir / "l").mkdir(parents=True)
@@ -103,13 +116,12 @@ def build(cfg):
     cap = cfg.max_per_cell
     if total > cfg.max_species:
         cap = min(cap, max(50, int(cfg.max_species / max(1, len(cell_members)))))
-    start_key = cfg.start
     keep = []
     for k, mem in cell_members.items():
         if len(mem) > cap:
             mem = sorted(mem, key=lambda i: zlib.crc32(keys[i].encode()))
-            st = [i for i in mem if keys[i] == start_key]
-            mem = st + [i for i in mem[:cap] if keys[i] != start_key]
+            st = [i for i in mem if keys[i] in start_keys]
+            mem = st + [i for i in mem[:cap] if keys[i] not in start_keys]
         cell_members[k] = sorted(mem, key=lambda i: (keys[i].count("("), len(keys[i]), keys[i]))
         keep.extend(cell_members[k])
     sampled = sum(len(v) for v in cell_members.values()) < total
@@ -134,7 +146,10 @@ def build(cfg):
     rf, A = [], []
     fi = {f: i for i, f in enumerate(FAMS)}
     for n in range(1, vmax + 1):
-        for f in sorted((out / "reactions" / f"L{n}").glob("part-*.tsv.gz")):
+        rfiles = sorted((out / "reactions" / f"L{n}").glob("part-*.tsv.gz"))
+        for sd in sdirs:
+            rfiles += sorted((sd / "reactions" / f"L{n}").glob("part-*.tsv.gz"))
+        for f in rfiles:
             with gzip.open(f, "rt") as fh:
                 for line in fh:
                     p = line.rstrip("\n").split("\t")
@@ -156,9 +171,9 @@ def build(cfg):
     is_pool = g_cls == classes.index("pool")
     lev = np.full(NS, -1, dtype=np.int32)
     lev[is_pool] = 0
-    start = gid_of_key.get(start_key, -1)
-    if start >= 0:
-        lev[start] = 0
+    start_ids = [gid_of_key[k] for k in start_keys if k in gid_of_key]
+    start = start_ids[0] if start_ids else -1
+    lev[start_ids] = 0
     din = np.concatenate([A[:, 0:2], A[:, 2:4]])
     dout = np.concatenate([A[:, 2:4], A[:, 0:2]])
     dfam = np.concatenate([rf, rf])
@@ -176,8 +191,7 @@ def build(cfg):
         lev[o[lev[o] < 0]] = L + 1
         L += 1
     cnt_p = np.zeros(NS)
-    if start >= 0:
-        cnt_p[start] = 1.0
+    cnt_p[start_ids] = 1.0
     po, pf, pi_ = [], [], []
     for Lv in range(1, int(lev.max()) + 1 if NS else 1):
         sel = np.where(elev == Lv)[0]
@@ -329,6 +343,9 @@ def build(cfg):
     for k, nm in ALIAS.items():
         if k in gid_of_key:
             alias[nm] = gid_of_key[k]
+    short = {k: lab for lab, k in solvent.resolve(cfg.solvents)} if tag else {}
+    start_label = " + ".join(short.get(k) or ALIAS.get(k, k).split(" ")[0] for k in start_keys)
+    space_name = tag.replace("+", " / ") if tag else start_label
     meta = {
         "cmax": vmax, "full_upto": vmax, "W": W, "H": H, "chunk": CH, "nchunks": nchunks, "n_species": NS, "n_reactions": NR,
         "n_pool": len(POOL_KEYS), "classes": classes, "fams": FAMS,
@@ -339,12 +356,12 @@ def build(cfg):
         "cells": [dict(r=r, c=c, g0=cell_base[(r, c)], n=cnt[(r, c)], **geom((r, c))) for (r, c) in cell_list],
         "special": special, "alias": alias, "fam_counts": dict(Counter(FAMS[f] for f in rf.tolist())), "flows": flow_list,
         "max_level": int(lev.max()) if NS else 0, "sizes_MB": {k: round(v / 1e6, 1) for k, v in sizes.items()},
-        "start_gid": start, "default_gid": start,
-        "ui": {"title": f"EC 化学空间 · 重原子 ≤ {vmax}（含自由基、离子、Li⁺ 配位物）",
+        "start_gid": start, "start_gids": start_ids, "default_gid": start, "solvent_tag": tag,
+        "ui": {"title": f"{space_name} 化学空间 · 重原子 ≤ {vmax}（含自由基、离子、Li⁺ 配位物{'、与溶剂分子的双分子反应' if tag else ''}）",
                "subtitle": ("每个点是一个物种。列为重原子数，行为物种类别。放大后分级加载标签与每条基元反应；"
-                            "单击物种查看全部反应，以及从 EC + e⁻ / Li⁺ / H 出发的最短路径。" + ("（每格已抽样）" if sampled else "")),
+                            f"单击物种查看全部反应，以及从 {start_label} + e⁻ / Li⁺ / H 出发的最短路径。" + ("（每格已抽样）" if sampled else "")),
                "class_cn": CLASS_CN, "class_col": CLASS_COL, "fam_cn": FAM_CN, "fam_col": FAM_COL, "fam_groups": FAM_GROUPS,
-               "col_prefix": "重原子 ", "start_label": "EC"},
+               "col_prefix": "重原子 ", "start_label": start_label},
     }
     (vdir / "meta.js").write_text("window.__lodMeta = " + json.dumps(meta, ensure_ascii=False, separators=(",", ":")) + ";")
     src = Path(__file__).resolve().parent.parent / "viewer"

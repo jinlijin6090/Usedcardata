@@ -414,7 +414,7 @@ function draw() {
       g.strokeStyle = fg; g.lineWidth = 2.2; g.beginPath(); g.arc(sx, sy, 10, 0, 7); g.stroke(); }
   }
   if (S.path) {
-    const pathc = css("--path"); const pts = [(M.start_gid ?? M.special.findIndex((s) => s.label === "CO₂")), ...S.path.map((st) => st.to)].map((s2) => { const P = pos(s2); return w2s(P[0], P[1]); });
+    const pathc = css("--path"); const pts = [(S.path.length ? S.path[0].from : (M.start_gid ?? M.special.findIndex((s) => s.label === "CO₂"))), ...S.path.map((st) => st.to)].map((s2) => { const P = pos(s2); return w2s(P[0], P[1]); });
     g.strokeStyle = pathc; g.lineWidth = 3; g.lineJoin = "round"; g.beginPath(); pts.forEach(([x, y], k) => (k ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke();
     g.font = `600 10px ${mono}`; g.textAlign = "center"; g.textBaseline = "middle";
     pts.forEach(([x, y], k) => { g.fillStyle = pathc; g.beginPath(); g.arc(x, y, 7.5, 0, 7); g.fill(); g.fillStyle = "#fff"; g.fillText(String(k), x, y + 0.5); });

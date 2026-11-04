@@ -3,6 +3,7 @@
     python run.py                    # uses config.ini next to this file
     python run.py my.ini --set space.max_heavy=9
     python run.py --selftest
+    python run.py presets/EC_DMC.ini --stages solvent,stats,viewer     # another solvent on the same base data
 
 On Linux servers prefer run.sh (it unpacks the bundled environment). Here any Python >= 3.10 with
 rdkit, numpy and duckdb installed works (see ../environment.yml or requirements.txt).
@@ -26,13 +27,16 @@ def main():
         out = Path(tempfile.mkdtemp(prefix="ec_selftest_"))
         args = ["--config", str(HERE / "config.ini"), "--set", f"run.out={out}", "--set", "space.max_heavy=6",
                 "--set", "space.allow_peroxide=no", "--set", "write.derive_max_heavy=6", "--set", "viewer.max_heavy=6",
-                "--set", "run.workers=2", "--stages", "enumerate,derive,stats,viewer"]
+                "--set", "run.workers=2", "--set", "solvent.solvents=EC,DMC",
+                "--stages", "enumerate,derive,solvent,stats,viewer"]
         from ecspace import main as m
         m.main(args)
         import json
         got = [json.loads((out / "closed" / f"L{n}" / "DONE.json").read_text())["count"] for n in range(1, 7)]
         assert got == [2, 5, 17, 77, 379, 2270], got
-        print("[selftest] 通过：", got, "输出目录", out)
+        st = json.loads((out / "stats.json").read_text())
+        assert st["solvent"]["reactions_total"] > 50_000 and (out / "viewer_EC+DMC" / "index.html").exists()
+        print("[selftest] 通过：", got, "EC/DMC 溶剂反应", st["solvent"]["reactions_total"], "输出目录", out)
         return
     cfg = str(HERE / "config.ini")
     if args and not args[0].startswith("--"):

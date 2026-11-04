@@ -35,7 +35,9 @@ class Config:
     allow_peroxide: bool = True
     strain_filter: str = "valence"
     special: list[str] = field(default_factory=lambda: ["[C-]#[O+]"])
-    start: str = "O=C1OCCO1"
+    start: list[str] = field(default_factory=lambda: ["O=C1OCCO1"])
+    solvents: list[str] = field(default_factory=list)
+    solvent_families: list[str] = field(default_factory=list)
     radicals: bool = True
     anions: bool = True
     cation_centers: list[str] = field(default_factory=lambda: ["C"])
@@ -64,7 +66,15 @@ def load(path: str | None, overrides: list[str] | None = None) -> Config:
     base = Path.cwd()
     if path:
         p = Path(path).resolve()
-        cp.read(p, encoding="utf-8")
+        chain = [p]
+        while True:          # [include] base = ../config.ini : read the base file first, this file overrides it
+            tmp = configparser.ConfigParser(inline_comment_prefixes=(";",), interpolation=None)
+            tmp.read(chain[0], encoding="utf-8")
+            inc = tmp.get("include", "base", fallback="").strip()
+            if not inc or len(chain) > 8:
+                break
+            chain.insert(0, (chain[0].parent / inc).resolve())
+        cp.read(chain, encoding="utf-8")
         base = p.parent
     for ov in overrides or []:
         k, v = ov.split("=", 1)
@@ -82,7 +92,18 @@ def load(path: str | None, overrides: list[str] | None = None) -> Config:
     c.allow_peroxide = _bool(g("space", "allow_peroxide", "yes"))
     c.strain_filter = g("space", "strain_filter", "valence") or "valence"
     c.special = _list(g("space", "special", "[C-]#[O+]"))
-    c.start = g("space", "start", "O=C1OCCO1") or "O=C1OCCO1"
+    c.solvents = _list(g("solvent", "solvents", ""))
+    sf = g("solvent", "families", "")
+    c.solvent_families = _list(sf) if sf else ["solvent_h_abstraction", "solvent_deprotonation", "solvent_acyl_transfer",
+                                               "solvent_alkyl_transfer"]
+    st = g("space", "start", "")
+    if st:
+        c.start = _list(st)
+    elif c.solvents:              # default start = the solvent molecules themselves
+        from .solvent import resolve
+        c.start = [k for _, k in resolve(c.solvents)]
+    else:
+        c.start = ["O=C1OCCO1"]
     c.radicals = _bool(g("species", "radicals", "yes"))
     c.anions = _bool(g("species", "anions", "yes"))
     c.cation_centers = [x.upper() for x in _list(g("species", "cation_centers", "C"))]
