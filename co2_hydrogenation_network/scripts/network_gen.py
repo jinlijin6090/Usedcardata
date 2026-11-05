@@ -31,6 +31,7 @@ import gzip
 import json
 import multiprocessing as mp
 import os
+import re
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -136,8 +137,16 @@ def is_primary(m) -> bool:
     return a.GetDegree() <= 1 and not allyl
 
 
+_BRACKET = re.compile(r"\[[^\]]*\]")
+
+
+def has_ring(s) -> bool:
+    """ring-closure digits outside bracket atoms ([CH2+] / [CH3+] carry H-count digits, not rings)"""
+    return any(ch.isdigit() for ch in _BRACKET.sub("", s))
+
+
 def ion_cls(s):
-    return "ion_cyc" if any(ch.isdigit() for ch in s) else "ion_alkenyl" if "=" in s else "ion_alkyl"
+    return "ion_cyc" if has_ring(s) else "ion_alkenyl" if "=" in s else "ion_alkyl"
 
 
 def aliph_domain(m) -> bool:
@@ -403,7 +412,7 @@ def w_site(alk):
                 continue
             ip = next((p for p in prods if "+" in p), None)
             ole = next((p for p in prods if "+" not in p), None)
-            if ip is None or ole not in G["alkene"] or any(ch.isdigit() for ch in ip) or "=" in ip:
+            if ip is None or ole not in G["alkene"] or has_ring(ip) or "=" in ip:
                 continue
             if (ole, ip) in seen:
                 continue
@@ -550,6 +559,189 @@ def w_arom(s):
     return list(R)
 
 
+# ------------------------------------------------------------------ condensation / coupling (K: families, R:comb)
+def carbonyl_c(m):
+    """(carbonyl carbon, its =O) of an aldehyde / ketone / acid"""
+    for b in m.GetBonds():
+        if b.GetBondType() == D2:
+            a1, a2 = b.GetBeginAtom(), b.GetEndAtom()
+            if a1.GetAtomicNum() == 6 and a2.GetAtomicNum() == 8:
+                return a1.GetIdx(), a2.GetIdx()
+            if a2.GetAtomicNum() == 6 and a1.GetAtomicNum() == 8:
+                return a2.GetIdx(), a1.GetIdx()
+    return None
+
+
+def alpha_sites(m, c):
+    """symmetry-distinct sp3 alpha carbons with H next to carbonyl carbon c"""
+    rk = list(Chem.CanonicalRankAtoms(m, breakTies=False))
+    out, seen = [], set()
+    for n in m.GetAtomWithIdx(c).GetNeighbors():
+        if n.GetAtomicNum() != 6 or n.GetTotalNumHs() == 0 or any(b.GetBondType() != S1 for b in n.GetBonds()):
+            continue
+        if rk[n.GetIdx()] not in seen:
+            seen.add(rk[n.GetIdx()])
+            out.append(n.GetIdx())
+    return out
+
+
+def carbonyl_key(s):
+    for k in ("aldehyde", "ketone"):
+        if s in G[k]:
+            return f"{k}|{s}"
+    return None
+
+
+def w_aldol(item):
+    """K:aldol  donor (alpha C-H) + acceptor C=O  <=> beta-hydroxy carbonyl
+       K:crot   beta-hydroxy carbonyl <=> enal / enone + H2O
+       K:enH    enal / enone + H2 <=> saturated aldehyde / ketone"""
+    dcls, ds = item
+    md = mol(ds)
+    nd = nC(md)
+    cD = carbonyl_c(md)
+    if cD is None:
+        return []
+    alphas = alpha_sites(md, cD[0])
+    if not alphas:
+        return []
+    R = set()
+    for n in range(1, CMAX - nd + 1):
+        for acls, as_ in G["carbonyl_by_c"].get(n, ()):
+            ma = mol(as_)
+            cA = carbonyl_c(ma)
+            if cA is None:
+                continue
+            off = md.GetNumAtoms()
+            for al in alphas:
+                rw = Chem.RWMol(Chem.CombineMols(md, ma))
+                rw.AddBond(al, off + cA[0], S1)
+                rw.GetBondBetweenAtoms(off + cA[0], off + cA[1]).SetBondType(S1)
+                add = canon(rw)
+                if add is None or not shape_ok(mol(add)):
+                    continue
+                hk = f"hydroxycarbonyl|{add}"
+                R.add(("K:aldol", (f"{dcls}|{ds}", f"{acls}|{as_}"), (hk,)))
+                m_add = mol(add)
+                # dehydration needs an H left on the alpha carbon: work on the combined graph
+                rw2 = Chem.RWMol(rw)
+                try:
+                    Chem.SanitizeMol(rw2)
+                except Exception:
+                    continue
+                if rw2.GetAtomWithIdx(al).GetTotalNumHs() == 0:
+                    continue
+                rw2.GetBondBetweenAtoms(al, off + cA[0]).SetBondType(D2)
+                rw2.RemoveAtom(off + cA[1])
+                for a in rw2.GetAtoms():
+                    a.SetNoImplicit(False)
+                    a.SetNumExplicitHs(0)
+                en = canon(rw2)
+                if en is None:
+                    continue
+                R.add(("K:crot", (hk,), (f"enone|{en}", "pool|H2O")))
+                me = mol(en)
+                for b in me.GetBonds():                    # the new C=C (not the C=O)
+                    if b.GetBondType() == D2 and b.GetBeginAtom().GetAtomicNum() == 6 and b.GetEndAtom().GetAtomicNum() == 6:
+                        rw3 = Chem.RWMol(me)
+                        rw3.GetBondWithIdx(b.GetIdx()).SetBondType(S1)
+                        sk = carbonyl_key(canon(rw3) or "")
+                        if sk:
+                            R.add(("K:enH", (f"enone|{en}", "pool|H2"), (sk,)))
+    return list(R)
+
+
+def w_keto(a_s):
+    """K:keto  R-COOH + R'-COOH <=> R-CO-R' + CO2 + H2O  (needs an alpha H on one acid; formic acid gives aldehydes)"""
+    ma = mol(a_s)
+    na = nC(ma)
+
+    def parts(m):
+        c, o2 = carbonyl_c(m)
+        oh = next(n.GetIdx() for n in m.GetAtomWithIdx(c).GetNeighbors() if n.GetAtomicNum() == 8 and n.GetIdx() != o2)
+        r = next((n.GetIdx() for n in m.GetAtomWithIdx(c).GetNeighbors() if n.GetAtomicNum() == 6), None)
+        ah = r is not None and m.GetAtomWithIdx(r).GetTotalNumHs() > 0
+        return c, o2, oh, r, ah
+    cA, oA, ohA, rA, ahA = parts(ma)
+    R = set()
+    for n in range(1, CMAX - na + 2):
+        for b_s in G["acid_by_c"].get(n, ()):
+            if b_s < a_s:
+                continue
+            mb = mol(b_s)
+            cB, oB, ohB, rB, ahB = parts(mb)
+            if not (ahA or ahB):
+                continue
+            off = ma.GetNumAtoms()
+            rw = Chem.RWMol(Chem.CombineMols(ma, mb))
+            if rB is not None:
+                rw.AddBond(cA, off + rB, S1)
+            for i in sorted([ohA, off + cB, off + oB, off + ohB], reverse=True):
+                rw.RemoveAtom(i)
+            p = canon(rw)
+            k = carbonyl_key(p or "")
+            if k is None:
+                continue
+            R.add(("K:keto", (f"acid|{a_s}", f"acid|{b_s}"), (k, "core|CO2", "pool|H2O")))
+    return list(R)
+
+
+_CONJ = Chem.MolFromSmarts("[C;!a]=[C;!a]-[C;!a]=[C;!a]")
+
+
+def w_da(d_s):
+    """K:DA  conjugated diene + alkene <=> cyclohexene (both orientations of the dienophile)"""
+    md = mol(d_s)
+    if md.GetRingInfo().NumRings():
+        return []
+    nd = nC(md)
+    sysm = {tuple(t) if t[0] < t[3] else tuple(reversed(t)) for t in md.GetSubstructMatches(_CONJ)}
+    if not sysm:
+        return []
+    R = set()
+    for n in range(2, CMAX - nd + 1):
+        for e_s in G["alkene_by_c"].get(n, ()):
+            me = mol(e_s)
+            eb = next(b for b in me.GetBonds() if b.GetBondType() == D2)
+            e1, e2 = eb.GetBeginAtomIdx(), eb.GetEndAtomIdx()
+            off = md.GetNumAtoms()
+            for d1, d2, d3, d4 in sysm:
+                for x, y in ((e1, e2), (e2, e1)):
+                    rw = Chem.RWMol(Chem.CombineMols(md, me))
+                    rw.GetBondBetweenAtoms(d1, d2).SetBondType(S1)
+                    rw.GetBondBetweenAtoms(d3, d4).SetBondType(S1)
+                    rw.GetBondBetweenAtoms(d2, d3).SetBondType(D2)
+                    rw.GetBondBetweenAtoms(off + x, off + y).SetBondType(S1)
+                    rw.AddBond(d1, off + x, S1)
+                    rw.AddBond(d4, off + y, S1)
+                    p = canon(rw)
+                    if p in G["cycloalkene"]:
+                        R.add(("K:DA", (f"diene|{d_s}", f"alkene|{e_s}"), (f"cycloalkene|{p}",)))
+    return list(R)
+
+
+def w_comb(r_s):
+    """R:comb  R. + R'. <=> R-R'  (every unordered pair of alkyl radicals with <= CMAX carbons)"""
+    m1 = mol(r_s)
+    n1 = nC(m1)
+    i1 = cation_idx(m1)
+    R = set()
+    for n in range(1, CMAX - n1 + 1):
+        for r2 in G["rad_by_c"].get(n, ()):
+            if r2 < r_s:
+                continue
+            m2 = mol(r2)
+            off = m1.GetNumAtoms()
+            rw = Chem.RWMol(Chem.CombineMols(m1, m2))
+            rw.AddBond(i1, off + cation_idx(m2), S1)
+            for a in rw.GetAtoms():
+                a.SetFormalCharge(0)
+            p = canon(rw)
+            if p in G["alkane"]:
+                R.add(("R:comb", (f"rad|{r_s}", f"rad|{r2}"), (f"alkane|{p}",)))
+    return list(R)
+
+
 def w_info(k):
     cls, s = k.split("|", 1)
     if cls in ("core", "pool"):
@@ -674,6 +866,35 @@ def main():
         site_spec.update(spec)
         emit(rxs)
     log("site species", len(site_spec))
+    # ---- condensation / coupling (needs the site species)
+    for k in ("aldehyde", "ketone", "acid", "rad"):
+        G[k] = {x.split("|", 1)[1] for x in site_spec if x.startswith(k + "|")}
+    by_c = defaultdict(list)
+    for k in ("aldehyde", "ketone"):
+        for x in G[k]:
+            by_c[nC(mol(x))].append((k, x))
+    G["carbonyl_by_c"] = {n: sorted(v) for n, v in by_c.items()}
+    for k in ("acid", "alkene", "rad"):
+        b2 = defaultdict(list)
+        for x in G[k]:
+            b2[nC(mol(x))].append(x)
+        G[k + "_by_c"] = {n: sorted(v) for n, v in b2.items()}
+    n0 = sum(nrx.values())
+    for rxs in pmap(w_aldol, sorted(by for v in G["carbonyl_by_c"].values() for by in v), 8):
+        emit(rxs)
+    log("aldol / crotonisation / enone hydrogenation", sum(nrx.values()) - n0)
+    n0 = sum(nrx.values())
+    for rxs in pmap(w_keto, sorted(G["acid"]), 8):
+        emit(rxs)
+    log("ketonisation", sum(nrx.values()) - n0)
+    n0 = sum(nrx.values())
+    for rxs in pmap(w_da, sorted(G["diene"]), 16):
+        emit(rxs)
+    log("Diels-Alder", sum(nrx.values()) - n0)
+    n0 = sum(nrx.values())
+    for rxs in pmap(w_comb, sorted(G["rad"]), 16):
+        emit(rxs)
+    log("radical recombination", sum(nrx.values()) - n0)
     # ---- hydrogenation / hydrogen transfer
     for rxs in pmap(w_hyd, [(k, s) for k in ("alkene", "diene", "cycloalkene", "cyclodiene") for s in G[k]], 256):
         emit(rxs)
@@ -697,7 +918,7 @@ def main():
             for x in r.split(",") + p.split(","):
                 if x not in keys:
                     keys.add(x)
-    CLASS_ORDER = ["pool", "core", "alcohol", "aldehyde", "ketone", "acid", "ads", "rad", "alkane", "alkene",
+    CLASS_ORDER = ["pool", "core", "alcohol", "aldehyde", "ketone", "acid", "hydroxycarbonyl", "enone", "ads", "rad", "alkane", "alkene",
                    "ion_alkyl", "diene", "ion_alkenyl", "naphthene", "cycloalkene", "ion_cyc", "cyclodiene", "aromatic"]
     info = dict(pmap(w_info, sorted(keys), 512))
     order = sorted(keys, key=lambda k: (info[k][1], CLASS_ORDER.index(info[k][0]), info[k][3], info[k][2]))

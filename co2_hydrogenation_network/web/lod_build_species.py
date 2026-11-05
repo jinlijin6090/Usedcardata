@@ -7,7 +7,7 @@ Writes <out>/meta.js, <out>/l/<k>.js, <out>/x/<k>.js (base64 gzip in <script> fi
 from static hosting), plus index.html, smiles-drawer.min.js and subnet_tpl.js (the sub-network viewer used by the
 in-page extraction).  Chunk formats are those of lod_build.py with two extensions:
   l: class byte = row class (low 5 bits) | site mask << 5   (1 acid site R+/R-O-Z, 2 metal site R*, 4 gas radical R.)
-  x: a reaction can have up to 3 species per side (others count <= 5)
+  x: a reaction can have up to 3 species per side (others count <= 5); record byte = family (7 bits) | side << 7
 Levels, shortest-pathway counts and path parents are computed from CO2 with H, H2, H2O always available.
 """
 import base64
@@ -39,10 +39,12 @@ def log(*a):
 KIND2CLS = {"R 基团 · 烷基": "r_alkyl", "R 基团 · 烯基 / 烯丙基": "r_alkenyl", "R 基团 · 环状": "r_cyc", "烷烃": "alkane",
             "烯烃": "alkene", "二烯": "diene", "环烷": "naphthene", "环烯": "cycloalkene", "环二烯": "cyclodiene", "芳烃": "aromatic",
             "醇": "alcohol", "醚": "ether", "醛": "aldehyde", "酰基 RC(=O)": "acyl", "酮": "ketone", "羧酸": "acid",
+            "β-羟基醛 / 酮": "hydroxycarbonyl", "烯醛 / 烯酮": "enone",
             "C1 碎片": "core", "C1 分子": "core", "氢": "pool", "水": "pool"}
 ROWS = [  # key, classes, label, band
     ("alc", ["alcohol", "ether"], "醇 / 醚", "MET"),
     ("cbo", ["aldehyde", "acyl", "ketone", "acid"], "醛 / 酰基 RC(=O) / 酮 / 羧酸", "MET"),
+    ("kon", ["hydroxycarbonyl", "enone"], "羟醛缩合产物（β-羟基醛酮 / 烯醛酮）", "MET"),
     ("ra", ["r_alkyl"], "R 基团 · 烷基（R⁺ / R* / R•）", "GAS"),
     ("alk", ["alkane"], "烷烃", "OX"),
     ("ole", ["alkene"], "烯烃", "OX"),
@@ -53,13 +55,13 @@ ROWS = [  # key, classes, label, band
     ("cd", ["cyclodiene"], "环二烯", "BA2"),
     ("aro", ["aromatic"], "芳烃", "AR"),
 ]
-CLASSES = ["alcohol", "ether", "aldehyde", "acyl", "ketone", "acid", "r_alkyl", "alkane", "alkene", "r_alkenyl", "diene",
+CLASSES = ["alcohol", "ether", "aldehyde", "acyl", "ketone", "acid", "hydroxycarbonyl", "enone", "r_alkyl", "alkane", "alkene", "r_alkenyl", "diene",
            "naphthene", "cycloalkene", "r_cyc", "cyclodiene", "aromatic", "core", "pool"]
 CLASS_CN = {"alcohol": "醇", "ether": "醚", "aldehyde": "醛", "acyl": "酰基 RC(=O)", "ketone": "酮", "acid": "羧酸",
-            "r_alkyl": "R 基团 · 烷基", "alkane": "烷烃", "alkene": "烯烃", "r_alkenyl": "R 基团 · 烯基 / 烯丙基", "diene": "二烯",
+            "hydroxycarbonyl": "β-羟基醛 / 酮", "enone": "烯醛 / 烯酮", "r_alkyl": "R 基团 · 烷基", "alkane": "烷烃", "alkene": "烯烃", "r_alkenyl": "R 基团 · 烯基 / 烯丙基", "diene": "二烯",
             "naphthene": "环烷", "cycloalkene": "环烯", "r_cyc": "R 基团 · 环状", "cyclodiene": "环二烯", "aromatic": "芳烃",
             "core": "C1 物种 / 碎片", "pool": "H / H₂ / H₂O（始终可用）"}
-CLASS_COL = {"alcohol": "#8E5BB5", "ether": "#B07CD8", "aldehyde": "#C2508A", "acyl": "#D9628F", "ketone": "#C77A2E", "acid": "#6A3D9A",
+CLASS_COL = {"alcohol": "#8E5BB5", "ether": "#B07CD8", "aldehyde": "#C2508A", "acyl": "#D9628F", "ketone": "#C77A2E", "acid": "#6A3D9A", "hydroxycarbonyl": "#A0522D", "enone": "#D2691E",
              "r_alkyl": "#D64545", "alkane": "#2F3338", "alkene": "#E07B00", "r_alkenyl": "#3D8FE0", "diene": "#C9A100",
              "naphthene": "#5C6B73", "cycloalkene": "#2F9C95", "r_cyc": "#6C4FD1", "cyclodiene": "#0E7C66", "aromatic": "#1E8C3A",
              "core": "#14171C", "pool": "#8C95A3"}
@@ -69,16 +71,21 @@ BASE_CN = {"Z:prot": "烯烃 + H ⇌ R（酸位质子化 / 去质子）", "Z:hsh
            "M:CO": "CO 插入 → 酰基", "M:acylH": "酰基加氢 → 醛", "M:hyd": "R + H → 烷烃（金属位）", "O:dehyd": "醇脱水",
            "O:hyd": "羰基加氢", "O:ox": "醛 → 酸", "O:OH": "R + H₂O → 醇 + H", "R:abs": "H 抽提（R + H₂ ⇌ RH + H）",
            "R:beta": "自由基 β-断裂", "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基",
-           "A:cyc": "侧链脱氢环化", "A:scm": "侧链甲基化（烃池）", "C1": "C1 核心"}
+           "A:cyc": "侧链脱氢环化", "A:scm": "侧链甲基化（烃池）", "C1": "C1 核心",
+           "K:aldol": "羟醛加成（醛酮 + 醛酮 → β-羟基醛酮）", "K:crot": "脱水成烯醛 / 烯酮", "K:enH": "烯醛 / 烯酮 C=C 加氢",
+           "K:keto": "羧酸酮化（2 RCOOH → 酮 + CO₂ + H₂O）", "K:DA": "Diels–Alder（二烯 + 烯烃 → 环己烯）",
+           "R:comb": "自由基复合（R• + R′• → R–R′）"}
 BASE_COL = {"Z:prot": "#5B9BE8", "Z:hshift": "#3A78D4", "Z:alkylshift": "#6A63DB", "Z:pcp": "#8C5AD8", "Z:beta": "#2C5DB8",
             "Z:meth": "#2FB0E0", "Z:cyclise": "#7B4CCB", "Z:HT": "#13A39A", "H:hyd": "#D99A00", "M:betaH": "#D64545", "M:CH2": "#E2603A",
             "M:CO": "#C2385E", "M:acylH": "#D9628F", "M:hyd": "#B04848", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
             "O:OH": "#B07CD8", "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57",
-            "A:cyc": "#5FAE3E", "A:scm": "#7FCB97", "C1": "#14171C"}
+            "A:cyc": "#5FAE3E", "A:scm": "#7FCB97", "C1": "#14171C",
+            "K:aldol": "#A0522D", "K:crot": "#CD853F", "K:enH": "#D2691E", "K:keto": "#8B4513", "K:DA": "#B8860B", "R:comb": "#4B5563"}
 GROUPS = [["分子筛 Brønsted 酸", ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise"]],
           ["氢转移 / 加氢", ["Z:HT", "H:hyd"]], ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:acylH", "M:hyd"]],
           ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox", "O:OH"]], ["气相自由基", ["R:abs", "R:beta"]],
-          ["芳烃（含烃池）", ["A:meth", "A:iso", "A:FC", "A:cyc", "A:scm"]], ["C1", ["C1"]]]
+          ["芳烃（含烃池）", ["A:meth", "A:iso", "A:FC", "A:cyc", "A:scm"]],
+          ["缩合 / 偶联", ["K:aldol", "K:crot", "K:enH", "K:keto", "K:DA", "R:comb"]], ["C1", ["C1"]]]
 SITE_BITS = (("酸位", 1), ("金属位", 2), ("气相自由基", 4))
 cls2row = {c: i for i, r in enumerate(ROWS) for c in r[1]}
 CI = {c: i for i, c in enumerate(CLASSES)}
@@ -178,7 +185,7 @@ if rows_:
 Araw = np.concatenate(blocks)
 del blocks, rows_
 FAMS = [k for k, _ in sorted(fam_combo.items(), key=lambda kv: kv[1])]
-assert len(FAMS) <= 32, len(FAMS)
+assert len(FAMS) <= 127, len(FAMS)
 rf = Araw[:, 6].astype(np.uint8)
 A = Araw[:, :6].copy()
 del Araw
@@ -271,11 +278,11 @@ for ja in range(3):
         mm = (a >= 0) & (b >= 0)
         ca, cb = cell_of[np.maximum(a, 0)], cell_of[np.maximum(b, 0)]
         mm &= (ca >= 0) & (cb >= 0) & (ca != cb)
-        kk = (np.minimum(ca, cb)[mm].astype(np.int64) * 4096 + np.maximum(ca, cb)[mm]) * 32 + rf[mm]
+        kk = (np.minimum(ca, cb)[mm].astype(np.int64) * 4096 + np.maximum(ca, cb)[mm]) * 128 + rf[mm]
         u, n = np.unique(kk, return_counts=True)
         for k2, v in zip(u.tolist(), n.tolist()):
             flows[k2] += v
-flow_list = sorted(([k // 32 // 4096, k // 32 % 4096, k % 32, v] for k, v in flows.items()), key=lambda z: -z[3])
+flow_list = sorted(([k // 128 // 4096, k // 128 % 4096, k % 128, v] for k, v in flows.items()), key=lambda z: -z[3])
 log("cell flows", len(flow_list))
 
 # ---------------------------------------------------------------- incidence (each species once per side)
@@ -344,7 +351,7 @@ def write_chunk(k):
             side = sds[q]
             others = [(v, 0) for v in row[:3] if v >= 0] + [(v, 1) for v in row[3:] if v >= 0]
             others.remove((g, side))
-            out.append(fams[q] | (side << 5))
+            out.append(fams[q] | (side << 7))
             out.append(len(others))
             for v, sd in others:
                 d = v - g

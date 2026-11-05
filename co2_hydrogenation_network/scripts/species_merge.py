@@ -58,7 +58,8 @@ def log(*a):
 SITE_CLASSES = {"ion_alkyl": "酸位 R⁺（R–O–Z 烷氧基 / 离子对）", "ion_alkenyl": "酸位 R⁺（R–O–Z 烷氧基 / 离子对）",
                 "ion_cyc": "酸位 R⁺（R–O–Z 烷氧基 / 离子对）", "ads": "金属位 R*", "rad": "气相自由基 R•"}
 MOL_KIND = {"alkane": "烷烃", "alkene": "烯烃", "diene": "二烯", "naphthene": "环烷", "cycloalkene": "环烯",
-            "cyclodiene": "环二烯", "aromatic": "芳烃", "alcohol": "醇", "aldehyde": "醛", "ketone": "酮", "acid": "羧酸"}
+            "cyclodiene": "环二烯", "aromatic": "芳烃", "alcohol": "醇", "aldehyde": "醛", "ketone": "酮", "acid": "羧酸",
+            "hydroxycarbonyl": "β-羟基醛 / 酮", "enone": "烯醛 / 烯酮"}
 # C1 core and pool (keys are the labels used in species.tsv of network_gen.py)
 CORE = {
     "CO₂": ("O=C=O", "CO₂", "C1 分子", "气相"),

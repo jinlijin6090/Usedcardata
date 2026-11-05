@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
 from collections import Counter, defaultdict
@@ -33,6 +34,13 @@ from pathlib import Path
 
 from rdkit import Chem, RDLogger
 from rdkit.Chem.EnumerateStereoisomers import EnumerateStereoisomers, StereoEnumerationOptions
+
+_BRACKET = re.compile(r"\[[^\]]*\]")
+
+
+def has_ring(s) -> bool:
+    """ring-closure digits outside bracket atoms ([CH2+] / [CH3+] carry H-count digits, not rings)"""
+    return any(ch.isdigit() for ch in _BRACKET.sub("", s))
 
 RDLogger.DisableLog("rdApp.*")
 CMAX = int(sys.argv[1]) if len(sys.argv) > 1 else 12
@@ -332,7 +340,7 @@ n_ion_np = n_ion - len(prim)
 # ---------------------------------------------------------------- aromatics
 log("aromatic reactions")
 aro_meth, aro_iso, aro_fc = set(), set(), set()
-alkyl_ions = {s for s in ions if not any(ch.isdigit() for ch in s) and "=" not in s and s not in prim}
+alkyl_ions = {s for s in ions if not has_ring(s) and "=" not in s and s not in prim}
 ions_by_c = defaultdict(list)
 for s in alkyl_ions:
     ions_by_c[nC(mol(s))].append(s)
@@ -517,7 +525,7 @@ def _dump_graph(path):
     hub = {k: node("hub", k) for k in ("CH2*", "CO*", "CH3OH/SMS")}
     # ---- carbenium ions (no primary)
     def ion_cls(s):
-        return "ion_cyc" if any(ch.isdigit() for ch in s) else "ion_alkenyl" if "=" in s else "ion_alkyl"
+        return "ion_cyc" if has_ring(s) else "ion_alkenyl" if "=" in s else "ion_alkyl"
     for o, c in prot_edges:
         if c not in prim:
             edge(node(ion_cls(c), c), next(f"{k}|{o}" for k in SPEC if o in SPEC[k]), "Z:prot")
@@ -620,7 +628,7 @@ def _dump_graph(path):
                 continue
             ip = next(p for p in prods if "+" in p)
             ole = next(p for p in prods if "+" not in p)
-            if ole in alkenes and not any(ch.isdigit() for ch in ip) and "=" not in ip:
+            if ole in alkenes and not has_ring(ip) and "=" not in ip:
                 edge(rad, f"alkene|{ole}", "R:beta")
                 edge(rad, node("rad", ip), "R:beta")
     # ---- hydrogenation / hydrogen transfer between closed-shell classes
