@@ -29,7 +29,7 @@ def connect(d):
     con.execute(f"""CREATE VIEW reactions AS SELECT id::BIGINT id, string_split(reactants, ',')::BIGINT[] reactants,
                     string_split(products, ',')::BIGINT[] products, string_split(families, ';') families,
                     n_original::INT n_original, equation FROM read_csv({[str(p) for p in rx]!r}, {opt})""")
-    con.execute(f"""CREATE VIEW aliases AS SELECT old_id::BIGINT old_id, old_class, old_key, node_id::BIGINT node_id, form_smiles
+    con.execute(f"""CREATE VIEW aliases AS SELECT old_id::BIGINT old_id, old_class, old_key, TRY_CAST(node_id AS BIGINT) node_id, form_smiles
                     FROM read_csv('{d / 'aliases.tsv.gz'}', {opt})""")
     return con
 

@@ -10,9 +10,14 @@ What is merged into one node
   2. Resonance forms of allylic / pentadienyl fragments (localised writings of one species).
   3. Adsorbed and gas forms of the same molecule / fragment of the C1 core: H+, H*, H. -> H atom;
      CO2^delta-* -> CO2; H2CO* -> formaldehyde; SMS (surface methoxy CH3-O-Z) -> methyl; CH3O* -> methoxy etc.
-Pseudo-species of the generator are kept as pseudo nodes: [H] (hydrogen-transfer acceptor), HCP (hydrocarbon pool).
+No pseudo-species: the generator's [H] (hydrogen-transfer acceptor) and HCP (lumped hydrocarbon pool) are removed.
+  Z:HT   A + [H] -> B          becomes  A <=> B + n H2   (n = 1 or 2; the H2 stands for the hydrogen handed to another
+                                         olefin in a hydrogen-transfer step)
+  HCP    CH3 -> HCP, HCP -> C2H4/C3H6 + H, polymethylbenzene -> HCP   are dropped; the hydrocarbon-pool chemistry is
+         written explicitly: ring methylation (A:meth), dealkylation (A:FC reverse), beta-H elimination, plus the new
+         family A:scm  side-chain methylation  ArC-H + CH3 <=> ArC-CH3 + H  at every benzylic C-H.
 
-Corrections of shorthand steps of the generator (so that every step without pseudo-species is element-balanced):
+Corrections of shorthand steps of the generator (so that every step is element-balanced):
   M:CO   R + CO -> RCHO (one H short)  becomes  R + CO <=> RC(=O) (acyl, new nodes)  and  RC(=O) + H <=> RCHO (M:acylH)
   C1     H2COO + H -> H2CO + H2O        becomes  H2COO + H <=> H2COOH  and  H2COOH + H <=> H2CO + H2O
   C1     H2 -> H                         becomes  H2 <=> H + H
@@ -69,13 +74,13 @@ CORE = {
     "CH*/C*": ("[CH]", "次甲基 CH（含 C*）", "C1 碎片", "吸附 CH*/C*"),
     "CH₂*": ("[CH2]", "亚甲基 CH₂", "C1 碎片", "吸附 CH₂*"),
     "CH₃OH/SMS": ("[CH3]", "甲基 CH₃", "R 基团", "酸位 R⁺（R–O–Z 烷氧基 / 离子对）"),   # surface methoxy = CH3 on Z
-    "烃池 HCP": ("pseudo:HCP", "烃池 HCP（集总）", "伪物种", "集总"),
+    "烃池 HCP": ("pseudo:HCP", "", "", ""),
     "H*": ("[H]", "H 原子", "氢", "金属位 H*"),
     "H•": ("[H]", "H 原子", "氢", "气相 H•"),
     "H⁺": ("[H]", "H 原子", "氢", "酸位 H⁺（H–Z）"),
     "H₂": ("[H][H]", "H₂", "氢", "分子"),
     "H₂O": ("O", "H₂O", "水", "分子"),
-    "[H]": ("pseudo:HT", "[H] 氢转移受体", "伪物种", "集总"),
+    "[H]": ("pseudo:HT", "", "", ""),
 }
 
 
@@ -163,6 +168,31 @@ def w_acyl(smi):
     return smi, None
 
 
+def w_scm(smi):
+    """aromatic: methyl added to every symmetry-distinct benzylic C-H -> canonical product SMILES"""
+    m = Chem.MolFromSmiles(smi)
+    rank = list(Chem.CanonicalRankAtoms(m, breakTies=False))
+    seen, out = set(), []
+    for a in m.GetAtoms():
+        if a.GetSymbol() != "C" or a.GetIsAromatic() or a.GetTotalNumHs() == 0:
+            continue
+        if not any(n.GetIsAromatic() for n in a.GetNeighbors()) or rank[a.GetIdx()] in seen:
+            continue
+        seen.add(rank[a.GetIdx()])
+        rw = Chem.RWMol(m)
+        j = rw.AddAtom(Chem.Atom(6))
+        rw.AddBond(a.GetIdx(), j, S1)
+        try:
+            out.append(smiles(rw))
+        except Exception:
+            pass
+    return smi, out
+
+
+def w_canon(smi):
+    return smiles(Chem.MolFromSmiles(smi)), smi
+
+
 def w_formula(smi):
     return smi, formula(smi)
 
@@ -206,6 +236,9 @@ def main():
         if cls in ("core", "pool"):
             nk, label, kind, state = CORE[s]
             form = nk
+            if nk.startswith("pseudo:"):
+                alias.append((i, cls, s, nk, ""))
+                continue
         elif cls in SITE_CLASSES:
             form, nk = conv[s]
             label, kind, state = "", None, SITE_CLASSES[cls]
@@ -234,32 +267,33 @@ def main():
                                    "forms": {"[O]CO"}, "sk": ""})
     log(f"nodes {len(node_info):,} (acyl fragments added for {len(alds):,} aldehydes)")
     # order: pool / pseudo / C1 first, then by carbon number, kind, smiles
-    real = [k for k in node_info if not k.startswith("pseudo:")]
+    real = list(node_info)
     with mp.get_context("fork").Pool(procs) as pool:
         fm = dict(pool.imap_unordered(w_formula, real, chunksize=5000))
     for k in node_info:
         node_info[k]["f"] = fm.get(k, (0, 0, 0))
         if node_info[k]["kind"] in (None, "R 基团"):
             node_info[k]["kind"] = r_kind(k)
-    order = sorted(node_info, key=lambda k: (node_info[k]["f"][0], k.startswith("pseudo:") is False, node_info[k]["kind"], len(k), k))
+    order = sorted(node_info, key=lambda k: (node_info[k]["f"][0], node_info[k]["kind"], len(k), k))
     nid = {k: i for i, k in enumerate(order)}
+    nid["pseudo:HCP"], nid["pseudo:HT"] = -2, -3
     with gzip.open(out / "nodes.tsv.gz", "wt", compresslevel=6) as fh:
         fh.write("node_id\tsmiles\tlabel\tkind\tformula\tC\tH\tO\tstates\tn_forms\tskeleton\n")
         for k in order:
             d = node_info[k]
             c, h, o = d["f"]
-            smi = "" if k.startswith("pseudo:") else k
-            fh.write(f"{nid[k]}\t{smi}\t{d['label']}\t{d['kind']}\t{fstr(c, h, o) if smi else ''}\t{c}\t{h}\t{o}\t"
+            fh.write(f"{nid[k]}\t{k}\t{d['label']}\t{d['kind']}\t{fstr(c, h, o)}\t{c}\t{h}\t{o}\t"
                      f"{'；'.join(sorted(d['states']))}\t{len(d['forms'])}\t{d['sk']}\n")
     with gzip.open(out / "aliases.tsv.gz", "wt", compresslevel=6) as fh:
         fh.write("old_id\told_class\told_key\tnode_id\tform_smiles\n")
-        for i, cls, s, nk, form in alias:
-            fh.write(f"{i}\t{cls}\t{s}\t{nid[nk]}\t{form}\n")
+        for i, cls, s, nk, form in alias:     # pseudo-species: node_id empty (removed)
+            fh.write(f"{i}\t{cls}\t{s}\t{nid[nk] if nid[nk] >= 0 else ''}\t{form}\n")
     o2n = np.full(len(old), -1, dtype=np.int64)
     for i, _cls, _s, nk, _f in alias:
         o2n[i] = nid[nk]
     log("nodes / aliases written")
     # ---------------------------------------------------------------- reactions
+    W = 3                                        # species per side
     rfiles = sorted(src.glob("reactions.part*.tsv.gz")) or [src / "reactions.tsv.gz"]
     fams, fi = [], {}
     rows = []
@@ -276,67 +310,117 @@ def main():
                     fams.append(fam)
                 r = [int(x) for x in p[2].split(",")]
                 q = [int(x) for x in p[3].split(",")]
-                rows.append((fi[fam], *(r + [-1] * (2 - len(r))), *(q + [-1] * (2 - len(q)))))
+                rows.append((fi[fam], *(r + [-1] * (W - len(r))), *(q + [-1] * (W - len(q)))))
                 n_in += 1
         log(f"  read {f.name}: total {n_in:,}")
     A = np.array(rows, dtype=np.int64)
     del rows
-    famcol = A[:, 0]
+    famcol = A[:, 0].copy()
     X = A[:, 1:].copy()
     del A
     m = X >= 0
-    X[m] = o2n[X[m]]
-    # ---- corrections of shorthand steps (see module doc)
+    X[m] = o2n[X[m]]                             # pseudo-species become -2 (HCP) / -3 (HT acceptor)
+
+    def addfam(name):
+        if name not in fi:
+            fi[name] = len(fams)
+            fams.append(name)
+        return fi[name]
+    Hn, H2n, H2On, CH3n = nid["[H]"], nid["[H][H]"], nid["O"], nid["[CH3]"]
+    F = np.array([node_info[k]["f"] for k in order], dtype=np.int64)
+    extra_f, extra = [], []
+    # ---- M:CO -> acyl, + M:acylH
     acyl_arr = np.full(len(order), -1, dtype=np.int64)
     for ald, ac in acyl_of_key.items():
         if ac is not None:
             acyl_arr[nid[ald]] = nid[ac]
-    Hn, H2n, H2On = nid["[H]"], nid["[H][H]"], nid["O"]
-    extra_f, extra = [], []
     if "M:CO" in fi:
         sel = famcol == fi["M:CO"]
-        alds_used = np.unique(X[sel, 2])
-        X[sel, 2] = acyl_arr[X[sel, 2]]
-        assert (X[sel, 2] >= 0).all()
-        fams.append("M:acylH")
-        fi["M:acylH"] = len(fams) - 1
+        alds_used = np.unique(X[sel, W])
+        X[sel, W] = acyl_arr[X[sel, W]]
+        assert (X[sel, W] >= 0).all()
+        fa = addfam("M:acylH")
         for a_ in alds_used.tolist():
-            extra_f.append(fi["M:acylH"])
-            extra.append((acyl_arr[a_], Hn, a_, -1))
+            extra_f.append(fa)
+            extra.append((acyl_arr[a_], Hn, -1, a_, -1, -1))
+    # ---- C1 shorthand steps
     if "C1" in fi:
-        c1 = np.flatnonzero(famcol == fi["C1"])
         h2coo, h2cooh, h2co = nid["[O]C[O]"], nid["[O]CO"], nid["C=O"]
-        for r in c1.tolist():
+        for r in np.flatnonzero(famcol == fi["C1"]).tolist():
             row = X[r].tolist()
-            if sorted(row[:2]) == sorted([h2coo, Hn]) and sorted(row[2:]) == sorted([h2co, H2On]):
-                X[r] = (h2coo, Hn, h2cooh, -1)
+            L_, R_ = sorted(x for x in row[:W] if x != -1), sorted(x for x in row[W:] if x != -1)
+            if L_ == sorted([h2coo, Hn]) and R_ == sorted([h2co, H2On]):
+                X[r] = (h2coo, Hn, -1, h2cooh, -1, -1)
                 extra_f.append(fi["C1"])
-                extra.append((h2cooh, Hn, h2co, H2On))
-            elif row == [H2n, -1, Hn, -1]:
-                X[r] = (H2n, -1, Hn, Hn)
+                extra.append((h2cooh, Hn, -1, h2co, H2On, -1))
+            elif L_ == [H2n] and R_ == [Hn]:
+                X[r] = (H2n, -1, -1, Hn, Hn, -1)
+    # ---- hydrogen transfer: drop the [H] acceptor, release n H2
+    ht = (X == -3).any(axis=1)
+    n_ht = int(ht.sum())
+    for r in np.flatnonzero(ht).tolist():
+        row = X[r].tolist()
+        L_ = [x for x in row[:W] if x >= 0]
+        R_ = [x for x in row[W:] if x >= 0]
+        dh = int(F[L_, 1].sum() - F[R_, 1].sum())
+        assert dh in (2, 4) and len(L_) == 1 and len(R_) == 1 and "-3" not in str(R_), (row, dh)
+        R_ += [H2n] * (dh // 2)
+        X[r] = (L_ + [-1] * (W - len(L_))) + (R_ + [-1] * (W - len(R_)))
+    # ---- hydrocarbon pool: drop lumped steps, add explicit side-chain methylation
+    hcp = (X == -2).any(axis=1)
+    n_hcp = int(hcp.sum())
+    X, famcol = X[~hcp], famcol[~hcp]
+    aro = [k for k in order if node_info[k]["kind"] == "芳烃"]
+    with mp.get_context("fork").Pool(procs) as pool:
+        can = dict(pool.imap_unordered(w_canon, aro, chunksize=500))
+        scm = list(pool.imap_unordered(w_scm, aro, chunksize=200))
+    fs = addfam("A:scm")
+    n_scm = 0
+    for smi, prods in scm:
+        for pr in prods:
+            k = can.get(pr)
+            if k is not None:
+                extra_f.append(fs)
+                extra.append((nid[smi], CH3n, -1, nid[k], Hn, -1))
+                n_scm += 1
     if extra:
         X = np.vstack([X, np.array(extra, dtype=np.int64)])
         famcol = np.concatenate([famcol, np.array(extra_f, dtype=famcol.dtype)])
-    log(f"corrections: {len(extra):,} extra steps")
-    # sort within each side (-1 last), orient: smaller side tuple first
-    L = np.sort(np.where(X[:, :2] < 0, np.iinfo(np.int64).max, X[:, :2]), axis=1)
-    R = np.sort(np.where(X[:, 2:] < 0, np.iinfo(np.int64).max, X[:, 2:]), axis=1)
+    log(f"corrections: {len(extra) - n_scm:,} extra steps; hydrogen transfer rewritten {n_ht:,}; "
+        f"hydrocarbon-pool steps dropped {n_hcp:,}; side-chain methylation added {n_scm:,}")
+    assert (X >= -1).all()
+    # ---- canonical form: sort each side (-1 last), orient so that the smaller side comes first
     BIG = np.iinfo(np.int64).max
-    swap = (L[:, 0] > R[:, 0]) | ((L[:, 0] == R[:, 0]) & (L[:, 1] > R[:, 1]))
+    L = np.sort(np.where(X[:, :W] < 0, BIG, X[:, :W]), axis=1)
+    R = np.sort(np.where(X[:, W:] < 0, BIG, X[:, W:]), axis=1)
+    del X
+    swap = np.zeros(len(L), dtype=bool)
+    undecided = np.ones(len(L), dtype=bool)
+    for c in range(W):
+        swap |= undecided & (L[:, c] > R[:, c])
+        undecided &= L[:, c] == R[:, c]
     L2 = np.where(swap[:, None], R, L)
     R2 = np.where(swap[:, None], L, R)
-    # drop trivial steps: identical sides, or one side = other side plus one extra species
+    del L, R
+    # drop trivial steps: identical sides, or one side contained in the other (it only adds species)
+
+    def contained(P, Q):                         # multiset P (shorter) inside Q, both sorted, BIG padded
+        nP, nQ = (P != BIG).sum(axis=1), (Q != BIG).sum(axis=1)
+        res = np.zeros(len(P), dtype=bool)
+        one = nP == 1
+        res |= one & (nQ > 1) & (Q == P[:, :1]).any(axis=1)
+        two = (nP == 2) & (nQ == 3)
+        for j in range(W):
+            Qr = np.delete(Q, j, axis=1)
+            res |= two & (Qr[:, 0] == P[:, 0]) & (Qr[:, 1] == P[:, 1])
+        return res
     same = (L2 == R2).all(axis=1)
-    subset = np.zeros(len(L2), dtype=bool)
-    for P, Q in ((L2, R2), (R2, L2)):            # P has one species, Q has two and contains it
-        one = (P[:, 1] == BIG) & (Q[:, 1] != BIG)
-        subset |= one & ((Q[:, 0] == P[:, 0]) | (Q[:, 1] == P[:, 0]))
-    drop = same | subset
+    drop = same | contained(L2, R2) | contained(R2, L2)
     log(f"reactions in {n_in:,}; dropped trivial {int(drop.sum()):,} (identical sides {int(same.sum()):,})")
-    K = np.stack([L2[:, 0], L2[:, 1], R2[:, 0], R2[:, 1]], axis=1)[~drop]
+    K = np.concatenate([L2, R2], axis=1)[~drop]
     fc = famcol[~drop]
-    del L, R, L2, R2, X
-    o = np.lexsort((K[:, 3], K[:, 2], K[:, 1], K[:, 0]))
+    del L2, R2
+    o = np.lexsort(tuple(K[:, c] for c in range(2 * W - 1, -1, -1)))
     K, fc = K[o], fc[o]
     new = np.ones(len(K), dtype=bool)
     new[1:] = (K[1:] != K[:-1]).any(axis=1)
@@ -347,29 +431,16 @@ def main():
     U[U == BIG] = -1
     NR = len(U)
     log(f"unique node-level reactions {NR:,}")
-    # balance check
-    F = np.array([node_info[k]["f"] for k in order], dtype=np.int64)
-    pseudo = np.array([k.startswith("pseudo:") for k in order])
-
-    def side(cols):
-        tot = np.zeros((NR, 3), dtype=np.int64)
-        ps = np.zeros(NR, dtype=bool)
-        for c in cols:
-            v = U[:, c]
-            ok = v >= 0
-            tot[ok] += F[v[ok]]
-            ps[ok] |= pseudo[v[ok]]
-        return tot, ps
-    tl, pl = side((0, 1))
-    tr, pr = side((2, 3))
-    unbal = (tl != tr).any(axis=1)
-    unbal_np = unbal & ~(pl | pr)
-    log(f"element-unbalanced {int(unbal.sum()):,}, of which without pseudo-species {int(unbal_np.sum()):,}")
+    # element balance
+    tot = np.zeros((NR, 3), dtype=np.int64)
+    for c in range(2 * W):
+        v = U[:, c]
+        ok = v >= 0
+        tot[ok] += (F[v[ok]] if c < W else -F[v[ok]])
+    unbal = (tot != 0).any(axis=1)
+    log(f"element-unbalanced reactions: {int(unbal.sum()):,}")
     # write reactions
-    lab = []
-    for k in order:
-        d = node_info[k]
-        lab.append(d["label"] if (k.startswith("pseudo:") or k in ("[H]", "[H][H]", "O", "O=C=O", "[C-]#[O+]")) and d["label"] else k)
+    lab = [node_info[k]["label"] if k in ("[H]", "[H][H]", "O", "O=C=O", "[C-]#[O+]") else k for k in order]
     by_fam = Counter()
     by_nfam = Counter()
     part, rows_in_part, PART_ROWS = 1, 0, 4_000_000
@@ -382,13 +453,13 @@ def main():
     ml = mask.tolist()
     nl = nor.tolist()
     for rid in range(NR):
-        a, b, c, d = Ul[rid]
+        row = Ul[rid]
         fl = [fams[j] for j in range(len(fams)) if ml[rid] >> j & 1]
         for x in fl:
             by_fam[x] += 1
         by_nfam[len(fl)] += 1
-        rs = [a] + ([b] if b >= 0 else [])
-        ps = [c] + ([d] if d >= 0 else [])
+        rs = [x for x in row[:W] if x >= 0]
+        ps = [x for x in row[W:] if x >= 0]
         fo.write(f"{rid}\t{','.join(map(str, rs))}\t{','.join(map(str, ps))}\t{';'.join(fl)}\t{nl[rid]}\t"
                  f"{' + '.join(lab[x] for x in rs)} ⇌ {' + '.join(lab[x] for x in ps)}\n")
         rows_in_part += 1
@@ -415,7 +486,8 @@ def main():
     stats = {
         "source": str(src), "input_species": len(old), "input_reactions": n_in,
         "nodes": len(order), "reactions": NR, "dropped_trivial": int(drop.sum()),
-        "element_unbalanced": int(unbal.sum()), "element_unbalanced_without_pseudo": int(unbal_np.sum()),
+        "element_unbalanced": int(unbal.sum()), "hydrogen_transfer_rewritten": n_ht,
+        "hydrocarbon_pool_steps_dropped": n_hcp, "side_chain_methylation_added": n_scm,
         "input_species_by_class": dict(old_cls),
         "nodes_by_kind": dict(kinds.most_common()),
         "nodes_by_kind_and_C": {k: {str(c): v for c, v in sorted(cnt.items())} for k, cnt in by_kind_c.items()},
@@ -427,7 +499,7 @@ def main():
     }
     (out / "stats.json").write_text(json.dumps(stats, indent=1, ensure_ascii=False))
     log(json.dumps({k: stats[k] for k in ("nodes", "reactions", "dropped_trivial", "element_unbalanced",
-                                            "element_unbalanced_without_pseudo", "nodes_with_several_resonance_forms")}))
+                                            "nodes_with_several_resonance_forms")}))
 
 
 if __name__ == "__main__":

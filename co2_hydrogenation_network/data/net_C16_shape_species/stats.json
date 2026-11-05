@@ -2,11 +2,13 @@
  "source": "../data/net_C16_shape",
  "input_species": 128390,
  "input_reactions": 367369,
- "nodes": 114189,
- "reactions": 358700,
+ "nodes": 114187,
+ "reactions": 359149,
  "dropped_trivial": 2,
- "element_unbalanced": 46329,
- "element_unbalanced_without_pseudo": 0,
+ "element_unbalanced": 0,
+ "hydrogen_transfer_rewritten": 46315,
+ "hydrocarbon_pool_steps_dropped": 14,
+ "side_chain_methylation_added": 463,
  "input_species_by_class": {
   "pool": 6,
   "core": 14,
@@ -44,16 +46,12 @@
   "芳烃": 935,
   "烷烃": 803,
   "C1 碎片": 8,
-  "伪物种": 2,
   "氢": 2,
   "C1 分子": 2,
   "水": 1,
   "醚": 1
  },
  "nodes_by_kind_and_C": {
-  "伪物种": {
-   "0": 2
-  },
   "氢": {
    "0": 2
   },
@@ -338,14 +336,14 @@
   "M:CH2": 2553,
   "A:iso": 674,
   "A:meth": 501,
+  "A:scm": 463,
   "A:cyc": 368,
   "A:FC": 88,
-  "C1": 20,
-  "A:hcp": 11
+  "C1": 17
  },
  "reactions_by_number_of_families": {
-  "1": 347550,
+  "1": 347999,
   "2": 11150
  },
- "runtime_s": 25.4
+ "runtime_s": 27.1
 }
