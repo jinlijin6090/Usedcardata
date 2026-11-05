@@ -163,39 +163,48 @@ def forward(IN, OUT, N, sources):
     return f, np.where(fin < INF, fin + 1, INF).astype(np.int32)
 
 
-def deadlines(IN, OUT, N, fe, target, budget, blocked):
-    """latest step L(x) by which x must be available so that the target is made by step `budget`.
-    A step e must fire by T(e) = max L(useful outputs); it is feasible when fe(e) <= T(e); then each input must be
-    available by T(e) - 1.  Pool and reactant species are always available and carry no deadline."""
-    NEG = np.int32(-1)
-    L = np.full(N + 1, NEG, dtype=np.int32)
-    L[target] = budget
-    usable = np.flatnonzero(fe < INF)
+def prepare(IN, OUT, N, fe, budget_max, blocked):
+    """index the steps that can fire by budget_max once, for all deadline searches"""
+    usable = np.flatnonzero(fe <= budget_max)
     INu, OUTu, feu = IN[usable], OUT[usable], fe[usable]
     ent_node = INu.ravel()
-    ent_edge = np.repeat(np.arange(len(usable)), IN.shape[1])
+    ent_edge = np.repeat(np.arange(len(usable), dtype=np.int64), IN.shape[1])
     keep = (ent_node != N) & ~blocked[ent_node]
     ent_node, ent_edge = ent_node[keep], ent_edge[keep]
     o = np.argsort(ent_node, kind="stable")
     ent_node, ent_edge = ent_node[o], ent_edge[o]
     starts = np.flatnonzero(np.r_[True, ent_node[1:] != ent_node[:-1]]) if len(ent_node) else np.zeros(0, dtype=np.int64)
-    nodes_g = ent_node[starts]
     omask = blocked.copy()
     omask[N] = True
-    while True:
-        T = np.where(omask[OUTu], NEG, L[OUTu]).max(axis=1)
+    OUTm = np.where(omask[OUTu], N, OUTu)          # outputs that carry no deadline point at the padding slot
+    return {"usable": usable, "OUT": OUTm, "fe": feu, "ent_edge": ent_edge, "starts": starts,
+            "nodes_g": ent_node[starts], "E": len(IN), "N": N}
+
+
+def deadlines(S, target, budget):
+    """latest step L(x) by which x must be available so that the target is made by step `budget`.
+    A step e must fire by T(e) = max L(useful outputs); it is feasible when fe(e) <= T(e); then each input must be
+    available by T(e) - 1.  Pool and reactant species are always available and carry no deadline."""
+    NEG = np.int32(-1)
+    N = S["N"]
+    L = np.full(N + 1, NEG, dtype=np.int32)
+    L[target] = budget
+    OUTm, feu, ent_edge, starts, nodes_g = S["OUT"], S["fe"], S["ent_edge"], S["starts"], S["nodes_g"]
+    active = np.zeros(len(feu), dtype=bool)
+    while len(starts):
+        L[N] = NEG
+        T = L[OUTm].max(axis=1)
         feas = (T >= 0) & (feu <= T)
         cand = np.where(feas, T - 1, NEG).astype(np.int32)
-        if not len(starts):
-            break
         best = np.maximum.reduceat(cand[ent_edge], starts)
         upd = best > L[nodes_g]
         if not upd.any():
             break
         L[nodes_g[upd]] = best[upd]
-    T = np.where(omask[OUTu], NEG, L[OUTu]).max(axis=1)
-    Te = np.full(len(IN), NEG, dtype=np.int32)
-    Te[usable] = T
+    L[N] = NEG
+    T = L[OUTm].max(axis=1)
+    Te = np.full(S["E"], NEG, dtype=np.int32)
+    Te[S["usable"]] = T
     return L, Te
 
 
@@ -293,6 +302,9 @@ def main(argv=None):
     f, fe = forward(IN, OUT, N, src + pool)
     blocked = np.zeros(N + 1, dtype=bool)
     blocked[pool + src] = True
+    budgets = [int(f[t]) + a.extra for t in dst if f[t] < INF]
+    S = prepare(IN, OUT, N, fe, max(budgets) if budgets else 0, blocked)
+    log(f"steps that can fire within the largest budget: {len(S['usable']):,}")
     keep = np.zeros(E, dtype=bool)
     excess = np.full(E, INF, dtype=np.int32)      # smallest k at which the step enters the sub-network
     slack = np.full(E, INF, dtype=np.int32)
@@ -305,7 +317,7 @@ def main(argv=None):
             log(f"target {name}: not reachable")
             continue
         for k in range(a.extra + 1):
-            L, Te = deadlines(IN, OUT, N, fe, t, D + k, blocked)
+            L, Te = deadlines(S, t, D + k)
             sel = (Te >= 0) & (fe <= Te) & ~(IN == t).any(axis=1)     # steps that consume the target are not part of it
             excess = np.where(sel, np.minimum(excess, k), excess)
             if k == a.extra:
