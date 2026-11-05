@@ -4,6 +4,6 @@
 方法二：先拼回一个文件再解压。
   Windows：copy /b CO2加氢_物种级数据库.zip.0* CO2加氢_物种级数据库.zip
   macOS / Linux：cat CO2加氢_物种级数据库.zip.0* > CO2加氢_物种级数据库.zip
-校验（可选）：拼好后的 SHA-256 应为 0a9cc79eea0f99e5467a4853ed9cd48c4acf993127bed9fcb1e94b613024b4f0
+校验（可选）：拼好后的 SHA-256 应为 12ffd237b9d2ef30e6304413341adc6e2c8ece4f67092165af96ff4f2f1c2d86
 
 解压后先看「CO2加氢_物种级数据库/先看我.md」。
