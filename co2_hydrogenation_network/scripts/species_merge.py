@@ -292,11 +292,30 @@ def main():
     for i, _cls, _s, nk, _f in alias:
         o2n[i] = nid[nk]
     log("nodes / aliases written")
+    # node statistics now, then free what the reaction stage does not need
+    kinds = Counter(node_info[k]["kind"] for k in order)
+    by_kind_c = defaultdict(Counter)
+    states = Counter()
+    for k in order:
+        di = node_info[k]
+        by_kind_c[di["kind"]][di["f"][0]] += 1
+        st = di["states"]
+        if any(x.startswith(("酸位 R", "金属位 R*", "气相自由基")) for x in st):
+            states[" + ".join(sorted(x.split(" ")[0] for x in st))] += 1
+    old_cls = Counter(cls for _, cls, _, _ in old)
+    res_merged = sum(1 for k in order if len(node_info[k]["forms"]) > 1)
+    n_old = len(old)
+    F = np.array([node_info[k]["f"] for k in order], dtype=np.int64)
+    aro = [k for k in order if node_info[k]["kind"] == "芳烃"]
+    lab = [node_info[k]["label"] if k in ("[H]", "[H][H]", "O", "O=C=O", "[C-]#[O+]") else k for k in order]
+    del alias, old, conv, node_info, site_keys
+    import gc
+    gc.collect()
     # ---------------------------------------------------------------- reactions
     W = 3                                        # species per side
     rfiles = sorted(src.glob("reactions.part*.tsv.gz")) or [src / "reactions.tsv.gz"]
     fams, fi = [], {}
-    rows = []
+    rows, blocks = [], []
     n_in = 0
     for f in rfiles:
         with gzip.open(f, "rt") as fh:
@@ -312,9 +331,15 @@ def main():
                 q = [int(x) for x in p[3].split(",")]
                 rows.append((fi[fam], *(r + [-1] * (W - len(r))), *(q + [-1] * (W - len(q)))))
                 n_in += 1
+                if len(rows) >= 1_000_000:
+                    blocks.append(np.array(rows, dtype=np.int64))
+                    rows = []
         log(f"  read {f.name}: total {n_in:,}")
-    A = np.array(rows, dtype=np.int64)
+    if rows:
+        blocks.append(np.array(rows, dtype=np.int64))
     del rows
+    A = np.concatenate(blocks)
+    del blocks
     famcol = A[:, 0].copy()
     X = A[:, 1:].copy()
     del A
@@ -327,7 +352,6 @@ def main():
             fams.append(name)
         return fi[name]
     Hn, H2n, H2On, CH3n = nid["[H]"], nid["[H][H]"], nid["O"], nid["[CH3]"]
-    F = np.array([node_info[k]["f"] for k in order], dtype=np.int64)
     extra_f, extra = [], []
     # ---- M:CO -> acyl, + M:acylH
     acyl_arr = np.full(len(order), -1, dtype=np.int64)
@@ -370,7 +394,6 @@ def main():
     hcp = (X == -2).any(axis=1)
     n_hcp = int(hcp.sum())
     X, famcol = X[~hcp], famcol[~hcp]
-    aro = [k for k in order if node_info[k]["kind"] == "芳烃"]
     with mp.get_context("fork").Pool(procs) as pool:
         can = dict(pool.imap_unordered(w_canon, aro, chunksize=500))
         scm = list(pool.imap_unordered(w_scm, aro, chunksize=200))
@@ -440,7 +463,6 @@ def main():
     unbal = (tot != 0).any(axis=1)
     log(f"element-unbalanced reactions: {int(unbal.sum()):,}")
     # write reactions
-    lab = [node_info[k]["label"] if k in ("[H]", "[H][H]", "O", "O=C=O", "[C-]#[O+]") else k for k in order]
     by_fam = Counter()
     by_nfam = Counter()
     part, rows_in_part, PART_ROWS = 1, 0, 4_000_000
@@ -449,18 +471,26 @@ def main():
     fo = gzip.open(path(part), "wt", compresslevel=6)
     hdr = "id\treactants\tproducts\tfamilies\tn_original\tequation\n"
     fo.write(hdr)
-    Ul = U.tolist()
-    ml = mask.tolist()
-    nl = nor.tolist()
+    del K, fc, tot
+    famlists = {}
+    CH = 500_000
     for rid in range(NR):
-        row = Ul[rid]
-        fl = [fams[j] for j in range(len(fams)) if ml[rid] >> j & 1]
+        if rid % CH == 0:
+            Ul = U[rid:rid + CH].tolist()
+            ml = mask[rid:rid + CH].tolist()
+            nl = nor[rid:rid + CH].tolist()
+        j_ = rid % CH
+        row = Ul[j_]
+        mk = ml[j_]
+        fl = famlists.get(mk)
+        if fl is None:
+            fl = famlists[mk] = [fams[j] for j in range(len(fams)) if mk >> j & 1]
         for x in fl:
             by_fam[x] += 1
         by_nfam[len(fl)] += 1
         rs = [x for x in row[:W] if x >= 0]
         ps = [x for x in row[W:] if x >= 0]
-        fo.write(f"{rid}\t{','.join(map(str, rs))}\t{','.join(map(str, ps))}\t{';'.join(fl)}\t{nl[rid]}\t"
+        fo.write(f"{rid}\t{','.join(map(str, rs))}\t{','.join(map(str, ps))}\t{';'.join(fl)}\t{nl[j_]}\t"
                  f"{' + '.join(lab[x] for x in rs)} ⇌ {' + '.join(lab[x] for x in ps)}\n")
         rows_in_part += 1
         if big and rows_in_part >= PART_ROWS and rid + 1 < NR:
@@ -472,19 +502,8 @@ def main():
     fo.close()
     log("reactions written")
     # ---------------------------------------------------------------- stats
-    kinds = Counter(node_info[k]["kind"] for k in order)
-    by_kind_c = defaultdict(Counter)
-    for k in order:
-        by_kind_c[node_info[k]["kind"]][node_info[k]["f"][0]] += 1
-    states = Counter()
-    for k in order:
-        st = node_info[k]["states"]
-        if any(s.startswith(("酸位 R", "金属位 R*", "气相自由基")) for s in st):
-            states[" + ".join(sorted(x.split(" ")[0] for x in st))] += 1
-    old_cls = Counter(cls for _, cls, _, _ in old)
-    res_merged = sum(1 for k in order if len(node_info[k]["forms"]) > 1)
     stats = {
-        "source": str(src), "input_species": len(old), "input_reactions": n_in,
+        "source": str(src), "input_species": n_old, "input_reactions": n_in,
         "nodes": len(order), "reactions": NR, "dropped_trivial": int(drop.sum()),
         "element_unbalanced": int(unbal.sum()), "hydrogen_transfer_rewritten": n_ht,
         "hydrocarbon_pool_steps_dropped": n_hcp, "side_chain_methylation_added": n_scm,

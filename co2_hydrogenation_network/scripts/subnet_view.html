@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>子网络浏览</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--fg:#1d2126;--muted:#6b7280;--line:#e3e4e8;--accent:#1f5fbf;--hi:#d64545;--src:#13a39a;--dst:#d64545;--mid:#2f3338}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#15171a;--panel:#1d2024;--fg:#e8e9eb;--muted:#9aa1ab;--line:#30343a;--accent:#6ea2ff;--hi:#ff7b7b;--src:#3fd0c4;--dst:#ff7b7b;--mid:#d0d3d8}}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+header{padding:12px 16px 8px;border-bottom:1px solid var(--line);background:var(--panel)}
+h1{font-size:17px;margin:0 0 4px}#subline{color:var(--muted);font-size:13px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+.bar input[type=search]{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);min-width:220px}
+.bar label{font-size:13px;color:var(--muted)}.pill{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;margin-right:4px}
+main{display:grid;grid-template-columns:1fr 380px;height:calc(100% - 112px)}
+#cv{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+aside{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:12px 14px}
+aside h2{font-size:15px;margin:4px 0 6px;word-break:break-all}.kv{color:var(--muted);font-size:13px;margin-bottom:8px}
+#struct{height:180px;border:1px solid var(--line);border-radius:8px;margin:8px 0;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+ul.rx{list-style:none;padding:0;margin:0}ul.rx li{padding:6px 0;border-top:1px solid var(--line);font-size:12.5px;word-break:break-all}
+ul.rx li b{font-weight:600}.fam{color:var(--muted);font-size:12px}a.sp{color:var(--accent);cursor:pointer;text-decoration:none}
+#hits{position:absolute;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:8px;max-height:300px;overflow:auto;list-style:none;margin:2px 0 0;padding:4px;min-width:260px}
+#hits li{padding:4px 8px;cursor:pointer;border-radius:6px;font-size:13px;word-break:break-all}#hits li:hover{background:var(--bg)}
+.legend{font-size:12px;color:var(--muted)}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px -1px 10px}
+@media (max-width:820px){main{grid-template-columns:1fr;grid-template-rows:60% 40%}aside{border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">子网络</h1>
+  <div id="subline"></div>
+  <div class="bar">
+    <span style="position:relative"><input type="search" id="q" placeholder="搜索 SMILES 或名称"><ul id="hits" hidden></ul></span>
+    <label>显示额外步数 ≤ <select id="slack"></select> 的反应（0 = 最短路线）</label>
+    <span class="legend"><i style="background:var(--src)"></i>起始反应物<i style="background:var(--dst)"></i>目标产物<i style="background:var(--mid)"></i>中间体</span>
+    <span class="legend">列 = 最少步数；拖动平移，滚轮缩放，单击物种查看</span>
+  </div>
+</header>
+<main>
+  <canvas id="cv"></canvas>
+  <aside id="side"><p class="kv">单击图中的物种，查看结构式和它在子网络中的全部反应。</p></aside>
+</main>
+<script>/*__SMILES_DRAWER__*/</script>
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s) => document.querySelector(s);
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const M = DATA.meta, NODES = DATA.nodes, EDGES = DATA.edges;
+const byId = new Map(NODES.map((n, i) => [n.id, i]));
+const POOL = new Set(NODES.filter((n) => n.role === "小分子池").map((n) => n.id));
+const name = (n) => n.label || n.smiles;
+$("#title").textContent = `子网络：${M.sources.map((s) => s.name).join(" + ")} → ${M.targets.map((t) => t.name).join("、")}`;
+$("#subline").innerHTML = M.targets.map((t) => `<span class="pill">${esc(t.name)}：最少 ${t.D ?? "—"} 步</span>`).join("") +
+  ` 允许多 ${M.extra} 步 · ${NODES.length.toLocaleString()} 个物种 · ${EDGES.length.toLocaleString()} 个反应步` +
+  (M.pool.length ? ` · 小分子池（始终可用，不画在图上）：${esc(M.pool.join("、"))}` : "");
+for (let k = 0; k <= M.extra; k++) $("#slack").insertAdjacentHTML("beforeend", `<option value="${k}" ${k === 0 ? "selected" : ""}>${k}</option>`);
+// ---- layout (recomputed for the current filter): column = f; long columns are split into sub-columns
+const COLW = 230, ROWH = 24, PER = 45;
+let pos = new Array(NODES.length), cols = new Map(), colX = new Map(), maxRows = 1;
+function layout(maxExtra) {
+  const vis = new Set();
+  EDGES.forEach((e) => { if (e.extra <= maxExtra) { e.in.forEach((x) => vis.add(x)); e.out.forEach((x) => vis.add(x)); } });
+  NODES.forEach((n) => { if (n.role === "起始反应物" || n.role === "目标产物") vis.add(n.id); });
+  pos = new Array(NODES.length); cols = new Map(); colX = new Map(); maxRows = 1;
+  NODES.forEach((n, i) => { if (POOL.has(n.id) || !vis.has(n.id)) return; if (!cols.has(n.f)) cols.set(n.f, []); cols.get(n.f).push(i); });
+  let x = 0;
+  for (const c of [...cols.keys()].sort((a, b) => a - b)) {
+    const list = cols.get(c);
+    list.sort((a, b) => (NODES[a].role === "目标产物") - (NODES[b].role === "目标产物") || NODES[a].C - NODES[b].C || name(NODES[a]).localeCompare(name(NODES[b])));
+    const nsub = Math.ceil(list.length / PER), rows = Math.ceil(list.length / nsub);
+    maxRows = Math.max(maxRows, rows);
+    list.forEach((i, r) => { const s = Math.floor(r / rows), rr = r % rows; pos[i] = [x + s * COLW, (rr - (rows - 1) / 2) * ROWH]; });
+    colX.set(c, [x, x + (nsub - 1) * COLW]);
+    x += nsub * COLW + COLW * 0.6;
+  }
+}
+// main input of a step = the non-pool input with the largest f
+const main_in = EDGES.map((e) => { let best = -1, bf = -1; for (const x of e.in) { if (POOL.has(x)) continue; const f = NODES[byId.get(x)].f; if (f > bf) { bf = f; best = x; } } return best; });
+const FAMCOL = {}; const PAL = ["#1f5fbf", "#13a39a", "#d64545", "#8c5ad8", "#e07b00", "#2c8a3e", "#b04848", "#5f6670", "#c2185b", "#0b7fab", "#7b5e00", "#6a63db"];
+let pi = 0; for (const e of EDGES) { const f0 = e.fam.split(";")[0].split(":")[0]; if (!(f0 in FAMCOL)) FAMCOL[f0] = PAL[pi++ % PAL.length]; }
+// ---- canvas
+const cv = $("#cv"), g = cv.getContext("2d");
+let W = 0, H = 0, dpr = 1, view = { x: 0, y: 0, k: 1 }, sel = -1, slackMax = 0, dirty = true;
+function resize() { dpr = window.devicePixelRatio || 1; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; dirty = true; }
+function fit() { const xs = [...colX.values()].flat(); const x0 = Math.min(...xs), x1 = Math.max(...xs) + COLW * 0.8; const h = maxRows * ROWH;
+  view.k = Math.min(W / (x1 - x0 + COLW), (H - 40) / (h + 2 * ROWH), 2); view.x = W / 2 - ((x0 + x1) / 2) * view.k; view.y = H / 2 + 12; dirty = true; }
+const w2s = (x, y) => [x * view.k + view.x, y * view.k + view.y];
+function draw() {
+  g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+  const fg = css("--fg"), muted = css("--muted"), line = css("--line");
+  // column headers
+  g.font = "12px system-ui"; g.fillStyle = muted; g.textAlign = "center";
+  let lastX = -1e9;
+  for (const [c, [a, b]] of colX) { const [x] = w2s((a + b) / 2, 0); if (x - lastX < 46) continue; lastX = x; g.fillText(`第 ${c} 步`, x, 16); }
+  // edges
+  const nb = sel >= 0 ? new Set() : null;
+  g.lineWidth = 1;
+  EDGES.forEach((e, k) => {
+    if (e.extra > slackMax) return;
+    const a = main_in[k]; if (a < 0) return;
+    const hit = sel >= 0 && (e.in.includes(NODES[sel].id) || e.out.includes(NODES[sel].id));
+    if (hit) { e.in.forEach((x) => nb.add(x)); e.out.forEach((x) => nb.add(x)); }
+    for (const o of e.out) {
+      if (POOL.has(o)) continue;
+      const pa = pos[byId.get(a)], pb = pos[byId.get(o)]; if (!pa || !pb) continue;
+      const [x1, y1] = w2s(...pa), [x2, y2] = w2s(...pb);
+      g.strokeStyle = hit ? css("--hi") : FAMCOL[e.fam.split(";")[0].split(":")[0]];
+      g.globalAlpha = sel >= 0 ? (hit ? 0.95 : 0.06) : (e.extra === 0 ? 0.55 : 0.18);
+      g.lineWidth = hit ? 1.8 : 1;
+      g.beginPath(); g.moveTo(x1, y1); const mx = (x1 + x2) / 2; g.bezierCurveTo(mx, y1, mx, y2, x2, y2); g.stroke();
+    }
+  });
+  g.globalAlpha = 1;
+  // nodes
+  const r = Math.max(2.5, Math.min(6, 5 * view.k));
+  const showLab = view.k > 0.55;
+  g.font = `${Math.round(Math.max(10, Math.min(13, 12 * view.k)))}px ui-monospace,Menlo,Consolas,monospace`; g.textAlign = "left"; g.textBaseline = "middle";
+  NODES.forEach((n, i) => {
+    if (!pos[i]) return;
+    const [x, y] = w2s(...pos[i]); if (x < -200 || x > W + 50 || y < -20 || y > H + 20) return;
+    const dim = sel >= 0 && i !== sel && !nb.has(n.id);
+    g.globalAlpha = dim ? 0.25 : 1;
+    g.fillStyle = n.role === "起始反应物" ? css("--src") : n.role === "目标产物" ? css("--dst") : css("--mid");
+    g.beginPath(); g.arc(x, y, i === sel ? r + 3 : r, 0, 7); g.fill();
+    if (showLab || n.role !== "中间体") { g.fillStyle = fg; g.fillText(name(n).slice(0, 32), x + r + 4, y); }
+  });
+  g.globalAlpha = 1;
+}
+function loop() { if (dirty) { dirty = false; draw(); } requestAnimationFrame(loop); }
+// ---- interaction
+let drag = null;
+cv.addEventListener("pointerdown", (ev) => { drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y, moved: false }; cv.setPointerCapture(ev.pointerId); });
+cv.addEventListener("pointermove", (ev) => { if (!drag) return; const dx = ev.clientX - drag.x, dy = ev.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true; view.x = drag.vx + dx; view.y = drag.vy + dy; dirty = true; });
+cv.addEventListener("pointerup", (ev) => { const d = drag; drag = null; if (d && !d.moved) pick(ev); });
+cv.addEventListener("wheel", (ev) => { ev.preventDefault(); const s = Math.exp(-ev.deltaY * 0.0015); const rc = cv.getBoundingClientRect(); const mx = ev.clientX - rc.left, my = ev.clientY - rc.top;
+  view.x = mx - (mx - view.x) * s; view.y = my - (my - view.y) * s; view.k *= s; dirty = true; }, { passive: false });
+function pick(ev) { const rc = cv.getBoundingClientRect(); const mx = ev.clientX - rc.left, my = ev.clientY - rc.top; let best = -1, bd = 14 * 14;
+  NODES.forEach((n, i) => { if (!pos[i]) return; const [x, y] = w2s(...pos[i]); const d = (x - mx) ** 2 + (y - my) ** 2; if (d < bd) { bd = d; best = i; } });
+  select(best); }
+function select(i, center) {
+  sel = i; dirty = true; const side = $("#side");
+  if (i < 0) { side.innerHTML = `<p class="kv">单击图中的物种，查看结构式和它在子网络中的全部反应。</p>`; return; }
+  const n = NODES[i];
+  if (center && pos[i]) { view.x = W / 2 - pos[i][0] * view.k; view.y = H / 2 - pos[i][1] * view.k; }
+  const rel = EDGES.filter((e) => e.extra <= slackMax && (e.in.includes(n.id) || e.out.includes(n.id)));
+  const sp = (x) => { const m = NODES[byId.get(x)]; return `<a class="sp" data-i="${byId.get(x)}">${esc(name(m))}</a>`; };
+  side.innerHTML = `<h2>${esc(name(n))}</h2><div class="kv">${esc(n.smiles)} · ${esc(n.formula)} · ${esc(n.kind)} · ${esc(n.role)}<br>
+    最早第 ${n.f} 步生成${n.L === null ? "" : ` · 最晚第 ${n.L} 步需要`} · node_id ${n.id}</div><div id="struct"></div>
+    <div class="kv">子网络中与它相关的反应步：${rel.length}</div>
+    <ul class="rx">${rel.map((e) => `<li>${e.in.map(sp).join(" + ")} → ${e.out.map(sp).join(" + ")}<br><span class="fam">最早第 ${e.step} 步 · 额外 ${e.extra} 步 · ${esc(e.fam)}${e.n_original > 1 ? ` · 合并了 ${e.n_original} 个原始基元反应` : ""}</span></li>`).join("")}</ul>`;
+  side.querySelectorAll("a.sp").forEach((a) => (a.onclick = () => select(+a.dataset.i, true)));
+  const box = $("#struct");
+  if (window.SmilesDrawer && n.smiles) {
+    try { box.innerHTML = '<svg id="svgs" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"></svg>';
+      const dr = new SmilesDrawer.SvgDrawer({ width: box.clientWidth, height: 170, bondThickness: 1.1, padding: 16, terminalCarbons: false });
+      SmilesDrawer.parse(n.smiles, (t) => dr.draw(t, "svgs", matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"), () => (box.textContent = "无法绘制"));
+    } catch { box.textContent = "无法绘制"; }
+  } else box.textContent = n.smiles ? "（结构式库未载入）" : "";
+}
+$("#slack").onchange = (e) => { slackMax = +e.target.value; layout(slackMax); fit(); if (sel >= 0) select(sel); };
+$("#q").addEventListener("input", () => { const q = $("#q").value.trim(), ul = $("#hits"); if (!q) { ul.hidden = true; return; }
+  const hits = []; for (let i = 0; i < NODES.length && hits.length < 30; i++) { const n = NODES[i]; if (n.smiles.includes(q) || (n.label && n.label.includes(q))) hits.push(i); }
+  ul.innerHTML = hits.map((i) => `<li data-i="${i}">${esc(name(NODES[i]))} <span class="fam">第 ${NODES[i].f} 步</span></li>`).join("") || `<li>没有匹配</li>`; ul.hidden = false;
+  ul.querySelectorAll("li[data-i]").forEach((li) => (li.onclick = () => { ul.hidden = true; select(+li.dataset.i, true); })); });
+window.addEventListener("resize", () => { resize(); });
+resize(); layout(0); fit(); loop();
+const t0 = NODES.findIndex((n) => n.role === "目标产物"); if (t0 >= 0) select(t0);
+</script>
+</body>
+</html>
