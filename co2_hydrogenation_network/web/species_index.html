@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
+<title>CO₂ 加氢物种级网络</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: instrument-panel app — filters | WebGL network canvas | species detail (reactions / pathways); stacks on phones */
+:root {
+  --bg: #EEF1F4; --panel: #FFFFFF; --canvas: #FAFBFC; --fg: #14171C; --muted: #5A6372; --faint: #8C95A3;
+  --line: #D9DEE5; --accent: #2A6FD6; --path: #E8590C; --chip: #F2F4F7; --shape: rgba(20, 40, 80, 0.05);
+  --band-MET: #FBE5E3; --band-GAS: #ECEDEF; --band-OX: #FBF2DF; --band-BA: #DFEAF8; --band-BA2: #EBF1FA; --band-AR: #E0F2E6;
+  --core: #F4F5F7; --sep: #FFFFFF;
+  --f-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
+  --line: #232A33; --accent: #5E9DEB; --path: #FF8A3D; --chip: #1A2028; --shape: rgba(255, 255, 255, 0.035);
+  --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
+  --core: #14181E; --sep: #07090C; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0B0E12; --panel: #12161C; --canvas: #07090C; --fg: #E4E8EE; --muted: #9AA3B1; --faint: #6B7482;
+  --line: #232A33; --accent: #5E9DEB; --path: #FF8A3D; --chip: #1A2028; --shape: rgba(255, 255, 255, 0.035);
+  --band-MET: #2A1517; --band-GAS: #191B1F; --band-OX: #261F10; --band-BA: #0F1C2E; --band-BA2: #0C1522; --band-AR: #0E2216;
+  --core: #14181E; --sep: #07090C; color-scheme: dark; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 13px; line-height: 1.5; }
+.app { height: 100%; box-sizing: border-box; display: grid; grid-template-columns: 262px minmax(0, 1fr) 380px;
+  grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; min-width: 0; }
+.brand { min-width: 0; flex: 1 1 380px; }
+.brand h1 { font-family: var(--f-display); font-size: 21px; line-height: 1.25; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.brand p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.stats { display: flex; gap: 18px; }
+.stat { display: flex; flex-direction: column; align-items: flex-end; }
+.stat b { font-family: var(--f-mono); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+.search { position: relative; flex: 0 1 340px; min-width: 220px; }
+.search input { width: 100%; box-sizing: border-box; font: 13px var(--f-body); color: var(--fg); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+.search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#qres { position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; right: 0; margin: 0; padding: 4px; list-style: none;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 8px 28px rgba(0,0,0,.18); max-height: 360px; overflow: auto; }
+#qres li button { width: 100%; display: grid; grid-template-columns: 10px minmax(0,1fr) auto; gap: 8px; align-items: center; text-align: left;
+  background: none; border: 0; color: var(--fg); font: inherit; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+#qres li button:hover, #qres li button:focus-visible { background: var(--chip); outline: none; }
+#qres .sm { font-family: var(--f-mono); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#qres .meta { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+aside, .stage { min-height: 0; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: auto; }
+.filters { padding: 12px 12px 16px; display: flex; flex-direction: column; gap: 16px; }
+.filters h2, .detail h2 { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; margin: 0 0 6px; text-transform: uppercase; }
+.rowchips { display: flex; flex-direction: column; gap: 2px; }
+.tg { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 8px; align-items: center; width: 100%; background: none; border: 0;
+  color: var(--fg); font: inherit; text-align: left; padding: 4px 6px; border-radius: 6px; cursor: pointer; }
+.tg:hover { background: var(--chip); }
+.tg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tg[aria-pressed="false"] { opacity: 0.38; }
+.tg .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tg .dots { display: inline-flex; gap: 2px; }
+.sw { width: 16px; height: 3px; border-radius: 2px; display: inline-block; flex: none; }
+.blk { font-size: 10.5px; color: var(--faint); margin: 6px 6px 1px; letter-spacing: 0.04em; }
+.range { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 6px 10px; align-items: center; }
+.range label { font-size: 12px; color: var(--muted); }
+.range output { font-family: var(--f-mono); font-size: 12px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.checks { display: flex; flex-direction: column; gap: 6px; }
+.checks label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+.btnrow { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn { font: 12px var(--f-body); color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.btn:hover { border-color: var(--faint); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.note { color: var(--faint); font-size: 11.5px; line-height: 1.55; margin: 0; }
+.stage { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--canvas); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#ov { touch-action: none; cursor: grab; }
+#ov.drag { cursor: grabbing; }
+.zoom { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 4px; z-index: 5; }
+.zoom button { width: 32px; height: 32px; font: 600 16px var(--f-mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 7px; cursor: pointer; }
+.zoom button:focus-visible { outline: 2px solid var(--accent); }
+.hint { position: absolute; left: 10px; bottom: 10px; z-index: 5; font-size: 11px; color: var(--muted); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; pointer-events: none; opacity: 0.92; }
+#tip { position: absolute; z-index: 6; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 7px;
+  padding: 6px 9px; box-shadow: 0 6px 20px rgba(0,0,0,.18); max-width: 320px; }
+#tip .sm { font-family: var(--f-mono); font-size: 12px; word-break: break-all; }
+#tip .meta { color: var(--muted); font-size: 11px; }
+#loading { position: absolute; inset: 0; z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: var(--canvas); color: var(--muted); text-align: center; padding: 20px; }
+#loading .bar { width: 220px; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+#loading .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.detail { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.dname { font-family: var(--f-display); font-size: 19px; margin: 0; line-height: 1.3; word-break: break-all; }
+.smiles { display: flex; gap: 6px; align-items: flex-start; }
+.smiles code { font-family: var(--f-mono); font-size: 12.5px; background: var(--chip); border-radius: 6px; padding: 4px 8px; word-break: break-all; flex: 1; min-width: 0; }
+.struct { position: relative; background: var(--canvas); border: 1px solid var(--line); border-radius: 8px; height: 170px; display: flex; align-items: center; justify-content: center; }
+.struct svg { width: 100%; height: 100%; }
+.ph { color: var(--faint); font-size: 12px; padding: 12px; text-align: center; }
+.kv { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.kv div { background: var(--chip); border-radius: 7px; padding: 6px 8px; }
+.kv b { display: block; font-family: var(--f-mono); font-size: 16px; font-variant-numeric: tabular-nums; }
+.kv span { font-size: 11px; color: var(--muted); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tabs button { font: 600 12.5px var(--f-body); color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 10px; cursor: pointer; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); }
+.rx { display: flex; flex-direction: column; gap: 12px; }
+.rxg h3 { display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin: 0 0 4px; font-weight: 600; }
+.rxg h3 .n { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-weight: 400; }
+.eqs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.eq { font: 11.5px/1.6 var(--f-mono); background: var(--chip); border-radius: 6px; padding: 3px 7px; word-break: break-all; }
+.eq .op { color: var(--faint); padding: 0 3px; }
+.eq button { font: inherit; color: var(--fg); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+.eq button:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.eq .me { font-weight: 600; color: var(--accent); }
+.eq .pool { color: var(--muted); }
+.more { font: 11.5px var(--f-body); color: var(--accent); background: none; border: 0; cursor: pointer; padding: 2px 4px; align-self: flex-start; }
+.pathsum { background: var(--chip); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+.pathsum b { font-family: var(--f-mono); }
+.plist { display: flex; flex-direction: column; gap: 6px; }
+.pcard { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; background: var(--panel); }
+.pcard[aria-current="true"] { border-color: var(--path); box-shadow: inset 3px 0 0 var(--path); }
+.pcard > button { width: 100%; display: flex; justify-content: space-between; gap: 8px; font: 600 12px var(--f-body); color: var(--fg); background: none; border: 0; padding: 2px 0; cursor: pointer; text-align: left; }
+.pcard > button:focus-visible { outline: 2px solid var(--accent); }
+.steps { margin: 4px 0 2px; padding-left: 22px; display: flex; flex-direction: column; gap: 3px; }
+.steps li { font: 11.5px/1.55 var(--f-mono); word-break: break-all; }
+.steps .fam { font-family: var(--f-body); color: var(--muted); font-size: 11px; }
+.need { font-family: var(--f-body); font-size: 11px; color: var(--muted); }
+@media (max-width: 1180px) { .app { grid-template-columns: 236px minmax(0,1fr) 330px; } }
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  .app { height: auto; display: flex; flex-direction: column; }
+  .stage { height: 64vh; min-height: 360px; order: 2; }
+  .detail { order: 3; } .filters { order: 4; }
+  .stats { gap: 12px; } .stat b { font-size: 15px; }
+  .search { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) { #loading .bar i { transition: none; } }
+</style>
+<style>
+.lvl { position: absolute; left: 10px; top: 32px; z-index: 5; font-size: 11px; color: var(--muted); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 8px; pointer-events: none; font-variant-numeric: tabular-nums; }
+.srch-all { margin-top: 6px; }
+.chip.site { background: transparent; }
+#exsec { display: flex; flex-direction: column; gap: 7px; border: 1px solid var(--line); border-radius: 8px; padding: 9px 9px 10px; }
+.exrow { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 6px; align-items: start; }
+.exl { font-size: 12px; color: var(--muted); padding-top: 2px; }
+.exchips { display: flex; flex-wrap: wrap; gap: 4px; min-height: 20px; }
+.exchips .chip { font-family: var(--f-mono); font-size: 11px; max-width: 100%; }
+.exchips .chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+.exchips .chip button { background: none; border: 0; color: var(--muted); cursor: pointer; padding: 0 0 0 2px; font: inherit; }
+.exadd { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 4px; }
+.exadd input, .exgrid input, .exgrid select { font: 12px var(--f-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; min-width: 0; }
+.exgrid { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 5px 8px; align-items: center; font-size: 12px; color: var(--muted); }
+.exfam summary { font-size: 12px; color: var(--muted); cursor: pointer; }
+.exfam .checks { margin-top: 4px; gap: 3px; font-size: 11.5px; }
+.btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; padding: 7px 10px; }
+#ex-res { display: flex; flex-direction: column; gap: 6px; }
+#ex-res .exsum { background: var(--chip); border-radius: 7px; padding: 7px 8px; font-size: 12px; line-height: 1.6; }
+#ex-res .btnrow .btn { flex: 1 1 auto; }
+#ex-ov { position: fixed; inset: 0; z-index: 50; background: var(--bg); display: flex; flex-direction: column;
+  padding: max(8px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); gap: 8px; }
+#ex-ov .ovbar { display: flex; gap: 10px; align-items: center; } #ex-ov .ovbar .note { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#ex-ov iframe { flex: 1; width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+</style>
+
+</head><body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1 id="h1">CO₂ 加氢物种级网络</h1>
+      <p id="sub">全部构造异构体展开到 C16，按缩放分级加载：远看是类别 × 碳数的格子与格间反应流量，放大后逐个物种出现，再放大才下载该区域的标签与每条反应。</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="st-n">—</b><span>物种</span></div>
+      <div class="stat"><b id="st-e">—</b><span>基元反应</span></div>
+      <div class="stat"><b id="st-v">—</b><span>已下载数据块</span></div>
+    </div>
+    <div class="search">
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="搜索名称（如 对二甲苯、乙烯、CO₂）或 SMILES" aria-label="搜索物种">
+      <ul id="qres" hidden></ul>
+    </div>
+  </header>
+
+  <aside class="panel filters" aria-label="筛选">
+    <section id="exsec"><h2>子网络提取</h2>
+      <div class="exrow"><span class="exl">起点</span><div class="exchips" id="ex-src"></div></div>
+      <div class="exrow"><span class="exl">终点</span><div class="exchips" id="ex-dst"><span class="note">在右侧选中物种后点“加为终点”</span></div></div>
+      <div class="exadd"><input id="ex-q" type="text" placeholder="或输入名称 / SMILES" aria-label="添加起点或终点"><button class="btn" id="ex-as" title="设为起点">起点</button><button class="btn" id="ex-ad" title="加为终点">终点</button></div>
+      <div class="exgrid"><label for="ex-k">比最少步数多走</label><select id="ex-k"><option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option></select>
+        <label for="ex-c">只用碳数 ≤</label><input id="ex-c" type="number" min="1" max="16" placeholder="不限"></div>
+      <details class="exfam"><summary>排除反应族（可选）</summary><div id="ex-fams" class="checks"></div></details>
+      <button class="btn primary" id="ex-go">提取子网络</button>
+      <div id="ex-msg" class="note"></div><div id="ex-res"></div>
+    </section>
+    <section><h2>物种类别</h2><div class="rowchips" id="rows"></div></section>
+    <section><h2>反应类型</h2><div class="rowchips" id="fams"></div></section>
+    <section>
+      <h2>碳数范围</h2>
+      <div class="range">
+        <label for="cmin">最小</label><input id="cmin" type="range" min="1" max="16" value="1">
+        <label for="cmax">最大</label><input id="cmax" type="range" min="1" max="16" value="16">
+        <span></span><output id="crange">C1 – C16</output>
+      </div>
+    </section>
+    <section>
+      <h2>显示</h2>
+      <div class="range"><label for="alpha">连线浓度</label><input id="alpha" type="range" min="2" max="60" value="18"></div>
+      <div class="checks" style="margin-top:8px">
+        <label><input id="lab" type="checkbox" checked> 放大后显示 SMILES 标签</label>
+        <label><input id="flows" type="checkbox" checked> 远看时显示格间反应流量</label>
+      </div>
+      <div class="btnrow" style="margin-top:10px"><button class="btn" id="reset">恢复全部筛选</button><button class="btn" id="fit">全图</button></div>
+    </section>
+    <p class="note">分级加载：① 格子与格间反应流量（打开即有）；② 单个物种的点（按位置推算）；③ 放大到能看清时读取该区域的标签、到起点的最少步数和最短路径数；④ 继续放大或选中物种时读取它参与的全部基元反应。每格物种过多时按配置抽样。</p>
+  </aside>
+
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" aria-label="反应网络画布：拖动平移，滚轮或双指缩放，单击选择物种"></canvas>
+    <div class="lvl" id="lvl">—</div>
+    <div id="tip" hidden></div>
+    <div class="zoom"><button id="zin" aria-label="放大">+</button><button id="zout" aria-label="缩小">−</button></div>
+    <div class="hint">拖动平移 · 滚轮/双指缩放 · 单击查看物种</div>
+    <div id="loading"><div>正在载入网络概览…</div><div class="bar"><i id="lbar" style="width:30%"></i></div><div id="lmsg" style="font-size:12px"></div></div>
+  </main>
+
+  <aside class="panel detail" id="detail" aria-live="polite"><p class="ph">放大到单个物种可见后单击它，查看结构、全部反应和从起始物种出发的路径。</p></aside>
+</div>
+
+<script src="smiles-drawer.min.js"></script>
+<script>
+"use strict";
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => n.toLocaleString("en-US");
+const CLASS_CN = { alcohol: "醇", aldehyde: "醛 / 酰基*", ketone: "酮", acid: "羧酸", ads: "吸附烷基 R*", rad: "烷基自由基 R•",
+  alkane: "烷烃", alkene: "烯烃", ion_alkyl: "烷基碳正离子", diene: "二烯", ion_alkenyl: "烯基碳正离子", naphthene: "环烷",
+  cycloalkene: "环烯", ion_cyc: "环状碳正离子", cyclodiene: "环二烯", aromatic: "芳烃", core: "C1 表面物种 / 枢纽", pool: "H/O 池" };
+const CLASS_COL = { alcohol: "#8E5BB5", aldehyde: "#C2508A", ketone: "#C77A2E", acid: "#6A3D9A", ads: "#D64545", rad: "#6E7380",
+  alkane: "#2F3338", alkene: "#E07B00", ion_alkyl: "#1F5FBF", diene: "#C9A100", ion_alkenyl: "#3D8FE0", naphthene: "#5C6B73",
+  cycloalkene: "#2F9C95", ion_cyc: "#6C4FD1", cyclodiene: "#0E7C66", aromatic: "#1E8C3A", core: "#14171C", pool: "#8C95A3" };
+const CLASS_COL_DARK = { alkane: "#C7CDD6", rad: "#8E96A3", naphthene: "#8FA0AA", core: "#E4E8EE", acid: "#9A6CD0", ion_alkyl: "#4C86E0" };
+const FAM_CN = { "Z:prot": "质子化 / 去质子", "Z:hshift": "1,2-H 迁移", "Z:alkylshift": "烷基迁移（A 型）", "Z:pcp": "PCP 支化（B 型）",
+  "Z:beta": "β-断裂 / 齐聚", "Z:meth": "SMS 甲基化", "Z:cyclise": "烯基正离子成环", "Z:HT": "氢转移 HT", "H:hyd": "加氢 / 脱氢",
+  "M:betaH": "β-H 消除", "M:CH2": "CH₂* 插入（链增长）", "M:CO": "CO* 插入", "M:hyd": "表面加氢终止",
+  "O:dehyd": "醇脱水", "O:hyd": "羰基加氢", "O:ox": "醛 → 酸", "R:abs": "H 抽提 / 复合", "R:beta": "自由基 β-断裂",
+  "A:meth": "芳环甲基化", "A:iso": "芳环 1,2-迁移", "A:FC": "侧链烷基化 / 脱烷基", "A:hcp": "多甲基苯 → 烃池", "C1": "C1 表面核心",
+  "O:OH": "R* + OH* 终止成醇", "A:cyc": "侧链脱氢环化（茚满 / 四氢萘）" };
+const FAM_COL = { "Z:prot": "#5B9BE8", "Z:hshift": "#3A78D4", "Z:alkylshift": "#6A63DB", "Z:pcp": "#8C5AD8", "Z:beta": "#2C5DB8",
+  "Z:meth": "#2FB0E0", "Z:cyclise": "#7B4CCB", "Z:HT": "#13A39A", "H:hyd": "#D99A00", "M:betaH": "#D64545", "M:CH2": "#E2603A",
+  "M:CO": "#C2385E", "M:hyd": "#B04848", "O:dehyd": "#9058C0", "O:hyd": "#C2508A", "O:ox": "#C77A2E",
+  "R:abs": "#8A9099", "R:beta": "#5F6670", "A:meth": "#1E9C4B", "A:iso": "#45B86D", "A:FC": "#2E8B57", "A:hcp": "#7FCB97", "C1": "#14171C",
+  "O:OH": "#B07CD8", "A:cyc": "#5FAE3E" };
+const FAM_GROUPS = [
+  ["分子筛 Brønsted 酸", ["Z:prot", "Z:hshift", "Z:alkylshift", "Z:pcp", "Z:beta", "Z:meth", "Z:cyclise"]],
+  ["氢转移 / 加氢", ["Z:HT", "H:hyd"]], ["金属 / 碳化物", ["M:betaH", "M:CH2", "M:CO", "M:hyd"]],
+  ["含氧化合物", ["O:dehyd", "O:hyd", "O:ox", "O:OH"]], ["气相自由基", ["R:abs", "R:beta"]],
+  ["芳烃池", ["A:meth", "A:iso", "A:FC", "A:cyc", "A:hcp"]], ["C1", ["C1"]],
+];
+const BLOCK_CN = { MET: "正离子", GAS: "自由基", OX: "中性分子", BA: "负离子", BA2: "自由基离子 / 双位点", AR: "Li⁺ 配位" };
+let START = "起点", COLP = "C";
+function applyUI() { const u = M.ui || {}; Object.assign(CLASS_CN, u.class_cn || {}); Object.assign(CLASS_COL, u.class_col || {});
+  Object.assign(FAM_CN, u.fam_cn || {}); Object.assign(FAM_COL, u.fam_col || {}); if (u.fam_groups) FAM_GROUPS.splice(0, FAM_GROUPS.length, ...u.fam_groups);
+  if (u.start_label) START = u.start_label; if (u.col_prefix !== undefined) COLP = u.col_prefix; Object.assign(BLOCK_CN, u.block_cn || {}); }
+const HUB_LABELS = new Set(["CO₂", "CO", "CH₃", "CH₂"]);
+
+let M, CELLS, POOLSET, CORE_I, POOL_I, famIdx;
+const S = { k: 1, cx: 50, cy: 39, rowOn: [], famOn: [], cmin: 1, cmax: 16, alpha: 0.18, labels: true, flows: true, sel: -1, hover: -1, tab: "rx", path: null };
+const cv = $("#cv"), cx2 = cv.getContext("2d");
+let vw = 0, vh = 0, dpr = 1, dirty = true, dark = false;
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function isDark() { return css("color-scheme").includes("dark"); }
+function ccol(c) { return (dark && CLASS_COL_DARK[c]) || CLASS_COL[c]; }
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+// ---------------------------------------------------------------- data chunks
+const Lc = new Map(), Xc = new Map(), inflight = new Map();
+let bytesLoaded = 0;
+async function gunzip(buf) {
+  if (typeof DecompressionStream === "undefined") throw new Error("浏览器不支持 DecompressionStream");
+  const ds = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return new Uint8Array(await new Response(ds).arrayBuffer());
+}
+let active = 0; const waitq = [];
+async function limited(fn) { if (active >= 6) await new Promise((r) => waitq.push(r)); active++; try { return await fn(); } finally { active--; const n = waitq.shift(); if (n) n(); } }
+// Chunks come as <script> files that call window.__lodChunk (works from disk, where fetch() is blocked, and online).
+const LOCAL = true;   // chunks are always .js script files: they load from file:// and from artifact hosting (which serves scripts, not .bin)
+const jsWait = new Map();
+window.__lodChunk = (kind, k, b64) => { const r = jsWait.get(kind + k); if (r) { jsWait.delete(kind + k); r(b64); } };
+window.__lodMeta = window.__lodMeta || null;
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = () => { s.remove(); res(); }; s.onerror = () => rej(new Error("无法读取 " + src + "（请确认数据文件夹和网页在同一目录）")); document.head.append(s); }); }
+async function getChunkBytes(kind, k) {
+  if (!LOCAL) { const res = await fetch(`${kind}/${k}.bin`); if (!res.ok) throw new Error(`${kind}/${k}.bin ${res.status}`); return res.arrayBuffer(); }
+  const got = new Promise((r) => jsWait.set(kind + k, r)); await loadScript(`${kind}/${k}.js`); const b64 = await got;
+  const bin = atob(b64); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer;
+}
+function fetchChunk(kind, k) {
+  const key = kind + k; if (inflight.has(key)) return inflight.get(key);
+  const p = limited(async () => {
+    const buf = await getChunkBytes(kind, k); bytesLoaded += buf.byteLength;
+    const u = await gunzip(buf);
+    const out = kind === "l" ? parseL(u) : parseX(u, k);
+    (kind === "l" ? Lc : Xc).set(k, out); updLoaded(); dirty = true; return out;
+  });
+  inflight.set(key, p); p.catch(() => inflight.delete(key)); return p;
+}
+function parseL(u) {
+  const dv = new DataView(u.buffer, u.byteOffset, u.byteLength); const n = dv.getUint32(0, true), lb = dv.getUint32(4, true);
+  const cb = u.slice(8, 8 + n); const cls = cb.map((v) => v & 31), site = cb.map((v) => v >> 5); const lev = new Int16Array(u.slice(8 + n, 8 + 3 * n).buffer);
+  let o = 8 + 3 * n; o += (4 - (o % 4)) % 4;
+  const lc = new Float32Array(u.slice(o, o + 4 * n).buffer);
+  const labels = new TextDecoder().decode(u.subarray(o + 4 * n, o + 4 * n + lb)).split("\n");
+  // shortest-path parents: per species varint count, then (family byte, zigzag gid delta)
+  let p = o + 4 * n + lb; const poff = new Uint32Array(n + 1);
+  const rv = () => { let v = 0, s = 1, b; do { b = u[p++]; v += (b & 0x7f) * s; s *= 128; } while (b & 0x80); return v; };
+  for (let i = 0; i < n; i++) { poff[i] = p; const c = rv(); for (let j = 0; j < c; j++) { p++; rv(); } } poff[n] = p;
+  return { n, cls, site, lev, lc, labels, u, poff };
+}
+function parseX(u, k) {
+  const dv = new DataView(u.buffer, u.byteOffset, u.byteLength); const n = dv.getUint32(0, true);
+  const off = new Uint32Array(n + 1), cnt = new Uint32Array(n); let p = 4;
+  const rv = () => { let v = 0, s = 1, b; do { b = u[p++]; v += (b & 0x7f) * s; s *= 128; } while (b & 0x80); return v; };
+  for (let i = 0; i < n; i++) { const c = rv(); cnt[i] = c; off[i] = p; for (let j = 0; j < c; j++) { p++; const no = u[p++]; for (let q = 0; q < no; q++) rv(); } }
+  return { u, off, cnt, g0: k * M.chunk };
+}
+function records(g) {
+  const k = Math.floor(g / M.chunk), X = Xc.get(k); if (!X) return null;
+  const i = g - X.g0, u = X.u; let p = X.off[i]; const out = [];
+  const rv = () => { let v = 0, s = 1, b; do { b = u[p++]; v += (b & 0x7f) * s; s *= 128; } while (b & 0x80); return v; };
+  for (let j = 0; j < X.cnt[i]; j++) {
+    const fb = u[p++], no = u[p++]; const others = [];
+    for (let q = 0; q < no; q++) { const v = rv(), sd = v % 2, z = Math.floor(v / 2), d = z % 2 ? -(z + 1) / 2 : z / 2; others.push([g + d, sd]); }
+    out.push({ fam: fb & 31, side: (fb >> 5) & 1, others });
+  }
+  return out;
+}
+function info(g) {   // {cls, lev, lc, label} or null if its label chunk is not loaded
+  if (g < M.special.length) { const sp = M.special[g]; const L = Lc.get(0); return { cls: sp.cls, lev: L ? L.lev[g] : -2, lc: L ? L.lc[g] : 0, label: sp.label, smiles: sp.smiles, site: L ? L.site[g] : 0, c: sp.c }; }
+  const k = Math.floor(g / M.chunk), L = Lc.get(k); if (!L) return null; const i = g - k * M.chunk;
+  return { cls: M.classes[L.cls[i]], lev: L.lev[i], lc: L.lc[i], label: L.labels[i], smiles: L.labels[i], site: L.site[i], c: cellOf(g).c };
+}
+const needL = (gs) => Promise.all([...new Set(gs.map((g) => Math.floor(g / M.chunk)))].map((k) => fetchChunk("l", k)));
+const needX = (g) => fetchChunk("x", Math.floor(g / M.chunk));
+function updLoaded() { $("#st-v").textContent = `${Lc.size + Xc.size} / ${M.nchunks * 2} · ${(bytesLoaded / 1e6).toFixed(1)} MB`; }
+
+// ---------------------------------------------------------------- geometry
+function cellOf(g) { let lo = 0, hi = CELLS.length - 1; if (g < CELLS[0].g0) return null; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (CELLS[m].g0 <= g) lo = m; else hi = m - 1; } return CELLS[lo]; }
+function pos(g) {
+  if (g < M.special.length) { const xy = M.special[g].xy; return xy ? [xy[0], xy[1]] : null; }
+  const c = cellOf(g); const i = g - c.g0; const rr = Math.floor(i / c.ncol), cc = i % c.ncol;
+  return [c.px + (cc + 0.5) * c.dx, c.py + (rr + 0.5) * c.dy];
+}
+function w2s(x, y) { return [(x - S.cx) * S.k + vw / 2, (y - S.cy) * S.k + vh / 2]; }
+function s2w(X, Y) { return [(X - vw / 2) / S.k + S.cx, (Y - vh / 2) / S.k + S.cy]; }
+function cellOn(c) { return S.rowOn[c.r] && c.c >= S.cmin && c.c <= S.cmax; }
+function fitK() { return Math.min((vw - 16) / M.W, (vh - 34) / M.H); }
+
+// ---------------------------------------------------------------- render
+function visibleRange(c) {   // [r0, r1, c0, c1] of grid rows/cols on screen, or null
+  const [wx0, wy0] = s2w(0, 26), [wx1, wy1] = s2w(vw, vh);
+  const c0 = Math.max(0, Math.floor((wx0 - c.px) / c.dx)), c1 = Math.min(c.ncol - 1, Math.floor((wx1 - c.px) / c.dx));
+  const r0 = Math.max(0, Math.floor((wy0 - c.py) / c.dy)), r1 = Math.min(c.nrow - 1, Math.floor((wy1 - c.py) / c.dy));
+  if (c0 > c1 || r0 > r1) return null; return [r0, r1, c0, c1];
+}
+let wantTimer = 0;
+function draw() {
+  const g = cx2; g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, vw, vh);
+  const fg = css("--fg"), muted = css("--muted"), panel = css("--panel"), mono = css("--f-mono"), body = css("--f-body");
+  const C1 = M.cols[0].x1;
+  for (const r of M.rows) { const [x0, y0] = w2s(C1, r.y0), [x1, y1] = w2s(M.W, r.y1); g.fillStyle = css("--band-" + r.block); g.fillRect(x0, y0 + 0.5, x1 - x0, y1 - y0 - 1); }
+  if (M.full_upto < M.cmax) { const c0 = M.cols[M.full_upto]; const [x0, y0] = w2s(c0.x0, 0), [x1, y1] = w2s(M.W, M.H); g.fillStyle = css("--shape"); g.fillRect(x0, y0, x1 - x0, y1 - y0); }
+  g.strokeStyle = css("--sep"); g.lineWidth = Math.max(1, Math.min(3, S.k * 0.08));
+  for (const c of M.cols.slice(2)) { const [x] = w2s(c.x0, 0); const [, y0] = w2s(0, 0), [, y1] = w2s(0, M.H); g.beginPath(); g.moveTo(x, y0); g.lineTo(x, y1); g.stroke(); }
+  const [ax0, ay0] = w2s(0.1, 0.1), [ax1, ay1] = w2s(C1 - 0.12, M.H - 0.1);
+  g.fillStyle = css("--core"); g.strokeStyle = css("--line"); g.lineWidth = 1; g.beginPath(); g.roundRect(ax0, ay0, ax1 - ax0, ay1 - ay0, Math.min(10, S.k * 0.4)); g.fill(); g.stroke();
+  // level-of-detail per cell
+  let nPts = 0, maxSp = 0; const wantL = new Set(), wantX = new Set(); let visSpecies = 0;
+  const vis = [];
+  for (const c of CELLS) {
+    if (!cellOn(c)) continue;
+    const [x0, y0] = w2s(c.px, c.py), [x1, y1] = w2s(c.px + c.ncol * c.dx, c.py + c.nrow * c.dy);
+    if (x1 < 0 || x0 > vw || y1 < 24 || y0 > vh) continue;
+    const sp = Math.min(c.dx, c.dy) * S.k; maxSp = Math.max(maxSp, sp);
+    const rowCls = M.rows[c.r].cls[0];
+    if (sp < 2.2) { g.fillStyle = ccol(rowCls); g.globalAlpha = 0.28; g.fillRect(x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0)); g.globalAlpha = 1; continue; }
+    const vr = visibleRange(c); if (!vr) continue;
+    const [r0, r1, c0, c1] = vr; const nvis = (r1 - r0 + 1) * (c1 - c0 + 1); visSpecies += nvis; vis.push([c, vr, sp]);
+    const ga = c.g0 + r0 * c.ncol + c0, gb = Math.min(c.g0 + c.n - 1, c.g0 + r1 * c.ncol + c1);
+    if (sp >= 7) for (let k = Math.floor(ga / M.chunk); k <= Math.floor(gb / M.chunk); k++) wantL.add(k);
+    if (sp >= 16) for (let k = Math.floor(ga / M.chunk); k <= Math.floor(gb / M.chunk); k++) wantX.add(k);
+    const size = Math.min(16, Math.max(1.4, sp * 0.5));
+    for (let rr = r0; rr <= r1; rr++) for (let cc = c0; cc <= c1; cc++) {
+      const i = rr * c.ncol + cc; if (i >= c.n) break; const gid = c.g0 + i;
+      let col = rowCls; const L = Lc.get(Math.floor(gid / M.chunk)); if (L) col = M.classes[L.cls[gid - Math.floor(gid / M.chunk) * M.chunk]];
+      const [X, Y] = w2s(c.px + (cc + 0.5) * c.dx, c.py + (rr + 0.5) * c.dy);
+      g.fillStyle = ccol(col); if (size < 4) g.fillRect(X - size / 2, Y - size / 2, size, size); else { g.beginPath(); g.arc(X, Y, size / 2, 0, 7); g.fill(); }
+      if (++nPts > 400000) break;
+    }
+  }
+  // aggregated flows (zoomed out)
+  const fk = fitK(), fade = Math.max(0, Math.min(1, 1 - Math.log(S.k / fk) / Math.log(5)));
+  if (S.flows && fade > 0.02) {
+    const cen = (ci) => { const c = CELLS[ci]; return w2s(c.px + c.ncol * c.dx / 2, c.py + c.nrow * c.dy / 2); };
+    g.globalAlpha = 0.16 * fade / 0.18 * S.alpha;
+    for (const [a, b, f, n] of M.flows) {
+      if (!S.famOn[f] || !cellOn(CELLS[a]) || !cellOn(CELLS[b])) continue;
+      const [x0, y0] = cen(a), [x1, y1] = cen(b); const mx = (x0 + x1) / 2, my = (y0 + y1) / 2 - Math.abs(x1 - x0) * 0.12 - Math.abs(y1 - y0) * 0.05;
+      g.strokeStyle = FAM_COL[M.fams[f]]; g.lineWidth = 0.4 + 0.9 * Math.log10(n); g.beginPath(); g.moveTo(x0, y0); g.quadraticCurveTo(mx, my, x1, y1); g.stroke();
+    }
+    g.globalAlpha = 1;
+  }
+  // individual reactions of loaded, visible species
+  if (visSpecies && visSpecies < 30000) {
+    let nl = 0; g.lineWidth = 0.8; g.globalAlpha = Math.min(0.6, S.alpha * 1.6);
+    for (const [c, [r0, r1, c0, c1], sp] of vis) if (sp >= 16) for (let rr = r0; rr <= r1; rr++) for (let cc = c0; cc <= c1; cc++) {
+      const i = rr * c.ncol + cc; if (i >= c.n) break; const gid = c.g0 + i; if (!Xc.has(Math.floor(gid / M.chunk))) continue;
+      const P = pos(gid), [X, Y] = w2s(P[0], P[1]);
+      for (const rec of records(gid)) { if (!S.famOn[rec.fam]) continue; g.strokeStyle = FAM_COL[M.fams[rec.fam]];
+        for (const [o] of rec.others) { if (POOLSET.has(o)) continue; const Q = pos(o); if (!Q) continue; const [X2, Y2] = w2s(Q[0], Q[1]); g.beginPath(); g.moveTo(X, Y); g.lineTo(X2, Y2); g.stroke(); nl++; } }
+      if (nl > 80000) break;
+    }
+    g.globalAlpha = 1;
+  }
+  // C1 core
+  const coreW = (M.cols[0].x1 - M.cols[0].x0) * S.k, coreFont = `${Math.round(Math.min(13, Math.max(8, S.k * 0.7)))}px ${body}`;
+  if (Xc.has(0)) { g.strokeStyle = fg; g.globalAlpha = 0.75; g.lineWidth = 1.3;
+    for (let s = 0; s < M.special.length; s++) { const P = pos(s); if (!P) continue; for (const rec of records(s) || []) if (M.fams[rec.fam] === "C1") for (const [o] of rec.others) { const Q = pos(o); if (!Q || o < s && o < M.special.length) continue; const [a, b] = w2s(P[0], P[1]), [c2, d] = w2s(Q[0], Q[1]); g.beginPath(); g.moveTo(a, b); g.lineTo(c2, d); g.stroke(); } }
+    g.globalAlpha = 1; }
+  for (let s = 0; s < M.special.length; s++) { const P = pos(s); if (!P) continue; const [x, y] = w2s(P[0], P[1]); const hub = HUB_LABELS.has(M.special[s].label);
+    if (coreW < 150) { g.fillStyle = fg; g.beginPath(); g.arc(x, y, hub ? 3.5 : 2.2, 0, 7); g.fill(); }
+    else { g.font = coreFont; const t = M.special[s].label, w = g.measureText(t).width + 10, h = parseFloat(coreFont) + 8;
+      g.fillStyle = hub ? fg : panel; g.strokeStyle = fg; g.lineWidth = 1; g.beginPath(); g.roundRect(x - w / 2, y - h / 2, w, h, h / 2); g.fill(); g.stroke();
+      g.fillStyle = hub ? panel : fg; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(t, x, y + 0.5); } }
+  // selection + pathway
+  if (S.sel >= 0) {
+    const P = pos(S.sel);
+    if (P) { const [sx, sy] = w2s(P[0], P[1]); const recs = records(S.sel);
+      if (recs) { g.lineWidth = 1.4; g.globalAlpha = recs.length > 300 ? 0.45 : 0.9; const seen = new Set();
+        for (const rec of recs) { if (!S.famOn[rec.fam]) continue; for (const [o] of rec.others) { if (POOLSET.has(o) || seen.has(o)) continue; seen.add(o); const Q = pos(o); if (!Q) continue; const [tx, ty] = w2s(Q[0], Q[1]); g.strokeStyle = FAM_COL[M.fams[rec.fam]]; g.beginPath(); g.moveTo(sx, sy); g.lineTo(tx, ty); g.stroke(); } }
+        g.globalAlpha = 1; }
+      g.strokeStyle = fg; g.lineWidth = 2.2; g.beginPath(); g.arc(sx, sy, 10, 0, 7); g.stroke(); }
+  }
+  if (S.path) {
+    const pathc = css("--path"); const pts = [(S.path.length ? S.path[0].from : (M.start_gid ?? M.special.findIndex((s) => s.label === "CO₂"))), ...S.path.map((st) => st.to)].map((s2) => { const P = pos(s2); return w2s(P[0], P[1]); });
+    g.strokeStyle = pathc; g.lineWidth = 3; g.lineJoin = "round"; g.beginPath(); pts.forEach(([x, y], k) => (k ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke();
+    g.font = `600 10px ${mono}`; g.textAlign = "center"; g.textBaseline = "middle";
+    pts.forEach(([x, y], k) => { g.fillStyle = pathc; g.beginPath(); g.arc(x, y, 7.5, 0, 7); g.fill(); g.fillStyle = "#fff"; g.fillText(String(k), x, y + 0.5); });
+  }
+  // labels
+  if (S.labels) {
+    let drawn = 0; g.textAlign = "center"; g.textBaseline = "top"; g.fillStyle = muted;
+    for (const [c, [r0, r1, c0, c1], sp] of vis) {
+      if (sp < 46) continue; g.font = `${Math.min(13, Math.max(8.5, sp * 0.13))}px ${mono}`; const cw = g.measureText("M").width;
+      for (let rr = r0; rr <= r1; rr++) for (let cc = c0; cc <= c1; cc++) {
+        const i = rr * c.ncol + cc; if (i >= c.n) break; const inf = info(c.g0 + i); if (!inf) continue;
+        let t = M.aliasRev[c.g0 + i] || inf.label; if (t.length * cw > sp * 0.96) t = t.slice(0, Math.max(3, Math.floor(sp * 0.96 / cw) - 1)) + "…";
+        const [X, Y] = w2s(c.px + (cc + 0.5) * c.dx, c.py + (rr + 0.5) * c.dy); g.fillText(t, X, Y + Math.min(15, sp * 0.25) + 2);
+        if (++drawn > 2500) break;
+      }
+    }
+  }
+  if (S.hover >= 0 && S.hover !== S.sel) { const P = pos(S.hover); if (P) { const [x, y] = w2s(P[0], P[1]); g.strokeStyle = fg; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 7, 0, 7); g.stroke(); } }
+  // headers
+  g.fillStyle = panel; g.globalAlpha = 0.92; g.fillRect(0, 0, vw, 24); g.globalAlpha = 1;
+  g.strokeStyle = css("--line"); g.lineWidth = 1; g.beginPath(); g.moveTo(0, 24.5); g.lineTo(vw, 24.5); g.stroke(); g.textBaseline = "middle";
+  for (const c of M.cols) { const [x0] = w2s(c.x0, 0), [x1] = w2s(c.x1, 0); if (x1 < 0 || x0 > vw) continue;
+    const w = x1 - x0, cxp = Math.min(Math.max((x0 + x1) / 2, Math.max(x0, 0) + 30), Math.min(x1, vw) - 30); const head = c.label || (c.c === 1 ? "C1 核心" : `C${c.c}`);
+    g.font = `600 12px ${body}`; g.fillStyle = fg; g.textAlign = "center";
+    if (w > 92) { g.textAlign = "right"; g.fillText(head, cxp - 2, 12); g.textAlign = "left"; g.font = `11px ${mono}`; g.fillStyle = muted; g.fillText(fmt(c.n), cxp + 4, 12.5); }
+    else if (w > 22) g.fillText(head, cxp, 12); }
+  g.textAlign = "right"; g.font = `11.5px ${body}`; const [gx] = w2s(M.W, 0); const xr = Math.min(vw - 8, gx - 6);
+  if (xr > 140) for (const r of M.rows) { const [, y0] = w2s(0, r.y0), [, y1] = w2s(0, r.y1); if (y1 - y0 < 15 || y1 < 26 || y0 > vh) continue;
+    const y = Math.min(Math.max((y0 + y1) / 2, 34), vh - 10), w = g.measureText(r.label).width + 12;
+    g.fillStyle = panel; g.globalAlpha = 0.86; g.beginPath(); g.roundRect(xr - w, y - 9, w, 18, 9); g.fill(); g.globalAlpha = 1; g.fillStyle = fg; g.fillText(r.label, xr - 6, y + 0.5); }
+  // level indicator + schedule loads
+  const lvl = maxSp < 2.2 ? "① 格子 + 格间流量" : maxSp < 7 ? "② 单个物种（位置推算）" : maxSp < 16 ? "③ 已加载标签" : "④ 标签 + 每条反应";
+  $("#lvl").textContent = `${lvl} · 视野内约 ${fmt(visSpecies)} 个物种`;
+  clearTimeout(wantTimer);
+  if (wantL.size <= 12 && (wantX.size <= 8 || visSpecies < 30000)) wantTimer = setTimeout(() => { for (const k of wantL) fetchChunk("l", k); if (visSpecies < 30000) for (const k of wantX) fetchChunk("x", k); }, 180);
+}
+function loop() { if (dirty && M) { dirty = false; dark = isDark(); draw(); } requestAnimationFrame(loop); }
+function resize() { const r = $("#stage").getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); vw = r.width; vh = r.height; cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr); dirty = true; }
+
+// ---------------------------------------------------------------- interaction
+function pick(X, Y) {
+  for (let s = 0; s < M.special.length; s++) { const P = pos(s); if (!P) continue; const [x, y] = w2s(P[0], P[1]); if (Math.hypot(x - X, y - Y) < 12) return s; }
+  const [x, y] = s2w(X, Y);
+  for (const c of CELLS) {
+    if (!cellOn(c) || x < c.px || y < c.py || x > c.px + c.ncol * c.dx || y > c.py + c.nrow * c.dy) continue;
+    const sp = Math.min(c.dx, c.dy) * S.k; if (sp < 2.2) return -1;
+    const cc = Math.floor((x - c.px) / c.dx), rr = Math.floor((y - c.py) / c.dy), i = rr * c.ncol + cc; if (i >= c.n) return -1;
+    const [X2, Y2] = w2s(c.px + (cc + 0.5) * c.dx, c.py + (rr + 0.5) * c.dy); if (Math.hypot(X2 - X, Y2 - Y) > Math.max(8, sp * 0.5)) return -1;
+    return c.g0 + i;
+  }
+  return -1;
+}
+function zoomAt(X, Y, f) { const [wx, wy] = s2w(X, Y); const k = Math.min(Math.max(S.k * f, fitK() * 0.5), 20000); S.k = k; S.cx = wx - (X - vw / 2) / k; S.cy = wy - (Y - vh / 2) / k; dirty = true; }
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fly(cx, cy, k) {
+  if (reduce) { S.cx = cx; S.cy = cy; S.k = k; dirty = true; return; }
+  const a = { cx: S.cx, cy: S.cy, k: S.k }, t0 = performance.now(), T = 520;
+  const step = (t) => { const u = Math.min(1, (t - t0) / T), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+    S.cx = a.cx + (cx - a.cx) * e; S.cy = a.cy + (cy - a.cy) * e; S.k = Math.exp(Math.log(a.k) + (Math.log(k) - Math.log(a.k)) * e); dirty = true; if (u < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+const ptrs = new Map(); let downAt = null, pinch0 = null;
+cv.addEventListener("pointerdown", (e) => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.offsetX, e.offsetY]); downAt = [e.offsetX, e.offsetY, S.cx, S.cy, performance.now()];
+  if (ptrs.size === 2) { const [p, q] = [...ptrs.values()]; pinch0 = { d: Math.hypot(p[0] - q[0], p[1] - q[1]), k: S.k, w: s2w((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) }; } });
+cv.addEventListener("pointermove", (e) => {
+  if (!M) return;
+  if (ptrs.has(e.pointerId)) { ptrs.set(e.pointerId, [e.offsetX, e.offsetY]);
+    if (ptrs.size === 2 && pinch0) { const [p, q] = [...ptrs.values()]; const d = Math.hypot(p[0] - q[0], p[1] - q[1]); const m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+      S.k = Math.min(Math.max(pinch0.k * d / pinch0.d, fitK() * 0.5), 20000); S.cx = pinch0.w[0] - (m[0] - vw / 2) / S.k; S.cy = pinch0.w[1] - (m[1] - vh / 2) / S.k; dirty = true; return; }
+    if (downAt && ptrs.size === 1) { S.cx = downAt[2] - (e.offsetX - downAt[0]) / S.k; S.cy = downAt[3] - (e.offsetY - downAt[1]) / S.k; dirty = true; }
+    $("#tip").hidden = true; return; }
+  if (e.pointerType !== "mouse") return;
+  const i = pick(e.offsetX, e.offsetY); if (i !== S.hover) { S.hover = i; dirty = true; }
+  const tip = $("#tip");
+  if (i >= 0) { const inf = info(i); tip.hidden = false;
+    tip.innerHTML = inf ? `<div class="sm">${esc(M.aliasRev[i] || inf.label)}</div><div class="meta">${CLASS_CN[inf.cls]} · ${COLP}${cellOf(i)?.c ?? 0} · 距 ${START} ${inf.lev >= 0 ? inf.lev + " 步" : "不可达"}</div>` : `<div class="meta">物种 #${i}，标签加载中…</div>`;
+    if (!inf) fetchChunk("l", Math.floor(i / M.chunk));
+    tip.style.left = Math.min(e.offsetX + 14, vw - tip.offsetWidth - 6) + "px"; tip.style.top = Math.min(e.offsetY + 14, vh - tip.offsetHeight - 6) + "px";
+  } else tip.hidden = true;
+});
+function up(e) { const p = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = null;
+  if (p && downAt && Math.hypot(p[0] - downAt[0], p[1] - downAt[1]) < 6 && performance.now() - downAt[4] < 600 && !ptrs.size) select(pick(p[0], p[1]), false);
+  if (!ptrs.size) downAt = null; }
+cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+cv.addEventListener("pointerleave", () => { if (S.hover >= 0) { S.hover = -1; dirty = true; } $("#tip").hidden = true; });
+cv.addEventListener("wheel", (e) => { e.preventDefault(); zoomAt(e.offsetX, e.offsetY, Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0016))); }, { passive: false });
+cv.addEventListener("keydown", (e) => { if (e.key === "+" || e.key === "=") zoomAt(vw / 2, vh / 2, 1.4); else if (e.key === "-") zoomAt(vw / 2, vh / 2, 1 / 1.4); else if (e.key === "Escape") select(-1); });
+
+// ---------------------------------------------------------------- detail
+let selToken = 0;
+async function select(g, flyTo) {
+  S.sel = g; S.path = null; dirty = true; const tk = ++selToken;
+  const el = $("#detail");
+  if (g < 0) { el.innerHTML = `<p class="ph">放大到单个物种可见后单击它，查看结构、全部反应和从 ${START} 出发的路径。</p>`; return; }
+  if (flyTo) { const P = pos(g); const c = cellOf(g); if (P) fly(P[0], P[1], g < M.special.length ? Math.max(S.k, 60) : Math.max(S.k, Math.min(20000, 70 / Math.min(c.dx, c.dy)))); }
+  el.innerHTML = `<p class="ph">正在下载该物种的数据块…</p>`;
+  await Promise.all([needL([g]), needX(g), fetchChunk("l", 0)]);
+  if (tk !== selToken) return;
+  renderDetail(g);
+}
+function tok(o, me) {
+  const inf = info(o); const name = M.aliasRev[o] || (inf ? inf.label : `#${o}`);
+  if (POOLSET.has(o)) return `<span class="pool">${esc(name)}</span>`;
+  if (o === me) return `<span class="me">${esc(name)}</span>`;
+  return `<button data-n="${o}" title="${inf ? esc(inf.label) + " · " + CLASS_CN[inf.cls] : ""}">${esc(name)}</button>`;
+}
+function eqHTML(me, rec, arrow) {
+  const L = [], R = []; (rec.side ? R : L).push(me); for (const [o, sd] of rec.others) (sd ? R : L).push(o);
+  const side = (v) => v.map((x) => tok(x, me)).join('<span class="op">+</span>');
+  return `${side(L)}<span class="op">${arrow || "⇌"}</span>${side(R)}`;
+}
+function wire(root) { root.querySelectorAll("[data-n]").forEach((b) => (b.onclick = () => select(+b.dataset.n, true))); }
+function renderDetail(g) {
+  const el = $("#detail"), inf = info(g), recs = records(g) || [];
+  const core = g < M.special.length, name = M.aliasRev[g] || inf.label;
+  const SITE = [["酸位 R⁺ / R–O–Z", 1], ["金属位 R*", 2], ["气相 R•", 4]].filter(([, b]) => inf.site & b).map(([t]) => `<span class="chip site">${t}</span>`).join("");
+  const nf = new Set(recs.map((r) => r.fam));
+  const pc = inf.lc >= 0 ? (inf.lc < 6 ? fmt(Math.round(10 ** inf.lc)) : `≈ 10^${inf.lc.toFixed(1)}`) : "—";
+  el.innerHTML = `
+    <div class="eyebrow"><span class="chip"><i class="dot" style="background:${ccol(inf.cls)}"></i>${CLASS_CN[inf.cls]}</span><span class="chip">${COLP}${core ? 0 : cellOf(g).c}</span><span class="chip">#${g}</span></div>
+    <p class="dname">${esc(name)}</p>
+    ${SITE ? `<div class="eyebrow"><span class="note" style="margin-right:2px">出现形式</span>${SITE}</div>` : ""}
+    <div class="smiles"><code id="smi">${esc(inf.smiles)}</code><button class="btn" id="copy">复制</button></div>
+    <div class="btnrow"><button class="btn" id="as-src">设为起点</button><button class="btn" id="as-dst">加为终点</button><span class="note" id="as-msg"></span></div>
+    <div class="struct" id="struct"><div class="ph">结构式载入中…</div></div>
+    <div class="kv"><div><b>${fmt(recs.length)}</b><span>基元反应</span></div><div><b>${inf.lev >= 0 ? inf.lev : "—"}</b><span>距 ${START} 最少步数</span></div><div><b>${pc}</b><span>最短路径数</span></div></div>
+    <div class="tabs" role="tablist"><button role="tab" id="t-rx" aria-selected="${S.tab === "rx"}">全部反应 · ${fmt(recs.length)}</button><button role="tab" id="t-path" aria-selected="${S.tab === "path"}">从 ${START} 出发的路径</button></div>
+    <div id="tabbody" class="rx"></div>`;
+  $("#t-rx").onclick = () => { S.tab = "rx"; S.path = null; dirty = true; renderDetail(g); };
+  $("#t-path").onclick = () => { S.tab = "path"; renderDetail(g); };
+  $("#as-src").onclick = () => { exAdd("src", g); $("#as-msg").textContent = "已设为起点"; };
+  $("#as-dst").onclick = () => { exAdd("dst", g); $("#as-msg").textContent = "已加为终点"; };
+  const cp = $("#copy"); if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(inf.smiles); cp.textContent = "已复制"; } catch { const rg = document.createRange(); rg.selectNodeContents($("#smi")); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); cp.textContent = "已选中"; } setTimeout(() => (cp.textContent = "复制"), 1400); };
+  if (POOLSET.has(g)) $("#struct").innerHTML = `<div class="ph">始终可用的小分子</div>`; else drawStruct(inf.smiles, inf.cls);
+  if (S.tab === "rx") renderRx(g, recs); else renderPaths(g);
+}
+async function renderRx(g, recs) {
+  const body = $("#tabbody"), tk = selToken;
+  const groups = new Map(); for (const r of recs) { let a = groups.get(r.fam); if (!a) groups.set(r.fam, a = []); a.push(r); }
+  const order = [...groups.keys()].sort((a, b) => a - b);
+  body.innerHTML = order.map((f) => `<div class="rxg" data-f="${f}"><h3><i class="sw" style="background:${FAM_COL[M.fams[f]]}"></i>${FAM_CN[M.fams[f]]}<span class="n">${fmt(groups.get(f).length)}</span></h3><ul class="eqs"></ul></div>`).join("") || `<p class="note">没有记录到反应。</p>`;
+  for (const gr of body.querySelectorAll(".rxg")) {
+    const f = +gr.dataset.f, list = groups.get(f), ul = gr.querySelector("ul"); let shown = 0;
+    const more = async () => { const next = list.slice(shown, shown + (shown ? 200 : 20));
+      const need = next.flatMap((r) => r.others.map(([o]) => o)); if (need.length) { ul.insertAdjacentHTML("beforeend", `<li class="eq ph" data-wait>载入相关物种标签…</li>`); await needL(need); ul.querySelector("[data-wait]")?.remove(); }
+      if (tk !== selToken) return;
+      ul.insertAdjacentHTML("beforeend", next.map((r) => `<li class="eq">${eqHTML(g, r)}</li>`).join("")); shown += next.length; wire(ul);
+      gr.querySelector(".more")?.remove(); if (shown < list.length) { const b = document.createElement("button"); b.className = "more"; b.textContent = `再显示 ${fmt(Math.min(200, list.length - shown))} 个（共 ${fmt(list.length)}）`; b.onclick = more; gr.append(b); } };
+    await more();
+  }
+}
+// pathway search, loading chunks lazily: tight producing reactions of s and their carbon-carrying inputs
+function parents(s) {   // precomputed on the server: [(family, input gid)] of tight producing reactions
+  const k = Math.floor(s / M.chunk), L = Lc.get(k); const i = s - k * M.chunk; const u = L.u; let p = L.poff[i];
+  const rv = () => { let v = 0, sc = 1, b; do { b = u[p++]; v += (b & 0x7f) * sc; sc *= 128; } while (b & 0x80); return v; };
+  const c = rv(), out = []; for (let j = 0; j < c; j++) { const f = u[p++], z = rv(); out.push([f, s + (z % 2 ? -(z + 1) / 2 : z / 2)]); } return out;
+}
+async function tight(s) {
+  await Promise.all([needL([s]), needX(s)]);
+  const recs = records(s), out = [];
+  for (const [f, from] of parents(s)) {
+    const r = recs.find((r) => r.fam === f && (M.fams[f] !== "A:hcp" || r.side === 1) && r.others.some(([o, sd]) => o === from && sd !== r.side));
+    if (r) out.push({ rec: r, from, to: s });
+  }
+  await needL(out.flatMap((st) => st.rec.others.map(([o]) => o)));
+  return out;
+}
+async function listPaths(t, K, onProgress) {
+  const out = [];
+  const rec = async (s, acc) => {
+    if (out.length >= K) return; const inf = info(s);
+    if (inf.lev === 0) { out.push(acc.slice().reverse()); onProgress(out.length); return; }
+    for (const st of await tight(s)) { acc.push(st); await rec(st.from, acc); acc.pop(); if (out.length >= K) return; }
+  };
+  await rec(t, []);
+  return out;
+}
+async function renderPaths(g) {
+  const body = $("#tabbody"), inf = info(g), tk = selToken;
+  if (inf.lev < 0) { body.innerHTML = `<p class="note">在这个网络中，该物种不能从 ${START} 出发生成。</p>`; return; }
+  if (inf.lev === 0) { body.innerHTML = `<p class="note">这是起始物种。</p>`; return; }
+  const K = 12;
+  body.innerHTML = `<div class="pathsum">最少需要 <b>${inf.lev}</b> 步基元反应；按“每步跟随碳链主反应物”计，最短路径共 <b>${inf.lc < 6 ? fmt(Math.round(10 ** inf.lc)) : "≈ 10^" + inf.lc.toFixed(1)}</b> 条（服务器端预先算好）。正在逐步下载沿途物种的数据块，列出前 ${K} 条…</div><div class="plist" id="plist"></div>`;
+  const paths = await listPaths(g, K, (n) => { if (tk === selToken) $("#plist").innerHTML = `<p class="ph">已找到 ${n} 条…</p>`; });
+  if (tk !== selToken) return;
+  body.querySelector(".pathsum").innerHTML = `最少需要 <b>${inf.lev}</b> 步基元反应；按“每步跟随碳链主反应物”计，最短路径共 <b>${inf.lc < 6 ? fmt(Math.round(10 ** inf.lc)) : "≈ 10^" + inf.lc.toFixed(1)}</b> 条（服务器端预先算好），下面列出前 ${paths.length} 条。每一步的其他反应物标在“需要”里（括号内是它自身的最少步数）。`;
+  const step = (st) => { const r = st.rec; const L = r.others.filter(([, sd]) => sd !== r.side).map(([o]) => o); const others = L.filter((o) => o !== st.from && !POOLSET.has(o));
+    const fake = { side: 1, others: [...L.map((o) => [o, 0]), ...r.others.filter(([o, sd]) => sd === r.side).map(([o]) => [o, 1])] };
+    return `<li><div class="eq">${eqHTML(st.to, fake, "→")}</div><span class="fam">${FAM_CN[M.fams[r.fam]]}${others.length ? ` · 需要 ${others.map((o) => `${tok(o, -1)}（${info(o).lev}）`).join("、")}` : ""}</span></li>`; };
+  $("#plist").innerHTML = paths.map((p, k) => `<div class="pcard" data-k="${k}" aria-current="${k === 0}"><button aria-expanded="${k === 0}"><span>路径 ${k + 1}</span><span class="need">${p.length} 步</span></button><ol class="steps" ${k === 0 ? "" : "hidden"}>${p.map(step).join("")}</ol></div>`).join("");
+  S.path = paths[0] || null; dirty = true;
+  body.querySelectorAll(".pcard").forEach((card) => { card.querySelector(":scope > button").onclick = () => { const k = +card.dataset.k;
+    body.querySelectorAll(".pcard").forEach((c2) => { const on = c2 === card; c2.setAttribute("aria-current", on); c2.querySelector("ol").hidden = !on; c2.querySelector(":scope > button").setAttribute("aria-expanded", on); });
+    S.path = paths[k]; dirty = true; }; });
+  wire(body);
+}
+function drawStruct(smi, c) {
+  const box = $("#struct"); if (!box) return;
+  if (!window.SmilesDrawer) { box.innerHTML = `<div class="ph">结构式库未能载入，SMILES 见上方。</div>`; return; }
+  const s = smi.replace("•]", "]").replace("*]", "]");
+  box.innerHTML = `<svg id="svgs" xmlns="http://www.w3.org/2000/svg"></svg>`;
+  try { const drawer = new SmilesDrawer.SvgDrawer({ width: box.clientWidth || 300, height: box.clientHeight || 170, bondThickness: 1.1, padding: 18, terminalCarbons: false });
+    SmilesDrawer.parse(s, (tree) => drawer.draw(tree, "svgs", isDark() ? "dark" : "light"), () => { box.innerHTML = `<div class="ph">该 SMILES 无法绘制。</div>`; }); }
+  catch { box.innerHTML = `<div class="ph">结构式绘制失败。</div>`; }
+}
+
+// ---------------------------------------------------------------- search
+let qt = 0, allLoaded = false;
+$("#q").addEventListener("input", () => { clearTimeout(qt); qt = setTimeout(search, 120); });
+$("#q").addEventListener("keydown", (e) => { if (e.key === "Enter") { const b = $("#qres button[data-i]"); if (b) b.click(); } else if (e.key === "Escape") $("#qres").hidden = true; });
+document.addEventListener("click", (e) => { if (!e.target.closest(".search")) $("#qres").hidden = true; });
+function search() {
+  const q = $("#q").value.trim(), ul = $("#qres"); if (!q || !M) { ul.hidden = true; return; }
+  const hits = [];
+  for (const [n, g] of Object.entries(M.alias)) if (n.includes(q)) hits.push(g);
+  for (const [k, L] of Lc) { for (let i = 0; i < L.n && hits.length < 14; i++) if (L.labels[i].includes(q)) hits.push(k * M.chunk + i); }
+  const items = [...new Set(hits)].slice(0, 14).map((g) => { const inf = info(g); return `<li><button data-i="${g}"><i class="dot" style="background:${inf ? ccol(inf.cls) : "#999"}"></i><span class="sm">${esc(M.aliasRev[g] || (inf ? inf.label : "#" + g))}</span><span class="meta">${inf ? CLASS_CN[inf.cls] : ""}</span></button></li>`; });
+  const loaded = Lc.size, total = M.nchunks;
+  items.push(`<li style="padding:6px 8px;color:var(--muted);font-size:12px">${loaded < total ? `已在 ${loaded}/${total} 个已下载数据块中搜索。<br><button class="btn srch-all" id="srch-all">下载全部标签（约 ${M.sizes_MB.l} MB）后在全部 ${fmt(M.n_species - M.n_pool)} 个物种中搜索</button>` : `已在全部 ${fmt(M.n_species - M.n_pool)} 个物种中搜索。`}</li>`);
+  ul.innerHTML = items.join(""); ul.hidden = false;
+  ul.querySelectorAll("button[data-i]").forEach((b) => (b.onclick = async () => { ul.hidden = true; const g = +b.dataset.i; await needL([g]); select(g, true); }));
+  const all = $("#srch-all"); if (all) all.onclick = async (e) => { e.stopPropagation(); all.disabled = true; let done = 0;
+    await Promise.all([...Array(M.nchunks).keys()].map((k) => fetchChunk("l", k).then(() => { done++; all.textContent = `下载中 ${done}/${M.nchunks}…`; }))); search(); };
+}
+
+// ---------------------------------------------------------------- sub-network extraction (runs in the browser)
+// Same definition as scripts/subnet_extract.py: earliest step f from the start species (+ H, H2, H2O always available),
+// latest step L back from each target, a step is kept when f(step) <= T(step); "extra" = smallest k that keeps it.
+const EX = { src: [], dst: [], G: null, busy: false };
+const tick = () => new Promise((r) => setTimeout(r, 0));
+function exName(g) { const inf = info(g); return M.aliasRev[g] || (inf ? inf.label : "#" + g); }
+function exChips() {
+  for (const which of ["src", "dst"]) {
+    const el = $("#ex-" + which), list = EX[which];
+    el.innerHTML = list.length ? list.map((g, i) => `<span class="chip"><span title="${esc(exName(g))}">${esc(exName(g))}</span><button data-i="${i}" aria-label="移除">×</button></span>`).join("")
+      : `<span class="note">${which === "src" ? "未设置" : "在右侧选中物种后点“加为终点”"}</span>`;
+    el.querySelectorAll("button[data-i]").forEach((b) => (b.onclick = () => { list.splice(+b.dataset.i, 1); exChips(); }));
+  }
+}
+async function exAdd(which, g) { await needL([g]); if (which === "src" && !EX.src.includes(g)) EX.src.push(g); if (which === "dst" && !EX.dst.includes(g)) EX.dst.push(g); exChips(); }
+async function exFind(q) {
+  q = q.trim(); if (!q) return -1;
+  for (const [n, g] of Object.entries(M.alias)) if (n === q) return g;
+  for (const sp of M.special) if (sp.label === q || sp.smiles === q) return sp.g;
+  const scan = () => { for (const [k, L] of Lc) { const i = L.labels.indexOf(q); if (i >= 0) return k * M.chunk + i; } return -1; };
+  let g = scan(); if (g >= 0) return g;
+  $("#ex-msg").textContent = `正在下载全部物种标签（约 ${M.sizes_MB.l} MB）来查找…`;
+  await Promise.all([...Array(M.nchunks).keys()].map((k) => fetchChunk("l", k)));
+  return scan();
+}
+function exInit() {
+  EX.src = [M.co2_gid]; exChips();
+  const bases = [...new Set(M.fams.flatMap((f) => f.split(";")))];
+  $("#ex-fams").innerHTML = bases.map((b) => `<label><input type="checkbox" value="${b}"> ${esc((M.ui.fam_cn[b] || b))}</label>`).join("");
+  const add = async (which) => { const q = $("#ex-q").value; const g = await exFind(q);
+    if (g < 0) { $("#ex-msg").textContent = `没找到“${q}”。SMILES 需要和数据库里的写法一致；也可以先用上方搜索框找到物种，再点“设为起点 / 加为终点”。`; return; }
+    $("#ex-msg").textContent = ""; $("#ex-q").value = ""; exAdd(which, g); };
+  $("#ex-as").onclick = () => add("src"); $("#ex-ad").onclick = () => add("dst");
+  $("#ex-go").onclick = () => exRun().catch((e) => { console.error(e); EX.busy = false; $("#ex-go").disabled = false; $("#ex-msg").textContent = "出错：" + (e.message || e); });
+}
+function cOf(g) { return g < M.special.length ? M.special[g].c : cellOf(g).c; }
+async function exGraph(msg) {
+  if (EX.G) return EX.G;
+  const NR = M.n_reactions, NS = M.n_species, R0 = new Int32Array(NR), R1 = new Int32Array(NR), P0 = new Int32Array(NR), P1 = new Int32Array(NR);
+  const PC = new Uint16Array(NR), FM = new Uint8Array(NR), pidx = new Map(M.pool_gids.map((g, i) => [g, i]));
+  let n = 0, done = 0, bad = 0;
+  const parse = (u, k) => {
+    const g0 = k * M.chunk; let p = 4; const nn = new DataView(u.buffer, u.byteOffset, u.byteLength).getUint32(0, true);
+    const rv = () => { let v = 0, s = 1, b; do { b = u[p++]; v += (b & 0x7f) * s; s *= 128; } while (b & 0x80); return v; };
+    const L = [], R = [];
+    for (let i = 0; i < nn; i++) {
+      const g = g0 + i, c = rv();
+      for (let j = 0; j < c; j++) {
+        const fb = u[p++], no = u[p++]; L.length = 0; R.length = 0; (fb >> 5 & 1 ? R : L).push(g); let own = true;
+        for (let q = 0; q < no; q++) { const v = rv(), sd = v % 2, z = Math.floor(v / 2), o = g + (z % 2 ? -(z + 1) / 2 : z / 2); (sd ? R : L).push(o); if (o < g && !pidx.has(o)) own = false; }
+        if (!own) continue;
+        let pc = 0, l0 = -1, l1 = -1, r0 = -1, r1 = -1, t = 0;
+        for (const o of L) { const pi = pidx.get(o); if (pi !== undefined) pc += 3 ** pi; else if (l0 < 0) l0 = o; else if (l1 < 0) l1 = o; else t++; }
+        for (const o of R) { const pi = pidx.get(o); if (pi !== undefined) pc += 27 * 3 ** pi; else if (r0 < 0) r0 = o; else if (r1 < 0) r1 = o; else t++; }
+        if (t) bad++;
+        R0[n] = l0; R1[n] = l1; P0[n] = r0; P1[n] = r1; PC[n] = pc; FM[n] = fb & 31; n++;
+      }
+    }
+  };
+  const ks = [...Array(M.nchunks).keys()]; let next = 0;
+  const worker = async () => { while (next < ks.length) { const k = ks[next++]; let u;
+      const X = Xc.get(k); if (X) u = X.u; else { const buf = await getChunkBytes("x", k); bytesLoaded += buf.byteLength; u = await gunzip(buf); }
+      parse(u, k); done++; if (done % 4 === 0 || done === ks.length) { msg(`下载并解析全部反应数据 ${done}/${ks.length} 块（约 ${M.sizes_MB.x} MB，只需一次）…`); updLoaded(); } await tick(); } };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  if (bad) console.warn("reactions with more than two non-pool species on a side:", bad);
+  EX.G = { n, R0, R1, P0, P1, PC, FM, NS };
+  return EX.G;
+}
+async function exRun() {
+  if (EX.busy) return; if (!EX.src.length || !EX.dst.length) { $("#ex-msg").textContent = "请先设置起点和至少一个终点。"; return; }
+  EX.busy = true; $("#ex-go").disabled = true; $("#ex-res").innerHTML = ""; const msg = (t) => ($("#ex-msg").textContent = t);
+  const K = +$("#ex-k").value, cmaxv = $("#ex-c").value ? +$("#ex-c").value : 99;
+  const excl = new Set([...document.querySelectorAll("#ex-fams input:checked")].map((i) => i.value));
+  const G = await exGraph(msg), { n, R0, R1, P0, P1, FM, NS } = G;
+  msg("正在计算…"); await tick();
+  const t0 = performance.now(), INF = 1 << 29;
+  // allowed reactions
+  const famBad = M.fams.map((f) => f.split(";").every((b) => excl.has(b)));
+  const Cg = new Uint8Array(NS); for (let g = 0; g < M.special.length; g++) Cg[g] = M.special[g].c; for (const c of CELLS) Cg.fill(c.c, c.g0, c.g0 + c.n);
+  const ok = new Uint8Array(n);
+  for (let r = 0; r < n; r++) { if (famBad[FM[r]]) continue; const a = R0[r], b = R1[r], c = P0[r], d = P1[r];
+    if ((a >= 0 && Cg[a] > cmaxv) || (b >= 0 && Cg[b] > cmaxv) || (c >= 0 && Cg[c] > cmaxv) || (d >= 0 && Cg[d] > cmaxv)) continue; ok[r] = 1; }
+  // forward: earliest step f
+  const f = new Int32Array(NS).fill(INF); for (const g of M.pool_gids) f[g] = 0; for (const g of EX.src) f[g] = 0;
+  const fv = (x) => (x >= 0 ? f[x] : 0);
+  for (let L = 0; L < 400; L++) {
+    let grew = false;
+    for (let r = 0; r < n; r++) { if (!ok[r]) continue;
+      if (Math.max(fv(R0[r]), fv(R1[r])) === L) { for (const o of [P0[r], P1[r]]) if (o >= 0 && f[o] > L + 1) { f[o] = L + 1; grew = true; } }
+      if (Math.max(fv(P0[r]), fv(P1[r])) === L) { for (const o of [R0[r], R1[r]]) if (o >= 0 && f[o] > L + 1) { f[o] = L + 1; grew = true; } } }
+    if (!grew) break; if (L % 4 === 3) { msg(`正向逐层推进：第 ${L + 1} 步…`); await tick(); }
+  }
+  const fe0 = new Uint16Array(n), fe1 = new Uint16Array(n);   // 65535 = cannot fire
+  for (let r = 0; r < n; r++) { const a = Math.max(fv(R0[r]), fv(R1[r])), b = Math.max(fv(P0[r]), fv(P1[r])); fe0[r] = ok[r] && a < INF ? a + 1 : 65535; fe1[r] = ok[r] && b < INF ? b + 1 : 65535; }
+  const blocked = new Uint8Array(NS); for (const g of EX.src) blocked[g] = 1;
+  const extra0 = new Uint8Array(n).fill(255), extra1 = new Uint8Array(n).fill(255), Lmax = new Int16Array(NS).fill(-1);
+  const slack0 = new Int16Array(n).fill(-1), slack1 = new Int16Array(n).fill(-1);
+  const targets = [];
+  for (const t of EX.dst) {
+    const D = f[t] < INF ? f[t] : null; const tg = { name: exName(t), smiles: info(t).smiles, node_id: t, D, n_steps_by_extra: [] }; targets.push(tg);
+    if (D === null) continue;
+    for (let k = 0; k <= K; k++) {
+      const budget = D + k, Lt = new Int16Array(NS).fill(-1); Lt[t] = budget;
+      const T = (x, y) => Math.max(x >= 0 && !blocked[x] ? Lt[x] : -1, y >= 0 && !blocked[y] ? Lt[y] : -1);
+      for (let pass = 0; pass < 1000; pass++) {
+        let ch = false;
+        for (let r = 0; r < n; r++) {
+          if (fe0[r] !== 65535) { const Tt = T(P0[r], P1[r]); if (Tt >= 0 && fe0[r] <= Tt) for (const x of [R0[r], R1[r]]) if (x >= 0 && !blocked[x] && Lt[x] < Tt - 1) { Lt[x] = Tt - 1; ch = true; } }
+          if (fe1[r] !== 65535) { const Tt = T(R0[r], R1[r]); if (Tt >= 0 && fe1[r] <= Tt) for (const x of [P0[r], P1[r]]) if (x >= 0 && !blocked[x] && Lt[x] < Tt - 1) { Lt[x] = Tt - 1; ch = true; } }
+        }
+        if (!ch) break; if (pass % 3 === 2) { msg(`${tg.name}：放宽 ${k} 步，反向推进第 ${pass + 1} 轮…`); await tick(); }
+      }
+      let cnt = 0;
+      for (let r = 0; r < n; r++) {
+        if (fe0[r] !== 65535 && R0[r] !== t && R1[r] !== t) { const Tt = T(P0[r], P1[r]); if (Tt >= 0 && fe0[r] <= Tt) { cnt++; if (extra0[r] > k) extra0[r] = k; if (k === K) slack0[r] = slack0[r] >= 0 ? Math.min(slack0[r], Tt - fe0[r]) : Tt - fe0[r]; } }
+        if (fe1[r] !== 65535 && P0[r] !== t && P1[r] !== t) { const Tt = T(R0[r], R1[r]); if (Tt >= 0 && fe1[r] <= Tt) { cnt++; if (extra1[r] > k) extra1[r] = k; if (k === K) slack1[r] = slack1[r] >= 0 ? Math.min(slack1[r], Tt - fe1[r]) : Tt - fe1[r]; } }
+      }
+      if (k === K) for (let g = 0; g < NS; g++) if (Lt[g] > Lmax[g]) Lmax[g] = Lt[g];
+      tg.n_steps_by_extra.push(cnt); await tick();
+    }
+  }
+  // collect
+  const steps = []; const used = new Set();
+  const pools = (code, side) => { const out = []; let c = Math.floor(code / (side ? 27 : 1)) % 27; M.pool_gids.forEach((g, i) => { const m = Math.floor(c / 3 ** i) % 3; for (let q = 0; q < m; q++) out.push(g); }); return out; };
+  for (let r = 0; r < n; r++) for (const d of [0, 1]) {
+    const ex = d ? extra1[r] : extra0[r]; if (ex === 255) continue;
+    const L = [R0[r], R1[r]].filter((x) => x >= 0).concat(pools(G.PC[r], 0)), R = [P0[r], P1[r]].filter((x) => x >= 0).concat(pools(G.PC[r], 1));
+    const ins = d ? R : L, outs = d ? L : R; ins.forEach((x) => used.add(x)); outs.forEach((x) => used.add(x));
+    steps.push({ rid: r, in: ins, out: outs, fam: M.fams[FM[r]], step: d ? fe1[r] : fe0[r], extra: ex, slack: Math.max(0, d ? slack1[r] : slack0[r]), n_original: 1 });
+  }
+  msg(`共 ${fmt(steps.length)} 个反应步，正在读取 ${fmt(used.size)} 个物种的标签…`); await tick();
+  await needL([...used]);
+  const roles = new Map(); for (const g of M.pool_gids) roles.set(g, "小分子池"); for (const g of EX.src) roles.set(g, "起始反应物"); for (const g of EX.dst) roles.set(g, "目标产物");
+  const nodes = [...used].sort((a, b) => f[a] - f[b] || a - b).map((g) => { const inf = info(g);
+    return { id: g, smiles: inf.smiles, label: M.aliasRev[g] || (g < M.special.length ? M.special[g].label : ""), kind: CLASS_CN[inf.cls], formula: "", C: cOf(g),
+      f: f[g] >= INF ? null : f[g], L: Lmax[g] >= 0 ? Lmax[g] : null, role: roles.get(g) || "中间体",
+      site: ["酸位", "金属位", "气相自由基"].filter((_, i) => inf.site & (1 << i)).join("、") }; });
+  const lab = (g) => (POOLSET.has(g) || g < M.special.length ? M.special[g].label : info(g).smiles);
+  for (const e of steps) e.eq = e.in.map(lab).join(" + ") + " → " + e.out.map(lab).join(" + ");
+  steps.sort((a, b) => a.extra - b.extra || a.step - b.step || (a.eq < b.eq ? -1 : 1));
+  const meta = { query: `起点 ${EX.src.map(exName).join("、")}；终点 ${EX.dst.map(exName).join("、")}；多走 ${K} 步；碳数 ≤ ${cmaxv === 99 ? "不限" : cmaxv}${excl.size ? "；排除 " + [...excl].join("、") : ""}`,
+    db: M.ui.title, extra: K, sources: EX.src.map((g) => ({ name: exName(g), smiles: info(g).smiles, node_id: g })), pool: M.pool_gids.map((g) => M.special[g].label),
+    targets, n_species: nodes.length, n_steps: steps.length, max_c: cmaxv === 99 ? null : cmaxv, exclude: [...excl] };
+  EX.last = { meta, nodes, edges: steps };
+  EX.busy = false; $("#ex-go").disabled = false; msg(`完成，用时 ${((performance.now() - t0) / 1000).toFixed(1)} 秒。`);
+  exShow();
+}
+function exShow() {
+  const { meta, nodes, edges } = EX.last, big = edges.length > 200000;
+  $("#ex-res").innerHTML = `<div class="exsum">${meta.targets.map((t) => `<b>${esc(t.name)}</b>：${t.D === null ? "从起点出发不可达" : `最少 ${t.D} 步；放宽 0…${meta.extra} 步的反应步数 ${t.n_steps_by_extra.map(fmt).join(" / ")}`}`).join("<br>")}
+    <br>子网络：${fmt(nodes.length)} 个物种，${fmt(edges.length)} 个反应步</div>
+    <div class="btnrow">${big ? "" : `<button class="btn" id="ex-open">查看子网络</button><button class="btn" id="ex-html">下载网页</button>`}
+      <button class="btn" id="ex-csv1">物种.csv</button><button class="btn" id="ex-csv2">反应.csv</button><button class="btn" id="ex-json">JSON</button><button class="btn" id="ex-gml">GraphML</button></div>
+    ${big ? `<p class="note">反应步超过 20 万，浏览器画不动，只提供表格导出。可以加碳数上限或减小多走的步数。</p>` : ""}`;
+  const dl = async (name, text, type) => {   // online: the viewer's save dialog (downloads capability); offline: a normal download
+    const blob = new Blob([text], { type });
+    const cap = window.claude && window.claude.use ? await window.claude.use("downloads").catch(() => null) : null;
+    if (cap) { try { await cap.save({ filename: name, data: blob }); $("#ex-msg").textContent = `已保存 ${name}`; }
+      catch (e) { $("#ex-msg").textContent = e && e.code === "declined" ? "已取消保存。" : `无法保存 ${name}（${(e && (e.message || e.code)) || e}）`; } return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); };
+  const csv = (rows) => "﻿" + rows.map((r) => r.map((v) => { const s = v === null || v === undefined ? "" : String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }).join(",")).join("\r\n");
+  $("#ex-csv1").onclick = () => dl("物种.csv", csv([["网页编号", "smiles", "名称", "类别", "碳数", "最早第几步生成f", "最晚第几步需要L", "角色", "出现位点"],
+    ...nodes.map((n) => [n.id, n.smiles, n.label, n.kind, n.C, n.f, n.L, n.role, n.site])]), "text/csv");
+  $("#ex-csv2").onclick = () => dl("反应.csv", csv([["反应编号", "方程（按使用方向）", "反应族", "最早第几步", "额外步数", "时间余量", "输入网页编号", "输出网页编号"],
+    ...edges.map((e) => [e.rid, e.eq, e.fam, e.step, e.extra, e.slack, e.in.join(" "), e.out.join(" ")])]), "text/csv");
+  $("#ex-json").onclick = () => dl("subnet.json", JSON.stringify(EX.last), "application/json");
+  $("#ex-gml").onclick = () => { const q = (s) => esc(String(s ?? "")); const g = ['<?xml version="1.0" encoding="UTF-8"?>', '<graphml xmlns="http://graphml.graphdrawing.org/xmlns">',
+      ...["type", "smiles", "label", "kind", "role", "family"].map((k) => `<key id="${k}" for="node" attr.name="${k}" attr.type="string"/>`), '<key id="step" for="node" attr.name="step" attr.type="int"/>', '<graph id="subnet" edgedefault="directed">'];
+    for (const n of nodes) g.push(`<node id="s${n.id}"><data key="type">species</data><data key="smiles">${q(n.smiles)}</data><data key="label">${q(n.label || n.smiles)}</data><data key="kind">${q(n.kind)}</data><data key="role">${q(n.role)}</data><data key="step">${n.f ?? -1}</data></node>`);
+    edges.forEach((e, k) => { g.push(`<node id="r${k}"><data key="type">reaction</data><data key="label">${q(e.eq)}</data><data key="family">${q(e.fam)}</data><data key="step">${e.step}</data></node>`);
+      e.in.forEach((x) => g.push(`<edge source="s${x}" target="r${k}"/>`)); e.out.forEach((x) => g.push(`<edge source="r${k}" target="s${x}"/>`)); });
+    g.push("</graph>", "</graphml>"); dl("subnet.graphml", g.join("\n"), "application/xml"); };
+  const page = async () => { if (!window.__SUBNET_TPL) await loadScript("subnet_tpl.js"); return window.__SUBNET_TPL.replace("/*__DATA__*/null", JSON.stringify(EX.last).replace(/<\//g, "<\\/")); };
+  if (!big) {
+    $("#ex-open").onclick = async () => { const ov = document.createElement("div"); ov.id = "ex-ov";
+      ov.innerHTML = `<div class="ovbar"><b>子网络</b><span class="note">${esc(meta.query)}</span><button class="btn" id="ex-close">关闭</button></div><iframe title="子网络"></iframe>`;
+      document.body.append(ov); ov.querySelector("iframe").srcdoc = await page(); $("#ex-close").onclick = () => ov.remove(); $("#ex-close").focus(); };
+    $("#ex-html").onclick = async () => dl("子网络.html", await page(), "text/html");
+  }
+}
+
+// ---------------------------------------------------------------- UI + boot
+function buildUI() {
+  const rows = $("#rows"); let last = "";
+  M.rows.forEach((r, ri) => { if (r.block !== last) { const h = document.createElement("div"); h.className = "blk"; h.textContent = BLOCK_CN[r.block]; rows.append(h); last = r.block; }
+    const b = document.createElement("button"); b.className = "tg"; b.setAttribute("aria-pressed", "true");
+    b.innerHTML = `<span class="dots">${r.cls.map((c) => `<i class="dot" style="background:${CLASS_COL[c]}"></i>`).join("")}</span><span>${r.label}</span><span class="n">${fmt(r.n)}</span>`;
+    b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); S.rowOn[ri] = on; dirty = true; }; rows.append(b); });
+  const fe = $("#fams");
+  for (const [gname, list] of FAM_GROUPS) { const h = document.createElement("div"); h.className = "blk"; h.textContent = gname; fe.append(h);
+    for (const f of list) { const n = M.fam_counts[f] || 0; if (!n) continue; const b = document.createElement("button"); b.className = "tg"; b.setAttribute("aria-pressed", "true");
+      b.innerHTML = `<i class="sw" style="background:${FAM_COL[f]}"></i><span>${FAM_CN[f]}</span><span class="n">${fmt(n)}</span>`;
+      b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); S.famOn[famIdx[f]] = on; dirty = true; }; fe.append(b); } }
+  const cr = () => { let a = +$("#cmin").value, b = +$("#cmax").value; if (a > b) { if (document.activeElement === $("#cmin")) { b = a; $("#cmax").value = b; } else { a = b; $("#cmin").value = a; } } S.cmin = a; S.cmax = b; $("#crange").textContent = `C${a} – C${b}`; dirty = true; };
+  $("#cmin").oninput = cr; $("#cmax").oninput = cr;
+  $("#alpha").oninput = (e) => { S.alpha = e.target.value / 100; dirty = true; };
+  $("#lab").onchange = (e) => { S.labels = e.target.checked; dirty = true; };
+  $("#flows").onchange = (e) => { S.flows = e.target.checked; dirty = true; };
+  $("#reset").onclick = () => { S.rowOn.fill(true); S.famOn.fill(true); document.querySelectorAll(".tg").forEach((b) => b.setAttribute("aria-pressed", "true")); $("#cmin").value = 1; $("#cmax").value = M.cmax; S.cmin = 1; S.cmax = M.cmax; $("#crange").textContent = `C1 – C${M.cmax}`; dirty = true; };
+  $("#fit").onclick = () => fly(M.W / 2, M.H / 2, fitK());
+  $("#zin").onclick = () => zoomAt(vw / 2, vh / 2, 1.6); $("#zout").onclick = () => zoomAt(vw / 2, vh / 2, 1 / 1.6);
+}
+const themeObs = () => { dirty = true; if (S.sel >= 0) renderDetail(S.sel); };
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", themeObs);
+new MutationObserver(themeObs).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+new ResizeObserver(resize).observe($("#stage"));
+(async () => {
+  try {
+    if (LOCAL) { await loadScript("meta.js"); M = window.__lodMeta; } else { const res = await fetch("meta.json"); if (!res.ok) throw new Error("meta.json " + res.status); M = await res.json(); }
+    CELLS = M.cells; famIdx = Object.fromEntries(M.fams.map((f, i) => [f, i]));
+    POOLSET = new Set(M.special.map((s, i) => (s.cls === "pool" ? i : -1)).filter((i) => i >= 0));
+    M.aliasRev = {}; for (const [n, g] of Object.entries(M.alias)) M.aliasRev[g] = n;
+    S.rowOn = M.rows.map(() => true); S.famOn = M.fams.map(() => true); S.cmax = M.cmax; $("#cmin").max = $("#cmax").max = M.cmax; $("#cmax").value = M.cmax; $("#crange").textContent = `C1 – C${M.cmax}`;
+    $("#st-n").textContent = fmt(M.n_species - M.n_pool); $("#st-e").textContent = fmt(M.n_reactions); updLoaded();
+    if (M.ui) { applyUI(); if (M.ui.title) { $("#h1").textContent = M.ui.title; document.title = M.ui.title; } if (M.ui.subtitle) $("#sub").textContent = M.ui.subtitle; }
+    if (M.full_upto < M.cmax) { $("#h1").textContent = `CO₂ 一步热催化加氢 · C1–C${M.cmax} 网络（分级加载）`; $("#sub").textContent = `C1–C${M.full_upto} 全部异构体，C${M.full_upto + 1}–C${M.cmax} ZSM-5 择形；按缩放分级加载。`; }
+    buildUI(); resize(); S.k = fitK(); S.cx = M.W / 2; S.cy = M.H / 2;
+    $("#lbar").style.width = "70%"; await Promise.all([fetchChunk("l", 0), fetchChunk("x", 0)]);
+    $("#loading").hidden = true; dirty = true; loop();
+    exInit(); const start = M.default_gid ?? M.alias["对二甲苯"]; if (start !== undefined && start >= 0) { await needL([start]); select(start, false); }
+    if (document.fonts) document.fonts.ready.then(() => { dirty = true; });
+  } catch (err) { console.error(err); $("#loading").innerHTML = `<div style="color:var(--fg);font-weight:600">网络未能载入</div><div>${esc(String(err.message || err))}</div>`; }
+})();
+</script>
+</body></html>

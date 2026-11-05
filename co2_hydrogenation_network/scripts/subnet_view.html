@@ -146,8 +146,8 @@ function select(i, center) {
   if (center && pos[i]) { view.x = W / 2 - pos[i][0] * view.k; view.y = H / 2 - pos[i][1] * view.k; }
   const rel = EDGES.filter((e) => e.extra <= slackMax && (e.in.includes(n.id) || e.out.includes(n.id)));
   const sp = (x) => { const m = NODES[byId.get(x)]; return `<a class="sp" data-i="${byId.get(x)}">${esc(name(m))}</a>`; };
-  side.innerHTML = `<h2>${esc(name(n))}</h2><div class="kv">${esc(n.smiles)} · ${esc(n.formula)} · ${esc(n.kind)} · ${esc(n.role)}<br>
-    最早第 ${n.f} 步生成${n.L === null ? "" : ` · 最晚第 ${n.L} 步需要`} · node_id ${n.id}</div><div id="struct"></div>
+  side.innerHTML = `<h2>${esc(name(n))}</h2><div class="kv">${[n.smiles, n.formula, n.kind, n.role, n.site].filter(Boolean).map(esc).join(" · ")}<br>
+    最早第 ${n.f} 步生成${n.L === null ? "" : ` · 最晚第 ${n.L} 步需要`} · 编号 ${n.id}</div><div id="struct"></div>
     <div class="kv">子网络中与它相关的反应步：${rel.length}</div>
     <ul class="rx">${rel.map((e) => `<li>${e.in.map(sp).join(" + ")} → ${e.out.map(sp).join(" + ")}<br><span class="fam">最早第 ${e.step} 步 · 额外 ${e.extra} 步 · ${esc(e.fam)}${e.n_original > 1 ? ` · 合并了 ${e.n_original} 个原始基元反应` : ""}</span></li>`).join("")}</ul>`;
   side.querySelectorAll("a.sp").forEach((a) => (a.onclick = () => select(+a.dataset.i, true)));
