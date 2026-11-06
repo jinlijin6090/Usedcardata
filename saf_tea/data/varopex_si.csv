@@ -1,0 +1,166 @@
+route,region,type,category,value
+FTS,EU,Input,Electricity,514085875.67
+FTS,EU,Input,Water,18040089.94
+FTS,EU,Input,CO2,73207630.98
+FTS,EU,Sideproduct,Lights,-3945120.99
+FTS,EU,Sideproduct,Naphtha,-7480844.51
+FTS,EU,Sideproduct,Diesel,-68734341.49
+FTS,EU,Sideproduct,Wax,-16214085.46
+FTS,EU,Sideproduct,Steam LP,-4628632.18
+FTS,EU,Sideproduct,Steam MP,-66112005.7
+FTS,EU,Waste/Residual,Waste - rWGS,666597.43
+FTS,EU,Waste/Residual,"Waste - Distillation, HC",1294598.39
+FTS,EU,Cooling,Cooling water,7447826.2
+FTS,EU,TOTAL,variable Opex,447627588.31
+MtJ-1,EU,Utility,Electricity,383953869.02
+MtJ-1,EU,Raw materials,Water,7074221.23
+MtJ-1,EU,Raw materials,CO2,65300038.84
+MtJ-1,EU,Sideproduct,Naphta,-20540607.52
+MtJ-1,EU,Sideproduct,Lights,-9592749.04
+MtJ-1,EU,Sideproduct,LP Steam,-2741832.77
+MtJ-1,EU,Sideproduct,MP Steam,-31999320.58
+MtJ-1,EU,Waste/Residual,Waste . rWGS,701109.78
+MtJ-1,EU,Waste/Residual,Waste - MetOH synthesis,138371.89
+MtJ-1,EU,Waste/Residual,Waste - MetOH synthesis,53266.86
+MtJ-1,EU,Waste/Residual,Waste - MetOH synthesis,118540.59
+MtJ-1,EU,Waste/Residual,Waste - MTP,824025.52
+MtJ-1,EU,Waste/Residual,Waste- Hydrogenatio,10461.6
+MtJ-1,EU,Cooling,Cooling Water,4806816.12
+MtJ-1,EU,TOTAL,variable Opex,398106211.53
+MtJ-2,EU,Utility,Electricity,290779938.89
+MtJ-2,EU,Raw materials,Water,6365976.7
+MtJ-2,EU,Raw materials,CO2,58196140.2
+MtJ-2,EU,Sideproduct,Naphta,-19526947.18
+MtJ-2,EU,Sideproduct,Lights,-9117265.33
+MtJ-2,EU,Sideproduct,Steam LP,-8501612.31
+MtJ-2,EU,Sideproduct,Steam MP,-18791288.62
+MtJ-2,EU,Waste/Residual,Waste Water - MetOH synthesis,14374.26
+MtJ-2,EU,Waste/Residual,Waste Purge - MetOH synthesis,758407.69
+MtJ-2,EU,Waste/Residual,Waste - Hypurge,11145.32
+MtJ-2,EU,Waste/Residual,Waste - MTP,812946.96
+MtJ-2,EU,Cooling,Cooling Water,3383645.39
+MtJ-2,EU,TOTAL,variable Opex,304385461.98
+EtJ,EU,Input,Electricity,297051922.72
+EtJ,EU,Input,Water,14596819.94
+EtJ,EU,Input,CO2,62294716.44
+EtJ,EU,Sideproduct,Naphta,-18070666.02
+EtJ,EU,Sideproduct,Lights,-763919.32
+EtJ,EU,Sideproduct,Diesel,-7899588.27
+EtJ,EU,Sideproduct,Wax,-4371748.74
+EtJ,EU,Sideproduct,Steam LP,0.0
+EtJ,EU,Sideproduct,Steam MP,0.0
+EtJ,EU,Waste/Residual,Waste - Gasferment,1288922.96
+EtJ,EU,Waste/Residual,Waste - Dehydration,3360539.38
+EtJ,EU,cooling water,Cooling Water,4822599.1
+EtJ,EU,Waste/Residual,Waste - Hydrogenation,151809.32
+EtJ,EU,TOTAL,variable Opex,352461407.51
+FTS,US,Input,Electricity,249145465.94
+FTS,US,Input,Water,18762925.73
+FTS,US,Input,CO2,84747815.72
+FTS,US,Sideproduct,Lights,-2621332.9
+FTS,US,Sideproduct,Naphtha,-6862827.47
+FTS,US,Sideproduct,Diesel,-48886117.05
+FTS,US,Sideproduct,Wax,-12828941.33
+FTS,US,Sideproduct,LP Steam,-5448013.39
+FTS,US,Sideproduct,MP Steam,-77815449.27
+FTS,US,Waste/Residual,Waste - rWGS,693899.36
+FTS,US,Waste/Residual,"Waste - Distillation, HC",2060935.97
+FTS,US,Cooling,Cooling water,8766273.78
+FTS,US,TOTAL,variable Opex,209714635.09
+MtJ-1,US,Utility,Electricity,186078571.93
+MtJ-1,US,Raw materials,Water,7357673.27
+MtJ-1,US,Raw materials,CO2,75593699.51
+MtJ-1,US,Sideproduct,Naphta,-18843680.74
+MtJ-1,US,Sideproduct,Lights,-6373895.43
+MtJ-1,US,Sideproduct,LP Steam,-3227204.3
+MtJ-1,US,Sideproduct,MP Steam,-31999320.58
+MtJ-1,US,Waste/Residual,Waste - rWGS,729825.23
+MtJ-1,US,Waste/Residual,Waste - MetOH synthesis,144039.21
+MtJ-1,US,Waste/Residual,Waste - MetOH synthesis,55448.52
+MtJ-1,US,Waste/Residual,Waste - MetOH synthesis,123395.68
+MtJ-1,US,Waste/Residual,Waste - MTP,857775.25
+MtJ-1,US,Waste/Residual,Waste- Hydrogenatio,10890.07
+MtJ-1,US,Cooling,Cooling Water,5657740.25
+MtJ-1,US,TOTAL,variable Opex,216164957.87
+MtJ-2,US,Utility,Electricity,140922960.13
+MtJ-2,US,Raw materials,Water,6621050.59
+MtJ-2,US,Raw materials,CO2,67369968.12
+MtJ-2,US,Sideproduct,Naphta,-17913762.19
+MtJ-2,US,Sideproduct,Lights,-6057960.6
+MtJ-2,US,Sideproduct,Steam LP,-10006605.83
+MtJ-2,US,Sideproduct,Steam MP,-22117806.76
+MtJ-2,US,Waste/Residual,Waste Water - MetOH synthesis,14962.99
+MtJ-2,US,Waste/Residual,Waste Purge - MetOH synthesis,789469.91
+MtJ-2,US,Waste/Residual,Waste - Hypurge,11601.8
+MtJ-2,US,Waste/Residual,Waste - MTP,846242.94
+MtJ-2,US,Cooling,Cooling Water,3383645.39
+MtJ-2,US,TOTAL,variable Opex,163863766.47
+EtJ,US,Input,Electricity,143962600.79
+EtJ,US,Input,Water,15181689.74
+EtJ,US,Input,CO2,72114629.01
+EtJ,US,Sideproduct,Naphta,-16577789.18
+EtJ,US,Sideproduct,Lights,-507585.66
+EtJ,US,Sideproduct,Diesel,-5618446.15
+EtJ,US,Sideproduct,Wax,-3459023.84
+EtJ,US,Sideproduct,Steam LP,0.0
+EtJ,US,Sideproduct,Steam MP,0.0
+EtJ,US,Waste/Residual,Waste - Gasferment,1341713.57
+EtJ,US,Waste/Residual,Waste - Dehydration,3498177.47
+EtJ,US,Cooling,Cooling Water,5676317.2
+EtJ,US,Waste/Residual,Waste - Hydrogenation,158027.0
+EtJ,US,TOTAL,variable Opex,215770309.95
+FTS,ME,Input,Electricity,744174689.06
+FTS,ME,Input,Water,42467255.04
+FTS,ME,Input,CO2,84747815.72
+FTS,ME,Sideproduct,Lights,-2508990.06
+FTS,ME,Sideproduct,Naphtha,-6992314.78
+FTS,ME,Sideproduct,Diesel,-63107730.67
+FTS,ME,Sideproduct,Wax,-10814479.47
+FTS,ME,Sideproduct,LP Steam,-5448013.39
+FTS,ME,Sideproduct,MP Steam,-77815449.27
+FTS,ME,Waste/Residual,Waste - rWGS,945735.11
+FTS,ME,Waste/Residual,"Waste - Distillation, HC",1836711.47
+FTS,ME,Cooling,Cooling water,17532547.56
+FTS,ME,TOTAL,variable Opex,725017776.32
+MtJ-1,ME,Utility,Electricity,555799652.57
+MtJ-1,ME,Raw materials,Water,16653063.17
+MtJ-1,ME,Raw materials,CO2,75593699.51
+MtJ-1,ME,Sideproduct,Naphta,-19199221.89
+MtJ-1,ME,Sideproduct,Lights,-6100728.48
+MtJ-1,ME,Sideproduct,LP Steam,-3227204.3
+MtJ-1,ME,Sideproduct,MP Steam,-31999320.58
+MtJ-1,ME,Sideproduct,Oxygen,0.0
+MtJ-1,ME,Waste/Residual,Waste - Electrolysis,0.0
+MtJ-1,ME,Waste/Residual,Waste . rWGS,994699.49
+MtJ-1,ME,Waste/Residual,Waste - MetOH synthesis,196315.12
+MtJ-1,ME,Waste/Residual,Waste - MetOH synthesis,75572.36
+MtJ-1,ME,Waste/Residual,Waste - MetOH synthesis,168179.47
+MtJ-1,ME,Waste/Residual,Waste - MTP,1169086.21
+MtJ-1,ME,Waste/Residual,Waste- Hydrogenation,14842.39
+MtJ-1,ME,Cooling,Cooling Water,11315480.5
+MtJ-1,ME,TOTAL,variable Opex,601454115.53
+MtJ-2,ME,Utility,Electricity,420923975.65
+MtJ-2,ME,Raw materials,Water,14985820.86
+MtJ-2,ME,Raw materials,CO2,67369968.12
+MtJ-2,ME,Sideproduct,Naphta,-18251757.71
+MtJ-2,ME,Sideproduct,Lights,-5798333.72
+MtJ-2,ME,Sideproduct,Steam LP,-10006605.83
+MtJ-2,ME,Sideproduct,Steam MP,-22117806.76
+MtJ-2,ME,Waste/Residual,Waste Water - MetOH synthesis,20393.48
+MtJ-2,ME,Waste/Residual,Waste Purge - MetOH synthesis,1075990.91
+MtJ-2,ME,Waste/Residual,Waste - Hypurge,15812.42
+MtJ-2,ME,Waste/Residual,Waste - MTP,1153368.49
+MtJ-2,ME,Cooling,Cooling Water,3383645.39
+MtJ-2,ME,TOTAL,variable Opex,452754471.32
+EtJ,ME,Input,Electricity,430003103.93
+EtJ,ME,Input,Water,34361628.85
+EtJ,ME,Input,CO2,72114629.01
+EtJ,ME,Sideproduct,Naphta,-16890577.66
+EtJ,ME,Sideproduct,Lights,-485831.99
+EtJ,ME,Sideproduct,Diesel,-7252925.94
+EtJ,ME,Sideproduct,Wax,-2915871.33
+EtJ,ME,Waste/Residual,Waste - Gas ferment,1828659.45
+EtJ,ME,Waste/Residual,Waste - Dehydration,4767765.24
+EtJ,ME,cooling water,Cooling Water,11352634.41
+EtJ,ME,Waste/Residual,Waste - Hydrogenation,215379.48
+EtJ,ME,TOTAL,variable Opex,527098593.45
