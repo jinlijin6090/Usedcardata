@@ -172,7 +172,7 @@ SPECIFIC = {
              ("hefa", "saf_yield", "HEFA 航煤收率 0.45–0.55", 0.45, 0.55)],
     "DRM-FT": [("drm", "reformer_ec_usd", "重整炉设备 5–40 MUSD", 5e6, 40e6),
                ("drm", "ch4_to_co2", "CH₄:CO₂ 0.8–1.5", 0.8, 1.5)],
-    "EtJ-2": [("e2", "carbon_yield", "乙醇碳选择性 0.65–0.95", 0.65, 0.95)],
+    "EtJ-2": [("e2", "carbon_yield", "乙醇碳选择性 0.80–1.00", 0.80, 1.00)],
 }
 
 

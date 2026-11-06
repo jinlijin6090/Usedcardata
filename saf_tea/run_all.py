@@ -111,7 +111,7 @@ def cn_sens():
 
 def etj2_sens(region="CN"):
     params = [
-        ("carbon_yield", "乙醇碳选择性 (0.65–0.95)", 0.65, 0.95),
+        ("carbon_yield", "乙醇碳选择性 (0.80–1.00)", 0.80, 1.00),
         ("single_pass_conv", "CO₂单程转化率 (0.10–0.35)", 0.10, 0.35),
         ("capex_safety", "低TRL投资裕量 (1.0–1.5)", 1.0, 1.5),
         ("steam_recovery", "反应热回收为蒸汽 (0–0.8)", 0.0, 0.8),

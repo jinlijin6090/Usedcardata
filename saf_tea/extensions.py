@@ -59,10 +59,13 @@ def china_region(a: dict = CN_ASSUMPTIONS) -> m.Region:
 
 # ============================================================== EtJ-2
 ETJ2_ASSUMPTIONS = {
-    "carbon_yield": 0.80,        # share of converted CO2 carbon ending up in ethanol (rest -> CH4, purged)
+    # aligned with MtJ-2 (SI Table 9): methanol C / fresh CO2 C = 1514.5/1524.8 = 99.33 %,
+    # H2 to synthesis / stoichiometric H2 = 9231.46/9159.7 = 1.0078; no CH4 formation
+    "carbon_yield": 1.00,        # share of converted CO2 carbon ending up in ethanol (rest -> CH4, purged)
     "single_pass_conv": 0.20,    # CO2 single-pass conversion of the synthesis loop
     "mtj2_loop_conv": 0.50,      # assumed once-through conversion of the MtJ-2 3-stage loop (scaling ref.)
-    "purge_loss": 0.02,          # CO2/H2 lost with the loop purge
+    "purge_loss": 1 - 1514.5 / 1524.8,     # CO2 lost with the loop purge (as MtJ-2)
+    "h2_purge_loss": 1 - 9159.7 / 9231.46, # H2 lost with the loop purge (as MtJ-2)
     "p_syn_bar": 50.0,           # synthesis pressure
     "steam_recovery": 0.5,       # share of reaction heat exported as MP steam
     "capex_safety": 1.20,        # low-TRL contingency (same 20 % the paper puts on EtJ)
@@ -84,7 +87,7 @@ def etj2_balance(a: dict = ETJ2_ASSUMPTIONS) -> dict:
     c_conv = c_etoh / a["carbon_yield"]
     n_ch4 = c_conv - c_etoh
     co2 = c_conv * M_CO2 / (1 - a["purge_loss"])   # kg/h fresh CO2
-    h2_syn = (6 * n_etoh + 4 * n_ch4) * M_H2 / (1 - a["purge_loss"])
+    h2_syn = (6 * n_etoh + 4 * n_ch4) * M_H2 / (1 - a.get("h2_purge_loss", a["purge_loss"]))
     h2 = h2_syn + EtJ_DOWNSTREAM_H2
     water_made = (3 * n_etoh + 2 * n_ch4) * M_H2O  # kg/h, goes with crude ethanol to dehydration
     heat_mw = (n_etoh * DH_ETOH + n_ch4 * DH_CH4) / 3600 / 1000
