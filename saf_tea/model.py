@@ -41,7 +41,7 @@ H2_KGH = {
 }
 
 # Process steps n (SI Table 34) - count of non-zero entries incl. AEL and BoP
-N_STEPS = {"FTS": 6, "MtJ-1": 8, "MtJ-2": 7, "EtJ": 7, "EtJ-2": 7}
+N_STEPS = {"FTS": 6, "MtJ-1": 8, "MtJ-2": 7, "EtJ": 7, "EtJ-2": 7, "HEFA": 6, "DRM-FT": 6}
 
 # Surcharge factors (SI Tables 31-33)
 DIRECT = 0.47 + 0.36 + 0.68 + 0.11 + 0.24 + 0.10 + 0.55
@@ -164,20 +164,29 @@ def crf(ir: float, n: int) -> float:
 
 
 def npc(route: str, reg: Region, ec_usd: float, h2_kgh: float, varopex_usd: float,
-        fixopex_lab_basis: str = "OLC") -> dict[str, float]:
-    """Return NPC breakdown in USD/kg SAF."""
-    safety = ETJ_SAFETY if route.startswith("EtJ") else 1.0
-    fci_jet = ec_usd * FCI_FACTOR * safety
+        fixopex_lab_basis: str = "OLC", hours: float = HOURS,
+        fci_jet_direct: float | None = None, safety: float | None = None) -> dict[str, float]:
+    """Return NPC breakdown in USD/kg SAF.
+
+    varopex_usd is the annual variable OPEX at the reference HOURS; it is scaled
+    linearly when another operating time is given. fci_jet_direct bypasses the
+    EC x surcharge route (used for HEFA, whose FCI comes from plant-level data).
+    """
+    if safety is None:
+        safety = ETJ_SAFETY if route.startswith("EtJ") else 1.0
+    fci_jet = fci_jet_direct if fci_jet_direct is not None else ec_usd * FCI_FACTOR * safety
+    m_saf = SAF_KGH * hours
+    varopex_usd = varopex_usd * hours / HOURS
     p_el_kw = h2_kgh * EL_KWH_PER_KG
     ec_el = p_el_kw * reg.el_usd_per_kw
     fci_el = ec_el * FCI_EL_FACTOR
     fci = fci_jet + fci_el
     wc = fci / 0.9 * 0.1                      # WC = 10 % of TCI
     acc = (fci + wc) * crf(reg.ir, PL) - wc / PL
-    sr = math.floor(PL * HOURS / STACK_LIFE - 1)
+    sr = max(math.floor(PL * hours / STACK_LIFE - 1), 0)
     arc = sr * fci_el * 0.77 / PL
     # fixed OPEX (SI Table 33), applied to the jet-process FCI
-    h_lab = 2.13 * SAF_KGH ** 0.242 * N_STEPS[route] * HOURS / 24
+    h_lab = 2.13 * SAF_KGH ** 0.242 * N_STEPS[route] * hours / 24
     olc = h_lab * reg.labor_usd_h
     os_ = 0.15 * olc
     mt = 0.02 * fci_jet
@@ -190,8 +199,8 @@ def npc(route: str, reg: Region, ec_usd: float, h2_kgh: float, varopex_usd: floa
     fix = olc + os_ + mt + mat + sup + lab + ins + po + adm
     res = {
         "FCI_jet_MUSD": fci_jet / 1e6, "FCI_el_MUSD": fci_el / 1e6, "FCI_MUSD": fci / 1e6,
-        "ACC": acc / M_SAF, "ARC": arc / M_SAF, "fixOpex": fix / M_SAF,
-        "varOpex": varopex_usd / M_SAF,
+        "ACC": acc / m_saf, "ARC": arc / m_saf, "fixOpex": fix / m_saf,
+        "varOpex": varopex_usd / m_saf,
     }
     res["NPC"] = res["ACC"] + res["ARC"] + res["fixOpex"] + res["varOpex"]
     return res
