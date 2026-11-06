@@ -67,8 +67,10 @@ ETJ2_ASSUMPTIONS = {
     "purge_loss": 1 - 1514.5 / 1524.8,     # CO2 lost with the loop purge (as MtJ-2)
     "h2_purge_loss": 1 - 9159.7 / 9231.46, # H2 lost with the loop purge (as MtJ-2)
     "p_syn_bar": 50.0,           # synthesis pressure
-    "steam_recovery": 0.5,       # share of reaction heat exported as MP steam
-    "capex_safety": 1.20,        # low-TRL contingency (same 20 % the paper puts on EtJ)
+    # aligned with MtJ-2: the paper exports more steam from MtJ-2 (~74 MW MP+LP) than its total
+    # reaction heat (~48 MW), i.e. all reaction heat is recovered; no extra CAPEX contingency on MtJ-2
+    "steam_recovery": 1.0,       # share of synthesis reaction heat exported as MP steam
+    "capex_safety": 1.00,        # extra CAPEX contingency (MtJ-2: none; paper's EtJ: 1.2)
     "loop_exp": 0.6,             # scaling exponent, loop equipment
     "feed_comp_exp": 0.8,        # scaling exponent, feed compressors
 }
