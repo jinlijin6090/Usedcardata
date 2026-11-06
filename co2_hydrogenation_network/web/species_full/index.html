@@ -334,7 +334,7 @@ function records(g) {
   for (let j = 0; j < X.cnt[i]; j++) {
     const fb = u[p++], no = u[p++]; const others = [];
     for (let q = 0; q < no; q++) { const v = rv(), sd = v % 2, z = Math.floor(v / 2), d = z % 2 ? -(z + 1) / 2 : z / 2; others.push([g + d, sd]); }
-    out.push({ fam: fb & 31, side: (fb >> 5) & 1, others });
+    out.push({ fam: fb & 127, side: (fb >> 7) & 1, others });
   }
   return out;
 }
@@ -719,14 +719,14 @@ async function exGraph(msg) {
     for (let i = 0; i < nn; i++) {
       const g = g0 + i, c = rv();
       for (let j = 0; j < c; j++) {
-        const fb = u[p++], no = u[p++]; L.length = 0; R.length = 0; (fb >> 5 & 1 ? R : L).push(g); let own = true;
+        const fb = u[p++], no = u[p++]; L.length = 0; R.length = 0; (fb >> 7 & 1 ? R : L).push(g); let own = true;
         for (let q = 0; q < no; q++) { const v = rv(), sd = v % 2, z = Math.floor(v / 2), o = g + (z % 2 ? -(z + 1) / 2 : z / 2); (sd ? R : L).push(o); if (o < g && !pidx.has(o)) own = false; }
         if (!own) continue;
         let pc = 0, l0 = -1, l1 = -1, r0 = -1, r1 = -1, t = 0;
         for (const o of L) { const pi = pidx.get(o); if (pi !== undefined) pc += 3 ** pi; else if (l0 < 0) l0 = o; else if (l1 < 0) l1 = o; else t++; }
         for (const o of R) { const pi = pidx.get(o); if (pi !== undefined) pc += 27 * 3 ** pi; else if (r0 < 0) r0 = o; else if (r1 < 0) r1 = o; else t++; }
         if (t) bad++;
-        R0[n] = l0; R1[n] = l1; P0[n] = r0; P1[n] = r1; PC[n] = pc; FM[n] = fb & 31; n++;
+        R0[n] = l0; R1[n] = l1; P0[n] = r0; P1[n] = r1; PC[n] = pc; FM[n] = fb & 127; n++;
       }
     }
   };
