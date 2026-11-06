@@ -1,0 +1,34 @@
+{
+  "_comment": "Edit this file, then run: python campaign/campaign.py make. Times in ps, temperatures in K.",
+  "cluster": "structures/ni116.data",
+  "ffield": "ff/ffield.reax.FC",
+  "T": 1200,
+  "equil_ps": 10,
+  "checkpoint_every_ps": 50,
+
+  "task1_flux": {
+    "_what": "C-only deposition, flux convergence test",
+    "c_interval_ps": [10, 20, 50],
+    "seeds": [1, 2, 3],
+    "nC": 120,
+    "post_ps": 50
+  },
+
+  "task2_anneal": {
+    "_what": "long anneal of the final task1 structures (no deposition); needs task1 finished",
+    "from_c_interval_ps": 50,
+    "seeds": [1, 2, 3],
+    "T": [1200],
+    "anneal_ps": 2000,
+    "dump_every_ps": 5
+  },
+
+  "task3_codep": {
+    "_what": "C + O co-deposition; O stands for the O left behind by CO2 -> CO + O. O_per_C = 0 is the C-only control",
+    "O_per_C": [0, 0.5, 1, 2],
+    "seeds": [1, 2, 3],
+    "nC": 120,
+    "c_interval_ps": 20,
+    "post_ps": 100
+  }
+}

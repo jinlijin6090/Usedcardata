@@ -1,0 +1,7 @@
+runs/
+analysis_out/
+env/nicoke_env/
+env/nicoke_env.tar.gz
+validate/ff_report.md
+__pycache__/
+*.pyc

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#PBS -j oe
+# Generic job of ni_coke_md. Do not qsub by hand: use  bash pbs/submit.sh
+# (queue, ncpus, walltime and the case list are passed on the qsub command line / via -v).
+set -uo pipefail
+ROOT="${NICOKE_ROOT:?submit with pbs/submit.sh}"
+cd "$ROOT"
+source pbs/pbs.conf
+mapfile -t CASES < "${CASELIST:?}"
+JOBID="${PBS_JOBID:-local}"
+RESUB="${RESUB:-0}"
+T=$THREADS_PER_CASE
+MAXH=$(awk -v w="${WALL_H:?}" -v m="$MARGIN_H" 'BEGIN{x=w-m; if (x<0.02) x=0.02; printf "%.3f", x}')
+
+echo "[$(date '+%F %T')] job $JOBID on $(hostname): ${#CASES[@]} case(s) x $T threads, stop at checkpoint after ${MAXH} h, resubmission #$RESUB"
+for c in "${CASES[@]}"; do echo "$JOBID" > "$c/.pbs_job"; rm -f "$c/last_exit"; done
+
+printf '%s\n' "${CASES[@]}" | xargs -P "${#CASES[@]}" -I{} bash run_case.sh {} "$T" "$MAXH"
+
+REMAIN=(); FAILED=()
+for c in "${CASES[@]}"; do
+    grep -q '"phase": "done"' "$c/state.json" 2>/dev/null && continue
+    rc=$(cat "$c/last_exit" 2>/dev/null || echo none)
+    if [ "$rc" = 3 ]; then REMAIN+=("$c"); else FAILED+=("$c (exit $rc)"); fi
+done
+echo "[$(date '+%F %T')] done: $(( ${#CASES[@]} - ${#REMAIN[@]} - ${#FAILED[@]} )) finished, ${#REMAIN[@]} to continue, ${#FAILED[@]} failed"
+for f in "${FAILED[@]}"; do echo "  FAILED: $f  -> see driver.out in that directory; not resubmitted"; done
+
+if [ ${#REMAIN[@]} -gt 0 ]; then
+    if [ "$RESUB" -ge "$MAX_RESUB" ]; then
+        echo "MAX_RESUB=$MAX_RESUB reached, not resubmitting. Run  bash pbs/submit.sh  to continue."
+    else
+        NEW="${CASELIST%.list}_r$((RESUB+1)).list"
+        printf '%s\n' "${REMAIN[@]}" > "$NEW"
+        bash pbs/submit.sh --caselist "$NEW" --resub $((RESUB+1)) \
+            || echo "automatic resubmission failed - run  bash pbs/submit.sh  on the login node"
+    fi
+fi
+
+if [ "$AUTO_TASK2" = 1 ]; then
+    bash pbs/submit.sh --if-ready task2_anneal || true
+fi
