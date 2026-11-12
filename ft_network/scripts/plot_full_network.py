@@ -5,6 +5,7 @@
 对应一条"带", 带内中间一行(列)是烃类中间体, 两侧是 CO 插入得到的含氧中间体。
 """
 import csv
+import os
 import sys
 from pathlib import Path
 
@@ -18,14 +19,14 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import build_network as bn  # noqa: E402
 
-NMAX = 8
+NMAX = int(os.environ.get("FT_NMAX", 8))        # FT_NMAX=12 生成到 C12 的版本
 bn.build(NMAX)
-RX_ALL = list(csv.DictReader(open(ROOT / "data/c8/reactions.csv", encoding="utf-8-sig")))
+RX_ALL = list(csv.DictReader(open(ROOT / f"data/c{NMAX}/reactions.csv", encoding="utf-8-sig")))
 SPEC_ALL = {s.name: s for s in bn.SPECIES.values()}
 
 
 
-def draw_network(ax, nmax=8, hl=None, xoff=0.0, yoff=0.0, legend=True):
+def draw_network(ax, nmax=NMAX, hl=None, xoff=0.0, yoff=0.0, legend=True):
     """在 ax 上画 C1…C_nmax 的网络。hl: 只给第 hl 个碳数新增的部分上色, 其余变灰。"""
     GRAY = "#C5CDD2"
     plt.rcParams["font.sans-serif"] = ["Liberation Sans", "WenQuanYi Zen Hei", "DejaVu Sans"]
@@ -62,7 +63,7 @@ def draw_network(ax, nmax=8, hl=None, xoff=0.0, yoff=0.0, legend=True):
         if n % 2:                        # V 型放在上一个 H 型正下方
             prev_b = 4 if n == 3 else 3
             y = y + (prev_b - 1) * BH + LANE * SV + 1.15
-            if n == 5:                   # 折行: C5 起回到左侧, 另起第二段阶梯
+            if n % 4 == 1:               # 折行: 每 4 个碳数一段阶梯, C5、C9… 回到左侧
                 x, y = 2.4 + xoff, y + 1.25
             ORI[n] = ("V", x, y)
         else:                            # H 型放在上一个 V 型右侧
@@ -409,9 +410,9 @@ def draw_network(ax, nmax=8, hl=None, xoff=0.0, yoff=0.0, legend=True):
             ax.text(LX + 1.3, yy, txt, fontsize=16, va="center", color=T)
         NX, NY = 14.0, 3.5
         ax.text(NX, NY, "怎么读这张图", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
-        notes = ["每个节点是一个物种，每条箭头是一个可逆基元步骤，箭头指向书写的正方向，旁边的小数字是反应编号（1–578）。",
+        notes = [f"每个节点是一个物种，每条箭头是一个可逆基元步骤，箭头指向书写的正方向，旁边的小数字是反应编号（1–{len(RX)}）。",
                  "箭头只连接含碳主体；共反应物（H*、O*、OH*、CHx*、CO*、空位 *）由箭头颜色表示。",
-                 "区块按碳数排列：C1 → C4 为第一段阶梯，C5 → C8 折到下方为第二段。",
+                 "区块按碳数排列：每 4 个碳数为一段阶梯（C1 → C4、C5 → C8 …），逐段折到下方。",
                  "区块内每个链增长片段对应一条带：中间是烃类中间体，两侧是 CO 插入得到的含氧中间体。",
                  "绿色干线：上一碳数的片段 R–CHa* 进入对应的带，分支到 R–CHa–CHb*（b = 0…3），即与 C*、CH*、CH2*、CH3* 偶联。",
                  "紫色线：同一片段 + CO* 得到 R–CHa–CO*，再经加氢和 C–O 断裂落回该带的烃类中间体。",
@@ -420,18 +421,45 @@ def draw_network(ax, nmax=8, hl=None, xoff=0.0, yoff=0.0, legend=True):
         for i, tline in enumerate(notes):
             ax.text(NX, NY + 0.95 + i * 0.72, tline, fontsize=16, va="center", color=T)
         SX, SY = 1.0, 25.6
-        for i, (num, lab, col) in enumerate([("258", "物种（节点）", "#3B6FB6"), ("578", "可逆基元步骤（箭头）", "#0F4C5C"),
-                                             ("221", "开壳层（自由基型）表面中间体", "#6B2D5C"), ("15", "烃产物：C1–C8 正构烷烃 + C2–C8 α-烯烃", "#D9580D")]):
+        for i, (num, lab, col) in enumerate([(str(len(SPEC)), "物种（节点）", "#3B6FB6"), (str(len(RX)), "可逆基元步骤（箭头）", "#0F4C5C"),
+                                             (str(sum(1 for q in SPEC.values() if bn.free_valence(q) > 0)), "开壳层（自由基型）表面中间体", "#6B2D5C"),
+                                             (str(2 * nmax - 1), f"烃产物：C1–C{nmax} 正构烷烃 + C2–C{nmax} α-烯烃", "#D9580D")]):
             xx, yy = SX + (i % 2) * 6.9, SY + (i // 2) * 3.2
             ax.add_patch(FancyBboxPatch((xx, yy), 6.5, 2.8, boxstyle="round,pad=0,rounding_size=0.15", fc="#EEF3F4", ec="none"))
             ax.text(xx + 3.25, yy + 1.1, num, fontsize=80, fontweight="bold", color=col, ha="center", va="center", fontfamily="Liberation Sans")
             ax.text(xx + 3.25, yy + 2.25, lab, fontsize=16, color=T, ha="center", va="center")
 
+
+        if nmax > 8:                                   # 第三段阶梯旁的两块空位
+            y9 = ORI[9][2]
+            tx, ty = 1.0, y9 + 5.6
+            ax.text(tx, ty, "每个碳数的规模", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
+            rows = [("部分", "物种", "基元步骤"), ("通用小分子 + C1", "24", "35"), ("C1 → C2", "36", "81"),
+                    (f"C3 … C{nmax}（每个碳数）", "33", "77"), ("合计", str(len(SPEC)), str(len(RX)))]
+            for i, rw in enumerate(rows):
+                yy = ty + 0.95 + i * 0.75
+                bold = "bold" if i in (0, len(rows) - 1) else "normal"
+                if i % 2 == 1:
+                    ax.add_patch(FancyBboxPatch((tx, yy - 0.37), 13.4, 0.74, boxstyle="square,pad=0", fc="#EEF3F4", ec="none", zorder=0))
+                ax.text(tx + 0.25, yy, rw[0], fontsize=17, fontweight=bold, color=T, va="center")
+                ax.text(tx + 9.0, yy, rw[1], fontsize=17, fontweight=bold, color=T, va="center", ha="center")
+                ax.text(tx + 11.8, yy, rw[2], fontsize=17, fontweight=bold, color=T, va="center", ha="center")
+            ax.text(tx, ty + 5.3, "从 C3 起每个碳数重复同一套 33 个物种、77 个基元步骤，", fontsize=16, color=T, va="center")
+            ax.text(tx, ty + 6.0, "所以网络可以按同样的规则无限延伸。", fontsize=16, color=T, va="center")
+            px, py = 23.2, y9 - 0.2
+            ax.text(px, py, "气相产物", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
+            alk = [bn.alkane_g(k).name[:-3] for k in range(1, nmax + 1)]
+            ole = [bn.alkene_g(k).name[:-3] for k in range(2, nmax + 1)]
+            for i, (lab, txt) in enumerate([("正构烷烃", alk), ("直链 α-烯烃", ole)]):
+                yy = py + 0.95 + i * 1.75
+                ax.text(px, yy, lab, fontsize=17, fontweight="bold", color="#D9580D", va="center")
+                ax.text(px, yy + 0.6, ",  ".join(txt[:6]), fontsize=16, color=T, va="center", fontfamily="Liberation Sans")
+                ax.text(px, yy + 1.15, ",  ".join(txt[6:]), fontsize=16, color=T, va="center", fontfamily="Liberation Sans")
     return len(POS), len(DRAWN)
 
 
 def main():
-    W, H = 36.4, 32.6
+    W, H = (36.4, 32.6) if NMAX <= 8 else (36.4, 47.0)
     fig = plt.figure(figsize=(W, H))
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W)
@@ -439,8 +467,8 @@ def main():
     ax.axis("off")
     nn, ne = draw_network(ax)
     out = ROOT / "figures"
-    fig.savefig(out / "ft_network_C1-C8_full.png", dpi=215, facecolor="white")
-    fig.savefig(out / "ft_network_C1-C8_full.pdf", facecolor="white")
+    fig.savefig(out / f"ft_network_C1-C{NMAX}_full.png", dpi=215 if NMAX <= 8 else 168, facecolor="white")
+    fig.savefig(out / f"ft_network_C1-C{NMAX}_full.pdf", facecolor="white")
     print(f"节点 {nn}, 箭头 {ne}")
 
 
