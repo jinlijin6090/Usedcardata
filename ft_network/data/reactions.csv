@@ -1,0 +1,1503 @@
+﻿id,n,category,equation,note
+R0001,0,1 反应物吸附,CO(g) + * ⇌ CO*,CO 分子吸附
+R0002,0,1 反应物吸附,H2(g) + 2 * ⇌ 2 H*,H2 解离吸附
+R0003,1,2a CO 直接解离,CO* + * ⇌ C* + O*,碳化物机理的起点
+R0004,1,2a CO 直接解离,2 CO* ⇌ C* + CO2*,Boudouard 歧化
+R0005,1,2b CO 氢助活化(加氢),CO* + H* ⇌ HCO* + *,
+R0006,1,2b CO 氢助活化(加氢),CO* + H* ⇌ COH* + *,
+R0007,1,2b CO 氢助活化(加氢),HCO* + H* ⇌ CH2O* + *,
+R0008,1,2b CO 氢助活化(加氢),HCO* + H* ⇌ HCOH* + *,
+R0009,1,2b CO 氢助活化(加氢),COH* + H* ⇌ HCOH* + *,
+R0010,1,2b CO 氢助活化(加氢),CH2O* + H* ⇌ CH3O* + *,
+R0011,1,2b CO 氢助活化(加氢),CH2O* + H* ⇌ CH2OH* + *,
+R0012,1,2b CO 氢助活化(加氢),HCOH* + H* ⇌ CH2OH* + *,
+R0013,1,2c 氢助 C–O 断裂,HCO* + * ⇌ CH* + O*,
+R0014,1,2c 氢助 C–O 断裂,COH* + * ⇌ C* + OH*,
+R0015,1,2c 氢助 C–O 断裂,HCOH* + * ⇌ CH* + OH*,
+R0016,1,2c 氢助 C–O 断裂,CH2O* + * ⇌ CH2* + O*,
+R0017,1,2c 氢助 C–O 断裂,CH2OH* + * ⇌ CH2* + OH*,
+R0018,1,2c 氢助 C–O 断裂,CH3O* + * ⇌ CH3* + O*,
+R0019,0,3a 除氧生成 H2O,O* + H* ⇌ OH* + *,
+R0020,0,3a 除氧生成 H2O,OH* + H* ⇌ H2O* + *,
+R0021,0,3a 除氧生成 H2O,2 OH* ⇌ H2O* + O*,羟基歧化
+R0022,0,3a 除氧生成 H2O,H2O* ⇌ H2O(g) + *,H2O 脱附
+R0023,1,3b 除氧生成 CO2 / 水煤气变换,CO* + O* ⇌ CO2* + *,
+R0024,1,3b 除氧生成 CO2 / 水煤气变换,CO* + OH* ⇌ COOH* + *,羧基路径
+R0025,1,3b 除氧生成 CO2 / 水煤气变换,COOH* + * ⇌ CO2* + H*,
+R0026,1,3b 除氧生成 CO2 / 水煤气变换,COOH* + O* ⇌ CO2* + OH*,
+R0027,1,3b 除氧生成 CO2 / 水煤气变换,COOH* + OH* ⇌ CO2* + H2O*,
+R0028,1,3b 除氧生成 CO2 / 水煤气变换,HCO* + O* ⇌ HCOO* + *,甲酸根路径
+R0029,1,3b 除氧生成 CO2 / 水煤气变换,HCOO* + * ⇌ CO2* + H*,
+R0030,1,3b 除氧生成 CO2 / 水煤气变换,CO2* ⇌ CO2(g) + *,CO2 脱附
+R0031,1,4 C1 加氢(链引发单体 CHx 生成),C* + H* ⇌ CH* + *,
+R0032,1,4 C1 加氢(链引发单体 CHx 生成),CH* + H* ⇌ CH2* + *,
+R0033,1,4 C1 加氢(链引发单体 CHx 生成),CH2* + H* ⇌ CH3* + *,链引发物种 CH3*
+R0034,1,4 C1 加氢(链引发单体 CHx 生成),CH3* + H* ⇌ CH4* + *,甲烷化(链终止 n=1)
+R0035,1,4 C1 加氢(链引发单体 CHx 生成),CH4* ⇌ CH4(g) + *,CH4 脱附
+R0036,2,5a 链增长: C–C 偶联(碳化物机理),2 C* ⇌ CC* + *,与表面 C 偶联
+R0037,2,5a 链增长: C–C 偶联(碳化物机理),C* + CH* ⇌ CHC* + *,
+R0038,2,5a 链增长: C–C 偶联(碳化物机理),C* + CH2* ⇌ CH2C* + *,
+R0039,2,5a 链增长: C–C 偶联(碳化物机理),C* + CH3* ⇌ CH3C* + *,
+R0040,2,5a 链增长: C–C 偶联(碳化物机理),2 CH* ⇌ CHCH* + *,
+R0041,2,5a 链增长: C–C 偶联(碳化物机理),CH* + CH2* ⇌ CH2CH* + *,
+R0042,2,5a 链增长: C–C 偶联(碳化物机理),CH* + CH3* ⇌ CH3CH* + *,
+R0043,2,5a 链增长: C–C 偶联(碳化物机理),2 CH2* ⇌ CH2CH2* + *,
+R0044,2,5a 链增长: C–C 偶联(碳化物机理),CH2* + CH3* ⇌ CH3CH2* + *,
+R0045,2,5a 链增长: C–C 偶联(碳化物机理),2 CH3* ⇌ CH3CH3* + *,
+R0046,2,5b 链增长: CO 插入,C* + CO* ⇌ CCO* + *,
+R0047,2,5b 链增长: CO 插入,CH* + CO* ⇌ CHCO* + *,
+R0048,2,5b 链增长: CO 插入,CH2* + CO* ⇌ CH2CO* + *,
+R0049,2,5b 链增长: CO 插入,CH3* + CO* ⇌ CH3CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0050,2,5c CO 插入中间体加氢,CCO* + H* ⇌ CCHO* + *,C 端加氢
+R0051,2,5c CO 插入中间体加氢,CCHO* + H* ⇌ CCH2O* + *,C 端加氢
+R0052,2,5c CO 插入中间体加氢,CCOH* + H* ⇌ CCHOH* + *,C 端加氢
+R0053,2,5c CO 插入中间体加氢,CCHOH* + H* ⇌ CCH2OH* + *,C 端加氢
+R0054,2,5c CO 插入中间体加氢,CCO* + H* ⇌ CCOH* + *,O 端加氢
+R0055,2,5c CO 插入中间体加氢,CCHO* + H* ⇌ CCHOH* + *,O 端加氢
+R0056,2,5c CO 插入中间体加氢,CCH2O* + H* ⇌ CCH2OH* + *,O 端加氢
+R0057,2,5c CO 插入中间体加氢,CHCO* + H* ⇌ CHCHO* + *,C 端加氢
+R0058,2,5c CO 插入中间体加氢,CHCHO* + H* ⇌ CHCH2O* + *,C 端加氢
+R0059,2,5c CO 插入中间体加氢,CHCOH* + H* ⇌ CHCHOH* + *,C 端加氢
+R0060,2,5c CO 插入中间体加氢,CHCHOH* + H* ⇌ CHCH2OH* + *,C 端加氢
+R0061,2,5c CO 插入中间体加氢,CHCO* + H* ⇌ CHCOH* + *,O 端加氢
+R0062,2,5c CO 插入中间体加氢,CHCHO* + H* ⇌ CHCHOH* + *,O 端加氢
+R0063,2,5c CO 插入中间体加氢,CHCH2O* + H* ⇌ CHCH2OH* + *,O 端加氢
+R0064,2,5c CO 插入中间体加氢,CH2CO* + H* ⇌ CH2CHO* + *,C 端加氢
+R0065,2,5c CO 插入中间体加氢,CH2CHO* + H* ⇌ CH2CH2O* + *,C 端加氢
+R0066,2,5c CO 插入中间体加氢,CH2COH* + H* ⇌ CH2CHOH* + *,C 端加氢
+R0067,2,5c CO 插入中间体加氢,CH2CHOH* + H* ⇌ CH2CH2OH* + *,C 端加氢
+R0068,2,5c CO 插入中间体加氢,CH2CO* + H* ⇌ CH2COH* + *,O 端加氢
+R0069,2,5c CO 插入中间体加氢,CH2CHO* + H* ⇌ CH2CHOH* + *,O 端加氢
+R0070,2,5c CO 插入中间体加氢,CH2CH2O* + H* ⇌ CH2CH2OH* + *,O 端加氢
+R0071,2,5c CO 插入中间体加氢,CH3CO* + H* ⇌ CH3CHO* + *,C 端加氢
+R0072,2,5c CO 插入中间体加氢,CH3CHO* + H* ⇌ CH3CH2O* + *,C 端加氢
+R0073,2,5c CO 插入中间体加氢,CH3COH* + H* ⇌ CH3CHOH* + *,C 端加氢
+R0074,2,5c CO 插入中间体加氢,CH3CHOH* + H* ⇌ CH3CH2OH* + *,C 端加氢
+R0075,2,5c CO 插入中间体加氢,CH3CO* + H* ⇌ CH3COH* + *,O 端加氢
+R0076,2,5c CO 插入中间体加氢,CH3CHO* + H* ⇌ CH3CHOH* + *,O 端加氢
+R0077,2,5c CO 插入中间体加氢,CH3CH2O* + H* ⇌ CH3CH2OH* + *,O 端加氢
+R0078,2,5d CO 插入中间体 C–O 断裂,CCO* + * ⇌ CC* + O*,
+R0079,2,5d CO 插入中间体 C–O 断裂,CCOH* + * ⇌ CC* + OH*,
+R0080,2,5d CO 插入中间体 C–O 断裂,CCHO* + * ⇌ CHC* + O*,
+R0081,2,5d CO 插入中间体 C–O 断裂,CCHOH* + * ⇌ CHC* + OH*,
+R0082,2,5d CO 插入中间体 C–O 断裂,CCH2O* + * ⇌ CH2C* + O*,
+R0083,2,5d CO 插入中间体 C–O 断裂,CCH2OH* + * ⇌ CH2C* + OH*,
+R0084,2,5d CO 插入中间体 C–O 断裂,CHCO* + * ⇌ CHC* + O*,
+R0085,2,5d CO 插入中间体 C–O 断裂,CHCOH* + * ⇌ CHC* + OH*,
+R0086,2,5d CO 插入中间体 C–O 断裂,CHCHO* + * ⇌ CHCH* + O*,
+R0087,2,5d CO 插入中间体 C–O 断裂,CHCHOH* + * ⇌ CHCH* + OH*,
+R0088,2,5d CO 插入中间体 C–O 断裂,CHCH2O* + * ⇌ CH2CH* + O*,
+R0089,2,5d CO 插入中间体 C–O 断裂,CHCH2OH* + * ⇌ CH2CH* + OH*,
+R0090,2,5d CO 插入中间体 C–O 断裂,CH2CO* + * ⇌ CH2C* + O*,
+R0091,2,5d CO 插入中间体 C–O 断裂,CH2COH* + * ⇌ CH2C* + OH*,
+R0092,2,5d CO 插入中间体 C–O 断裂,CH2CHO* + * ⇌ CH2CH* + O*,
+R0093,2,5d CO 插入中间体 C–O 断裂,CH2CHOH* + * ⇌ CH2CH* + OH*,
+R0094,2,5d CO 插入中间体 C–O 断裂,CH2CH2O* + * ⇌ CH2CH2* + O*,
+R0095,2,5d CO 插入中间体 C–O 断裂,CH2CH2OH* + * ⇌ CH2CH2* + OH*,
+R0096,2,5d CO 插入中间体 C–O 断裂,CH3CO* + * ⇌ CH3C* + O*,
+R0097,2,5d CO 插入中间体 C–O 断裂,CH3COH* + * ⇌ CH3C* + OH*,
+R0098,2,5d CO 插入中间体 C–O 断裂,CH3CHO* + * ⇌ CH3CH* + O*,
+R0099,2,5d CO 插入中间体 C–O 断裂,CH3CHOH* + * ⇌ CH3CH* + OH*,
+R0100,2,5d CO 插入中间体 C–O 断裂,CH3CH2O* + * ⇌ CH3CH2* + O*,
+R0101,2,5d CO 插入中间体 C–O 断裂,CH3CH2OH* + * ⇌ CH3CH2* + OH*,
+R0102,2,5e 链增长: 烯醇缩合(Storch–Anderson),2 HCOH* ⇌ CHCOH* + H2O*,两个羟基卡宾脱水缩合
+R0103,2,5g C_n 中间体加氢/脱氢,CC* + H* ⇌ CHC* + *,
+R0104,2,5g C_n 中间体加氢/脱氢,CHC* + H* ⇌ CH2C* + *,
+R0105,2,5g C_n 中间体加氢/脱氢,CHC* + H* ⇌ CHCH* + *,
+R0106,2,5g C_n 中间体加氢/脱氢,CHCH* + H* ⇌ CH2CH* + *,
+R0107,2,5g C_n 中间体加氢/脱氢,CH2C* + H* ⇌ CH3C* + *,
+R0108,2,5g C_n 中间体加氢/脱氢,CH2C* + H* ⇌ CH2CH* + *,
+R0109,2,5g C_n 中间体加氢/脱氢,CH2CH* + H* ⇌ CH3CH* + *,
+R0110,2,5g C_n 中间体加氢/脱氢,CH2CH* + H* ⇌ CH2CH2* + *,
+R0111,2,5g C_n 中间体加氢/脱氢,CH2CH2* + H* ⇌ CH3CH2* + *,逆反应 = 乙基 β-H 消除 → 乙烯
+R0112,2,5g C_n 中间体加氢/脱氢,CH3C* + H* ⇌ CH3CH* + *,
+R0113,2,5g C_n 中间体加氢/脱氢,CH3CH* + H* ⇌ CH3CH2* + *,
+R0114,2,5g C_n 中间体加氢/脱氢,CH3CH2* + H* ⇌ CH3CH3* + *,链终止: 乙基加氢 → 乙烷
+R0115,2,5h 产物脱附/再吸附,CH3CH3* ⇌ C2H6(g) + *,乙烷脱附
+R0116,2,5h 产物脱附/再吸附,CH2CH2* ⇌ C2H4(g) + *,乙烯脱附; 逆向 = 再吸附
+R0117,3,5a 链增长: C–C 偶联(碳化物机理),CH3C* + C* ⇌ CH3CC* + *,与表面 C 偶联
+R0118,3,5a 链增长: C–C 偶联(碳化物机理),CH3C* + CH* ⇌ CH3CCH* + *,次烷基 + CH
+R0119,3,5a 链增长: C–C 偶联(碳化物机理),CH3C* + CH2* ⇌ CH3CCH2* + *,
+R0120,3,5a 链增长: C–C 偶联(碳化物机理),CH3C* + CH3* ⇌ CH3CCH3* + *,
+R0121,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH* + C* ⇌ CH3CHC* + *,与表面 C 偶联
+R0122,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH* + CH* ⇌ CH3CHCH* + *,亚烷基 + CH → 烯基
+R0123,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH* + CH2* ⇌ CH3CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0124,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH* + CH3* ⇌ CH3CHCH3* + *,
+R0125,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH2* + C* ⇌ CH3CH2C* + *,与表面 C 偶联
+R0126,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH2* + CH* ⇌ CH3CH2CH* + *,
+R0127,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH2* + CH2* ⇌ CH3CH2CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0128,3,5a 链增长: C–C 偶联(碳化物机理),CH3CH2* + CH3* ⇌ CH3CH2CH3* + *,
+R0129,3,5b 链增长: CO 插入,CH3C* + CO* ⇌ CH3CCO* + *,
+R0130,3,5b 链增长: CO 插入,CH3CH* + CO* ⇌ CH3CHCO* + *,
+R0131,3,5b 链增长: CO 插入,CH3CH2* + CO* ⇌ CH3CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0132,3,5c CO 插入中间体加氢,CH3CCO* + H* ⇌ CH3CCHO* + *,C 端加氢
+R0133,3,5c CO 插入中间体加氢,CH3CCHO* + H* ⇌ CH3CCH2O* + *,C 端加氢
+R0134,3,5c CO 插入中间体加氢,CH3CCOH* + H* ⇌ CH3CCHOH* + *,C 端加氢
+R0135,3,5c CO 插入中间体加氢,CH3CCHOH* + H* ⇌ CH3CCH2OH* + *,C 端加氢
+R0136,3,5c CO 插入中间体加氢,CH3CCO* + H* ⇌ CH3CCOH* + *,O 端加氢
+R0137,3,5c CO 插入中间体加氢,CH3CCHO* + H* ⇌ CH3CCHOH* + *,O 端加氢
+R0138,3,5c CO 插入中间体加氢,CH3CCH2O* + H* ⇌ CH3CCH2OH* + *,O 端加氢
+R0139,3,5c CO 插入中间体加氢,CH3CHCO* + H* ⇌ CH3CHCHO* + *,C 端加氢
+R0140,3,5c CO 插入中间体加氢,CH3CHCHO* + H* ⇌ CH3CHCH2O* + *,C 端加氢
+R0141,3,5c CO 插入中间体加氢,CH3CHCOH* + H* ⇌ CH3CHCHOH* + *,C 端加氢
+R0142,3,5c CO 插入中间体加氢,CH3CHCHOH* + H* ⇌ CH3CHCH2OH* + *,C 端加氢
+R0143,3,5c CO 插入中间体加氢,CH3CHCO* + H* ⇌ CH3CHCOH* + *,O 端加氢
+R0144,3,5c CO 插入中间体加氢,CH3CHCHO* + H* ⇌ CH3CHCHOH* + *,O 端加氢
+R0145,3,5c CO 插入中间体加氢,CH3CHCH2O* + H* ⇌ CH3CHCH2OH* + *,O 端加氢
+R0146,3,5c CO 插入中间体加氢,CH3CH2CO* + H* ⇌ CH3CH2CHO* + *,C 端加氢
+R0147,3,5c CO 插入中间体加氢,CH3CH2CHO* + H* ⇌ CH3CH2CH2O* + *,C 端加氢
+R0148,3,5c CO 插入中间体加氢,CH3CH2COH* + H* ⇌ CH3CH2CHOH* + *,C 端加氢
+R0149,3,5c CO 插入中间体加氢,CH3CH2CHOH* + H* ⇌ CH3CH2CH2OH* + *,C 端加氢
+R0150,3,5c CO 插入中间体加氢,CH3CH2CO* + H* ⇌ CH3CH2COH* + *,O 端加氢
+R0151,3,5c CO 插入中间体加氢,CH3CH2CHO* + H* ⇌ CH3CH2CHOH* + *,O 端加氢
+R0152,3,5c CO 插入中间体加氢,CH3CH2CH2O* + H* ⇌ CH3CH2CH2OH* + *,O 端加氢
+R0153,3,5d CO 插入中间体 C–O 断裂,CH3CCO* + * ⇌ CH3CC* + O*,
+R0154,3,5d CO 插入中间体 C–O 断裂,CH3CCOH* + * ⇌ CH3CC* + OH*,
+R0155,3,5d CO 插入中间体 C–O 断裂,CH3CCHO* + * ⇌ CH3CCH* + O*,
+R0156,3,5d CO 插入中间体 C–O 断裂,CH3CCHOH* + * ⇌ CH3CCH* + OH*,
+R0157,3,5d CO 插入中间体 C–O 断裂,CH3CCH2O* + * ⇌ CH3CCH2* + O*,
+R0158,3,5d CO 插入中间体 C–O 断裂,CH3CCH2OH* + * ⇌ CH3CCH2* + OH*,
+R0159,3,5d CO 插入中间体 C–O 断裂,CH3CHCO* + * ⇌ CH3CHC* + O*,
+R0160,3,5d CO 插入中间体 C–O 断裂,CH3CHCOH* + * ⇌ CH3CHC* + OH*,
+R0161,3,5d CO 插入中间体 C–O 断裂,CH3CHCHO* + * ⇌ CH3CHCH* + O*,
+R0162,3,5d CO 插入中间体 C–O 断裂,CH3CHCHOH* + * ⇌ CH3CHCH* + OH*,
+R0163,3,5d CO 插入中间体 C–O 断裂,CH3CHCH2O* + * ⇌ CH3CHCH2* + O*,
+R0164,3,5d CO 插入中间体 C–O 断裂,CH3CHCH2OH* + * ⇌ CH3CHCH2* + OH*,
+R0165,3,5d CO 插入中间体 C–O 断裂,CH3CH2CO* + * ⇌ CH3CH2C* + O*,
+R0166,3,5d CO 插入中间体 C–O 断裂,CH3CH2COH* + * ⇌ CH3CH2C* + OH*,
+R0167,3,5d CO 插入中间体 C–O 断裂,CH3CH2CHO* + * ⇌ CH3CH2CH* + O*,
+R0168,3,5d CO 插入中间体 C–O 断裂,CH3CH2CHOH* + * ⇌ CH3CH2CH* + OH*,
+R0169,3,5d CO 插入中间体 C–O 断裂,CH3CH2CH2O* + * ⇌ CH3CH2CH2* + O*,
+R0170,3,5d CO 插入中间体 C–O 断裂,CH3CH2CH2OH* + * ⇌ CH3CH2CH2* + OH*,
+R0171,3,5e 链增长: 烯醇缩合(Storch–Anderson),CH3COH* + HCOH* ⇌ CH3CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0172,3,5f 链增长: 烯基机理(Maitlis),CH2CH* + CH2* ⇌ CH2CHCH2* + *,烯基 + CH2 → 烯丙基
+R0173,3,5f 链增长: 烯基机理(Maitlis),CH2CHCH2* ⇌ CH3CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0174,3,5f 链增长: 烯基机理(Maitlis),CH2CHCH2* + H* ⇌ CH3CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0175,3,5g C_n 中间体加氢/脱氢,CH3CC* + H* ⇌ CH3CCH* + *,α-C 加氢
+R0176,3,5g C_n 中间体加氢/脱氢,CH3CC* + H* ⇌ CH3CHC* + *,β-C 加氢
+R0177,3,5g C_n 中间体加氢/脱氢,CH3CCH* + H* ⇌ CH3CCH2* + *,α-C 加氢
+R0178,3,5g C_n 中间体加氢/脱氢,CH3CCH* + H* ⇌ CH3CHCH* + *,β-C 加氢
+R0179,3,5g C_n 中间体加氢/脱氢,CH3CCH2* + H* ⇌ CH3CCH3* + *,α-C 加氢
+R0180,3,5g C_n 中间体加氢/脱氢,CH3CCH2* + H* ⇌ CH3CHCH2* + *,β-C 加氢
+R0181,3,5g C_n 中间体加氢/脱氢,CH3CCH3* + H* ⇌ CH3CHCH3* + *,β-C 加氢
+R0182,3,5g C_n 中间体加氢/脱氢,CH3CHC* + H* ⇌ CH3CHCH* + *,α-C 加氢
+R0183,3,5g C_n 中间体加氢/脱氢,CH3CHC* + H* ⇌ CH3CH2C* + *,β-C 加氢
+R0184,3,5g C_n 中间体加氢/脱氢,CH3CHCH* + H* ⇌ CH3CHCH2* + *,α-C 加氢
+R0185,3,5g C_n 中间体加氢/脱氢,CH3CHCH* + H* ⇌ CH3CH2CH* + *,β-C 加氢
+R0186,3,5g C_n 中间体加氢/脱氢,CH3CHCH2* + H* ⇌ CH3CHCH3* + *,α-C 加氢
+R0187,3,5g C_n 中间体加氢/脱氢,CH3CHCH2* + H* ⇌ CH3CH2CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0188,3,5g C_n 中间体加氢/脱氢,CH3CHCH3* + H* ⇌ CH3CH2CH3* + *,β-C 加氢
+R0189,3,5g C_n 中间体加氢/脱氢,CH3CH2C* + H* ⇌ CH3CH2CH* + *,α-C 加氢
+R0190,3,5g C_n 中间体加氢/脱氢,CH3CH2CH* + H* ⇌ CH3CH2CH2* + *,α-C 加氢
+R0191,3,5g C_n 中间体加氢/脱氢,CH3CH2CH2* + H* ⇌ CH3CH2CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0192,3,5h 产物脱附/再吸附,CH3CH2CH3* ⇌ C3H8(g) + *,正构烷烃脱附
+R0193,3,5h 产物脱附/再吸附,CH3CHCH2* ⇌ C3H6(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0194,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2C* + C* ⇌ CH3CH2CC* + *,与表面 C 偶联
+R0195,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2C* + CH* ⇌ CH3CH2CCH* + *,次烷基 + CH
+R0196,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2C* + CH2* ⇌ CH3CH2CCH2* + *,
+R0197,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2C* + CH3* ⇌ CH3CH2CCH3* + *,
+R0198,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH* + C* ⇌ CH3CH2CHC* + *,与表面 C 偶联
+R0199,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH* + CH* ⇌ CH3CH2CHCH* + *,亚烷基 + CH → 烯基
+R0200,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH* + CH2* ⇌ CH3CH2CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0201,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH* + CH3* ⇌ CH3CH2CHCH3* + *,
+R0202,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH2* + C* ⇌ CH3(CH2)2C* + *,与表面 C 偶联
+R0203,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH2* + CH* ⇌ CH3(CH2)2CH* + *,
+R0204,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH2* + CH2* ⇌ CH3(CH2)2CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0205,4,5a 链增长: C–C 偶联(碳化物机理),CH3CH2CH2* + CH3* ⇌ CH3(CH2)2CH3* + *,
+R0206,4,5b 链增长: CO 插入,CH3CH2C* + CO* ⇌ CH3CH2CCO* + *,
+R0207,4,5b 链增长: CO 插入,CH3CH2CH* + CO* ⇌ CH3CH2CHCO* + *,
+R0208,4,5b 链增长: CO 插入,CH3CH2CH2* + CO* ⇌ CH3CH2CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0209,4,5c CO 插入中间体加氢,CH3CH2CCO* + H* ⇌ CH3CH2CCHO* + *,C 端加氢
+R0210,4,5c CO 插入中间体加氢,CH3CH2CCHO* + H* ⇌ CH3CH2CCH2O* + *,C 端加氢
+R0211,4,5c CO 插入中间体加氢,CH3CH2CCOH* + H* ⇌ CH3CH2CCHOH* + *,C 端加氢
+R0212,4,5c CO 插入中间体加氢,CH3CH2CCHOH* + H* ⇌ CH3CH2CCH2OH* + *,C 端加氢
+R0213,4,5c CO 插入中间体加氢,CH3CH2CCO* + H* ⇌ CH3CH2CCOH* + *,O 端加氢
+R0214,4,5c CO 插入中间体加氢,CH3CH2CCHO* + H* ⇌ CH3CH2CCHOH* + *,O 端加氢
+R0215,4,5c CO 插入中间体加氢,CH3CH2CCH2O* + H* ⇌ CH3CH2CCH2OH* + *,O 端加氢
+R0216,4,5c CO 插入中间体加氢,CH3CH2CHCO* + H* ⇌ CH3CH2CHCHO* + *,C 端加氢
+R0217,4,5c CO 插入中间体加氢,CH3CH2CHCHO* + H* ⇌ CH3CH2CHCH2O* + *,C 端加氢
+R0218,4,5c CO 插入中间体加氢,CH3CH2CHCOH* + H* ⇌ CH3CH2CHCHOH* + *,C 端加氢
+R0219,4,5c CO 插入中间体加氢,CH3CH2CHCHOH* + H* ⇌ CH3CH2CHCH2OH* + *,C 端加氢
+R0220,4,5c CO 插入中间体加氢,CH3CH2CHCO* + H* ⇌ CH3CH2CHCOH* + *,O 端加氢
+R0221,4,5c CO 插入中间体加氢,CH3CH2CHCHO* + H* ⇌ CH3CH2CHCHOH* + *,O 端加氢
+R0222,4,5c CO 插入中间体加氢,CH3CH2CHCH2O* + H* ⇌ CH3CH2CHCH2OH* + *,O 端加氢
+R0223,4,5c CO 插入中间体加氢,CH3CH2CH2CO* + H* ⇌ CH3CH2CH2CHO* + *,C 端加氢
+R0224,4,5c CO 插入中间体加氢,CH3CH2CH2CHO* + H* ⇌ CH3CH2CH2CH2O* + *,C 端加氢
+R0225,4,5c CO 插入中间体加氢,CH3CH2CH2COH* + H* ⇌ CH3CH2CH2CHOH* + *,C 端加氢
+R0226,4,5c CO 插入中间体加氢,CH3CH2CH2CHOH* + H* ⇌ CH3CH2CH2CH2OH* + *,C 端加氢
+R0227,4,5c CO 插入中间体加氢,CH3CH2CH2CO* + H* ⇌ CH3CH2CH2COH* + *,O 端加氢
+R0228,4,5c CO 插入中间体加氢,CH3CH2CH2CHO* + H* ⇌ CH3CH2CH2CHOH* + *,O 端加氢
+R0229,4,5c CO 插入中间体加氢,CH3CH2CH2CH2O* + H* ⇌ CH3CH2CH2CH2OH* + *,O 端加氢
+R0230,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCO* + * ⇌ CH3CH2CC* + O*,
+R0231,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCOH* + * ⇌ CH3CH2CC* + OH*,
+R0232,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCHO* + * ⇌ CH3CH2CCH* + O*,
+R0233,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCHOH* + * ⇌ CH3CH2CCH* + OH*,
+R0234,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCH2O* + * ⇌ CH3CH2CCH2* + O*,
+R0235,4,5d CO 插入中间体 C–O 断裂,CH3CH2CCH2OH* + * ⇌ CH3CH2CCH2* + OH*,
+R0236,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCO* + * ⇌ CH3CH2CHC* + O*,
+R0237,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCOH* + * ⇌ CH3CH2CHC* + OH*,
+R0238,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCHO* + * ⇌ CH3CH2CHCH* + O*,
+R0239,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCHOH* + * ⇌ CH3CH2CHCH* + OH*,
+R0240,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCH2O* + * ⇌ CH3CH2CHCH2* + O*,
+R0241,4,5d CO 插入中间体 C–O 断裂,CH3CH2CHCH2OH* + * ⇌ CH3CH2CHCH2* + OH*,
+R0242,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2CO* + * ⇌ CH3(CH2)2C* + O*,
+R0243,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2COH* + * ⇌ CH3(CH2)2C* + OH*,
+R0244,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2CHO* + * ⇌ CH3(CH2)2CH* + O*,
+R0245,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2CHOH* + * ⇌ CH3(CH2)2CH* + OH*,
+R0246,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2CH2O* + * ⇌ CH3(CH2)2CH2* + O*,
+R0247,4,5d CO 插入中间体 C–O 断裂,CH3CH2CH2CH2OH* + * ⇌ CH3(CH2)2CH2* + OH*,
+R0248,4,5e 链增长: 烯醇缩合(Storch–Anderson),CH3CH2COH* + HCOH* ⇌ CH3CH2CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0249,4,5f 链增长: 烯基机理(Maitlis),CH3CHCH* + CH2* ⇌ CH3CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0250,4,5f 链增长: 烯基机理(Maitlis),CH3CHCHCH2* ⇌ CH3CH2CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0251,4,5f 链增长: 烯基机理(Maitlis),CH3CHCHCH2* + H* ⇌ CH3CH2CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0252,4,5g C_n 中间体加氢/脱氢,CH3CH2CC* + H* ⇌ CH3CH2CCH* + *,α-C 加氢
+R0253,4,5g C_n 中间体加氢/脱氢,CH3CH2CC* + H* ⇌ CH3CH2CHC* + *,β-C 加氢
+R0254,4,5g C_n 中间体加氢/脱氢,CH3CH2CCH* + H* ⇌ CH3CH2CCH2* + *,α-C 加氢
+R0255,4,5g C_n 中间体加氢/脱氢,CH3CH2CCH* + H* ⇌ CH3CH2CHCH* + *,β-C 加氢
+R0256,4,5g C_n 中间体加氢/脱氢,CH3CH2CCH2* + H* ⇌ CH3CH2CCH3* + *,α-C 加氢
+R0257,4,5g C_n 中间体加氢/脱氢,CH3CH2CCH2* + H* ⇌ CH3CH2CHCH2* + *,β-C 加氢
+R0258,4,5g C_n 中间体加氢/脱氢,CH3CH2CCH3* + H* ⇌ CH3CH2CHCH3* + *,β-C 加氢
+R0259,4,5g C_n 中间体加氢/脱氢,CH3CH2CHC* + H* ⇌ CH3CH2CHCH* + *,α-C 加氢
+R0260,4,5g C_n 中间体加氢/脱氢,CH3CH2CHC* + H* ⇌ CH3(CH2)2C* + *,β-C 加氢
+R0261,4,5g C_n 中间体加氢/脱氢,CH3CH2CHCH* + H* ⇌ CH3CH2CHCH2* + *,α-C 加氢
+R0262,4,5g C_n 中间体加氢/脱氢,CH3CH2CHCH* + H* ⇌ CH3(CH2)2CH* + *,β-C 加氢
+R0263,4,5g C_n 中间体加氢/脱氢,CH3CH2CHCH2* + H* ⇌ CH3CH2CHCH3* + *,α-C 加氢
+R0264,4,5g C_n 中间体加氢/脱氢,CH3CH2CHCH2* + H* ⇌ CH3(CH2)2CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0265,4,5g C_n 中间体加氢/脱氢,CH3CH2CHCH3* + H* ⇌ CH3(CH2)2CH3* + *,β-C 加氢
+R0266,4,5g C_n 中间体加氢/脱氢,CH3(CH2)2C* + H* ⇌ CH3(CH2)2CH* + *,α-C 加氢
+R0267,4,5g C_n 中间体加氢/脱氢,CH3(CH2)2CH* + H* ⇌ CH3(CH2)2CH2* + *,α-C 加氢
+R0268,4,5g C_n 中间体加氢/脱氢,CH3(CH2)2CH2* + H* ⇌ CH3(CH2)2CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0269,4,5h 产物脱附/再吸附,CH3(CH2)2CH3* ⇌ C4H10(g) + *,正构烷烃脱附
+R0270,4,5h 产物脱附/再吸附,CH3CH2CHCH2* ⇌ C4H8(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0271,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2C* + C* ⇌ CH3(CH2)2CC* + *,与表面 C 偶联
+R0272,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2C* + CH* ⇌ CH3(CH2)2CCH* + *,次烷基 + CH
+R0273,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2C* + CH2* ⇌ CH3(CH2)2CCH2* + *,
+R0274,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2C* + CH3* ⇌ CH3(CH2)2CCH3* + *,
+R0275,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH* + C* ⇌ CH3(CH2)2CHC* + *,与表面 C 偶联
+R0276,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH* + CH* ⇌ CH3(CH2)2CHCH* + *,亚烷基 + CH → 烯基
+R0277,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH* + CH2* ⇌ CH3(CH2)2CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0278,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH* + CH3* ⇌ CH3(CH2)2CHCH3* + *,
+R0279,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH2* + C* ⇌ CH3(CH2)3C* + *,与表面 C 偶联
+R0280,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH2* + CH* ⇌ CH3(CH2)3CH* + *,
+R0281,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH2* + CH2* ⇌ CH3(CH2)3CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0282,5,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)2CH2* + CH3* ⇌ CH3(CH2)3CH3* + *,
+R0283,5,5b 链增长: CO 插入,CH3(CH2)2C* + CO* ⇌ CH3(CH2)2CCO* + *,
+R0284,5,5b 链增长: CO 插入,CH3(CH2)2CH* + CO* ⇌ CH3(CH2)2CHCO* + *,
+R0285,5,5b 链增长: CO 插入,CH3(CH2)2CH2* + CO* ⇌ CH3(CH2)2CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0286,5,5c CO 插入中间体加氢,CH3(CH2)2CCO* + H* ⇌ CH3(CH2)2CCHO* + *,C 端加氢
+R0287,5,5c CO 插入中间体加氢,CH3(CH2)2CCHO* + H* ⇌ CH3(CH2)2CCH2O* + *,C 端加氢
+R0288,5,5c CO 插入中间体加氢,CH3(CH2)2CCOH* + H* ⇌ CH3(CH2)2CCHOH* + *,C 端加氢
+R0289,5,5c CO 插入中间体加氢,CH3(CH2)2CCHOH* + H* ⇌ CH3(CH2)2CCH2OH* + *,C 端加氢
+R0290,5,5c CO 插入中间体加氢,CH3(CH2)2CCO* + H* ⇌ CH3(CH2)2CCOH* + *,O 端加氢
+R0291,5,5c CO 插入中间体加氢,CH3(CH2)2CCHO* + H* ⇌ CH3(CH2)2CCHOH* + *,O 端加氢
+R0292,5,5c CO 插入中间体加氢,CH3(CH2)2CCH2O* + H* ⇌ CH3(CH2)2CCH2OH* + *,O 端加氢
+R0293,5,5c CO 插入中间体加氢,CH3(CH2)2CHCO* + H* ⇌ CH3(CH2)2CHCHO* + *,C 端加氢
+R0294,5,5c CO 插入中间体加氢,CH3(CH2)2CHCHO* + H* ⇌ CH3(CH2)2CHCH2O* + *,C 端加氢
+R0295,5,5c CO 插入中间体加氢,CH3(CH2)2CHCOH* + H* ⇌ CH3(CH2)2CHCHOH* + *,C 端加氢
+R0296,5,5c CO 插入中间体加氢,CH3(CH2)2CHCHOH* + H* ⇌ CH3(CH2)2CHCH2OH* + *,C 端加氢
+R0297,5,5c CO 插入中间体加氢,CH3(CH2)2CHCO* + H* ⇌ CH3(CH2)2CHCOH* + *,O 端加氢
+R0298,5,5c CO 插入中间体加氢,CH3(CH2)2CHCHO* + H* ⇌ CH3(CH2)2CHCHOH* + *,O 端加氢
+R0299,5,5c CO 插入中间体加氢,CH3(CH2)2CHCH2O* + H* ⇌ CH3(CH2)2CHCH2OH* + *,O 端加氢
+R0300,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CO* + H* ⇌ CH3(CH2)2CH2CHO* + *,C 端加氢
+R0301,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CHO* + H* ⇌ CH3(CH2)2CH2CH2O* + *,C 端加氢
+R0302,5,5c CO 插入中间体加氢,CH3(CH2)2CH2COH* + H* ⇌ CH3(CH2)2CH2CHOH* + *,C 端加氢
+R0303,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CHOH* + H* ⇌ CH3(CH2)2CH2CH2OH* + *,C 端加氢
+R0304,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CO* + H* ⇌ CH3(CH2)2CH2COH* + *,O 端加氢
+R0305,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CHO* + H* ⇌ CH3(CH2)2CH2CHOH* + *,O 端加氢
+R0306,5,5c CO 插入中间体加氢,CH3(CH2)2CH2CH2O* + H* ⇌ CH3(CH2)2CH2CH2OH* + *,O 端加氢
+R0307,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCO* + * ⇌ CH3(CH2)2CC* + O*,
+R0308,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCOH* + * ⇌ CH3(CH2)2CC* + OH*,
+R0309,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCHO* + * ⇌ CH3(CH2)2CCH* + O*,
+R0310,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCHOH* + * ⇌ CH3(CH2)2CCH* + OH*,
+R0311,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCH2O* + * ⇌ CH3(CH2)2CCH2* + O*,
+R0312,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CCH2OH* + * ⇌ CH3(CH2)2CCH2* + OH*,
+R0313,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCO* + * ⇌ CH3(CH2)2CHC* + O*,
+R0314,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCOH* + * ⇌ CH3(CH2)2CHC* + OH*,
+R0315,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCHO* + * ⇌ CH3(CH2)2CHCH* + O*,
+R0316,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCHOH* + * ⇌ CH3(CH2)2CHCH* + OH*,
+R0317,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCH2O* + * ⇌ CH3(CH2)2CHCH2* + O*,
+R0318,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CHCH2OH* + * ⇌ CH3(CH2)2CHCH2* + OH*,
+R0319,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2CO* + * ⇌ CH3(CH2)3C* + O*,
+R0320,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2COH* + * ⇌ CH3(CH2)3C* + OH*,
+R0321,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2CHO* + * ⇌ CH3(CH2)3CH* + O*,
+R0322,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2CHOH* + * ⇌ CH3(CH2)3CH* + OH*,
+R0323,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2CH2O* + * ⇌ CH3(CH2)3CH2* + O*,
+R0324,5,5d CO 插入中间体 C–O 断裂,CH3(CH2)2CH2CH2OH* + * ⇌ CH3(CH2)3CH2* + OH*,
+R0325,5,5e 链增长: 烯醇缩合(Storch–Anderson),CH3CH2CH2COH* + HCOH* ⇌ CH3(CH2)2CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0326,5,5f 链增长: 烯基机理(Maitlis),CH3CH2CHCH* + CH2* ⇌ CH3CH2CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0327,5,5f 链增长: 烯基机理(Maitlis),CH3CH2CHCHCH2* ⇌ CH3(CH2)2CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0328,5,5f 链增长: 烯基机理(Maitlis),CH3CH2CHCHCH2* + H* ⇌ CH3(CH2)2CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0329,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CC* + H* ⇌ CH3(CH2)2CCH* + *,α-C 加氢
+R0330,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CC* + H* ⇌ CH3(CH2)2CHC* + *,β-C 加氢
+R0331,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CCH* + H* ⇌ CH3(CH2)2CCH2* + *,α-C 加氢
+R0332,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CCH* + H* ⇌ CH3(CH2)2CHCH* + *,β-C 加氢
+R0333,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CCH2* + H* ⇌ CH3(CH2)2CCH3* + *,α-C 加氢
+R0334,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CCH2* + H* ⇌ CH3(CH2)2CHCH2* + *,β-C 加氢
+R0335,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CCH3* + H* ⇌ CH3(CH2)2CHCH3* + *,β-C 加氢
+R0336,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHC* + H* ⇌ CH3(CH2)2CHCH* + *,α-C 加氢
+R0337,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHC* + H* ⇌ CH3(CH2)3C* + *,β-C 加氢
+R0338,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHCH* + H* ⇌ CH3(CH2)2CHCH2* + *,α-C 加氢
+R0339,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHCH* + H* ⇌ CH3(CH2)3CH* + *,β-C 加氢
+R0340,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHCH2* + H* ⇌ CH3(CH2)2CHCH3* + *,α-C 加氢
+R0341,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHCH2* + H* ⇌ CH3(CH2)3CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0342,5,5g C_n 中间体加氢/脱氢,CH3(CH2)2CHCH3* + H* ⇌ CH3(CH2)3CH3* + *,β-C 加氢
+R0343,5,5g C_n 中间体加氢/脱氢,CH3(CH2)3C* + H* ⇌ CH3(CH2)3CH* + *,α-C 加氢
+R0344,5,5g C_n 中间体加氢/脱氢,CH3(CH2)3CH* + H* ⇌ CH3(CH2)3CH2* + *,α-C 加氢
+R0345,5,5g C_n 中间体加氢/脱氢,CH3(CH2)3CH2* + H* ⇌ CH3(CH2)3CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0346,5,5h 产物脱附/再吸附,CH3(CH2)3CH3* ⇌ C5H12(g) + *,正构烷烃脱附
+R0347,5,5h 产物脱附/再吸附,CH3(CH2)2CHCH2* ⇌ C5H10(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0348,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3C* + C* ⇌ CH3(CH2)3CC* + *,与表面 C 偶联
+R0349,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3C* + CH* ⇌ CH3(CH2)3CCH* + *,次烷基 + CH
+R0350,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3C* + CH2* ⇌ CH3(CH2)3CCH2* + *,
+R0351,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3C* + CH3* ⇌ CH3(CH2)3CCH3* + *,
+R0352,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH* + C* ⇌ CH3(CH2)3CHC* + *,与表面 C 偶联
+R0353,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH* + CH* ⇌ CH3(CH2)3CHCH* + *,亚烷基 + CH → 烯基
+R0354,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH* + CH2* ⇌ CH3(CH2)3CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0355,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH* + CH3* ⇌ CH3(CH2)3CHCH3* + *,
+R0356,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH2* + C* ⇌ CH3(CH2)4C* + *,与表面 C 偶联
+R0357,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH2* + CH* ⇌ CH3(CH2)4CH* + *,
+R0358,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH2* + CH2* ⇌ CH3(CH2)4CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0359,6,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)3CH2* + CH3* ⇌ CH3(CH2)4CH3* + *,
+R0360,6,5b 链增长: CO 插入,CH3(CH2)3C* + CO* ⇌ CH3(CH2)3CCO* + *,
+R0361,6,5b 链增长: CO 插入,CH3(CH2)3CH* + CO* ⇌ CH3(CH2)3CHCO* + *,
+R0362,6,5b 链增长: CO 插入,CH3(CH2)3CH2* + CO* ⇌ CH3(CH2)3CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0363,6,5c CO 插入中间体加氢,CH3(CH2)3CCO* + H* ⇌ CH3(CH2)3CCHO* + *,C 端加氢
+R0364,6,5c CO 插入中间体加氢,CH3(CH2)3CCHO* + H* ⇌ CH3(CH2)3CCH2O* + *,C 端加氢
+R0365,6,5c CO 插入中间体加氢,CH3(CH2)3CCOH* + H* ⇌ CH3(CH2)3CCHOH* + *,C 端加氢
+R0366,6,5c CO 插入中间体加氢,CH3(CH2)3CCHOH* + H* ⇌ CH3(CH2)3CCH2OH* + *,C 端加氢
+R0367,6,5c CO 插入中间体加氢,CH3(CH2)3CCO* + H* ⇌ CH3(CH2)3CCOH* + *,O 端加氢
+R0368,6,5c CO 插入中间体加氢,CH3(CH2)3CCHO* + H* ⇌ CH3(CH2)3CCHOH* + *,O 端加氢
+R0369,6,5c CO 插入中间体加氢,CH3(CH2)3CCH2O* + H* ⇌ CH3(CH2)3CCH2OH* + *,O 端加氢
+R0370,6,5c CO 插入中间体加氢,CH3(CH2)3CHCO* + H* ⇌ CH3(CH2)3CHCHO* + *,C 端加氢
+R0371,6,5c CO 插入中间体加氢,CH3(CH2)3CHCHO* + H* ⇌ CH3(CH2)3CHCH2O* + *,C 端加氢
+R0372,6,5c CO 插入中间体加氢,CH3(CH2)3CHCOH* + H* ⇌ CH3(CH2)3CHCHOH* + *,C 端加氢
+R0373,6,5c CO 插入中间体加氢,CH3(CH2)3CHCHOH* + H* ⇌ CH3(CH2)3CHCH2OH* + *,C 端加氢
+R0374,6,5c CO 插入中间体加氢,CH3(CH2)3CHCO* + H* ⇌ CH3(CH2)3CHCOH* + *,O 端加氢
+R0375,6,5c CO 插入中间体加氢,CH3(CH2)3CHCHO* + H* ⇌ CH3(CH2)3CHCHOH* + *,O 端加氢
+R0376,6,5c CO 插入中间体加氢,CH3(CH2)3CHCH2O* + H* ⇌ CH3(CH2)3CHCH2OH* + *,O 端加氢
+R0377,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CO* + H* ⇌ CH3(CH2)3CH2CHO* + *,C 端加氢
+R0378,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CHO* + H* ⇌ CH3(CH2)3CH2CH2O* + *,C 端加氢
+R0379,6,5c CO 插入中间体加氢,CH3(CH2)3CH2COH* + H* ⇌ CH3(CH2)3CH2CHOH* + *,C 端加氢
+R0380,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CHOH* + H* ⇌ CH3(CH2)3CH2CH2OH* + *,C 端加氢
+R0381,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CO* + H* ⇌ CH3(CH2)3CH2COH* + *,O 端加氢
+R0382,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CHO* + H* ⇌ CH3(CH2)3CH2CHOH* + *,O 端加氢
+R0383,6,5c CO 插入中间体加氢,CH3(CH2)3CH2CH2O* + H* ⇌ CH3(CH2)3CH2CH2OH* + *,O 端加氢
+R0384,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCO* + * ⇌ CH3(CH2)3CC* + O*,
+R0385,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCOH* + * ⇌ CH3(CH2)3CC* + OH*,
+R0386,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCHO* + * ⇌ CH3(CH2)3CCH* + O*,
+R0387,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCHOH* + * ⇌ CH3(CH2)3CCH* + OH*,
+R0388,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCH2O* + * ⇌ CH3(CH2)3CCH2* + O*,
+R0389,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CCH2OH* + * ⇌ CH3(CH2)3CCH2* + OH*,
+R0390,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCO* + * ⇌ CH3(CH2)3CHC* + O*,
+R0391,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCOH* + * ⇌ CH3(CH2)3CHC* + OH*,
+R0392,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCHO* + * ⇌ CH3(CH2)3CHCH* + O*,
+R0393,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCHOH* + * ⇌ CH3(CH2)3CHCH* + OH*,
+R0394,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCH2O* + * ⇌ CH3(CH2)3CHCH2* + O*,
+R0395,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CHCH2OH* + * ⇌ CH3(CH2)3CHCH2* + OH*,
+R0396,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2CO* + * ⇌ CH3(CH2)4C* + O*,
+R0397,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2COH* + * ⇌ CH3(CH2)4C* + OH*,
+R0398,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2CHO* + * ⇌ CH3(CH2)4CH* + O*,
+R0399,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2CHOH* + * ⇌ CH3(CH2)4CH* + OH*,
+R0400,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2CH2O* + * ⇌ CH3(CH2)4CH2* + O*,
+R0401,6,5d CO 插入中间体 C–O 断裂,CH3(CH2)3CH2CH2OH* + * ⇌ CH3(CH2)4CH2* + OH*,
+R0402,6,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)2CH2COH* + HCOH* ⇌ CH3(CH2)3CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0403,6,5f 链增长: 烯基机理(Maitlis),CH3(CH2)2CHCH* + CH2* ⇌ CH3(CH2)2CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0404,6,5f 链增长: 烯基机理(Maitlis),CH3(CH2)2CHCHCH2* ⇌ CH3(CH2)3CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0405,6,5f 链增长: 烯基机理(Maitlis),CH3(CH2)2CHCHCH2* + H* ⇌ CH3(CH2)3CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0406,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CC* + H* ⇌ CH3(CH2)3CCH* + *,α-C 加氢
+R0407,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CC* + H* ⇌ CH3(CH2)3CHC* + *,β-C 加氢
+R0408,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CCH* + H* ⇌ CH3(CH2)3CCH2* + *,α-C 加氢
+R0409,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CCH* + H* ⇌ CH3(CH2)3CHCH* + *,β-C 加氢
+R0410,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CCH2* + H* ⇌ CH3(CH2)3CCH3* + *,α-C 加氢
+R0411,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CCH2* + H* ⇌ CH3(CH2)3CHCH2* + *,β-C 加氢
+R0412,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CCH3* + H* ⇌ CH3(CH2)3CHCH3* + *,β-C 加氢
+R0413,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHC* + H* ⇌ CH3(CH2)3CHCH* + *,α-C 加氢
+R0414,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHC* + H* ⇌ CH3(CH2)4C* + *,β-C 加氢
+R0415,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHCH* + H* ⇌ CH3(CH2)3CHCH2* + *,α-C 加氢
+R0416,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHCH* + H* ⇌ CH3(CH2)4CH* + *,β-C 加氢
+R0417,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHCH2* + H* ⇌ CH3(CH2)3CHCH3* + *,α-C 加氢
+R0418,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHCH2* + H* ⇌ CH3(CH2)4CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0419,6,5g C_n 中间体加氢/脱氢,CH3(CH2)3CHCH3* + H* ⇌ CH3(CH2)4CH3* + *,β-C 加氢
+R0420,6,5g C_n 中间体加氢/脱氢,CH3(CH2)4C* + H* ⇌ CH3(CH2)4CH* + *,α-C 加氢
+R0421,6,5g C_n 中间体加氢/脱氢,CH3(CH2)4CH* + H* ⇌ CH3(CH2)4CH2* + *,α-C 加氢
+R0422,6,5g C_n 中间体加氢/脱氢,CH3(CH2)4CH2* + H* ⇌ CH3(CH2)4CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0423,6,5h 产物脱附/再吸附,CH3(CH2)4CH3* ⇌ C6H14(g) + *,正构烷烃脱附
+R0424,6,5h 产物脱附/再吸附,CH3(CH2)3CHCH2* ⇌ C6H12(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0425,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4C* + C* ⇌ CH3(CH2)4CC* + *,与表面 C 偶联
+R0426,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4C* + CH* ⇌ CH3(CH2)4CCH* + *,次烷基 + CH
+R0427,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4C* + CH2* ⇌ CH3(CH2)4CCH2* + *,
+R0428,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4C* + CH3* ⇌ CH3(CH2)4CCH3* + *,
+R0429,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH* + C* ⇌ CH3(CH2)4CHC* + *,与表面 C 偶联
+R0430,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH* + CH* ⇌ CH3(CH2)4CHCH* + *,亚烷基 + CH → 烯基
+R0431,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH* + CH2* ⇌ CH3(CH2)4CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0432,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH* + CH3* ⇌ CH3(CH2)4CHCH3* + *,
+R0433,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH2* + C* ⇌ CH3(CH2)5C* + *,与表面 C 偶联
+R0434,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH2* + CH* ⇌ CH3(CH2)5CH* + *,
+R0435,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH2* + CH2* ⇌ CH3(CH2)5CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0436,7,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)4CH2* + CH3* ⇌ CH3(CH2)5CH3* + *,
+R0437,7,5b 链增长: CO 插入,CH3(CH2)4C* + CO* ⇌ CH3(CH2)4CCO* + *,
+R0438,7,5b 链增长: CO 插入,CH3(CH2)4CH* + CO* ⇌ CH3(CH2)4CHCO* + *,
+R0439,7,5b 链增长: CO 插入,CH3(CH2)4CH2* + CO* ⇌ CH3(CH2)4CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0440,7,5c CO 插入中间体加氢,CH3(CH2)4CCO* + H* ⇌ CH3(CH2)4CCHO* + *,C 端加氢
+R0441,7,5c CO 插入中间体加氢,CH3(CH2)4CCHO* + H* ⇌ CH3(CH2)4CCH2O* + *,C 端加氢
+R0442,7,5c CO 插入中间体加氢,CH3(CH2)4CCOH* + H* ⇌ CH3(CH2)4CCHOH* + *,C 端加氢
+R0443,7,5c CO 插入中间体加氢,CH3(CH2)4CCHOH* + H* ⇌ CH3(CH2)4CCH2OH* + *,C 端加氢
+R0444,7,5c CO 插入中间体加氢,CH3(CH2)4CCO* + H* ⇌ CH3(CH2)4CCOH* + *,O 端加氢
+R0445,7,5c CO 插入中间体加氢,CH3(CH2)4CCHO* + H* ⇌ CH3(CH2)4CCHOH* + *,O 端加氢
+R0446,7,5c CO 插入中间体加氢,CH3(CH2)4CCH2O* + H* ⇌ CH3(CH2)4CCH2OH* + *,O 端加氢
+R0447,7,5c CO 插入中间体加氢,CH3(CH2)4CHCO* + H* ⇌ CH3(CH2)4CHCHO* + *,C 端加氢
+R0448,7,5c CO 插入中间体加氢,CH3(CH2)4CHCHO* + H* ⇌ CH3(CH2)4CHCH2O* + *,C 端加氢
+R0449,7,5c CO 插入中间体加氢,CH3(CH2)4CHCOH* + H* ⇌ CH3(CH2)4CHCHOH* + *,C 端加氢
+R0450,7,5c CO 插入中间体加氢,CH3(CH2)4CHCHOH* + H* ⇌ CH3(CH2)4CHCH2OH* + *,C 端加氢
+R0451,7,5c CO 插入中间体加氢,CH3(CH2)4CHCO* + H* ⇌ CH3(CH2)4CHCOH* + *,O 端加氢
+R0452,7,5c CO 插入中间体加氢,CH3(CH2)4CHCHO* + H* ⇌ CH3(CH2)4CHCHOH* + *,O 端加氢
+R0453,7,5c CO 插入中间体加氢,CH3(CH2)4CHCH2O* + H* ⇌ CH3(CH2)4CHCH2OH* + *,O 端加氢
+R0454,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CO* + H* ⇌ CH3(CH2)4CH2CHO* + *,C 端加氢
+R0455,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CHO* + H* ⇌ CH3(CH2)4CH2CH2O* + *,C 端加氢
+R0456,7,5c CO 插入中间体加氢,CH3(CH2)4CH2COH* + H* ⇌ CH3(CH2)4CH2CHOH* + *,C 端加氢
+R0457,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CHOH* + H* ⇌ CH3(CH2)4CH2CH2OH* + *,C 端加氢
+R0458,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CO* + H* ⇌ CH3(CH2)4CH2COH* + *,O 端加氢
+R0459,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CHO* + H* ⇌ CH3(CH2)4CH2CHOH* + *,O 端加氢
+R0460,7,5c CO 插入中间体加氢,CH3(CH2)4CH2CH2O* + H* ⇌ CH3(CH2)4CH2CH2OH* + *,O 端加氢
+R0461,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCO* + * ⇌ CH3(CH2)4CC* + O*,
+R0462,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCOH* + * ⇌ CH3(CH2)4CC* + OH*,
+R0463,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCHO* + * ⇌ CH3(CH2)4CCH* + O*,
+R0464,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCHOH* + * ⇌ CH3(CH2)4CCH* + OH*,
+R0465,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCH2O* + * ⇌ CH3(CH2)4CCH2* + O*,
+R0466,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CCH2OH* + * ⇌ CH3(CH2)4CCH2* + OH*,
+R0467,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCO* + * ⇌ CH3(CH2)4CHC* + O*,
+R0468,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCOH* + * ⇌ CH3(CH2)4CHC* + OH*,
+R0469,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCHO* + * ⇌ CH3(CH2)4CHCH* + O*,
+R0470,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCHOH* + * ⇌ CH3(CH2)4CHCH* + OH*,
+R0471,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCH2O* + * ⇌ CH3(CH2)4CHCH2* + O*,
+R0472,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CHCH2OH* + * ⇌ CH3(CH2)4CHCH2* + OH*,
+R0473,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2CO* + * ⇌ CH3(CH2)5C* + O*,
+R0474,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2COH* + * ⇌ CH3(CH2)5C* + OH*,
+R0475,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2CHO* + * ⇌ CH3(CH2)5CH* + O*,
+R0476,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2CHOH* + * ⇌ CH3(CH2)5CH* + OH*,
+R0477,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2CH2O* + * ⇌ CH3(CH2)5CH2* + O*,
+R0478,7,5d CO 插入中间体 C–O 断裂,CH3(CH2)4CH2CH2OH* + * ⇌ CH3(CH2)5CH2* + OH*,
+R0479,7,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)3CH2COH* + HCOH* ⇌ CH3(CH2)4CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0480,7,5f 链增长: 烯基机理(Maitlis),CH3(CH2)3CHCH* + CH2* ⇌ CH3(CH2)3CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0481,7,5f 链增长: 烯基机理(Maitlis),CH3(CH2)3CHCHCH2* ⇌ CH3(CH2)4CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0482,7,5f 链增长: 烯基机理(Maitlis),CH3(CH2)3CHCHCH2* + H* ⇌ CH3(CH2)4CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0483,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CC* + H* ⇌ CH3(CH2)4CCH* + *,α-C 加氢
+R0484,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CC* + H* ⇌ CH3(CH2)4CHC* + *,β-C 加氢
+R0485,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CCH* + H* ⇌ CH3(CH2)4CCH2* + *,α-C 加氢
+R0486,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CCH* + H* ⇌ CH3(CH2)4CHCH* + *,β-C 加氢
+R0487,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CCH2* + H* ⇌ CH3(CH2)4CCH3* + *,α-C 加氢
+R0488,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CCH2* + H* ⇌ CH3(CH2)4CHCH2* + *,β-C 加氢
+R0489,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CCH3* + H* ⇌ CH3(CH2)4CHCH3* + *,β-C 加氢
+R0490,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHC* + H* ⇌ CH3(CH2)4CHCH* + *,α-C 加氢
+R0491,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHC* + H* ⇌ CH3(CH2)5C* + *,β-C 加氢
+R0492,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHCH* + H* ⇌ CH3(CH2)4CHCH2* + *,α-C 加氢
+R0493,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHCH* + H* ⇌ CH3(CH2)5CH* + *,β-C 加氢
+R0494,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHCH2* + H* ⇌ CH3(CH2)4CHCH3* + *,α-C 加氢
+R0495,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHCH2* + H* ⇌ CH3(CH2)5CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0496,7,5g C_n 中间体加氢/脱氢,CH3(CH2)4CHCH3* + H* ⇌ CH3(CH2)5CH3* + *,β-C 加氢
+R0497,7,5g C_n 中间体加氢/脱氢,CH3(CH2)5C* + H* ⇌ CH3(CH2)5CH* + *,α-C 加氢
+R0498,7,5g C_n 中间体加氢/脱氢,CH3(CH2)5CH* + H* ⇌ CH3(CH2)5CH2* + *,α-C 加氢
+R0499,7,5g C_n 中间体加氢/脱氢,CH3(CH2)5CH2* + H* ⇌ CH3(CH2)5CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0500,7,5h 产物脱附/再吸附,CH3(CH2)5CH3* ⇌ C7H16(g) + *,正构烷烃脱附
+R0501,7,5h 产物脱附/再吸附,CH3(CH2)4CHCH2* ⇌ C7H14(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0502,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5C* + C* ⇌ CH3(CH2)5CC* + *,与表面 C 偶联
+R0503,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5C* + CH* ⇌ CH3(CH2)5CCH* + *,次烷基 + CH
+R0504,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5C* + CH2* ⇌ CH3(CH2)5CCH2* + *,
+R0505,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5C* + CH3* ⇌ CH3(CH2)5CCH3* + *,
+R0506,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH* + C* ⇌ CH3(CH2)5CHC* + *,与表面 C 偶联
+R0507,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH* + CH* ⇌ CH3(CH2)5CHCH* + *,亚烷基 + CH → 烯基
+R0508,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH* + CH2* ⇌ CH3(CH2)5CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0509,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH* + CH3* ⇌ CH3(CH2)5CHCH3* + *,
+R0510,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH2* + C* ⇌ CH3(CH2)6C* + *,与表面 C 偶联
+R0511,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH2* + CH* ⇌ CH3(CH2)6CH* + *,
+R0512,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH2* + CH2* ⇌ CH3(CH2)6CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0513,8,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)5CH2* + CH3* ⇌ CH3(CH2)6CH3* + *,
+R0514,8,5b 链增长: CO 插入,CH3(CH2)5C* + CO* ⇌ CH3(CH2)5CCO* + *,
+R0515,8,5b 链增长: CO 插入,CH3(CH2)5CH* + CO* ⇌ CH3(CH2)5CHCO* + *,
+R0516,8,5b 链增长: CO 插入,CH3(CH2)5CH2* + CO* ⇌ CH3(CH2)5CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0517,8,5c CO 插入中间体加氢,CH3(CH2)5CCO* + H* ⇌ CH3(CH2)5CCHO* + *,C 端加氢
+R0518,8,5c CO 插入中间体加氢,CH3(CH2)5CCHO* + H* ⇌ CH3(CH2)5CCH2O* + *,C 端加氢
+R0519,8,5c CO 插入中间体加氢,CH3(CH2)5CCOH* + H* ⇌ CH3(CH2)5CCHOH* + *,C 端加氢
+R0520,8,5c CO 插入中间体加氢,CH3(CH2)5CCHOH* + H* ⇌ CH3(CH2)5CCH2OH* + *,C 端加氢
+R0521,8,5c CO 插入中间体加氢,CH3(CH2)5CCO* + H* ⇌ CH3(CH2)5CCOH* + *,O 端加氢
+R0522,8,5c CO 插入中间体加氢,CH3(CH2)5CCHO* + H* ⇌ CH3(CH2)5CCHOH* + *,O 端加氢
+R0523,8,5c CO 插入中间体加氢,CH3(CH2)5CCH2O* + H* ⇌ CH3(CH2)5CCH2OH* + *,O 端加氢
+R0524,8,5c CO 插入中间体加氢,CH3(CH2)5CHCO* + H* ⇌ CH3(CH2)5CHCHO* + *,C 端加氢
+R0525,8,5c CO 插入中间体加氢,CH3(CH2)5CHCHO* + H* ⇌ CH3(CH2)5CHCH2O* + *,C 端加氢
+R0526,8,5c CO 插入中间体加氢,CH3(CH2)5CHCOH* + H* ⇌ CH3(CH2)5CHCHOH* + *,C 端加氢
+R0527,8,5c CO 插入中间体加氢,CH3(CH2)5CHCHOH* + H* ⇌ CH3(CH2)5CHCH2OH* + *,C 端加氢
+R0528,8,5c CO 插入中间体加氢,CH3(CH2)5CHCO* + H* ⇌ CH3(CH2)5CHCOH* + *,O 端加氢
+R0529,8,5c CO 插入中间体加氢,CH3(CH2)5CHCHO* + H* ⇌ CH3(CH2)5CHCHOH* + *,O 端加氢
+R0530,8,5c CO 插入中间体加氢,CH3(CH2)5CHCH2O* + H* ⇌ CH3(CH2)5CHCH2OH* + *,O 端加氢
+R0531,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CO* + H* ⇌ CH3(CH2)5CH2CHO* + *,C 端加氢
+R0532,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CHO* + H* ⇌ CH3(CH2)5CH2CH2O* + *,C 端加氢
+R0533,8,5c CO 插入中间体加氢,CH3(CH2)5CH2COH* + H* ⇌ CH3(CH2)5CH2CHOH* + *,C 端加氢
+R0534,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CHOH* + H* ⇌ CH3(CH2)5CH2CH2OH* + *,C 端加氢
+R0535,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CO* + H* ⇌ CH3(CH2)5CH2COH* + *,O 端加氢
+R0536,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CHO* + H* ⇌ CH3(CH2)5CH2CHOH* + *,O 端加氢
+R0537,8,5c CO 插入中间体加氢,CH3(CH2)5CH2CH2O* + H* ⇌ CH3(CH2)5CH2CH2OH* + *,O 端加氢
+R0538,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCO* + * ⇌ CH3(CH2)5CC* + O*,
+R0539,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCOH* + * ⇌ CH3(CH2)5CC* + OH*,
+R0540,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCHO* + * ⇌ CH3(CH2)5CCH* + O*,
+R0541,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCHOH* + * ⇌ CH3(CH2)5CCH* + OH*,
+R0542,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCH2O* + * ⇌ CH3(CH2)5CCH2* + O*,
+R0543,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CCH2OH* + * ⇌ CH3(CH2)5CCH2* + OH*,
+R0544,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCO* + * ⇌ CH3(CH2)5CHC* + O*,
+R0545,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCOH* + * ⇌ CH3(CH2)5CHC* + OH*,
+R0546,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCHO* + * ⇌ CH3(CH2)5CHCH* + O*,
+R0547,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCHOH* + * ⇌ CH3(CH2)5CHCH* + OH*,
+R0548,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCH2O* + * ⇌ CH3(CH2)5CHCH2* + O*,
+R0549,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CHCH2OH* + * ⇌ CH3(CH2)5CHCH2* + OH*,
+R0550,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2CO* + * ⇌ CH3(CH2)6C* + O*,
+R0551,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2COH* + * ⇌ CH3(CH2)6C* + OH*,
+R0552,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2CHO* + * ⇌ CH3(CH2)6CH* + O*,
+R0553,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2CHOH* + * ⇌ CH3(CH2)6CH* + OH*,
+R0554,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2CH2O* + * ⇌ CH3(CH2)6CH2* + O*,
+R0555,8,5d CO 插入中间体 C–O 断裂,CH3(CH2)5CH2CH2OH* + * ⇌ CH3(CH2)6CH2* + OH*,
+R0556,8,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)4CH2COH* + HCOH* ⇌ CH3(CH2)5CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0557,8,5f 链增长: 烯基机理(Maitlis),CH3(CH2)4CHCH* + CH2* ⇌ CH3(CH2)4CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0558,8,5f 链增长: 烯基机理(Maitlis),CH3(CH2)4CHCHCH2* ⇌ CH3(CH2)5CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0559,8,5f 链增长: 烯基机理(Maitlis),CH3(CH2)4CHCHCH2* + H* ⇌ CH3(CH2)5CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0560,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CC* + H* ⇌ CH3(CH2)5CCH* + *,α-C 加氢
+R0561,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CC* + H* ⇌ CH3(CH2)5CHC* + *,β-C 加氢
+R0562,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CCH* + H* ⇌ CH3(CH2)5CCH2* + *,α-C 加氢
+R0563,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CCH* + H* ⇌ CH3(CH2)5CHCH* + *,β-C 加氢
+R0564,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CCH2* + H* ⇌ CH3(CH2)5CCH3* + *,α-C 加氢
+R0565,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CCH2* + H* ⇌ CH3(CH2)5CHCH2* + *,β-C 加氢
+R0566,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CCH3* + H* ⇌ CH3(CH2)5CHCH3* + *,β-C 加氢
+R0567,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHC* + H* ⇌ CH3(CH2)5CHCH* + *,α-C 加氢
+R0568,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHC* + H* ⇌ CH3(CH2)6C* + *,β-C 加氢
+R0569,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHCH* + H* ⇌ CH3(CH2)5CHCH2* + *,α-C 加氢
+R0570,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHCH* + H* ⇌ CH3(CH2)6CH* + *,β-C 加氢
+R0571,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHCH2* + H* ⇌ CH3(CH2)5CHCH3* + *,α-C 加氢
+R0572,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHCH2* + H* ⇌ CH3(CH2)6CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0573,8,5g C_n 中间体加氢/脱氢,CH3(CH2)5CHCH3* + H* ⇌ CH3(CH2)6CH3* + *,β-C 加氢
+R0574,8,5g C_n 中间体加氢/脱氢,CH3(CH2)6C* + H* ⇌ CH3(CH2)6CH* + *,α-C 加氢
+R0575,8,5g C_n 中间体加氢/脱氢,CH3(CH2)6CH* + H* ⇌ CH3(CH2)6CH2* + *,α-C 加氢
+R0576,8,5g C_n 中间体加氢/脱氢,CH3(CH2)6CH2* + H* ⇌ CH3(CH2)6CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0577,8,5h 产物脱附/再吸附,CH3(CH2)6CH3* ⇌ C8H18(g) + *,正构烷烃脱附
+R0578,8,5h 产物脱附/再吸附,CH3(CH2)5CHCH2* ⇌ C8H16(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0579,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6C* + C* ⇌ CH3(CH2)6CC* + *,与表面 C 偶联
+R0580,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6C* + CH* ⇌ CH3(CH2)6CCH* + *,次烷基 + CH
+R0581,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6C* + CH2* ⇌ CH3(CH2)6CCH2* + *,
+R0582,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6C* + CH3* ⇌ CH3(CH2)6CCH3* + *,
+R0583,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH* + C* ⇌ CH3(CH2)6CHC* + *,与表面 C 偶联
+R0584,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH* + CH* ⇌ CH3(CH2)6CHCH* + *,亚烷基 + CH → 烯基
+R0585,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH* + CH2* ⇌ CH3(CH2)6CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0586,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH* + CH3* ⇌ CH3(CH2)6CHCH3* + *,
+R0587,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH2* + C* ⇌ CH3(CH2)7C* + *,与表面 C 偶联
+R0588,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH2* + CH* ⇌ CH3(CH2)7CH* + *,
+R0589,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH2* + CH2* ⇌ CH3(CH2)7CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0590,9,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)6CH2* + CH3* ⇌ CH3(CH2)7CH3* + *,
+R0591,9,5b 链增长: CO 插入,CH3(CH2)6C* + CO* ⇌ CH3(CH2)6CCO* + *,
+R0592,9,5b 链增长: CO 插入,CH3(CH2)6CH* + CO* ⇌ CH3(CH2)6CHCO* + *,
+R0593,9,5b 链增长: CO 插入,CH3(CH2)6CH2* + CO* ⇌ CH3(CH2)6CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0594,9,5c CO 插入中间体加氢,CH3(CH2)6CCO* + H* ⇌ CH3(CH2)6CCHO* + *,C 端加氢
+R0595,9,5c CO 插入中间体加氢,CH3(CH2)6CCHO* + H* ⇌ CH3(CH2)6CCH2O* + *,C 端加氢
+R0596,9,5c CO 插入中间体加氢,CH3(CH2)6CCOH* + H* ⇌ CH3(CH2)6CCHOH* + *,C 端加氢
+R0597,9,5c CO 插入中间体加氢,CH3(CH2)6CCHOH* + H* ⇌ CH3(CH2)6CCH2OH* + *,C 端加氢
+R0598,9,5c CO 插入中间体加氢,CH3(CH2)6CCO* + H* ⇌ CH3(CH2)6CCOH* + *,O 端加氢
+R0599,9,5c CO 插入中间体加氢,CH3(CH2)6CCHO* + H* ⇌ CH3(CH2)6CCHOH* + *,O 端加氢
+R0600,9,5c CO 插入中间体加氢,CH3(CH2)6CCH2O* + H* ⇌ CH3(CH2)6CCH2OH* + *,O 端加氢
+R0601,9,5c CO 插入中间体加氢,CH3(CH2)6CHCO* + H* ⇌ CH3(CH2)6CHCHO* + *,C 端加氢
+R0602,9,5c CO 插入中间体加氢,CH3(CH2)6CHCHO* + H* ⇌ CH3(CH2)6CHCH2O* + *,C 端加氢
+R0603,9,5c CO 插入中间体加氢,CH3(CH2)6CHCOH* + H* ⇌ CH3(CH2)6CHCHOH* + *,C 端加氢
+R0604,9,5c CO 插入中间体加氢,CH3(CH2)6CHCHOH* + H* ⇌ CH3(CH2)6CHCH2OH* + *,C 端加氢
+R0605,9,5c CO 插入中间体加氢,CH3(CH2)6CHCO* + H* ⇌ CH3(CH2)6CHCOH* + *,O 端加氢
+R0606,9,5c CO 插入中间体加氢,CH3(CH2)6CHCHO* + H* ⇌ CH3(CH2)6CHCHOH* + *,O 端加氢
+R0607,9,5c CO 插入中间体加氢,CH3(CH2)6CHCH2O* + H* ⇌ CH3(CH2)6CHCH2OH* + *,O 端加氢
+R0608,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CO* + H* ⇌ CH3(CH2)6CH2CHO* + *,C 端加氢
+R0609,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CHO* + H* ⇌ CH3(CH2)6CH2CH2O* + *,C 端加氢
+R0610,9,5c CO 插入中间体加氢,CH3(CH2)6CH2COH* + H* ⇌ CH3(CH2)6CH2CHOH* + *,C 端加氢
+R0611,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CHOH* + H* ⇌ CH3(CH2)6CH2CH2OH* + *,C 端加氢
+R0612,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CO* + H* ⇌ CH3(CH2)6CH2COH* + *,O 端加氢
+R0613,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CHO* + H* ⇌ CH3(CH2)6CH2CHOH* + *,O 端加氢
+R0614,9,5c CO 插入中间体加氢,CH3(CH2)6CH2CH2O* + H* ⇌ CH3(CH2)6CH2CH2OH* + *,O 端加氢
+R0615,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCO* + * ⇌ CH3(CH2)6CC* + O*,
+R0616,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCOH* + * ⇌ CH3(CH2)6CC* + OH*,
+R0617,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCHO* + * ⇌ CH3(CH2)6CCH* + O*,
+R0618,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCHOH* + * ⇌ CH3(CH2)6CCH* + OH*,
+R0619,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCH2O* + * ⇌ CH3(CH2)6CCH2* + O*,
+R0620,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CCH2OH* + * ⇌ CH3(CH2)6CCH2* + OH*,
+R0621,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCO* + * ⇌ CH3(CH2)6CHC* + O*,
+R0622,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCOH* + * ⇌ CH3(CH2)6CHC* + OH*,
+R0623,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCHO* + * ⇌ CH3(CH2)6CHCH* + O*,
+R0624,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCHOH* + * ⇌ CH3(CH2)6CHCH* + OH*,
+R0625,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCH2O* + * ⇌ CH3(CH2)6CHCH2* + O*,
+R0626,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CHCH2OH* + * ⇌ CH3(CH2)6CHCH2* + OH*,
+R0627,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2CO* + * ⇌ CH3(CH2)7C* + O*,
+R0628,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2COH* + * ⇌ CH3(CH2)7C* + OH*,
+R0629,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2CHO* + * ⇌ CH3(CH2)7CH* + O*,
+R0630,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2CHOH* + * ⇌ CH3(CH2)7CH* + OH*,
+R0631,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2CH2O* + * ⇌ CH3(CH2)7CH2* + O*,
+R0632,9,5d CO 插入中间体 C–O 断裂,CH3(CH2)6CH2CH2OH* + * ⇌ CH3(CH2)7CH2* + OH*,
+R0633,9,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)5CH2COH* + HCOH* ⇌ CH3(CH2)6CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0634,9,5f 链增长: 烯基机理(Maitlis),CH3(CH2)5CHCH* + CH2* ⇌ CH3(CH2)5CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0635,9,5f 链增长: 烯基机理(Maitlis),CH3(CH2)5CHCHCH2* ⇌ CH3(CH2)6CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0636,9,5f 链增长: 烯基机理(Maitlis),CH3(CH2)5CHCHCH2* + H* ⇌ CH3(CH2)6CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0637,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CC* + H* ⇌ CH3(CH2)6CCH* + *,α-C 加氢
+R0638,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CC* + H* ⇌ CH3(CH2)6CHC* + *,β-C 加氢
+R0639,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CCH* + H* ⇌ CH3(CH2)6CCH2* + *,α-C 加氢
+R0640,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CCH* + H* ⇌ CH3(CH2)6CHCH* + *,β-C 加氢
+R0641,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CCH2* + H* ⇌ CH3(CH2)6CCH3* + *,α-C 加氢
+R0642,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CCH2* + H* ⇌ CH3(CH2)6CHCH2* + *,β-C 加氢
+R0643,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CCH3* + H* ⇌ CH3(CH2)6CHCH3* + *,β-C 加氢
+R0644,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHC* + H* ⇌ CH3(CH2)6CHCH* + *,α-C 加氢
+R0645,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHC* + H* ⇌ CH3(CH2)7C* + *,β-C 加氢
+R0646,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHCH* + H* ⇌ CH3(CH2)6CHCH2* + *,α-C 加氢
+R0647,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHCH* + H* ⇌ CH3(CH2)7CH* + *,β-C 加氢
+R0648,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHCH2* + H* ⇌ CH3(CH2)6CHCH3* + *,α-C 加氢
+R0649,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHCH2* + H* ⇌ CH3(CH2)7CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0650,9,5g C_n 中间体加氢/脱氢,CH3(CH2)6CHCH3* + H* ⇌ CH3(CH2)7CH3* + *,β-C 加氢
+R0651,9,5g C_n 中间体加氢/脱氢,CH3(CH2)7C* + H* ⇌ CH3(CH2)7CH* + *,α-C 加氢
+R0652,9,5g C_n 中间体加氢/脱氢,CH3(CH2)7CH* + H* ⇌ CH3(CH2)7CH2* + *,α-C 加氢
+R0653,9,5g C_n 中间体加氢/脱氢,CH3(CH2)7CH2* + H* ⇌ CH3(CH2)7CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0654,9,5h 产物脱附/再吸附,CH3(CH2)7CH3* ⇌ C9H20(g) + *,正构烷烃脱附
+R0655,9,5h 产物脱附/再吸附,CH3(CH2)6CHCH2* ⇌ C9H18(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0656,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7C* + C* ⇌ CH3(CH2)7CC* + *,与表面 C 偶联
+R0657,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7C* + CH* ⇌ CH3(CH2)7CCH* + *,次烷基 + CH
+R0658,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7C* + CH2* ⇌ CH3(CH2)7CCH2* + *,
+R0659,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7C* + CH3* ⇌ CH3(CH2)7CCH3* + *,
+R0660,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH* + C* ⇌ CH3(CH2)7CHC* + *,与表面 C 偶联
+R0661,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH* + CH* ⇌ CH3(CH2)7CHCH* + *,亚烷基 + CH → 烯基
+R0662,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH* + CH2* ⇌ CH3(CH2)7CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0663,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH* + CH3* ⇌ CH3(CH2)7CHCH3* + *,
+R0664,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH2* + C* ⇌ CH3(CH2)8C* + *,与表面 C 偶联
+R0665,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH2* + CH* ⇌ CH3(CH2)8CH* + *,
+R0666,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH2* + CH2* ⇌ CH3(CH2)8CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0667,10,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)7CH2* + CH3* ⇌ CH3(CH2)8CH3* + *,
+R0668,10,5b 链增长: CO 插入,CH3(CH2)7C* + CO* ⇌ CH3(CH2)7CCO* + *,
+R0669,10,5b 链增长: CO 插入,CH3(CH2)7CH* + CO* ⇌ CH3(CH2)7CHCO* + *,
+R0670,10,5b 链增长: CO 插入,CH3(CH2)7CH2* + CO* ⇌ CH3(CH2)7CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0671,10,5c CO 插入中间体加氢,CH3(CH2)7CCO* + H* ⇌ CH3(CH2)7CCHO* + *,C 端加氢
+R0672,10,5c CO 插入中间体加氢,CH3(CH2)7CCHO* + H* ⇌ CH3(CH2)7CCH2O* + *,C 端加氢
+R0673,10,5c CO 插入中间体加氢,CH3(CH2)7CCOH* + H* ⇌ CH3(CH2)7CCHOH* + *,C 端加氢
+R0674,10,5c CO 插入中间体加氢,CH3(CH2)7CCHOH* + H* ⇌ CH3(CH2)7CCH2OH* + *,C 端加氢
+R0675,10,5c CO 插入中间体加氢,CH3(CH2)7CCO* + H* ⇌ CH3(CH2)7CCOH* + *,O 端加氢
+R0676,10,5c CO 插入中间体加氢,CH3(CH2)7CCHO* + H* ⇌ CH3(CH2)7CCHOH* + *,O 端加氢
+R0677,10,5c CO 插入中间体加氢,CH3(CH2)7CCH2O* + H* ⇌ CH3(CH2)7CCH2OH* + *,O 端加氢
+R0678,10,5c CO 插入中间体加氢,CH3(CH2)7CHCO* + H* ⇌ CH3(CH2)7CHCHO* + *,C 端加氢
+R0679,10,5c CO 插入中间体加氢,CH3(CH2)7CHCHO* + H* ⇌ CH3(CH2)7CHCH2O* + *,C 端加氢
+R0680,10,5c CO 插入中间体加氢,CH3(CH2)7CHCOH* + H* ⇌ CH3(CH2)7CHCHOH* + *,C 端加氢
+R0681,10,5c CO 插入中间体加氢,CH3(CH2)7CHCHOH* + H* ⇌ CH3(CH2)7CHCH2OH* + *,C 端加氢
+R0682,10,5c CO 插入中间体加氢,CH3(CH2)7CHCO* + H* ⇌ CH3(CH2)7CHCOH* + *,O 端加氢
+R0683,10,5c CO 插入中间体加氢,CH3(CH2)7CHCHO* + H* ⇌ CH3(CH2)7CHCHOH* + *,O 端加氢
+R0684,10,5c CO 插入中间体加氢,CH3(CH2)7CHCH2O* + H* ⇌ CH3(CH2)7CHCH2OH* + *,O 端加氢
+R0685,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CO* + H* ⇌ CH3(CH2)7CH2CHO* + *,C 端加氢
+R0686,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CHO* + H* ⇌ CH3(CH2)7CH2CH2O* + *,C 端加氢
+R0687,10,5c CO 插入中间体加氢,CH3(CH2)7CH2COH* + H* ⇌ CH3(CH2)7CH2CHOH* + *,C 端加氢
+R0688,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CHOH* + H* ⇌ CH3(CH2)7CH2CH2OH* + *,C 端加氢
+R0689,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CO* + H* ⇌ CH3(CH2)7CH2COH* + *,O 端加氢
+R0690,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CHO* + H* ⇌ CH3(CH2)7CH2CHOH* + *,O 端加氢
+R0691,10,5c CO 插入中间体加氢,CH3(CH2)7CH2CH2O* + H* ⇌ CH3(CH2)7CH2CH2OH* + *,O 端加氢
+R0692,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCO* + * ⇌ CH3(CH2)7CC* + O*,
+R0693,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCOH* + * ⇌ CH3(CH2)7CC* + OH*,
+R0694,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCHO* + * ⇌ CH3(CH2)7CCH* + O*,
+R0695,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCHOH* + * ⇌ CH3(CH2)7CCH* + OH*,
+R0696,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCH2O* + * ⇌ CH3(CH2)7CCH2* + O*,
+R0697,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CCH2OH* + * ⇌ CH3(CH2)7CCH2* + OH*,
+R0698,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCO* + * ⇌ CH3(CH2)7CHC* + O*,
+R0699,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCOH* + * ⇌ CH3(CH2)7CHC* + OH*,
+R0700,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCHO* + * ⇌ CH3(CH2)7CHCH* + O*,
+R0701,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCHOH* + * ⇌ CH3(CH2)7CHCH* + OH*,
+R0702,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCH2O* + * ⇌ CH3(CH2)7CHCH2* + O*,
+R0703,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CHCH2OH* + * ⇌ CH3(CH2)7CHCH2* + OH*,
+R0704,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2CO* + * ⇌ CH3(CH2)8C* + O*,
+R0705,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2COH* + * ⇌ CH3(CH2)8C* + OH*,
+R0706,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2CHO* + * ⇌ CH3(CH2)8CH* + O*,
+R0707,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2CHOH* + * ⇌ CH3(CH2)8CH* + OH*,
+R0708,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2CH2O* + * ⇌ CH3(CH2)8CH2* + O*,
+R0709,10,5d CO 插入中间体 C–O 断裂,CH3(CH2)7CH2CH2OH* + * ⇌ CH3(CH2)8CH2* + OH*,
+R0710,10,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)6CH2COH* + HCOH* ⇌ CH3(CH2)7CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0711,10,5f 链增长: 烯基机理(Maitlis),CH3(CH2)6CHCH* + CH2* ⇌ CH3(CH2)6CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0712,10,5f 链增长: 烯基机理(Maitlis),CH3(CH2)6CHCHCH2* ⇌ CH3(CH2)7CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0713,10,5f 链增长: 烯基机理(Maitlis),CH3(CH2)6CHCHCH2* + H* ⇌ CH3(CH2)7CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0714,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CC* + H* ⇌ CH3(CH2)7CCH* + *,α-C 加氢
+R0715,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CC* + H* ⇌ CH3(CH2)7CHC* + *,β-C 加氢
+R0716,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CCH* + H* ⇌ CH3(CH2)7CCH2* + *,α-C 加氢
+R0717,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CCH* + H* ⇌ CH3(CH2)7CHCH* + *,β-C 加氢
+R0718,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CCH2* + H* ⇌ CH3(CH2)7CCH3* + *,α-C 加氢
+R0719,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CCH2* + H* ⇌ CH3(CH2)7CHCH2* + *,β-C 加氢
+R0720,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CCH3* + H* ⇌ CH3(CH2)7CHCH3* + *,β-C 加氢
+R0721,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHC* + H* ⇌ CH3(CH2)7CHCH* + *,α-C 加氢
+R0722,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHC* + H* ⇌ CH3(CH2)8C* + *,β-C 加氢
+R0723,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHCH* + H* ⇌ CH3(CH2)7CHCH2* + *,α-C 加氢
+R0724,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHCH* + H* ⇌ CH3(CH2)8CH* + *,β-C 加氢
+R0725,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHCH2* + H* ⇌ CH3(CH2)7CHCH3* + *,α-C 加氢
+R0726,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHCH2* + H* ⇌ CH3(CH2)8CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0727,10,5g C_n 中间体加氢/脱氢,CH3(CH2)7CHCH3* + H* ⇌ CH3(CH2)8CH3* + *,β-C 加氢
+R0728,10,5g C_n 中间体加氢/脱氢,CH3(CH2)8C* + H* ⇌ CH3(CH2)8CH* + *,α-C 加氢
+R0729,10,5g C_n 中间体加氢/脱氢,CH3(CH2)8CH* + H* ⇌ CH3(CH2)8CH2* + *,α-C 加氢
+R0730,10,5g C_n 中间体加氢/脱氢,CH3(CH2)8CH2* + H* ⇌ CH3(CH2)8CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0731,10,5h 产物脱附/再吸附,CH3(CH2)8CH3* ⇌ C10H22(g) + *,正构烷烃脱附
+R0732,10,5h 产物脱附/再吸附,CH3(CH2)7CHCH2* ⇌ C10H20(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0733,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8C* + C* ⇌ CH3(CH2)8CC* + *,与表面 C 偶联
+R0734,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8C* + CH* ⇌ CH3(CH2)8CCH* + *,次烷基 + CH
+R0735,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8C* + CH2* ⇌ CH3(CH2)8CCH2* + *,
+R0736,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8C* + CH3* ⇌ CH3(CH2)8CCH3* + *,
+R0737,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH* + C* ⇌ CH3(CH2)8CHC* + *,与表面 C 偶联
+R0738,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH* + CH* ⇌ CH3(CH2)8CHCH* + *,亚烷基 + CH → 烯基
+R0739,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH* + CH2* ⇌ CH3(CH2)8CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0740,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH* + CH3* ⇌ CH3(CH2)8CHCH3* + *,
+R0741,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH2* + C* ⇌ CH3(CH2)9C* + *,与表面 C 偶联
+R0742,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH2* + CH* ⇌ CH3(CH2)9CH* + *,
+R0743,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH2* + CH2* ⇌ CH3(CH2)9CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0744,11,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)8CH2* + CH3* ⇌ CH3(CH2)9CH3* + *,
+R0745,11,5b 链增长: CO 插入,CH3(CH2)8C* + CO* ⇌ CH3(CH2)8CCO* + *,
+R0746,11,5b 链增长: CO 插入,CH3(CH2)8CH* + CO* ⇌ CH3(CH2)8CHCO* + *,
+R0747,11,5b 链增长: CO 插入,CH3(CH2)8CH2* + CO* ⇌ CH3(CH2)8CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0748,11,5c CO 插入中间体加氢,CH3(CH2)8CCO* + H* ⇌ CH3(CH2)8CCHO* + *,C 端加氢
+R0749,11,5c CO 插入中间体加氢,CH3(CH2)8CCHO* + H* ⇌ CH3(CH2)8CCH2O* + *,C 端加氢
+R0750,11,5c CO 插入中间体加氢,CH3(CH2)8CCOH* + H* ⇌ CH3(CH2)8CCHOH* + *,C 端加氢
+R0751,11,5c CO 插入中间体加氢,CH3(CH2)8CCHOH* + H* ⇌ CH3(CH2)8CCH2OH* + *,C 端加氢
+R0752,11,5c CO 插入中间体加氢,CH3(CH2)8CCO* + H* ⇌ CH3(CH2)8CCOH* + *,O 端加氢
+R0753,11,5c CO 插入中间体加氢,CH3(CH2)8CCHO* + H* ⇌ CH3(CH2)8CCHOH* + *,O 端加氢
+R0754,11,5c CO 插入中间体加氢,CH3(CH2)8CCH2O* + H* ⇌ CH3(CH2)8CCH2OH* + *,O 端加氢
+R0755,11,5c CO 插入中间体加氢,CH3(CH2)8CHCO* + H* ⇌ CH3(CH2)8CHCHO* + *,C 端加氢
+R0756,11,5c CO 插入中间体加氢,CH3(CH2)8CHCHO* + H* ⇌ CH3(CH2)8CHCH2O* + *,C 端加氢
+R0757,11,5c CO 插入中间体加氢,CH3(CH2)8CHCOH* + H* ⇌ CH3(CH2)8CHCHOH* + *,C 端加氢
+R0758,11,5c CO 插入中间体加氢,CH3(CH2)8CHCHOH* + H* ⇌ CH3(CH2)8CHCH2OH* + *,C 端加氢
+R0759,11,5c CO 插入中间体加氢,CH3(CH2)8CHCO* + H* ⇌ CH3(CH2)8CHCOH* + *,O 端加氢
+R0760,11,5c CO 插入中间体加氢,CH3(CH2)8CHCHO* + H* ⇌ CH3(CH2)8CHCHOH* + *,O 端加氢
+R0761,11,5c CO 插入中间体加氢,CH3(CH2)8CHCH2O* + H* ⇌ CH3(CH2)8CHCH2OH* + *,O 端加氢
+R0762,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CO* + H* ⇌ CH3(CH2)8CH2CHO* + *,C 端加氢
+R0763,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CHO* + H* ⇌ CH3(CH2)8CH2CH2O* + *,C 端加氢
+R0764,11,5c CO 插入中间体加氢,CH3(CH2)8CH2COH* + H* ⇌ CH3(CH2)8CH2CHOH* + *,C 端加氢
+R0765,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CHOH* + H* ⇌ CH3(CH2)8CH2CH2OH* + *,C 端加氢
+R0766,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CO* + H* ⇌ CH3(CH2)8CH2COH* + *,O 端加氢
+R0767,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CHO* + H* ⇌ CH3(CH2)8CH2CHOH* + *,O 端加氢
+R0768,11,5c CO 插入中间体加氢,CH3(CH2)8CH2CH2O* + H* ⇌ CH3(CH2)8CH2CH2OH* + *,O 端加氢
+R0769,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCO* + * ⇌ CH3(CH2)8CC* + O*,
+R0770,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCOH* + * ⇌ CH3(CH2)8CC* + OH*,
+R0771,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCHO* + * ⇌ CH3(CH2)8CCH* + O*,
+R0772,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCHOH* + * ⇌ CH3(CH2)8CCH* + OH*,
+R0773,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCH2O* + * ⇌ CH3(CH2)8CCH2* + O*,
+R0774,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CCH2OH* + * ⇌ CH3(CH2)8CCH2* + OH*,
+R0775,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCO* + * ⇌ CH3(CH2)8CHC* + O*,
+R0776,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCOH* + * ⇌ CH3(CH2)8CHC* + OH*,
+R0777,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCHO* + * ⇌ CH3(CH2)8CHCH* + O*,
+R0778,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCHOH* + * ⇌ CH3(CH2)8CHCH* + OH*,
+R0779,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCH2O* + * ⇌ CH3(CH2)8CHCH2* + O*,
+R0780,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CHCH2OH* + * ⇌ CH3(CH2)8CHCH2* + OH*,
+R0781,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2CO* + * ⇌ CH3(CH2)9C* + O*,
+R0782,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2COH* + * ⇌ CH3(CH2)9C* + OH*,
+R0783,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2CHO* + * ⇌ CH3(CH2)9CH* + O*,
+R0784,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2CHOH* + * ⇌ CH3(CH2)9CH* + OH*,
+R0785,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2CH2O* + * ⇌ CH3(CH2)9CH2* + O*,
+R0786,11,5d CO 插入中间体 C–O 断裂,CH3(CH2)8CH2CH2OH* + * ⇌ CH3(CH2)9CH2* + OH*,
+R0787,11,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)7CH2COH* + HCOH* ⇌ CH3(CH2)8CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0788,11,5f 链增长: 烯基机理(Maitlis),CH3(CH2)7CHCH* + CH2* ⇌ CH3(CH2)7CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0789,11,5f 链增长: 烯基机理(Maitlis),CH3(CH2)7CHCHCH2* ⇌ CH3(CH2)8CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0790,11,5f 链增长: 烯基机理(Maitlis),CH3(CH2)7CHCHCH2* + H* ⇌ CH3(CH2)8CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0791,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CC* + H* ⇌ CH3(CH2)8CCH* + *,α-C 加氢
+R0792,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CC* + H* ⇌ CH3(CH2)8CHC* + *,β-C 加氢
+R0793,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CCH* + H* ⇌ CH3(CH2)8CCH2* + *,α-C 加氢
+R0794,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CCH* + H* ⇌ CH3(CH2)8CHCH* + *,β-C 加氢
+R0795,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CCH2* + H* ⇌ CH3(CH2)8CCH3* + *,α-C 加氢
+R0796,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CCH2* + H* ⇌ CH3(CH2)8CHCH2* + *,β-C 加氢
+R0797,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CCH3* + H* ⇌ CH3(CH2)8CHCH3* + *,β-C 加氢
+R0798,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHC* + H* ⇌ CH3(CH2)8CHCH* + *,α-C 加氢
+R0799,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHC* + H* ⇌ CH3(CH2)9C* + *,β-C 加氢
+R0800,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHCH* + H* ⇌ CH3(CH2)8CHCH2* + *,α-C 加氢
+R0801,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHCH* + H* ⇌ CH3(CH2)9CH* + *,β-C 加氢
+R0802,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHCH2* + H* ⇌ CH3(CH2)8CHCH3* + *,α-C 加氢
+R0803,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHCH2* + H* ⇌ CH3(CH2)9CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0804,11,5g C_n 中间体加氢/脱氢,CH3(CH2)8CHCH3* + H* ⇌ CH3(CH2)9CH3* + *,β-C 加氢
+R0805,11,5g C_n 中间体加氢/脱氢,CH3(CH2)9C* + H* ⇌ CH3(CH2)9CH* + *,α-C 加氢
+R0806,11,5g C_n 中间体加氢/脱氢,CH3(CH2)9CH* + H* ⇌ CH3(CH2)9CH2* + *,α-C 加氢
+R0807,11,5g C_n 中间体加氢/脱氢,CH3(CH2)9CH2* + H* ⇌ CH3(CH2)9CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0808,11,5h 产物脱附/再吸附,CH3(CH2)9CH3* ⇌ C11H24(g) + *,正构烷烃脱附
+R0809,11,5h 产物脱附/再吸附,CH3(CH2)8CHCH2* ⇌ C11H22(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0810,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9C* + C* ⇌ CH3(CH2)9CC* + *,与表面 C 偶联
+R0811,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9C* + CH* ⇌ CH3(CH2)9CCH* + *,次烷基 + CH
+R0812,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9C* + CH2* ⇌ CH3(CH2)9CCH2* + *,
+R0813,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9C* + CH3* ⇌ CH3(CH2)9CCH3* + *,
+R0814,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH* + C* ⇌ CH3(CH2)9CHC* + *,与表面 C 偶联
+R0815,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH* + CH* ⇌ CH3(CH2)9CHCH* + *,亚烷基 + CH → 烯基
+R0816,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH* + CH2* ⇌ CH3(CH2)9CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0817,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH* + CH3* ⇌ CH3(CH2)9CHCH3* + *,
+R0818,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH2* + C* ⇌ CH3(CH2)10C* + *,与表面 C 偶联
+R0819,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH2* + CH* ⇌ CH3(CH2)10CH* + *,
+R0820,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH2* + CH2* ⇌ CH3(CH2)10CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0821,12,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)9CH2* + CH3* ⇌ CH3(CH2)10CH3* + *,
+R0822,12,5b 链增长: CO 插入,CH3(CH2)9C* + CO* ⇌ CH3(CH2)9CCO* + *,
+R0823,12,5b 链增长: CO 插入,CH3(CH2)9CH* + CO* ⇌ CH3(CH2)9CHCO* + *,
+R0824,12,5b 链增长: CO 插入,CH3(CH2)9CH2* + CO* ⇌ CH3(CH2)9CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0825,12,5c CO 插入中间体加氢,CH3(CH2)9CCO* + H* ⇌ CH3(CH2)9CCHO* + *,C 端加氢
+R0826,12,5c CO 插入中间体加氢,CH3(CH2)9CCHO* + H* ⇌ CH3(CH2)9CCH2O* + *,C 端加氢
+R0827,12,5c CO 插入中间体加氢,CH3(CH2)9CCOH* + H* ⇌ CH3(CH2)9CCHOH* + *,C 端加氢
+R0828,12,5c CO 插入中间体加氢,CH3(CH2)9CCHOH* + H* ⇌ CH3(CH2)9CCH2OH* + *,C 端加氢
+R0829,12,5c CO 插入中间体加氢,CH3(CH2)9CCO* + H* ⇌ CH3(CH2)9CCOH* + *,O 端加氢
+R0830,12,5c CO 插入中间体加氢,CH3(CH2)9CCHO* + H* ⇌ CH3(CH2)9CCHOH* + *,O 端加氢
+R0831,12,5c CO 插入中间体加氢,CH3(CH2)9CCH2O* + H* ⇌ CH3(CH2)9CCH2OH* + *,O 端加氢
+R0832,12,5c CO 插入中间体加氢,CH3(CH2)9CHCO* + H* ⇌ CH3(CH2)9CHCHO* + *,C 端加氢
+R0833,12,5c CO 插入中间体加氢,CH3(CH2)9CHCHO* + H* ⇌ CH3(CH2)9CHCH2O* + *,C 端加氢
+R0834,12,5c CO 插入中间体加氢,CH3(CH2)9CHCOH* + H* ⇌ CH3(CH2)9CHCHOH* + *,C 端加氢
+R0835,12,5c CO 插入中间体加氢,CH3(CH2)9CHCHOH* + H* ⇌ CH3(CH2)9CHCH2OH* + *,C 端加氢
+R0836,12,5c CO 插入中间体加氢,CH3(CH2)9CHCO* + H* ⇌ CH3(CH2)9CHCOH* + *,O 端加氢
+R0837,12,5c CO 插入中间体加氢,CH3(CH2)9CHCHO* + H* ⇌ CH3(CH2)9CHCHOH* + *,O 端加氢
+R0838,12,5c CO 插入中间体加氢,CH3(CH2)9CHCH2O* + H* ⇌ CH3(CH2)9CHCH2OH* + *,O 端加氢
+R0839,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CO* + H* ⇌ CH3(CH2)9CH2CHO* + *,C 端加氢
+R0840,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CHO* + H* ⇌ CH3(CH2)9CH2CH2O* + *,C 端加氢
+R0841,12,5c CO 插入中间体加氢,CH3(CH2)9CH2COH* + H* ⇌ CH3(CH2)9CH2CHOH* + *,C 端加氢
+R0842,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CHOH* + H* ⇌ CH3(CH2)9CH2CH2OH* + *,C 端加氢
+R0843,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CO* + H* ⇌ CH3(CH2)9CH2COH* + *,O 端加氢
+R0844,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CHO* + H* ⇌ CH3(CH2)9CH2CHOH* + *,O 端加氢
+R0845,12,5c CO 插入中间体加氢,CH3(CH2)9CH2CH2O* + H* ⇌ CH3(CH2)9CH2CH2OH* + *,O 端加氢
+R0846,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCO* + * ⇌ CH3(CH2)9CC* + O*,
+R0847,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCOH* + * ⇌ CH3(CH2)9CC* + OH*,
+R0848,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCHO* + * ⇌ CH3(CH2)9CCH* + O*,
+R0849,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCHOH* + * ⇌ CH3(CH2)9CCH* + OH*,
+R0850,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCH2O* + * ⇌ CH3(CH2)9CCH2* + O*,
+R0851,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CCH2OH* + * ⇌ CH3(CH2)9CCH2* + OH*,
+R0852,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCO* + * ⇌ CH3(CH2)9CHC* + O*,
+R0853,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCOH* + * ⇌ CH3(CH2)9CHC* + OH*,
+R0854,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCHO* + * ⇌ CH3(CH2)9CHCH* + O*,
+R0855,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCHOH* + * ⇌ CH3(CH2)9CHCH* + OH*,
+R0856,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCH2O* + * ⇌ CH3(CH2)9CHCH2* + O*,
+R0857,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CHCH2OH* + * ⇌ CH3(CH2)9CHCH2* + OH*,
+R0858,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2CO* + * ⇌ CH3(CH2)10C* + O*,
+R0859,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2COH* + * ⇌ CH3(CH2)10C* + OH*,
+R0860,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2CHO* + * ⇌ CH3(CH2)10CH* + O*,
+R0861,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2CHOH* + * ⇌ CH3(CH2)10CH* + OH*,
+R0862,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2CH2O* + * ⇌ CH3(CH2)10CH2* + O*,
+R0863,12,5d CO 插入中间体 C–O 断裂,CH3(CH2)9CH2CH2OH* + * ⇌ CH3(CH2)10CH2* + OH*,
+R0864,12,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)8CH2COH* + HCOH* ⇌ CH3(CH2)9CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0865,12,5f 链增长: 烯基机理(Maitlis),CH3(CH2)8CHCH* + CH2* ⇌ CH3(CH2)8CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0866,12,5f 链增长: 烯基机理(Maitlis),CH3(CH2)8CHCHCH2* ⇌ CH3(CH2)9CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0867,12,5f 链增长: 烯基机理(Maitlis),CH3(CH2)8CHCHCH2* + H* ⇌ CH3(CH2)9CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0868,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CC* + H* ⇌ CH3(CH2)9CCH* + *,α-C 加氢
+R0869,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CC* + H* ⇌ CH3(CH2)9CHC* + *,β-C 加氢
+R0870,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CCH* + H* ⇌ CH3(CH2)9CCH2* + *,α-C 加氢
+R0871,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CCH* + H* ⇌ CH3(CH2)9CHCH* + *,β-C 加氢
+R0872,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CCH2* + H* ⇌ CH3(CH2)9CCH3* + *,α-C 加氢
+R0873,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CCH2* + H* ⇌ CH3(CH2)9CHCH2* + *,β-C 加氢
+R0874,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CCH3* + H* ⇌ CH3(CH2)9CHCH3* + *,β-C 加氢
+R0875,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHC* + H* ⇌ CH3(CH2)9CHCH* + *,α-C 加氢
+R0876,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHC* + H* ⇌ CH3(CH2)10C* + *,β-C 加氢
+R0877,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHCH* + H* ⇌ CH3(CH2)9CHCH2* + *,α-C 加氢
+R0878,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHCH* + H* ⇌ CH3(CH2)10CH* + *,β-C 加氢
+R0879,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHCH2* + H* ⇌ CH3(CH2)9CHCH3* + *,α-C 加氢
+R0880,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHCH2* + H* ⇌ CH3(CH2)10CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0881,12,5g C_n 中间体加氢/脱氢,CH3(CH2)9CHCH3* + H* ⇌ CH3(CH2)10CH3* + *,β-C 加氢
+R0882,12,5g C_n 中间体加氢/脱氢,CH3(CH2)10C* + H* ⇌ CH3(CH2)10CH* + *,α-C 加氢
+R0883,12,5g C_n 中间体加氢/脱氢,CH3(CH2)10CH* + H* ⇌ CH3(CH2)10CH2* + *,α-C 加氢
+R0884,12,5g C_n 中间体加氢/脱氢,CH3(CH2)10CH2* + H* ⇌ CH3(CH2)10CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0885,12,5h 产物脱附/再吸附,CH3(CH2)10CH3* ⇌ C12H26(g) + *,正构烷烃脱附
+R0886,12,5h 产物脱附/再吸附,CH3(CH2)9CHCH2* ⇌ C12H24(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0887,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10C* + C* ⇌ CH3(CH2)10CC* + *,与表面 C 偶联
+R0888,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10C* + CH* ⇌ CH3(CH2)10CCH* + *,次烷基 + CH
+R0889,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10C* + CH2* ⇌ CH3(CH2)10CCH2* + *,
+R0890,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10C* + CH3* ⇌ CH3(CH2)10CCH3* + *,
+R0891,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH* + C* ⇌ CH3(CH2)10CHC* + *,与表面 C 偶联
+R0892,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH* + CH* ⇌ CH3(CH2)10CHCH* + *,亚烷基 + CH → 烯基
+R0893,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH* + CH2* ⇌ CH3(CH2)10CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0894,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH* + CH3* ⇌ CH3(CH2)10CHCH3* + *,
+R0895,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH2* + C* ⇌ CH3(CH2)11C* + *,与表面 C 偶联
+R0896,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH2* + CH* ⇌ CH3(CH2)11CH* + *,
+R0897,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH2* + CH2* ⇌ CH3(CH2)11CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0898,13,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)10CH2* + CH3* ⇌ CH3(CH2)11CH3* + *,
+R0899,13,5b 链增长: CO 插入,CH3(CH2)10C* + CO* ⇌ CH3(CH2)10CCO* + *,
+R0900,13,5b 链增长: CO 插入,CH3(CH2)10CH* + CO* ⇌ CH3(CH2)10CHCO* + *,
+R0901,13,5b 链增长: CO 插入,CH3(CH2)10CH2* + CO* ⇌ CH3(CH2)10CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0902,13,5c CO 插入中间体加氢,CH3(CH2)10CCO* + H* ⇌ CH3(CH2)10CCHO* + *,C 端加氢
+R0903,13,5c CO 插入中间体加氢,CH3(CH2)10CCHO* + H* ⇌ CH3(CH2)10CCH2O* + *,C 端加氢
+R0904,13,5c CO 插入中间体加氢,CH3(CH2)10CCOH* + H* ⇌ CH3(CH2)10CCHOH* + *,C 端加氢
+R0905,13,5c CO 插入中间体加氢,CH3(CH2)10CCHOH* + H* ⇌ CH3(CH2)10CCH2OH* + *,C 端加氢
+R0906,13,5c CO 插入中间体加氢,CH3(CH2)10CCO* + H* ⇌ CH3(CH2)10CCOH* + *,O 端加氢
+R0907,13,5c CO 插入中间体加氢,CH3(CH2)10CCHO* + H* ⇌ CH3(CH2)10CCHOH* + *,O 端加氢
+R0908,13,5c CO 插入中间体加氢,CH3(CH2)10CCH2O* + H* ⇌ CH3(CH2)10CCH2OH* + *,O 端加氢
+R0909,13,5c CO 插入中间体加氢,CH3(CH2)10CHCO* + H* ⇌ CH3(CH2)10CHCHO* + *,C 端加氢
+R0910,13,5c CO 插入中间体加氢,CH3(CH2)10CHCHO* + H* ⇌ CH3(CH2)10CHCH2O* + *,C 端加氢
+R0911,13,5c CO 插入中间体加氢,CH3(CH2)10CHCOH* + H* ⇌ CH3(CH2)10CHCHOH* + *,C 端加氢
+R0912,13,5c CO 插入中间体加氢,CH3(CH2)10CHCHOH* + H* ⇌ CH3(CH2)10CHCH2OH* + *,C 端加氢
+R0913,13,5c CO 插入中间体加氢,CH3(CH2)10CHCO* + H* ⇌ CH3(CH2)10CHCOH* + *,O 端加氢
+R0914,13,5c CO 插入中间体加氢,CH3(CH2)10CHCHO* + H* ⇌ CH3(CH2)10CHCHOH* + *,O 端加氢
+R0915,13,5c CO 插入中间体加氢,CH3(CH2)10CHCH2O* + H* ⇌ CH3(CH2)10CHCH2OH* + *,O 端加氢
+R0916,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CO* + H* ⇌ CH3(CH2)10CH2CHO* + *,C 端加氢
+R0917,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CHO* + H* ⇌ CH3(CH2)10CH2CH2O* + *,C 端加氢
+R0918,13,5c CO 插入中间体加氢,CH3(CH2)10CH2COH* + H* ⇌ CH3(CH2)10CH2CHOH* + *,C 端加氢
+R0919,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CHOH* + H* ⇌ CH3(CH2)10CH2CH2OH* + *,C 端加氢
+R0920,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CO* + H* ⇌ CH3(CH2)10CH2COH* + *,O 端加氢
+R0921,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CHO* + H* ⇌ CH3(CH2)10CH2CHOH* + *,O 端加氢
+R0922,13,5c CO 插入中间体加氢,CH3(CH2)10CH2CH2O* + H* ⇌ CH3(CH2)10CH2CH2OH* + *,O 端加氢
+R0923,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCO* + * ⇌ CH3(CH2)10CC* + O*,
+R0924,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCOH* + * ⇌ CH3(CH2)10CC* + OH*,
+R0925,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCHO* + * ⇌ CH3(CH2)10CCH* + O*,
+R0926,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCHOH* + * ⇌ CH3(CH2)10CCH* + OH*,
+R0927,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCH2O* + * ⇌ CH3(CH2)10CCH2* + O*,
+R0928,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CCH2OH* + * ⇌ CH3(CH2)10CCH2* + OH*,
+R0929,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCO* + * ⇌ CH3(CH2)10CHC* + O*,
+R0930,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCOH* + * ⇌ CH3(CH2)10CHC* + OH*,
+R0931,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCHO* + * ⇌ CH3(CH2)10CHCH* + O*,
+R0932,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCHOH* + * ⇌ CH3(CH2)10CHCH* + OH*,
+R0933,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCH2O* + * ⇌ CH3(CH2)10CHCH2* + O*,
+R0934,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CHCH2OH* + * ⇌ CH3(CH2)10CHCH2* + OH*,
+R0935,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2CO* + * ⇌ CH3(CH2)11C* + O*,
+R0936,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2COH* + * ⇌ CH3(CH2)11C* + OH*,
+R0937,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2CHO* + * ⇌ CH3(CH2)11CH* + O*,
+R0938,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2CHOH* + * ⇌ CH3(CH2)11CH* + OH*,
+R0939,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2CH2O* + * ⇌ CH3(CH2)11CH2* + O*,
+R0940,13,5d CO 插入中间体 C–O 断裂,CH3(CH2)10CH2CH2OH* + * ⇌ CH3(CH2)11CH2* + OH*,
+R0941,13,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)9CH2COH* + HCOH* ⇌ CH3(CH2)10CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R0942,13,5f 链增长: 烯基机理(Maitlis),CH3(CH2)9CHCH* + CH2* ⇌ CH3(CH2)9CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R0943,13,5f 链增长: 烯基机理(Maitlis),CH3(CH2)9CHCHCH2* ⇌ CH3(CH2)10CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R0944,13,5f 链增长: 烯基机理(Maitlis),CH3(CH2)9CHCHCH2* + H* ⇌ CH3(CH2)10CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R0945,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CC* + H* ⇌ CH3(CH2)10CCH* + *,α-C 加氢
+R0946,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CC* + H* ⇌ CH3(CH2)10CHC* + *,β-C 加氢
+R0947,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CCH* + H* ⇌ CH3(CH2)10CCH2* + *,α-C 加氢
+R0948,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CCH* + H* ⇌ CH3(CH2)10CHCH* + *,β-C 加氢
+R0949,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CCH2* + H* ⇌ CH3(CH2)10CCH3* + *,α-C 加氢
+R0950,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CCH2* + H* ⇌ CH3(CH2)10CHCH2* + *,β-C 加氢
+R0951,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CCH3* + H* ⇌ CH3(CH2)10CHCH3* + *,β-C 加氢
+R0952,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHC* + H* ⇌ CH3(CH2)10CHCH* + *,α-C 加氢
+R0953,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHC* + H* ⇌ CH3(CH2)11C* + *,β-C 加氢
+R0954,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHCH* + H* ⇌ CH3(CH2)10CHCH2* + *,α-C 加氢
+R0955,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHCH* + H* ⇌ CH3(CH2)11CH* + *,β-C 加氢
+R0956,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHCH2* + H* ⇌ CH3(CH2)10CHCH3* + *,α-C 加氢
+R0957,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHCH2* + H* ⇌ CH3(CH2)11CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R0958,13,5g C_n 中间体加氢/脱氢,CH3(CH2)10CHCH3* + H* ⇌ CH3(CH2)11CH3* + *,β-C 加氢
+R0959,13,5g C_n 中间体加氢/脱氢,CH3(CH2)11C* + H* ⇌ CH3(CH2)11CH* + *,α-C 加氢
+R0960,13,5g C_n 中间体加氢/脱氢,CH3(CH2)11CH* + H* ⇌ CH3(CH2)11CH2* + *,α-C 加氢
+R0961,13,5g C_n 中间体加氢/脱氢,CH3(CH2)11CH2* + H* ⇌ CH3(CH2)11CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R0962,13,5h 产物脱附/再吸附,CH3(CH2)11CH3* ⇌ C13H28(g) + *,正构烷烃脱附
+R0963,13,5h 产物脱附/再吸附,CH3(CH2)10CHCH2* ⇌ C13H26(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R0964,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11C* + C* ⇌ CH3(CH2)11CC* + *,与表面 C 偶联
+R0965,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11C* + CH* ⇌ CH3(CH2)11CCH* + *,次烷基 + CH
+R0966,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11C* + CH2* ⇌ CH3(CH2)11CCH2* + *,
+R0967,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11C* + CH3* ⇌ CH3(CH2)11CCH3* + *,
+R0968,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH* + C* ⇌ CH3(CH2)11CHC* + *,与表面 C 偶联
+R0969,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH* + CH* ⇌ CH3(CH2)11CHCH* + *,亚烷基 + CH → 烯基
+R0970,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH* + CH2* ⇌ CH3(CH2)11CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R0971,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH* + CH3* ⇌ CH3(CH2)11CHCH3* + *,
+R0972,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH2* + C* ⇌ CH3(CH2)12C* + *,与表面 C 偶联
+R0973,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH2* + CH* ⇌ CH3(CH2)12CH* + *,
+R0974,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH2* + CH2* ⇌ CH3(CH2)12CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R0975,14,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)11CH2* + CH3* ⇌ CH3(CH2)12CH3* + *,
+R0976,14,5b 链增长: CO 插入,CH3(CH2)11C* + CO* ⇌ CH3(CH2)11CCO* + *,
+R0977,14,5b 链增长: CO 插入,CH3(CH2)11CH* + CO* ⇌ CH3(CH2)11CHCO* + *,
+R0978,14,5b 链增长: CO 插入,CH3(CH2)11CH2* + CO* ⇌ CH3(CH2)11CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R0979,14,5c CO 插入中间体加氢,CH3(CH2)11CCO* + H* ⇌ CH3(CH2)11CCHO* + *,C 端加氢
+R0980,14,5c CO 插入中间体加氢,CH3(CH2)11CCHO* + H* ⇌ CH3(CH2)11CCH2O* + *,C 端加氢
+R0981,14,5c CO 插入中间体加氢,CH3(CH2)11CCOH* + H* ⇌ CH3(CH2)11CCHOH* + *,C 端加氢
+R0982,14,5c CO 插入中间体加氢,CH3(CH2)11CCHOH* + H* ⇌ CH3(CH2)11CCH2OH* + *,C 端加氢
+R0983,14,5c CO 插入中间体加氢,CH3(CH2)11CCO* + H* ⇌ CH3(CH2)11CCOH* + *,O 端加氢
+R0984,14,5c CO 插入中间体加氢,CH3(CH2)11CCHO* + H* ⇌ CH3(CH2)11CCHOH* + *,O 端加氢
+R0985,14,5c CO 插入中间体加氢,CH3(CH2)11CCH2O* + H* ⇌ CH3(CH2)11CCH2OH* + *,O 端加氢
+R0986,14,5c CO 插入中间体加氢,CH3(CH2)11CHCO* + H* ⇌ CH3(CH2)11CHCHO* + *,C 端加氢
+R0987,14,5c CO 插入中间体加氢,CH3(CH2)11CHCHO* + H* ⇌ CH3(CH2)11CHCH2O* + *,C 端加氢
+R0988,14,5c CO 插入中间体加氢,CH3(CH2)11CHCOH* + H* ⇌ CH3(CH2)11CHCHOH* + *,C 端加氢
+R0989,14,5c CO 插入中间体加氢,CH3(CH2)11CHCHOH* + H* ⇌ CH3(CH2)11CHCH2OH* + *,C 端加氢
+R0990,14,5c CO 插入中间体加氢,CH3(CH2)11CHCO* + H* ⇌ CH3(CH2)11CHCOH* + *,O 端加氢
+R0991,14,5c CO 插入中间体加氢,CH3(CH2)11CHCHO* + H* ⇌ CH3(CH2)11CHCHOH* + *,O 端加氢
+R0992,14,5c CO 插入中间体加氢,CH3(CH2)11CHCH2O* + H* ⇌ CH3(CH2)11CHCH2OH* + *,O 端加氢
+R0993,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CO* + H* ⇌ CH3(CH2)11CH2CHO* + *,C 端加氢
+R0994,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CHO* + H* ⇌ CH3(CH2)11CH2CH2O* + *,C 端加氢
+R0995,14,5c CO 插入中间体加氢,CH3(CH2)11CH2COH* + H* ⇌ CH3(CH2)11CH2CHOH* + *,C 端加氢
+R0996,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CHOH* + H* ⇌ CH3(CH2)11CH2CH2OH* + *,C 端加氢
+R0997,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CO* + H* ⇌ CH3(CH2)11CH2COH* + *,O 端加氢
+R0998,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CHO* + H* ⇌ CH3(CH2)11CH2CHOH* + *,O 端加氢
+R0999,14,5c CO 插入中间体加氢,CH3(CH2)11CH2CH2O* + H* ⇌ CH3(CH2)11CH2CH2OH* + *,O 端加氢
+R1000,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCO* + * ⇌ CH3(CH2)11CC* + O*,
+R1001,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCOH* + * ⇌ CH3(CH2)11CC* + OH*,
+R1002,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCHO* + * ⇌ CH3(CH2)11CCH* + O*,
+R1003,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCHOH* + * ⇌ CH3(CH2)11CCH* + OH*,
+R1004,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCH2O* + * ⇌ CH3(CH2)11CCH2* + O*,
+R1005,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CCH2OH* + * ⇌ CH3(CH2)11CCH2* + OH*,
+R1006,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCO* + * ⇌ CH3(CH2)11CHC* + O*,
+R1007,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCOH* + * ⇌ CH3(CH2)11CHC* + OH*,
+R1008,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCHO* + * ⇌ CH3(CH2)11CHCH* + O*,
+R1009,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCHOH* + * ⇌ CH3(CH2)11CHCH* + OH*,
+R1010,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCH2O* + * ⇌ CH3(CH2)11CHCH2* + O*,
+R1011,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CHCH2OH* + * ⇌ CH3(CH2)11CHCH2* + OH*,
+R1012,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2CO* + * ⇌ CH3(CH2)12C* + O*,
+R1013,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2COH* + * ⇌ CH3(CH2)12C* + OH*,
+R1014,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2CHO* + * ⇌ CH3(CH2)12CH* + O*,
+R1015,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2CHOH* + * ⇌ CH3(CH2)12CH* + OH*,
+R1016,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2CH2O* + * ⇌ CH3(CH2)12CH2* + O*,
+R1017,14,5d CO 插入中间体 C–O 断裂,CH3(CH2)11CH2CH2OH* + * ⇌ CH3(CH2)12CH2* + OH*,
+R1018,14,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)10CH2COH* + HCOH* ⇌ CH3(CH2)11CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1019,14,5f 链增长: 烯基机理(Maitlis),CH3(CH2)10CHCH* + CH2* ⇌ CH3(CH2)10CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1020,14,5f 链增长: 烯基机理(Maitlis),CH3(CH2)10CHCHCH2* ⇌ CH3(CH2)11CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1021,14,5f 链增长: 烯基机理(Maitlis),CH3(CH2)10CHCHCH2* + H* ⇌ CH3(CH2)11CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1022,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CC* + H* ⇌ CH3(CH2)11CCH* + *,α-C 加氢
+R1023,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CC* + H* ⇌ CH3(CH2)11CHC* + *,β-C 加氢
+R1024,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CCH* + H* ⇌ CH3(CH2)11CCH2* + *,α-C 加氢
+R1025,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CCH* + H* ⇌ CH3(CH2)11CHCH* + *,β-C 加氢
+R1026,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CCH2* + H* ⇌ CH3(CH2)11CCH3* + *,α-C 加氢
+R1027,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CCH2* + H* ⇌ CH3(CH2)11CHCH2* + *,β-C 加氢
+R1028,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CCH3* + H* ⇌ CH3(CH2)11CHCH3* + *,β-C 加氢
+R1029,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHC* + H* ⇌ CH3(CH2)11CHCH* + *,α-C 加氢
+R1030,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHC* + H* ⇌ CH3(CH2)12C* + *,β-C 加氢
+R1031,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHCH* + H* ⇌ CH3(CH2)11CHCH2* + *,α-C 加氢
+R1032,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHCH* + H* ⇌ CH3(CH2)12CH* + *,β-C 加氢
+R1033,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHCH2* + H* ⇌ CH3(CH2)11CHCH3* + *,α-C 加氢
+R1034,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHCH2* + H* ⇌ CH3(CH2)12CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1035,14,5g C_n 中间体加氢/脱氢,CH3(CH2)11CHCH3* + H* ⇌ CH3(CH2)12CH3* + *,β-C 加氢
+R1036,14,5g C_n 中间体加氢/脱氢,CH3(CH2)12C* + H* ⇌ CH3(CH2)12CH* + *,α-C 加氢
+R1037,14,5g C_n 中间体加氢/脱氢,CH3(CH2)12CH* + H* ⇌ CH3(CH2)12CH2* + *,α-C 加氢
+R1038,14,5g C_n 中间体加氢/脱氢,CH3(CH2)12CH2* + H* ⇌ CH3(CH2)12CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1039,14,5h 产物脱附/再吸附,CH3(CH2)12CH3* ⇌ C14H30(g) + *,正构烷烃脱附
+R1040,14,5h 产物脱附/再吸附,CH3(CH2)11CHCH2* ⇌ C14H28(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1041,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12C* + C* ⇌ CH3(CH2)12CC* + *,与表面 C 偶联
+R1042,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12C* + CH* ⇌ CH3(CH2)12CCH* + *,次烷基 + CH
+R1043,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12C* + CH2* ⇌ CH3(CH2)12CCH2* + *,
+R1044,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12C* + CH3* ⇌ CH3(CH2)12CCH3* + *,
+R1045,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH* + C* ⇌ CH3(CH2)12CHC* + *,与表面 C 偶联
+R1046,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH* + CH* ⇌ CH3(CH2)12CHCH* + *,亚烷基 + CH → 烯基
+R1047,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH* + CH2* ⇌ CH3(CH2)12CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1048,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH* + CH3* ⇌ CH3(CH2)12CHCH3* + *,
+R1049,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH2* + C* ⇌ CH3(CH2)13C* + *,与表面 C 偶联
+R1050,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH2* + CH* ⇌ CH3(CH2)13CH* + *,
+R1051,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH2* + CH2* ⇌ CH3(CH2)13CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1052,15,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)12CH2* + CH3* ⇌ CH3(CH2)13CH3* + *,
+R1053,15,5b 链增长: CO 插入,CH3(CH2)12C* + CO* ⇌ CH3(CH2)12CCO* + *,
+R1054,15,5b 链增长: CO 插入,CH3(CH2)12CH* + CO* ⇌ CH3(CH2)12CHCO* + *,
+R1055,15,5b 链增长: CO 插入,CH3(CH2)12CH2* + CO* ⇌ CH3(CH2)12CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1056,15,5c CO 插入中间体加氢,CH3(CH2)12CCO* + H* ⇌ CH3(CH2)12CCHO* + *,C 端加氢
+R1057,15,5c CO 插入中间体加氢,CH3(CH2)12CCHO* + H* ⇌ CH3(CH2)12CCH2O* + *,C 端加氢
+R1058,15,5c CO 插入中间体加氢,CH3(CH2)12CCOH* + H* ⇌ CH3(CH2)12CCHOH* + *,C 端加氢
+R1059,15,5c CO 插入中间体加氢,CH3(CH2)12CCHOH* + H* ⇌ CH3(CH2)12CCH2OH* + *,C 端加氢
+R1060,15,5c CO 插入中间体加氢,CH3(CH2)12CCO* + H* ⇌ CH3(CH2)12CCOH* + *,O 端加氢
+R1061,15,5c CO 插入中间体加氢,CH3(CH2)12CCHO* + H* ⇌ CH3(CH2)12CCHOH* + *,O 端加氢
+R1062,15,5c CO 插入中间体加氢,CH3(CH2)12CCH2O* + H* ⇌ CH3(CH2)12CCH2OH* + *,O 端加氢
+R1063,15,5c CO 插入中间体加氢,CH3(CH2)12CHCO* + H* ⇌ CH3(CH2)12CHCHO* + *,C 端加氢
+R1064,15,5c CO 插入中间体加氢,CH3(CH2)12CHCHO* + H* ⇌ CH3(CH2)12CHCH2O* + *,C 端加氢
+R1065,15,5c CO 插入中间体加氢,CH3(CH2)12CHCOH* + H* ⇌ CH3(CH2)12CHCHOH* + *,C 端加氢
+R1066,15,5c CO 插入中间体加氢,CH3(CH2)12CHCHOH* + H* ⇌ CH3(CH2)12CHCH2OH* + *,C 端加氢
+R1067,15,5c CO 插入中间体加氢,CH3(CH2)12CHCO* + H* ⇌ CH3(CH2)12CHCOH* + *,O 端加氢
+R1068,15,5c CO 插入中间体加氢,CH3(CH2)12CHCHO* + H* ⇌ CH3(CH2)12CHCHOH* + *,O 端加氢
+R1069,15,5c CO 插入中间体加氢,CH3(CH2)12CHCH2O* + H* ⇌ CH3(CH2)12CHCH2OH* + *,O 端加氢
+R1070,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CO* + H* ⇌ CH3(CH2)12CH2CHO* + *,C 端加氢
+R1071,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CHO* + H* ⇌ CH3(CH2)12CH2CH2O* + *,C 端加氢
+R1072,15,5c CO 插入中间体加氢,CH3(CH2)12CH2COH* + H* ⇌ CH3(CH2)12CH2CHOH* + *,C 端加氢
+R1073,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CHOH* + H* ⇌ CH3(CH2)12CH2CH2OH* + *,C 端加氢
+R1074,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CO* + H* ⇌ CH3(CH2)12CH2COH* + *,O 端加氢
+R1075,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CHO* + H* ⇌ CH3(CH2)12CH2CHOH* + *,O 端加氢
+R1076,15,5c CO 插入中间体加氢,CH3(CH2)12CH2CH2O* + H* ⇌ CH3(CH2)12CH2CH2OH* + *,O 端加氢
+R1077,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCO* + * ⇌ CH3(CH2)12CC* + O*,
+R1078,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCOH* + * ⇌ CH3(CH2)12CC* + OH*,
+R1079,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCHO* + * ⇌ CH3(CH2)12CCH* + O*,
+R1080,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCHOH* + * ⇌ CH3(CH2)12CCH* + OH*,
+R1081,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCH2O* + * ⇌ CH3(CH2)12CCH2* + O*,
+R1082,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CCH2OH* + * ⇌ CH3(CH2)12CCH2* + OH*,
+R1083,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCO* + * ⇌ CH3(CH2)12CHC* + O*,
+R1084,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCOH* + * ⇌ CH3(CH2)12CHC* + OH*,
+R1085,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCHO* + * ⇌ CH3(CH2)12CHCH* + O*,
+R1086,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCHOH* + * ⇌ CH3(CH2)12CHCH* + OH*,
+R1087,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCH2O* + * ⇌ CH3(CH2)12CHCH2* + O*,
+R1088,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CHCH2OH* + * ⇌ CH3(CH2)12CHCH2* + OH*,
+R1089,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2CO* + * ⇌ CH3(CH2)13C* + O*,
+R1090,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2COH* + * ⇌ CH3(CH2)13C* + OH*,
+R1091,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2CHO* + * ⇌ CH3(CH2)13CH* + O*,
+R1092,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2CHOH* + * ⇌ CH3(CH2)13CH* + OH*,
+R1093,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2CH2O* + * ⇌ CH3(CH2)13CH2* + O*,
+R1094,15,5d CO 插入中间体 C–O 断裂,CH3(CH2)12CH2CH2OH* + * ⇌ CH3(CH2)13CH2* + OH*,
+R1095,15,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)11CH2COH* + HCOH* ⇌ CH3(CH2)12CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1096,15,5f 链增长: 烯基机理(Maitlis),CH3(CH2)11CHCH* + CH2* ⇌ CH3(CH2)11CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1097,15,5f 链增长: 烯基机理(Maitlis),CH3(CH2)11CHCHCH2* ⇌ CH3(CH2)12CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1098,15,5f 链增长: 烯基机理(Maitlis),CH3(CH2)11CHCHCH2* + H* ⇌ CH3(CH2)12CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1099,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CC* + H* ⇌ CH3(CH2)12CCH* + *,α-C 加氢
+R1100,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CC* + H* ⇌ CH3(CH2)12CHC* + *,β-C 加氢
+R1101,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CCH* + H* ⇌ CH3(CH2)12CCH2* + *,α-C 加氢
+R1102,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CCH* + H* ⇌ CH3(CH2)12CHCH* + *,β-C 加氢
+R1103,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CCH2* + H* ⇌ CH3(CH2)12CCH3* + *,α-C 加氢
+R1104,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CCH2* + H* ⇌ CH3(CH2)12CHCH2* + *,β-C 加氢
+R1105,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CCH3* + H* ⇌ CH3(CH2)12CHCH3* + *,β-C 加氢
+R1106,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHC* + H* ⇌ CH3(CH2)12CHCH* + *,α-C 加氢
+R1107,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHC* + H* ⇌ CH3(CH2)13C* + *,β-C 加氢
+R1108,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHCH* + H* ⇌ CH3(CH2)12CHCH2* + *,α-C 加氢
+R1109,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHCH* + H* ⇌ CH3(CH2)13CH* + *,β-C 加氢
+R1110,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHCH2* + H* ⇌ CH3(CH2)12CHCH3* + *,α-C 加氢
+R1111,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHCH2* + H* ⇌ CH3(CH2)13CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1112,15,5g C_n 中间体加氢/脱氢,CH3(CH2)12CHCH3* + H* ⇌ CH3(CH2)13CH3* + *,β-C 加氢
+R1113,15,5g C_n 中间体加氢/脱氢,CH3(CH2)13C* + H* ⇌ CH3(CH2)13CH* + *,α-C 加氢
+R1114,15,5g C_n 中间体加氢/脱氢,CH3(CH2)13CH* + H* ⇌ CH3(CH2)13CH2* + *,α-C 加氢
+R1115,15,5g C_n 中间体加氢/脱氢,CH3(CH2)13CH2* + H* ⇌ CH3(CH2)13CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1116,15,5h 产物脱附/再吸附,CH3(CH2)13CH3* ⇌ C15H32(g) + *,正构烷烃脱附
+R1117,15,5h 产物脱附/再吸附,CH3(CH2)12CHCH2* ⇌ C15H30(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1118,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13C* + C* ⇌ CH3(CH2)13CC* + *,与表面 C 偶联
+R1119,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13C* + CH* ⇌ CH3(CH2)13CCH* + *,次烷基 + CH
+R1120,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13C* + CH2* ⇌ CH3(CH2)13CCH2* + *,
+R1121,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13C* + CH3* ⇌ CH3(CH2)13CCH3* + *,
+R1122,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH* + C* ⇌ CH3(CH2)13CHC* + *,与表面 C 偶联
+R1123,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH* + CH* ⇌ CH3(CH2)13CHCH* + *,亚烷基 + CH → 烯基
+R1124,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH* + CH2* ⇌ CH3(CH2)13CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1125,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH* + CH3* ⇌ CH3(CH2)13CHCH3* + *,
+R1126,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH2* + C* ⇌ CH3(CH2)14C* + *,与表面 C 偶联
+R1127,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH2* + CH* ⇌ CH3(CH2)14CH* + *,
+R1128,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH2* + CH2* ⇌ CH3(CH2)14CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1129,16,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)13CH2* + CH3* ⇌ CH3(CH2)14CH3* + *,
+R1130,16,5b 链增长: CO 插入,CH3(CH2)13C* + CO* ⇌ CH3(CH2)13CCO* + *,
+R1131,16,5b 链增长: CO 插入,CH3(CH2)13CH* + CO* ⇌ CH3(CH2)13CHCO* + *,
+R1132,16,5b 链增长: CO 插入,CH3(CH2)13CH2* + CO* ⇌ CH3(CH2)13CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1133,16,5c CO 插入中间体加氢,CH3(CH2)13CCO* + H* ⇌ CH3(CH2)13CCHO* + *,C 端加氢
+R1134,16,5c CO 插入中间体加氢,CH3(CH2)13CCHO* + H* ⇌ CH3(CH2)13CCH2O* + *,C 端加氢
+R1135,16,5c CO 插入中间体加氢,CH3(CH2)13CCOH* + H* ⇌ CH3(CH2)13CCHOH* + *,C 端加氢
+R1136,16,5c CO 插入中间体加氢,CH3(CH2)13CCHOH* + H* ⇌ CH3(CH2)13CCH2OH* + *,C 端加氢
+R1137,16,5c CO 插入中间体加氢,CH3(CH2)13CCO* + H* ⇌ CH3(CH2)13CCOH* + *,O 端加氢
+R1138,16,5c CO 插入中间体加氢,CH3(CH2)13CCHO* + H* ⇌ CH3(CH2)13CCHOH* + *,O 端加氢
+R1139,16,5c CO 插入中间体加氢,CH3(CH2)13CCH2O* + H* ⇌ CH3(CH2)13CCH2OH* + *,O 端加氢
+R1140,16,5c CO 插入中间体加氢,CH3(CH2)13CHCO* + H* ⇌ CH3(CH2)13CHCHO* + *,C 端加氢
+R1141,16,5c CO 插入中间体加氢,CH3(CH2)13CHCHO* + H* ⇌ CH3(CH2)13CHCH2O* + *,C 端加氢
+R1142,16,5c CO 插入中间体加氢,CH3(CH2)13CHCOH* + H* ⇌ CH3(CH2)13CHCHOH* + *,C 端加氢
+R1143,16,5c CO 插入中间体加氢,CH3(CH2)13CHCHOH* + H* ⇌ CH3(CH2)13CHCH2OH* + *,C 端加氢
+R1144,16,5c CO 插入中间体加氢,CH3(CH2)13CHCO* + H* ⇌ CH3(CH2)13CHCOH* + *,O 端加氢
+R1145,16,5c CO 插入中间体加氢,CH3(CH2)13CHCHO* + H* ⇌ CH3(CH2)13CHCHOH* + *,O 端加氢
+R1146,16,5c CO 插入中间体加氢,CH3(CH2)13CHCH2O* + H* ⇌ CH3(CH2)13CHCH2OH* + *,O 端加氢
+R1147,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CO* + H* ⇌ CH3(CH2)13CH2CHO* + *,C 端加氢
+R1148,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CHO* + H* ⇌ CH3(CH2)13CH2CH2O* + *,C 端加氢
+R1149,16,5c CO 插入中间体加氢,CH3(CH2)13CH2COH* + H* ⇌ CH3(CH2)13CH2CHOH* + *,C 端加氢
+R1150,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CHOH* + H* ⇌ CH3(CH2)13CH2CH2OH* + *,C 端加氢
+R1151,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CO* + H* ⇌ CH3(CH2)13CH2COH* + *,O 端加氢
+R1152,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CHO* + H* ⇌ CH3(CH2)13CH2CHOH* + *,O 端加氢
+R1153,16,5c CO 插入中间体加氢,CH3(CH2)13CH2CH2O* + H* ⇌ CH3(CH2)13CH2CH2OH* + *,O 端加氢
+R1154,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCO* + * ⇌ CH3(CH2)13CC* + O*,
+R1155,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCOH* + * ⇌ CH3(CH2)13CC* + OH*,
+R1156,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCHO* + * ⇌ CH3(CH2)13CCH* + O*,
+R1157,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCHOH* + * ⇌ CH3(CH2)13CCH* + OH*,
+R1158,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCH2O* + * ⇌ CH3(CH2)13CCH2* + O*,
+R1159,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CCH2OH* + * ⇌ CH3(CH2)13CCH2* + OH*,
+R1160,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCO* + * ⇌ CH3(CH2)13CHC* + O*,
+R1161,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCOH* + * ⇌ CH3(CH2)13CHC* + OH*,
+R1162,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCHO* + * ⇌ CH3(CH2)13CHCH* + O*,
+R1163,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCHOH* + * ⇌ CH3(CH2)13CHCH* + OH*,
+R1164,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCH2O* + * ⇌ CH3(CH2)13CHCH2* + O*,
+R1165,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CHCH2OH* + * ⇌ CH3(CH2)13CHCH2* + OH*,
+R1166,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2CO* + * ⇌ CH3(CH2)14C* + O*,
+R1167,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2COH* + * ⇌ CH3(CH2)14C* + OH*,
+R1168,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2CHO* + * ⇌ CH3(CH2)14CH* + O*,
+R1169,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2CHOH* + * ⇌ CH3(CH2)14CH* + OH*,
+R1170,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2CH2O* + * ⇌ CH3(CH2)14CH2* + O*,
+R1171,16,5d CO 插入中间体 C–O 断裂,CH3(CH2)13CH2CH2OH* + * ⇌ CH3(CH2)14CH2* + OH*,
+R1172,16,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)12CH2COH* + HCOH* ⇌ CH3(CH2)13CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1173,16,5f 链增长: 烯基机理(Maitlis),CH3(CH2)12CHCH* + CH2* ⇌ CH3(CH2)12CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1174,16,5f 链增长: 烯基机理(Maitlis),CH3(CH2)12CHCHCH2* ⇌ CH3(CH2)13CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1175,16,5f 链增长: 烯基机理(Maitlis),CH3(CH2)12CHCHCH2* + H* ⇌ CH3(CH2)13CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1176,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CC* + H* ⇌ CH3(CH2)13CCH* + *,α-C 加氢
+R1177,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CC* + H* ⇌ CH3(CH2)13CHC* + *,β-C 加氢
+R1178,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CCH* + H* ⇌ CH3(CH2)13CCH2* + *,α-C 加氢
+R1179,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CCH* + H* ⇌ CH3(CH2)13CHCH* + *,β-C 加氢
+R1180,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CCH2* + H* ⇌ CH3(CH2)13CCH3* + *,α-C 加氢
+R1181,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CCH2* + H* ⇌ CH3(CH2)13CHCH2* + *,β-C 加氢
+R1182,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CCH3* + H* ⇌ CH3(CH2)13CHCH3* + *,β-C 加氢
+R1183,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHC* + H* ⇌ CH3(CH2)13CHCH* + *,α-C 加氢
+R1184,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHC* + H* ⇌ CH3(CH2)14C* + *,β-C 加氢
+R1185,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHCH* + H* ⇌ CH3(CH2)13CHCH2* + *,α-C 加氢
+R1186,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHCH* + H* ⇌ CH3(CH2)14CH* + *,β-C 加氢
+R1187,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHCH2* + H* ⇌ CH3(CH2)13CHCH3* + *,α-C 加氢
+R1188,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHCH2* + H* ⇌ CH3(CH2)14CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1189,16,5g C_n 中间体加氢/脱氢,CH3(CH2)13CHCH3* + H* ⇌ CH3(CH2)14CH3* + *,β-C 加氢
+R1190,16,5g C_n 中间体加氢/脱氢,CH3(CH2)14C* + H* ⇌ CH3(CH2)14CH* + *,α-C 加氢
+R1191,16,5g C_n 中间体加氢/脱氢,CH3(CH2)14CH* + H* ⇌ CH3(CH2)14CH2* + *,α-C 加氢
+R1192,16,5g C_n 中间体加氢/脱氢,CH3(CH2)14CH2* + H* ⇌ CH3(CH2)14CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1193,16,5h 产物脱附/再吸附,CH3(CH2)14CH3* ⇌ C16H34(g) + *,正构烷烃脱附
+R1194,16,5h 产物脱附/再吸附,CH3(CH2)13CHCH2* ⇌ C16H32(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1195,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14C* + C* ⇌ CH3(CH2)14CC* + *,与表面 C 偶联
+R1196,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14C* + CH* ⇌ CH3(CH2)14CCH* + *,次烷基 + CH
+R1197,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14C* + CH2* ⇌ CH3(CH2)14CCH2* + *,
+R1198,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14C* + CH3* ⇌ CH3(CH2)14CCH3* + *,
+R1199,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH* + C* ⇌ CH3(CH2)14CHC* + *,与表面 C 偶联
+R1200,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH* + CH* ⇌ CH3(CH2)14CHCH* + *,亚烷基 + CH → 烯基
+R1201,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH* + CH2* ⇌ CH3(CH2)14CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1202,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH* + CH3* ⇌ CH3(CH2)14CHCH3* + *,
+R1203,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH2* + C* ⇌ CH3(CH2)15C* + *,与表面 C 偶联
+R1204,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH2* + CH* ⇌ CH3(CH2)15CH* + *,
+R1205,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH2* + CH2* ⇌ CH3(CH2)15CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1206,17,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)14CH2* + CH3* ⇌ CH3(CH2)15CH3* + *,
+R1207,17,5b 链增长: CO 插入,CH3(CH2)14C* + CO* ⇌ CH3(CH2)14CCO* + *,
+R1208,17,5b 链增长: CO 插入,CH3(CH2)14CH* + CO* ⇌ CH3(CH2)14CHCO* + *,
+R1209,17,5b 链增长: CO 插入,CH3(CH2)14CH2* + CO* ⇌ CH3(CH2)14CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1210,17,5c CO 插入中间体加氢,CH3(CH2)14CCO* + H* ⇌ CH3(CH2)14CCHO* + *,C 端加氢
+R1211,17,5c CO 插入中间体加氢,CH3(CH2)14CCHO* + H* ⇌ CH3(CH2)14CCH2O* + *,C 端加氢
+R1212,17,5c CO 插入中间体加氢,CH3(CH2)14CCOH* + H* ⇌ CH3(CH2)14CCHOH* + *,C 端加氢
+R1213,17,5c CO 插入中间体加氢,CH3(CH2)14CCHOH* + H* ⇌ CH3(CH2)14CCH2OH* + *,C 端加氢
+R1214,17,5c CO 插入中间体加氢,CH3(CH2)14CCO* + H* ⇌ CH3(CH2)14CCOH* + *,O 端加氢
+R1215,17,5c CO 插入中间体加氢,CH3(CH2)14CCHO* + H* ⇌ CH3(CH2)14CCHOH* + *,O 端加氢
+R1216,17,5c CO 插入中间体加氢,CH3(CH2)14CCH2O* + H* ⇌ CH3(CH2)14CCH2OH* + *,O 端加氢
+R1217,17,5c CO 插入中间体加氢,CH3(CH2)14CHCO* + H* ⇌ CH3(CH2)14CHCHO* + *,C 端加氢
+R1218,17,5c CO 插入中间体加氢,CH3(CH2)14CHCHO* + H* ⇌ CH3(CH2)14CHCH2O* + *,C 端加氢
+R1219,17,5c CO 插入中间体加氢,CH3(CH2)14CHCOH* + H* ⇌ CH3(CH2)14CHCHOH* + *,C 端加氢
+R1220,17,5c CO 插入中间体加氢,CH3(CH2)14CHCHOH* + H* ⇌ CH3(CH2)14CHCH2OH* + *,C 端加氢
+R1221,17,5c CO 插入中间体加氢,CH3(CH2)14CHCO* + H* ⇌ CH3(CH2)14CHCOH* + *,O 端加氢
+R1222,17,5c CO 插入中间体加氢,CH3(CH2)14CHCHO* + H* ⇌ CH3(CH2)14CHCHOH* + *,O 端加氢
+R1223,17,5c CO 插入中间体加氢,CH3(CH2)14CHCH2O* + H* ⇌ CH3(CH2)14CHCH2OH* + *,O 端加氢
+R1224,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CO* + H* ⇌ CH3(CH2)14CH2CHO* + *,C 端加氢
+R1225,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CHO* + H* ⇌ CH3(CH2)14CH2CH2O* + *,C 端加氢
+R1226,17,5c CO 插入中间体加氢,CH3(CH2)14CH2COH* + H* ⇌ CH3(CH2)14CH2CHOH* + *,C 端加氢
+R1227,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CHOH* + H* ⇌ CH3(CH2)14CH2CH2OH* + *,C 端加氢
+R1228,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CO* + H* ⇌ CH3(CH2)14CH2COH* + *,O 端加氢
+R1229,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CHO* + H* ⇌ CH3(CH2)14CH2CHOH* + *,O 端加氢
+R1230,17,5c CO 插入中间体加氢,CH3(CH2)14CH2CH2O* + H* ⇌ CH3(CH2)14CH2CH2OH* + *,O 端加氢
+R1231,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCO* + * ⇌ CH3(CH2)14CC* + O*,
+R1232,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCOH* + * ⇌ CH3(CH2)14CC* + OH*,
+R1233,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCHO* + * ⇌ CH3(CH2)14CCH* + O*,
+R1234,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCHOH* + * ⇌ CH3(CH2)14CCH* + OH*,
+R1235,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCH2O* + * ⇌ CH3(CH2)14CCH2* + O*,
+R1236,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CCH2OH* + * ⇌ CH3(CH2)14CCH2* + OH*,
+R1237,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCO* + * ⇌ CH3(CH2)14CHC* + O*,
+R1238,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCOH* + * ⇌ CH3(CH2)14CHC* + OH*,
+R1239,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCHO* + * ⇌ CH3(CH2)14CHCH* + O*,
+R1240,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCHOH* + * ⇌ CH3(CH2)14CHCH* + OH*,
+R1241,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCH2O* + * ⇌ CH3(CH2)14CHCH2* + O*,
+R1242,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CHCH2OH* + * ⇌ CH3(CH2)14CHCH2* + OH*,
+R1243,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2CO* + * ⇌ CH3(CH2)15C* + O*,
+R1244,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2COH* + * ⇌ CH3(CH2)15C* + OH*,
+R1245,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2CHO* + * ⇌ CH3(CH2)15CH* + O*,
+R1246,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2CHOH* + * ⇌ CH3(CH2)15CH* + OH*,
+R1247,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2CH2O* + * ⇌ CH3(CH2)15CH2* + O*,
+R1248,17,5d CO 插入中间体 C–O 断裂,CH3(CH2)14CH2CH2OH* + * ⇌ CH3(CH2)15CH2* + OH*,
+R1249,17,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)13CH2COH* + HCOH* ⇌ CH3(CH2)14CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1250,17,5f 链增长: 烯基机理(Maitlis),CH3(CH2)13CHCH* + CH2* ⇌ CH3(CH2)13CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1251,17,5f 链增长: 烯基机理(Maitlis),CH3(CH2)13CHCHCH2* ⇌ CH3(CH2)14CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1252,17,5f 链增长: 烯基机理(Maitlis),CH3(CH2)13CHCHCH2* + H* ⇌ CH3(CH2)14CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1253,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CC* + H* ⇌ CH3(CH2)14CCH* + *,α-C 加氢
+R1254,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CC* + H* ⇌ CH3(CH2)14CHC* + *,β-C 加氢
+R1255,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CCH* + H* ⇌ CH3(CH2)14CCH2* + *,α-C 加氢
+R1256,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CCH* + H* ⇌ CH3(CH2)14CHCH* + *,β-C 加氢
+R1257,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CCH2* + H* ⇌ CH3(CH2)14CCH3* + *,α-C 加氢
+R1258,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CCH2* + H* ⇌ CH3(CH2)14CHCH2* + *,β-C 加氢
+R1259,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CCH3* + H* ⇌ CH3(CH2)14CHCH3* + *,β-C 加氢
+R1260,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHC* + H* ⇌ CH3(CH2)14CHCH* + *,α-C 加氢
+R1261,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHC* + H* ⇌ CH3(CH2)15C* + *,β-C 加氢
+R1262,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHCH* + H* ⇌ CH3(CH2)14CHCH2* + *,α-C 加氢
+R1263,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHCH* + H* ⇌ CH3(CH2)15CH* + *,β-C 加氢
+R1264,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHCH2* + H* ⇌ CH3(CH2)14CHCH3* + *,α-C 加氢
+R1265,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHCH2* + H* ⇌ CH3(CH2)15CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1266,17,5g C_n 中间体加氢/脱氢,CH3(CH2)14CHCH3* + H* ⇌ CH3(CH2)15CH3* + *,β-C 加氢
+R1267,17,5g C_n 中间体加氢/脱氢,CH3(CH2)15C* + H* ⇌ CH3(CH2)15CH* + *,α-C 加氢
+R1268,17,5g C_n 中间体加氢/脱氢,CH3(CH2)15CH* + H* ⇌ CH3(CH2)15CH2* + *,α-C 加氢
+R1269,17,5g C_n 中间体加氢/脱氢,CH3(CH2)15CH2* + H* ⇌ CH3(CH2)15CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1270,17,5h 产物脱附/再吸附,CH3(CH2)15CH3* ⇌ C17H36(g) + *,正构烷烃脱附
+R1271,17,5h 产物脱附/再吸附,CH3(CH2)14CHCH2* ⇌ C17H34(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1272,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15C* + C* ⇌ CH3(CH2)15CC* + *,与表面 C 偶联
+R1273,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15C* + CH* ⇌ CH3(CH2)15CCH* + *,次烷基 + CH
+R1274,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15C* + CH2* ⇌ CH3(CH2)15CCH2* + *,
+R1275,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15C* + CH3* ⇌ CH3(CH2)15CCH3* + *,
+R1276,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH* + C* ⇌ CH3(CH2)15CHC* + *,与表面 C 偶联
+R1277,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH* + CH* ⇌ CH3(CH2)15CHCH* + *,亚烷基 + CH → 烯基
+R1278,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH* + CH2* ⇌ CH3(CH2)15CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1279,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH* + CH3* ⇌ CH3(CH2)15CHCH3* + *,
+R1280,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH2* + C* ⇌ CH3(CH2)16C* + *,与表面 C 偶联
+R1281,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH2* + CH* ⇌ CH3(CH2)16CH* + *,
+R1282,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH2* + CH2* ⇌ CH3(CH2)16CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1283,18,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)15CH2* + CH3* ⇌ CH3(CH2)16CH3* + *,
+R1284,18,5b 链增长: CO 插入,CH3(CH2)15C* + CO* ⇌ CH3(CH2)15CCO* + *,
+R1285,18,5b 链增长: CO 插入,CH3(CH2)15CH* + CO* ⇌ CH3(CH2)15CHCO* + *,
+R1286,18,5b 链增长: CO 插入,CH3(CH2)15CH2* + CO* ⇌ CH3(CH2)15CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1287,18,5c CO 插入中间体加氢,CH3(CH2)15CCO* + H* ⇌ CH3(CH2)15CCHO* + *,C 端加氢
+R1288,18,5c CO 插入中间体加氢,CH3(CH2)15CCHO* + H* ⇌ CH3(CH2)15CCH2O* + *,C 端加氢
+R1289,18,5c CO 插入中间体加氢,CH3(CH2)15CCOH* + H* ⇌ CH3(CH2)15CCHOH* + *,C 端加氢
+R1290,18,5c CO 插入中间体加氢,CH3(CH2)15CCHOH* + H* ⇌ CH3(CH2)15CCH2OH* + *,C 端加氢
+R1291,18,5c CO 插入中间体加氢,CH3(CH2)15CCO* + H* ⇌ CH3(CH2)15CCOH* + *,O 端加氢
+R1292,18,5c CO 插入中间体加氢,CH3(CH2)15CCHO* + H* ⇌ CH3(CH2)15CCHOH* + *,O 端加氢
+R1293,18,5c CO 插入中间体加氢,CH3(CH2)15CCH2O* + H* ⇌ CH3(CH2)15CCH2OH* + *,O 端加氢
+R1294,18,5c CO 插入中间体加氢,CH3(CH2)15CHCO* + H* ⇌ CH3(CH2)15CHCHO* + *,C 端加氢
+R1295,18,5c CO 插入中间体加氢,CH3(CH2)15CHCHO* + H* ⇌ CH3(CH2)15CHCH2O* + *,C 端加氢
+R1296,18,5c CO 插入中间体加氢,CH3(CH2)15CHCOH* + H* ⇌ CH3(CH2)15CHCHOH* + *,C 端加氢
+R1297,18,5c CO 插入中间体加氢,CH3(CH2)15CHCHOH* + H* ⇌ CH3(CH2)15CHCH2OH* + *,C 端加氢
+R1298,18,5c CO 插入中间体加氢,CH3(CH2)15CHCO* + H* ⇌ CH3(CH2)15CHCOH* + *,O 端加氢
+R1299,18,5c CO 插入中间体加氢,CH3(CH2)15CHCHO* + H* ⇌ CH3(CH2)15CHCHOH* + *,O 端加氢
+R1300,18,5c CO 插入中间体加氢,CH3(CH2)15CHCH2O* + H* ⇌ CH3(CH2)15CHCH2OH* + *,O 端加氢
+R1301,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CO* + H* ⇌ CH3(CH2)15CH2CHO* + *,C 端加氢
+R1302,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CHO* + H* ⇌ CH3(CH2)15CH2CH2O* + *,C 端加氢
+R1303,18,5c CO 插入中间体加氢,CH3(CH2)15CH2COH* + H* ⇌ CH3(CH2)15CH2CHOH* + *,C 端加氢
+R1304,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CHOH* + H* ⇌ CH3(CH2)15CH2CH2OH* + *,C 端加氢
+R1305,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CO* + H* ⇌ CH3(CH2)15CH2COH* + *,O 端加氢
+R1306,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CHO* + H* ⇌ CH3(CH2)15CH2CHOH* + *,O 端加氢
+R1307,18,5c CO 插入中间体加氢,CH3(CH2)15CH2CH2O* + H* ⇌ CH3(CH2)15CH2CH2OH* + *,O 端加氢
+R1308,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCO* + * ⇌ CH3(CH2)15CC* + O*,
+R1309,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCOH* + * ⇌ CH3(CH2)15CC* + OH*,
+R1310,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCHO* + * ⇌ CH3(CH2)15CCH* + O*,
+R1311,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCHOH* + * ⇌ CH3(CH2)15CCH* + OH*,
+R1312,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCH2O* + * ⇌ CH3(CH2)15CCH2* + O*,
+R1313,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CCH2OH* + * ⇌ CH3(CH2)15CCH2* + OH*,
+R1314,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCO* + * ⇌ CH3(CH2)15CHC* + O*,
+R1315,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCOH* + * ⇌ CH3(CH2)15CHC* + OH*,
+R1316,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCHO* + * ⇌ CH3(CH2)15CHCH* + O*,
+R1317,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCHOH* + * ⇌ CH3(CH2)15CHCH* + OH*,
+R1318,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCH2O* + * ⇌ CH3(CH2)15CHCH2* + O*,
+R1319,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CHCH2OH* + * ⇌ CH3(CH2)15CHCH2* + OH*,
+R1320,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2CO* + * ⇌ CH3(CH2)16C* + O*,
+R1321,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2COH* + * ⇌ CH3(CH2)16C* + OH*,
+R1322,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2CHO* + * ⇌ CH3(CH2)16CH* + O*,
+R1323,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2CHOH* + * ⇌ CH3(CH2)16CH* + OH*,
+R1324,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2CH2O* + * ⇌ CH3(CH2)16CH2* + O*,
+R1325,18,5d CO 插入中间体 C–O 断裂,CH3(CH2)15CH2CH2OH* + * ⇌ CH3(CH2)16CH2* + OH*,
+R1326,18,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)14CH2COH* + HCOH* ⇌ CH3(CH2)15CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1327,18,5f 链增长: 烯基机理(Maitlis),CH3(CH2)14CHCH* + CH2* ⇌ CH3(CH2)14CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1328,18,5f 链增长: 烯基机理(Maitlis),CH3(CH2)14CHCHCH2* ⇌ CH3(CH2)15CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1329,18,5f 链增长: 烯基机理(Maitlis),CH3(CH2)14CHCHCH2* + H* ⇌ CH3(CH2)15CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1330,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CC* + H* ⇌ CH3(CH2)15CCH* + *,α-C 加氢
+R1331,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CC* + H* ⇌ CH3(CH2)15CHC* + *,β-C 加氢
+R1332,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CCH* + H* ⇌ CH3(CH2)15CCH2* + *,α-C 加氢
+R1333,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CCH* + H* ⇌ CH3(CH2)15CHCH* + *,β-C 加氢
+R1334,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CCH2* + H* ⇌ CH3(CH2)15CCH3* + *,α-C 加氢
+R1335,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CCH2* + H* ⇌ CH3(CH2)15CHCH2* + *,β-C 加氢
+R1336,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CCH3* + H* ⇌ CH3(CH2)15CHCH3* + *,β-C 加氢
+R1337,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHC* + H* ⇌ CH3(CH2)15CHCH* + *,α-C 加氢
+R1338,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHC* + H* ⇌ CH3(CH2)16C* + *,β-C 加氢
+R1339,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHCH* + H* ⇌ CH3(CH2)15CHCH2* + *,α-C 加氢
+R1340,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHCH* + H* ⇌ CH3(CH2)16CH* + *,β-C 加氢
+R1341,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHCH2* + H* ⇌ CH3(CH2)15CHCH3* + *,α-C 加氢
+R1342,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHCH2* + H* ⇌ CH3(CH2)16CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1343,18,5g C_n 中间体加氢/脱氢,CH3(CH2)15CHCH3* + H* ⇌ CH3(CH2)16CH3* + *,β-C 加氢
+R1344,18,5g C_n 中间体加氢/脱氢,CH3(CH2)16C* + H* ⇌ CH3(CH2)16CH* + *,α-C 加氢
+R1345,18,5g C_n 中间体加氢/脱氢,CH3(CH2)16CH* + H* ⇌ CH3(CH2)16CH2* + *,α-C 加氢
+R1346,18,5g C_n 中间体加氢/脱氢,CH3(CH2)16CH2* + H* ⇌ CH3(CH2)16CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1347,18,5h 产物脱附/再吸附,CH3(CH2)16CH3* ⇌ C18H38(g) + *,正构烷烃脱附
+R1348,18,5h 产物脱附/再吸附,CH3(CH2)15CHCH2* ⇌ C18H36(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1349,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16C* + C* ⇌ CH3(CH2)16CC* + *,与表面 C 偶联
+R1350,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16C* + CH* ⇌ CH3(CH2)16CCH* + *,次烷基 + CH
+R1351,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16C* + CH2* ⇌ CH3(CH2)16CCH2* + *,
+R1352,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16C* + CH3* ⇌ CH3(CH2)16CCH3* + *,
+R1353,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH* + C* ⇌ CH3(CH2)16CHC* + *,与表面 C 偶联
+R1354,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH* + CH* ⇌ CH3(CH2)16CHCH* + *,亚烷基 + CH → 烯基
+R1355,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH* + CH2* ⇌ CH3(CH2)16CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1356,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH* + CH3* ⇌ CH3(CH2)16CHCH3* + *,
+R1357,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH2* + C* ⇌ CH3(CH2)17C* + *,与表面 C 偶联
+R1358,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH2* + CH* ⇌ CH3(CH2)17CH* + *,
+R1359,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH2* + CH2* ⇌ CH3(CH2)17CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1360,19,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)16CH2* + CH3* ⇌ CH3(CH2)17CH3* + *,
+R1361,19,5b 链增长: CO 插入,CH3(CH2)16C* + CO* ⇌ CH3(CH2)16CCO* + *,
+R1362,19,5b 链增长: CO 插入,CH3(CH2)16CH* + CO* ⇌ CH3(CH2)16CHCO* + *,
+R1363,19,5b 链增长: CO 插入,CH3(CH2)16CH2* + CO* ⇌ CH3(CH2)16CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1364,19,5c CO 插入中间体加氢,CH3(CH2)16CCO* + H* ⇌ CH3(CH2)16CCHO* + *,C 端加氢
+R1365,19,5c CO 插入中间体加氢,CH3(CH2)16CCHO* + H* ⇌ CH3(CH2)16CCH2O* + *,C 端加氢
+R1366,19,5c CO 插入中间体加氢,CH3(CH2)16CCOH* + H* ⇌ CH3(CH2)16CCHOH* + *,C 端加氢
+R1367,19,5c CO 插入中间体加氢,CH3(CH2)16CCHOH* + H* ⇌ CH3(CH2)16CCH2OH* + *,C 端加氢
+R1368,19,5c CO 插入中间体加氢,CH3(CH2)16CCO* + H* ⇌ CH3(CH2)16CCOH* + *,O 端加氢
+R1369,19,5c CO 插入中间体加氢,CH3(CH2)16CCHO* + H* ⇌ CH3(CH2)16CCHOH* + *,O 端加氢
+R1370,19,5c CO 插入中间体加氢,CH3(CH2)16CCH2O* + H* ⇌ CH3(CH2)16CCH2OH* + *,O 端加氢
+R1371,19,5c CO 插入中间体加氢,CH3(CH2)16CHCO* + H* ⇌ CH3(CH2)16CHCHO* + *,C 端加氢
+R1372,19,5c CO 插入中间体加氢,CH3(CH2)16CHCHO* + H* ⇌ CH3(CH2)16CHCH2O* + *,C 端加氢
+R1373,19,5c CO 插入中间体加氢,CH3(CH2)16CHCOH* + H* ⇌ CH3(CH2)16CHCHOH* + *,C 端加氢
+R1374,19,5c CO 插入中间体加氢,CH3(CH2)16CHCHOH* + H* ⇌ CH3(CH2)16CHCH2OH* + *,C 端加氢
+R1375,19,5c CO 插入中间体加氢,CH3(CH2)16CHCO* + H* ⇌ CH3(CH2)16CHCOH* + *,O 端加氢
+R1376,19,5c CO 插入中间体加氢,CH3(CH2)16CHCHO* + H* ⇌ CH3(CH2)16CHCHOH* + *,O 端加氢
+R1377,19,5c CO 插入中间体加氢,CH3(CH2)16CHCH2O* + H* ⇌ CH3(CH2)16CHCH2OH* + *,O 端加氢
+R1378,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CO* + H* ⇌ CH3(CH2)16CH2CHO* + *,C 端加氢
+R1379,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CHO* + H* ⇌ CH3(CH2)16CH2CH2O* + *,C 端加氢
+R1380,19,5c CO 插入中间体加氢,CH3(CH2)16CH2COH* + H* ⇌ CH3(CH2)16CH2CHOH* + *,C 端加氢
+R1381,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CHOH* + H* ⇌ CH3(CH2)16CH2CH2OH* + *,C 端加氢
+R1382,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CO* + H* ⇌ CH3(CH2)16CH2COH* + *,O 端加氢
+R1383,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CHO* + H* ⇌ CH3(CH2)16CH2CHOH* + *,O 端加氢
+R1384,19,5c CO 插入中间体加氢,CH3(CH2)16CH2CH2O* + H* ⇌ CH3(CH2)16CH2CH2OH* + *,O 端加氢
+R1385,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCO* + * ⇌ CH3(CH2)16CC* + O*,
+R1386,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCOH* + * ⇌ CH3(CH2)16CC* + OH*,
+R1387,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCHO* + * ⇌ CH3(CH2)16CCH* + O*,
+R1388,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCHOH* + * ⇌ CH3(CH2)16CCH* + OH*,
+R1389,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCH2O* + * ⇌ CH3(CH2)16CCH2* + O*,
+R1390,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CCH2OH* + * ⇌ CH3(CH2)16CCH2* + OH*,
+R1391,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCO* + * ⇌ CH3(CH2)16CHC* + O*,
+R1392,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCOH* + * ⇌ CH3(CH2)16CHC* + OH*,
+R1393,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCHO* + * ⇌ CH3(CH2)16CHCH* + O*,
+R1394,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCHOH* + * ⇌ CH3(CH2)16CHCH* + OH*,
+R1395,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCH2O* + * ⇌ CH3(CH2)16CHCH2* + O*,
+R1396,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CHCH2OH* + * ⇌ CH3(CH2)16CHCH2* + OH*,
+R1397,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2CO* + * ⇌ CH3(CH2)17C* + O*,
+R1398,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2COH* + * ⇌ CH3(CH2)17C* + OH*,
+R1399,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2CHO* + * ⇌ CH3(CH2)17CH* + O*,
+R1400,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2CHOH* + * ⇌ CH3(CH2)17CH* + OH*,
+R1401,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2CH2O* + * ⇌ CH3(CH2)17CH2* + O*,
+R1402,19,5d CO 插入中间体 C–O 断裂,CH3(CH2)16CH2CH2OH* + * ⇌ CH3(CH2)17CH2* + OH*,
+R1403,19,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)15CH2COH* + HCOH* ⇌ CH3(CH2)16CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1404,19,5f 链增长: 烯基机理(Maitlis),CH3(CH2)15CHCH* + CH2* ⇌ CH3(CH2)15CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1405,19,5f 链增长: 烯基机理(Maitlis),CH3(CH2)15CHCHCH2* ⇌ CH3(CH2)16CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1406,19,5f 链增长: 烯基机理(Maitlis),CH3(CH2)15CHCHCH2* + H* ⇌ CH3(CH2)16CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1407,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CC* + H* ⇌ CH3(CH2)16CCH* + *,α-C 加氢
+R1408,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CC* + H* ⇌ CH3(CH2)16CHC* + *,β-C 加氢
+R1409,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CCH* + H* ⇌ CH3(CH2)16CCH2* + *,α-C 加氢
+R1410,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CCH* + H* ⇌ CH3(CH2)16CHCH* + *,β-C 加氢
+R1411,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CCH2* + H* ⇌ CH3(CH2)16CCH3* + *,α-C 加氢
+R1412,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CCH2* + H* ⇌ CH3(CH2)16CHCH2* + *,β-C 加氢
+R1413,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CCH3* + H* ⇌ CH3(CH2)16CHCH3* + *,β-C 加氢
+R1414,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHC* + H* ⇌ CH3(CH2)16CHCH* + *,α-C 加氢
+R1415,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHC* + H* ⇌ CH3(CH2)17C* + *,β-C 加氢
+R1416,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHCH* + H* ⇌ CH3(CH2)16CHCH2* + *,α-C 加氢
+R1417,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHCH* + H* ⇌ CH3(CH2)17CH* + *,β-C 加氢
+R1418,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHCH2* + H* ⇌ CH3(CH2)16CHCH3* + *,α-C 加氢
+R1419,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHCH2* + H* ⇌ CH3(CH2)17CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1420,19,5g C_n 中间体加氢/脱氢,CH3(CH2)16CHCH3* + H* ⇌ CH3(CH2)17CH3* + *,β-C 加氢
+R1421,19,5g C_n 中间体加氢/脱氢,CH3(CH2)17C* + H* ⇌ CH3(CH2)17CH* + *,α-C 加氢
+R1422,19,5g C_n 中间体加氢/脱氢,CH3(CH2)17CH* + H* ⇌ CH3(CH2)17CH2* + *,α-C 加氢
+R1423,19,5g C_n 中间体加氢/脱氢,CH3(CH2)17CH2* + H* ⇌ CH3(CH2)17CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1424,19,5h 产物脱附/再吸附,CH3(CH2)17CH3* ⇌ C19H40(g) + *,正构烷烃脱附
+R1425,19,5h 产物脱附/再吸附,CH3(CH2)16CHCH2* ⇌ C19H38(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
+R1426,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17C* + C* ⇌ CH3(CH2)17CC* + *,与表面 C 偶联
+R1427,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17C* + CH* ⇌ CH3(CH2)17CCH* + *,次烷基 + CH
+R1428,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17C* + CH2* ⇌ CH3(CH2)17CCH2* + *,
+R1429,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17C* + CH3* ⇌ CH3(CH2)17CCH3* + *,
+R1430,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH* + C* ⇌ CH3(CH2)17CHC* + *,与表面 C 偶联
+R1431,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH* + CH* ⇌ CH3(CH2)17CHCH* + *,亚烷基 + CH → 烯基
+R1432,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH* + CH2* ⇌ CH3(CH2)17CHCH2* + *,亚烷基 + CH2 → 吸附 α-烯烃
+R1433,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH* + CH3* ⇌ CH3(CH2)17CHCH3* + *,
+R1434,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH2* + C* ⇌ CH3(CH2)18C* + *,与表面 C 偶联
+R1435,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH2* + CH* ⇌ CH3(CH2)18CH* + *,
+R1436,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH2* + CH2* ⇌ CH3(CH2)18CH2* + *,烷基机理(Brady–Pettit): CH2 插入金属–烷基键
+R1437,20,5a 链增长: C–C 偶联(碳化物机理),CH3(CH2)17CH2* + CH3* ⇌ CH3(CH2)18CH3* + *,
+R1438,20,5b 链增长: CO 插入,CH3(CH2)17C* + CO* ⇌ CH3(CH2)17CCO* + *,
+R1439,20,5b 链增长: CO 插入,CH3(CH2)17CH* + CO* ⇌ CH3(CH2)17CHCO* + *,
+R1440,20,5b 链增长: CO 插入,CH3(CH2)17CH2* + CO* ⇌ CH3(CH2)17CH2CO* + *,CO 插入金属–烷基键(Pichler–Schulz)
+R1441,20,5c CO 插入中间体加氢,CH3(CH2)17CCO* + H* ⇌ CH3(CH2)17CCHO* + *,C 端加氢
+R1442,20,5c CO 插入中间体加氢,CH3(CH2)17CCHO* + H* ⇌ CH3(CH2)17CCH2O* + *,C 端加氢
+R1443,20,5c CO 插入中间体加氢,CH3(CH2)17CCOH* + H* ⇌ CH3(CH2)17CCHOH* + *,C 端加氢
+R1444,20,5c CO 插入中间体加氢,CH3(CH2)17CCHOH* + H* ⇌ CH3(CH2)17CCH2OH* + *,C 端加氢
+R1445,20,5c CO 插入中间体加氢,CH3(CH2)17CCO* + H* ⇌ CH3(CH2)17CCOH* + *,O 端加氢
+R1446,20,5c CO 插入中间体加氢,CH3(CH2)17CCHO* + H* ⇌ CH3(CH2)17CCHOH* + *,O 端加氢
+R1447,20,5c CO 插入中间体加氢,CH3(CH2)17CCH2O* + H* ⇌ CH3(CH2)17CCH2OH* + *,O 端加氢
+R1448,20,5c CO 插入中间体加氢,CH3(CH2)17CHCO* + H* ⇌ CH3(CH2)17CHCHO* + *,C 端加氢
+R1449,20,5c CO 插入中间体加氢,CH3(CH2)17CHCHO* + H* ⇌ CH3(CH2)17CHCH2O* + *,C 端加氢
+R1450,20,5c CO 插入中间体加氢,CH3(CH2)17CHCOH* + H* ⇌ CH3(CH2)17CHCHOH* + *,C 端加氢
+R1451,20,5c CO 插入中间体加氢,CH3(CH2)17CHCHOH* + H* ⇌ CH3(CH2)17CHCH2OH* + *,C 端加氢
+R1452,20,5c CO 插入中间体加氢,CH3(CH2)17CHCO* + H* ⇌ CH3(CH2)17CHCOH* + *,O 端加氢
+R1453,20,5c CO 插入中间体加氢,CH3(CH2)17CHCHO* + H* ⇌ CH3(CH2)17CHCHOH* + *,O 端加氢
+R1454,20,5c CO 插入中间体加氢,CH3(CH2)17CHCH2O* + H* ⇌ CH3(CH2)17CHCH2OH* + *,O 端加氢
+R1455,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CO* + H* ⇌ CH3(CH2)17CH2CHO* + *,C 端加氢
+R1456,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CHO* + H* ⇌ CH3(CH2)17CH2CH2O* + *,C 端加氢
+R1457,20,5c CO 插入中间体加氢,CH3(CH2)17CH2COH* + H* ⇌ CH3(CH2)17CH2CHOH* + *,C 端加氢
+R1458,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CHOH* + H* ⇌ CH3(CH2)17CH2CH2OH* + *,C 端加氢
+R1459,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CO* + H* ⇌ CH3(CH2)17CH2COH* + *,O 端加氢
+R1460,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CHO* + H* ⇌ CH3(CH2)17CH2CHOH* + *,O 端加氢
+R1461,20,5c CO 插入中间体加氢,CH3(CH2)17CH2CH2O* + H* ⇌ CH3(CH2)17CH2CH2OH* + *,O 端加氢
+R1462,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCO* + * ⇌ CH3(CH2)17CC* + O*,
+R1463,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCOH* + * ⇌ CH3(CH2)17CC* + OH*,
+R1464,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCHO* + * ⇌ CH3(CH2)17CCH* + O*,
+R1465,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCHOH* + * ⇌ CH3(CH2)17CCH* + OH*,
+R1466,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCH2O* + * ⇌ CH3(CH2)17CCH2* + O*,
+R1467,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CCH2OH* + * ⇌ CH3(CH2)17CCH2* + OH*,
+R1468,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCO* + * ⇌ CH3(CH2)17CHC* + O*,
+R1469,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCOH* + * ⇌ CH3(CH2)17CHC* + OH*,
+R1470,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCHO* + * ⇌ CH3(CH2)17CHCH* + O*,
+R1471,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCHOH* + * ⇌ CH3(CH2)17CHCH* + OH*,
+R1472,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCH2O* + * ⇌ CH3(CH2)17CHCH2* + O*,
+R1473,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CHCH2OH* + * ⇌ CH3(CH2)17CHCH2* + OH*,
+R1474,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2CO* + * ⇌ CH3(CH2)18C* + O*,
+R1475,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2COH* + * ⇌ CH3(CH2)18C* + OH*,
+R1476,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2CHO* + * ⇌ CH3(CH2)18CH* + O*,
+R1477,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2CHOH* + * ⇌ CH3(CH2)18CH* + OH*,
+R1478,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2CH2O* + * ⇌ CH3(CH2)18CH2* + O*,
+R1479,20,5d CO 插入中间体 C–O 断裂,CH3(CH2)17CH2CH2OH* + * ⇌ CH3(CH2)18CH2* + OH*,
+R1480,20,5e 链增长: 烯醇缩合(Storch–Anderson),CH3(CH2)16CH2COH* + HCOH* ⇌ CH3(CH2)17CCOH* + H2O*,RC(OH)* + HCOH* 脱水缩合
+R1481,20,5f 链增长: 烯基机理(Maitlis),CH3(CH2)16CHCH* + CH2* ⇌ CH3(CH2)16CHCHCH2* + *,烯基 + CH2 → 烯丙基
+R1482,20,5f 链增长: 烯基机理(Maitlis),CH3(CH2)16CHCHCH2* ⇌ CH3(CH2)17CHCH*,"烯丙基 ⇌ 烯基 (1,3-H 迁移)"
+R1483,20,5f 链增长: 烯基机理(Maitlis),CH3(CH2)16CHCHCH2* + H* ⇌ CH3(CH2)17CHCH2* + *,烯丙基加氢 → 吸附 α-烯烃
+R1484,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CC* + H* ⇌ CH3(CH2)17CCH* + *,α-C 加氢
+R1485,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CC* + H* ⇌ CH3(CH2)17CHC* + *,β-C 加氢
+R1486,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CCH* + H* ⇌ CH3(CH2)17CCH2* + *,α-C 加氢
+R1487,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CCH* + H* ⇌ CH3(CH2)17CHCH* + *,β-C 加氢
+R1488,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CCH2* + H* ⇌ CH3(CH2)17CCH3* + *,α-C 加氢
+R1489,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CCH2* + H* ⇌ CH3(CH2)17CHCH2* + *,β-C 加氢
+R1490,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CCH3* + H* ⇌ CH3(CH2)17CHCH3* + *,β-C 加氢
+R1491,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHC* + H* ⇌ CH3(CH2)17CHCH* + *,α-C 加氢
+R1492,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHC* + H* ⇌ CH3(CH2)18C* + *,β-C 加氢
+R1493,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHCH* + H* ⇌ CH3(CH2)17CHCH2* + *,α-C 加氢
+R1494,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHCH* + H* ⇌ CH3(CH2)18CH* + *,β-C 加氢
+R1495,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHCH2* + H* ⇌ CH3(CH2)17CHCH3* + *,α-C 加氢
+R1496,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHCH2* + H* ⇌ CH3(CH2)18CH2* + *,逆反应 = 烷基 β-H 消除 → α-烯烃(链终止)
+R1497,20,5g C_n 中间体加氢/脱氢,CH3(CH2)17CHCH3* + H* ⇌ CH3(CH2)18CH3* + *,β-C 加氢
+R1498,20,5g C_n 中间体加氢/脱氢,CH3(CH2)18C* + H* ⇌ CH3(CH2)18CH* + *,α-C 加氢
+R1499,20,5g C_n 中间体加氢/脱氢,CH3(CH2)18CH* + H* ⇌ CH3(CH2)18CH2* + *,α-C 加氢
+R1500,20,5g C_n 中间体加氢/脱氢,CH3(CH2)18CH2* + H* ⇌ CH3(CH2)18CH3* + *,链终止: 烷基加氢(还原消除) → 正构烷烃
+R1501,20,5h 产物脱附/再吸附,CH3(CH2)18CH3* ⇌ C20H42(g) + *,正构烷烃脱附
+R1502,20,5h 产物脱附/再吸附,CH3(CH2)17CHCH2* ⇌ C20H40(g) + *,α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)
