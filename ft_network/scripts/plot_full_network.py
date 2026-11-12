@@ -24,7 +24,7 @@ RX = list(csv.DictReader(open(ROOT / "data/c8/reactions.csv", encoding="utf-8-si
 SPEC = {s.name: s for s in bn.SPECIES.values()}
 
 plt.rcParams["font.sans-serif"] = ["Liberation Sans", "WenQuanYi Zen Hei", "DejaVu Sans"]
-W, H = 56.0, 31.5
+W, H = 36.4, 32.6
 fig = plt.figure(figsize=(W, H))
 ax = fig.add_axes([0, 0, 1, 1])
 ax.set_xlim(0, W)
@@ -50,6 +50,8 @@ for n in range(3, NMAX + 1):
     if n % 2:                        # V 型放在上一个 H 型正下方
         prev_b = 4 if n == 3 else 3
         y = y + (prev_b - 1) * BH + LANE * SV + 1.15
+        if n == 5:                   # 折行: C5 起回到左侧, 另起第二段阶梯
+            x, y = 2.4, y + 1.25
         ORI[n] = ("V", x, y)
     else:                            # H 型放在上一个 V 型右侧
         x = x + STEPX
@@ -274,7 +276,8 @@ for n in range(2, NMAX + 1):
                     DRAWN.append(r["id"])
         else:                                    # 从上方进入
             start = (sx + off, sy + NH / 2)
-            chy = y0 - 0.35 - 0.1 * i
+            left = sx > x0 + 2 * BW + LANE * PU           # 折行: 源在目标右侧
+            chy = y0 - 1.5 - 0.1 * (5 - i) if left else y0 - 0.35 - 0.1 * i
             if kind == "P":
                 tgt = bn.oxy(f, 0, 0).name
                 tx, ty = POS[tgt]
@@ -361,47 +364,50 @@ for n in range(2, NMAX + 1):
     else:
         ax.text(x0 - 1.05, y0 + 1.5 * UV, f"C{n}", fontsize=40, fontweight="bold", color="#0F4C5C", ha="center", va="center")
         for a, f in enumerate(FRAG[n - 1]):
-            ax.text(x0 + a * BW + PU, y0 + 3.75 * UV, f"来自 {f.name}", fontsize=7, color="#8A9AA3", ha="center", va="center")
+            ax.text(x0 + a * BW + PU, y0 + 4.55 * UV, f"来自 {f.name}", fontsize=7, color="#8A9AA3", ha="center", va="center")
 
 # ------------------------------------------------------------------ 图例
-LX, LY = 22.5, 3.3
 T = "#1B2A33"
-ax.text(LX, LY, "节点", fontsize=24, fontweight="bold", color="#0F4C5C", va="center")
-items = [("hc", "烃类表面中间体（自由基 / 卡宾 / 卡拜型）"), ("frag", "链增长片段：再接 CHx 或 CO"), ("oxy", "含氧中间体（CO 插入 / 氢助路径）"),
+LX, LY = 27.9, 12.0
+ax.text(LX, LY, "节点", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
+items = [("hc", "烃类表面中间体（自由基/卡宾/卡拜型）"), ("frag", "链增长片段：再接 CHx 或 CO"), ("oxy", "含氧中间体（CO 插入 / 氢助路径）"),
          ("allyl", "η3-烯丙基"), ("small", "小分子吸附物种"), ("gas", "气相产物"), ("gasin", "气相反应物")]
 for i, (st, txt) in enumerate(items):
-    yy = LY + 0.9 + i * 0.72
+    yy = LY + 0.8 + i * 0.62
     fc, ec = FILL[st]
-    ax.add_patch(FancyBboxPatch((LX, yy - 0.2), 1.1, 0.4, boxstyle="round,pad=0,rounding_size=0.07", fc=fc, ec=ec, lw=1.4))
-    ax.text(LX + 1.4, yy, txt, fontsize=18, va="center", color=T)
-EX = LX + 11.5
-ax.text(EX, LY, "箭头（每条 = 一个可逆基元步骤）", fontsize=24, fontweight="bold", color="#0F4C5C", va="center")
+    ax.add_patch(FancyBboxPatch((LX, yy - 0.18), 1.0, 0.36, boxstyle="round,pad=0,rounding_size=0.07", fc=fc, ec=ec, lw=1.4))
+    ax.text(LX + 1.3, yy, txt, fontsize=16, va="center", color=T)
+EY = LY + 5.6
+ax.text(LX, EY, "箭头（每条 = 一个可逆基元步骤）", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
 edges = [(K_H, "-", "加氢 / 脱氢（± H*）"), (K_OH, "-", "O 端加氢"), (K_CO, "-", "C–O 断裂，生成 O*"), (K_CO, "--", "C–O 断裂，生成 OH*"),
          (K_CC, "-", "C–C 偶联：片段 + CHx*（碳化物机理）"), (K_INS, "-", "CO 插入：片段 + CO*"),
          (K_ENOL, "--", "烯醇缩合：+ HCOH*，− H2O*"), (K_ALK, "-", "烯基机理：烯基 + CH2* → 烯丙基"),
          (K_DES, "-", "脱附 → 气相产物"), (K_WGS, "-", "除氧 / 水煤气变换")]
 for i, (c, ls, txt) in enumerate(edges):
-    col, rw = divmod(i, 5)
-    yy = LY + 0.9 + rw * 0.72
-    xx = EX + col * 10.3
-    arrow((xx, yy), (xx + 1.5, yy), c, ls, lw=2.2)
-    ax.text(xx + 1.8, yy, txt, fontsize=18, va="center", color=T)
-NX, NY = 1.0, 20.2
-ax.text(NX, NY, "怎么读这张图", fontsize=24, fontweight="bold", color="#0F4C5C", va="center")
-notes = ["每个节点是一个物种，共 258 个；每条箭头是一个可逆基元步骤，共 578 条，",
-         "箭头指向书写的正方向，旁边的小数字是反应编号（1–578）。",
-         "箭头只连接含碳主体；共反应物（H*、O*、OH*、CHx*、CO*、空位 *）",
-         "由箭头颜色表示。",
-         "绿色干线：上一碳数的片段 R–CHa* 进入对应的带，分支到 R–CHa–CHb*",
-         "（b = 0…3），即分别与 C*、CH*、CH2*、CH3* 偶联。",
-         "紫色线：同一片段 + CO* 得到 R–CHa–CO*，再经加氢和 C–O 断裂",
-         "落回该带的烃类中间体。",
+    yy = EY + 0.8 + i * 0.62
+    arrow((LX, yy), (LX + 1.0, yy), c, ls, lw=2.2)
+    ax.text(LX + 1.3, yy, txt, fontsize=16, va="center", color=T)
+NX, NY = 14.0, 3.5
+ax.text(NX, NY, "怎么读这张图", fontsize=22, fontweight="bold", color="#0F4C5C", va="center")
+notes = ["每个节点是一个物种，每条箭头是一个可逆基元步骤，箭头指向书写的正方向，旁边的小数字是反应编号（1–578）。",
+         "箭头只连接含碳主体；共反应物（H*、O*、OH*、CHx*、CO*、空位 *）由箭头颜色表示。",
+         "区块按碳数排列：C1 → C4 为第一段阶梯，C5 → C8 折到下方为第二段。",
+         "区块内每个链增长片段对应一条带：中间是烃类中间体，两侧是 CO 插入得到的含氧中间体。",
+         "绿色干线：上一碳数的片段 R–CHa* 进入对应的带，分支到 R–CHa–CHb*（b = 0…3），即与 C*、CH*、CH2*、CH3* 偶联。",
+         "紫色线：同一片段 + CO* 得到 R–CHa–CO*，再经加氢和 C–O 断裂落回该带的烃类中间体。",
          "带内相邻的烃类节点差一个 α-氢，跨带相邻的差一个 β-氢。",
          "终点：R–CH2–CH3* 脱附为正构烷烃，R–CH=CH2* 脱附为直链 α-烯烃。"]
 for i, tline in enumerate(notes):
-    ax.text(NX, NY + 1.0 + i * 0.68, tline, fontsize=18, va="center", color=T)
+    ax.text(NX, NY + 0.95 + i * 0.72, tline, fontsize=16, va="center", color=T)
+SX, SY = 1.0, 25.6
+for i, (num, lab, col) in enumerate([("258", "物种（节点）", "#3B6FB6"), ("578", "可逆基元步骤（箭头）", "#0F4C5C"),
+                                     ("221", "开壳层（自由基型）表面中间体", "#6B2D5C"), ("15", "烃产物：C1–C8 正构烷烃 + C2–C8 α-烯烃", "#D9580D")]):
+    xx, yy = SX + (i % 2) * 6.9, SY + (i // 2) * 3.2
+    ax.add_patch(FancyBboxPatch((xx, yy), 6.5, 2.8, boxstyle="round,pad=0,rounding_size=0.15", fc="#EEF3F4", ec="none"))
+    ax.text(xx + 3.25, yy + 1.1, num, fontsize=80, fontweight="bold", color=col, ha="center", va="center", fontfamily="Liberation Sans")
+    ax.text(xx + 3.25, yy + 2.25, lab, fontsize=16, color=T, ha="center", va="center")
 
 out = ROOT / "figures"
-fig.savefig(out / "ft_network_C1-C8_full.png", dpi=200, facecolor="white")
+fig.savefig(out / "ft_network_C1-C8_full.png", dpi=215, facecolor="white")
 fig.savefig(out / "ft_network_C1-C8_full.pdf", facecolor="white")
 print(f"节点 {len(POS)}, 箭头 {len(DRAWN)}")

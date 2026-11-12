@@ -1,4 +1,4 @@
-// 网络图版: 一页 56×31.5 英寸 (16:9) 幻灯片, 放 figures/ft_network_C1-C8_full.png
+// 网络图版: 一页 36.4×32.6 英寸幻灯片, 放 figures/ft_network_C1-C8_full.png
 // 用法: node build_network_pptx.js <pptx skill 目录>   (先运行 plot_full_network.py)
 const path = require("path");
 const pptxgen = require("pptxgenjs");
@@ -11,17 +11,17 @@ const THEME = {
             accent3: "6B2D5C", accent4: "2E8B57", accent5: "3B6FB6", accent6: "8A9AA3", hlink: "3B6FB6", folHlink: "6B2D5C" },
 };
 const pres = new pptxgen();
-pres.defineLayout({ name: "POSTER", width: 56, height: 31.5 });
+pres.defineLayout({ name: "POSTER", width: 36.4, height: 32.6 });
 pres.layout = "POSTER";
 pres.theme = { headFontFace: "Arial", bodyFontFace: "Arial" };
 pres.title = "费托合成直链烃完整反应网络图 (C1–C8)";
 const C = pres.SchemeColor;
 const s = pres.addSlide();
 s.background = { color: C.background1 };
-s.addImage({ path: path.join(ROOT, "figures/ft_network_C1-C8_full.png"), x: 0, y: 0, w: 56, h: 31.5, objectName: "network",
-  altText: "费托合成 C1–C8 反应网络图：258 个物种节点、578 条基元步骤箭头，按碳数分块呈阶梯排列" });
+s.addImage({ path: path.join(ROOT, "figures/ft_network_C1-C8_full.png"), x: 0, y: 0, w: 36.4, h: 32.6, objectName: "network",
+  altText: "费托合成 C1–C8 反应网络图：258 个物种节点、578 条基元步骤箭头，按碳数分块、分两段阶梯排列" });
 s.addText("费托合成生成直链烃的完整反应网络（C1–C8）",
-  { x: 22.5, y: 0.6, w: 32.5, h: 1.2, fontSize: 60, bold: true, color: C.text2, margin: 0, valign: "middle", isTextBox: true });
+  { x: 14.0, y: 0.7, w: 21.8, h: 1.1, fontSize: 48, bold: true, color: C.text2, margin: 0, valign: "middle", isTextBox: true });
 s.addText("258 个物种 · 578 个可逆基元步骤 · 含全部自由基型表面中间体",
-  { x: 22.5, y: 1.8, w: 32.5, h: 0.7, fontSize: 28, color: C.accent6, margin: 0, valign: "middle", isTextBox: true });
+  { x: 14.0, y: 1.85, w: 21.8, h: 0.6, fontSize: 24, color: C.accent6, margin: 0, valign: "middle", isTextBox: true });
 (async () => { await pres.writeFile({ fileName: OUT }); await applyTheme(OUT, THEME); console.log(OUT); })();
