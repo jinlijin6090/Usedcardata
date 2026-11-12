@@ -322,6 +322,52 @@ def build(nmax):
             rxn(n, cat, [hc(n, 1, 2)], [alkene_g(n)], "α-烯烃脱附; 逆向 = 再吸附(二次加氢/再引发)")
 
 
+SMALL_FV = {"H*": 1, "O*": 2, "OH*": 1, "H2O*": 0, "CO*": 0, "CO2*": 0, "COOH*": 1, "HCOO*": 1}
+SMALL_RAD = {"H*": "氢原子 H·", "O*": "氧原子 ·O·", "OH*": "羟基自由基 ·OH", "COOH*": "羧基自由基 ·COOH",
+             "HCOO*": "甲酰氧基自由基 HCOO·"}
+RAD = {
+    "表面碳(碳化物)": "碳原子", "次甲基 CH": "次甲基自由基 ·CH (卡拜)", "亚甲基 CH2": "亚甲基 :CH2 (卡宾)",
+    "甲基 CH3": "甲基自由基 ·CH3", "甲酰基": "甲酰基自由基 HĊ=O", "羟基次甲基": "羟基卡拜 ·C–OH",
+    "羟基卡宾": "羟基卡宾 H–C̈–OH", "甲醛型": "甲醛 CH2=O (闭壳层)", "羟甲基": "羟甲基自由基 ·CH2OH",
+    "甲氧基": "甲氧基自由基 CH3O·",
+    "1-烷基 alkyl": "伯烷基自由基 RCH2ĊH2", "乙基": "乙基自由基 CH3ĊH2",
+    "亚烷基 alkylidene": "烷基卡宾 RCH2C̈H", "亚乙基": "甲基卡宾 CH3C̈H",
+    "次烷基 alkylidyne": "烷基卡拜 RCH2C⋮", "次乙基": "甲基卡拜 CH3C⋮",
+    "2-烷基(仲烷基)": "仲烷基自由基 RĊHCH3", "α-烯烃(π/di-σ 吸附)": "α-烯烃 (闭壳层) / 1,2-双自由基",
+    "乙烯(π/di-σ 吸附)": "乙烯 (闭壳层) / 1,2-双自由基",
+    "1-烯基 alkenyl": "烯基自由基 RCH=ĊH", "乙烯基": "乙烯基自由基 CH2=ĊH",
+    "亚乙烯基型 vinylidene": "亚乙烯基卡宾 RCH=C:", "亚乙烯基": "亚乙烯基卡宾 CH2=C:",
+    "2-亚烷基": "二烷基卡宾 R–C̈–CH3", "1-烯-2-基": "2-烯基自由基 RĊ=CH2",
+    "1-炔(吸附)": "1-炔 (闭壳层)", "乙炔(吸附)": "乙炔 (闭壳层)",
+    "炔基 alkynyl": "炔基自由基 RC≡C·", "乙炔基": "乙炔基自由基 HC≡C·", "C2 二聚体": "C2 双原子碳",
+    "η3-烯丙基": "烯丙基自由基 (共振稳定)",
+    "酰基/烯酮型(CO 插入产物)": "含氧端基: 酰基 –Ċ=O", "羟基卡宾/烯醇型": "含氧端基: 羟基卡宾 –C̈–OH",
+    "醛型": "含氧端基: 醛基 –CH=O", "羟烷基型": "含氧端基: α-羟烷基 –ĊHOH",
+    "烷氧基型": "含氧端基: 烷氧基 –CH2O·", "醇型": "含氧端基: 醇 –CH2OH",
+}
+
+
+def free_valence(s):
+    if s.sites == 0:
+        return 0
+    if s.name in SMALL_FV:
+        return SMALL_FV[s.name]
+    return 2 * s.C + 2 - s.H
+
+
+def radical_form(s):
+    if s.sites == 0:
+        return "闭壳层分子"
+    if s.name in SMALL_RAD:
+        return SMALL_RAD[s.name]
+    if free_valence(s) == 0:
+        return "闭壳层分子(物理吸附)"
+    r = RAD.get(s.kind, "")
+    if r.startswith("含氧端基") and s.H == 2 * s.C + 1:
+        r += " (单自由基)"
+    return r
+
+
 # --------------------------------------------------------------------------
 # 输出
 # --------------------------------------------------------------------------
@@ -333,11 +379,29 @@ def write(out: Path, nmax: int):
         w = csv.DictWriter(f, fieldnames=["id", "n", "category", "equation", "note"])
         w.writeheader()
         w.writerows(REACTIONS)
+    order = sorted(SPECIES.values(), key=lambda s: (s.n, s.sites == 0, s.O, s.H, s.name))
     with open(out / "species.csv", "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["species", "carbon_number", "C", "H", "O", "phase", "type"])
-        for s in sorted(SPECIES.values(), key=lambda s: (s.n, s.sites == 0, s.O, s.H)):
-            w.writerow([s.name, s.n, s.C, s.H, s.O, "gas" if s.sites == 0 else "surface", s.kind])
+        w.writerow(["species", "carbon_number", "C", "H", "O", "phase", "type",
+                    "free_valence", "radical_form"])
+        for s in order:
+            w.writerow([s.name, s.n, s.C, s.H, s.O, "gas" if s.sites == 0 else "surface", s.kind,
+                        free_valence(s), radical_form(s)])
+    sl = [f"# 物种全表 (C1–C{nmax})：{len(SPECIES)} 个", "",
+          "自由价 = 该片段脱离表面后未饱和的价键总数（= 2C+2−H，含 C–C 多重键折算；"
+          "小分子按常规价态）。自由价 1 = 单自由基，2 = 双自由基/卡宾，3 = 卡拜型，依此类推；"
+          "0 = 闭壳层分子。", ""]
+    cur = None
+    for s in order:
+        if s.n != cur:
+            cur = s.n
+            sl += ["", f"## {'通用小分子' if cur == 0 else 'C' + str(cur)}", "",
+                   "| 物种 | 分子式 | 相 | 类型 | 自由价 | 游离态对应物(自由基) |", "|---|---|---|---|---|---|"]
+        fm = (f"C{s.C}" if s.C > 1 else "C" * s.C) + (f"H{s.H}" if s.H > 1 else "H" * s.H) \
+            + (f"O{s.O}" if s.O > 1 else "O" * s.O)
+        sl.append(f"| `{s.name}` | {fm} | {'气相' if s.sites == 0 else '表面'} | {s.kind} | "
+                  f"{free_valence(s)} | {radical_form(s)} |")
+    (out / "species_full.md").write_text("\n".join(sl) + "\n", encoding="utf-8")
 
     lines = [f"# 费托合成直链烃基元反应网络全表 (C1–C{nmax})", "",
              f"由 `scripts/build_network.py --nmax {nmax}` 自动生成；"

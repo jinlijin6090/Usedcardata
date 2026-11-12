@@ -1,655 +1,655 @@
-﻿species,carbon_number,C,H,O,phase,type
-H*,0,0,1,0,surface,
-O*,0,0,0,1,surface,
-OH*,0,0,1,1,surface,
-H2O*,0,0,2,1,surface,
-H2(g),0,0,2,0,gas,气相
-H2O(g),0,0,2,1,gas,气相
-C*,1,1,0,0,surface,表面碳(碳化物)
-CH*,1,1,1,0,surface,次甲基 CH
-CH2*,1,1,2,0,surface,亚甲基 CH2
-CH3*,1,1,3,0,surface,甲基 CH3
-CH4*,1,1,4,0,surface,甲烷(物理吸附)
-CO*,1,1,0,1,surface,
-HCO*,1,1,1,1,surface,甲酰基
-COH*,1,1,1,1,surface,羟基次甲基
-HCOH*,1,1,2,1,surface,羟基卡宾
-CH2O*,1,1,2,1,surface,甲醛型
-CH2OH*,1,1,3,1,surface,羟甲基
-CH3O*,1,1,3,1,surface,甲氧基
-CO2*,1,1,0,2,surface,
-COOH*,1,1,1,2,surface,羧基
-HCOO*,1,1,1,2,surface,甲酸根
-CH4(g),1,1,4,0,gas,产物:正构烷烃
-CO(g),1,1,0,1,gas,气相
-CO2(g),1,1,0,2,gas,气相
-CC*,2,2,0,0,surface,C2 二聚体
-CHC*,2,2,1,0,surface,乙炔基
-CH2C*,2,2,2,0,surface,亚乙烯基
-CHCH*,2,2,2,0,surface,乙炔(吸附)
-CH3C*,2,2,3,0,surface,次乙基
-CH2CH*,2,2,3,0,surface,乙烯基
-CH3CH*,2,2,4,0,surface,亚乙基
-CH2CH2*,2,2,4,0,surface,乙烯(π/di-σ 吸附)
-CH3CH2*,2,2,5,0,surface,乙基
-CH3CH3*,2,2,6,0,surface,乙烷(物理吸附)
-CCO*,2,2,0,1,surface,酰基/烯酮型(CO 插入产物)
-CHCO*,2,2,1,1,surface,酰基/烯酮型(CO 插入产物)
-CCHO*,2,2,1,1,surface,醛型
-CCOH*,2,2,1,1,surface,羟基卡宾/烯醇型
-CH2CO*,2,2,2,1,surface,酰基/烯酮型(CO 插入产物)
-CCH2O*,2,2,2,1,surface,烷氧基型
-CCHOH*,2,2,2,1,surface,羟烷基型
-CHCHO*,2,2,2,1,surface,醛型
-CHCOH*,2,2,2,1,surface,羟基卡宾/烯醇型
-CH3CO*,2,2,3,1,surface,酰基/烯酮型(CO 插入产物)
-CCH2OH*,2,2,3,1,surface,醇型
-CHCH2O*,2,2,3,1,surface,烷氧基型
-CHCHOH*,2,2,3,1,surface,羟烷基型
-CH2CHO*,2,2,3,1,surface,醛型
-CH2COH*,2,2,3,1,surface,羟基卡宾/烯醇型
-CHCH2OH*,2,2,4,1,surface,醇型
-CH2CH2O*,2,2,4,1,surface,烷氧基型
-CH2CHOH*,2,2,4,1,surface,羟烷基型
-CH3CHO*,2,2,4,1,surface,醛型
-CH3COH*,2,2,4,1,surface,羟基卡宾/烯醇型
-CH2CH2OH*,2,2,5,1,surface,醇型
-CH3CH2O*,2,2,5,1,surface,烷氧基型
-CH3CHOH*,2,2,5,1,surface,羟烷基型
-CH3CH2OH*,2,2,6,1,surface,醇型
-C2H4(g),2,2,4,0,gas,产物:直链 α-烯烃
-C2H6(g),2,2,6,0,gas,产物:正构烷烃
-CH3CC*,3,3,3,0,surface,炔基 alkynyl
-CH3CCH*,3,3,4,0,surface,1-炔(吸附)
-CH3CHC*,3,3,4,0,surface,亚乙烯基型 vinylidene
-CH3CCH2*,3,3,5,0,surface,1-烯-2-基
-CH3CHCH*,3,3,5,0,surface,1-烯基 alkenyl
-CH3CH2C*,3,3,5,0,surface,次烷基 alkylidyne
-CH2CHCH2*,3,3,5,0,surface,η3-烯丙基
-CH3CCH3*,3,3,6,0,surface,2-亚烷基
-CH3CHCH2*,3,3,6,0,surface,α-烯烃(π/di-σ 吸附)
-CH3CH2CH*,3,3,6,0,surface,亚烷基 alkylidene
-CH3CHCH3*,3,3,7,0,surface,2-烷基(仲烷基)
-CH3CH2CH2*,3,3,7,0,surface,1-烷基 alkyl
-CH3CH2CH3*,3,3,8,0,surface,正构烷烃(物理吸附)
-CH3CCO*,3,3,3,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CHCO*,3,3,4,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CCHO*,3,3,4,1,surface,醛型
-CH3CCOH*,3,3,4,1,surface,羟基卡宾/烯醇型
-CH3CH2CO*,3,3,5,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CCH2O*,3,3,5,1,surface,烷氧基型
-CH3CCHOH*,3,3,5,1,surface,羟烷基型
-CH3CHCHO*,3,3,5,1,surface,醛型
-CH3CHCOH*,3,3,5,1,surface,羟基卡宾/烯醇型
-CH3CCH2OH*,3,3,6,1,surface,醇型
-CH3CHCH2O*,3,3,6,1,surface,烷氧基型
-CH3CHCHOH*,3,3,6,1,surface,羟烷基型
-CH3CH2CHO*,3,3,6,1,surface,醛型
-CH3CH2COH*,3,3,6,1,surface,羟基卡宾/烯醇型
-CH3CHCH2OH*,3,3,7,1,surface,醇型
-CH3CH2CH2O*,3,3,7,1,surface,烷氧基型
-CH3CH2CHOH*,3,3,7,1,surface,羟烷基型
-CH3CH2CH2OH*,3,3,8,1,surface,醇型
-C3H6(g),3,3,6,0,gas,产物:直链 α-烯烃
-C3H8(g),3,3,8,0,gas,产物:正构烷烃
-CH3CH2CC*,4,4,5,0,surface,炔基 alkynyl
-CH3CH2CCH*,4,4,6,0,surface,1-炔(吸附)
-CH3CH2CHC*,4,4,6,0,surface,亚乙烯基型 vinylidene
-CH3CH2CCH2*,4,4,7,0,surface,1-烯-2-基
-CH3CH2CHCH*,4,4,7,0,surface,1-烯基 alkenyl
-CH3(CH2)2C*,4,4,7,0,surface,次烷基 alkylidyne
-CH3CHCHCH2*,4,4,7,0,surface,η3-烯丙基
-CH3CH2CCH3*,4,4,8,0,surface,2-亚烷基
-CH3CH2CHCH2*,4,4,8,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)2CH*,4,4,8,0,surface,亚烷基 alkylidene
-CH3CH2CHCH3*,4,4,9,0,surface,2-烷基(仲烷基)
-CH3(CH2)2CH2*,4,4,9,0,surface,1-烷基 alkyl
-CH3(CH2)2CH3*,4,4,10,0,surface,正构烷烃(物理吸附)
-CH3CH2CCO*,4,4,5,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CH2CHCO*,4,4,6,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CH2CCHO*,4,4,6,1,surface,醛型
-CH3CH2CCOH*,4,4,6,1,surface,羟基卡宾/烯醇型
-CH3CH2CH2CO*,4,4,7,1,surface,酰基/烯酮型(CO 插入产物)
-CH3CH2CCH2O*,4,4,7,1,surface,烷氧基型
-CH3CH2CCHOH*,4,4,7,1,surface,羟烷基型
-CH3CH2CHCHO*,4,4,7,1,surface,醛型
-CH3CH2CHCOH*,4,4,7,1,surface,羟基卡宾/烯醇型
-CH3CH2CCH2OH*,4,4,8,1,surface,醇型
-CH3CH2CHCH2O*,4,4,8,1,surface,烷氧基型
-CH3CH2CHCHOH*,4,4,8,1,surface,羟烷基型
-CH3CH2CH2CHO*,4,4,8,1,surface,醛型
-CH3CH2CH2COH*,4,4,8,1,surface,羟基卡宾/烯醇型
-CH3CH2CHCH2OH*,4,4,9,1,surface,醇型
-CH3CH2CH2CH2O*,4,4,9,1,surface,烷氧基型
-CH3CH2CH2CHOH*,4,4,9,1,surface,羟烷基型
-CH3CH2CH2CH2OH*,4,4,10,1,surface,醇型
-C4H8(g),4,4,8,0,gas,产物:直链 α-烯烃
-C4H10(g),4,4,10,0,gas,产物:正构烷烃
-CH3(CH2)2CC*,5,5,7,0,surface,炔基 alkynyl
-CH3(CH2)2CCH*,5,5,8,0,surface,1-炔(吸附)
-CH3(CH2)2CHC*,5,5,8,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)2CCH2*,5,5,9,0,surface,1-烯-2-基
-CH3(CH2)2CHCH*,5,5,9,0,surface,1-烯基 alkenyl
-CH3(CH2)3C*,5,5,9,0,surface,次烷基 alkylidyne
-CH3CH2CHCHCH2*,5,5,9,0,surface,η3-烯丙基
-CH3(CH2)2CCH3*,5,5,10,0,surface,2-亚烷基
-CH3(CH2)2CHCH2*,5,5,10,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)3CH*,5,5,10,0,surface,亚烷基 alkylidene
-CH3(CH2)2CHCH3*,5,5,11,0,surface,2-烷基(仲烷基)
-CH3(CH2)3CH2*,5,5,11,0,surface,1-烷基 alkyl
-CH3(CH2)3CH3*,5,5,12,0,surface,正构烷烃(物理吸附)
-CH3(CH2)2CCO*,5,5,7,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)2CHCO*,5,5,8,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)2CCHO*,5,5,8,1,surface,醛型
-CH3(CH2)2CCOH*,5,5,8,1,surface,羟基卡宾/烯醇型
-CH3(CH2)2CH2CO*,5,5,9,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)2CCH2O*,5,5,9,1,surface,烷氧基型
-CH3(CH2)2CCHOH*,5,5,9,1,surface,羟烷基型
-CH3(CH2)2CHCHO*,5,5,9,1,surface,醛型
-CH3(CH2)2CHCOH*,5,5,9,1,surface,羟基卡宾/烯醇型
-CH3(CH2)2CCH2OH*,5,5,10,1,surface,醇型
-CH3(CH2)2CHCH2O*,5,5,10,1,surface,烷氧基型
-CH3(CH2)2CHCHOH*,5,5,10,1,surface,羟烷基型
-CH3(CH2)2CH2CHO*,5,5,10,1,surface,醛型
-CH3(CH2)2CH2COH*,5,5,10,1,surface,羟基卡宾/烯醇型
-CH3(CH2)2CHCH2OH*,5,5,11,1,surface,醇型
-CH3(CH2)2CH2CH2O*,5,5,11,1,surface,烷氧基型
-CH3(CH2)2CH2CHOH*,5,5,11,1,surface,羟烷基型
-CH3(CH2)2CH2CH2OH*,5,5,12,1,surface,醇型
-C5H10(g),5,5,10,0,gas,产物:直链 α-烯烃
-C5H12(g),5,5,12,0,gas,产物:正构烷烃
-CH3(CH2)3CC*,6,6,9,0,surface,炔基 alkynyl
-CH3(CH2)3CCH*,6,6,10,0,surface,1-炔(吸附)
-CH3(CH2)3CHC*,6,6,10,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)3CCH2*,6,6,11,0,surface,1-烯-2-基
-CH3(CH2)3CHCH*,6,6,11,0,surface,1-烯基 alkenyl
-CH3(CH2)4C*,6,6,11,0,surface,次烷基 alkylidyne
-CH3(CH2)2CHCHCH2*,6,6,11,0,surface,η3-烯丙基
-CH3(CH2)3CCH3*,6,6,12,0,surface,2-亚烷基
-CH3(CH2)3CHCH2*,6,6,12,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)4CH*,6,6,12,0,surface,亚烷基 alkylidene
-CH3(CH2)3CHCH3*,6,6,13,0,surface,2-烷基(仲烷基)
-CH3(CH2)4CH2*,6,6,13,0,surface,1-烷基 alkyl
-CH3(CH2)4CH3*,6,6,14,0,surface,正构烷烃(物理吸附)
-CH3(CH2)3CCO*,6,6,9,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)3CHCO*,6,6,10,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)3CCHO*,6,6,10,1,surface,醛型
-CH3(CH2)3CCOH*,6,6,10,1,surface,羟基卡宾/烯醇型
-CH3(CH2)3CH2CO*,6,6,11,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)3CCH2O*,6,6,11,1,surface,烷氧基型
-CH3(CH2)3CCHOH*,6,6,11,1,surface,羟烷基型
-CH3(CH2)3CHCHO*,6,6,11,1,surface,醛型
-CH3(CH2)3CHCOH*,6,6,11,1,surface,羟基卡宾/烯醇型
-CH3(CH2)3CCH2OH*,6,6,12,1,surface,醇型
-CH3(CH2)3CHCH2O*,6,6,12,1,surface,烷氧基型
-CH3(CH2)3CHCHOH*,6,6,12,1,surface,羟烷基型
-CH3(CH2)3CH2CHO*,6,6,12,1,surface,醛型
-CH3(CH2)3CH2COH*,6,6,12,1,surface,羟基卡宾/烯醇型
-CH3(CH2)3CHCH2OH*,6,6,13,1,surface,醇型
-CH3(CH2)3CH2CH2O*,6,6,13,1,surface,烷氧基型
-CH3(CH2)3CH2CHOH*,6,6,13,1,surface,羟烷基型
-CH3(CH2)3CH2CH2OH*,6,6,14,1,surface,醇型
-C6H12(g),6,6,12,0,gas,产物:直链 α-烯烃
-C6H14(g),6,6,14,0,gas,产物:正构烷烃
-CH3(CH2)4CC*,7,7,11,0,surface,炔基 alkynyl
-CH3(CH2)4CCH*,7,7,12,0,surface,1-炔(吸附)
-CH3(CH2)4CHC*,7,7,12,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)4CCH2*,7,7,13,0,surface,1-烯-2-基
-CH3(CH2)4CHCH*,7,7,13,0,surface,1-烯基 alkenyl
-CH3(CH2)5C*,7,7,13,0,surface,次烷基 alkylidyne
-CH3(CH2)3CHCHCH2*,7,7,13,0,surface,η3-烯丙基
-CH3(CH2)4CCH3*,7,7,14,0,surface,2-亚烷基
-CH3(CH2)4CHCH2*,7,7,14,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)5CH*,7,7,14,0,surface,亚烷基 alkylidene
-CH3(CH2)4CHCH3*,7,7,15,0,surface,2-烷基(仲烷基)
-CH3(CH2)5CH2*,7,7,15,0,surface,1-烷基 alkyl
-CH3(CH2)5CH3*,7,7,16,0,surface,正构烷烃(物理吸附)
-CH3(CH2)4CCO*,7,7,11,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)4CHCO*,7,7,12,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)4CCHO*,7,7,12,1,surface,醛型
-CH3(CH2)4CCOH*,7,7,12,1,surface,羟基卡宾/烯醇型
-CH3(CH2)4CH2CO*,7,7,13,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)4CCH2O*,7,7,13,1,surface,烷氧基型
-CH3(CH2)4CCHOH*,7,7,13,1,surface,羟烷基型
-CH3(CH2)4CHCHO*,7,7,13,1,surface,醛型
-CH3(CH2)4CHCOH*,7,7,13,1,surface,羟基卡宾/烯醇型
-CH3(CH2)4CCH2OH*,7,7,14,1,surface,醇型
-CH3(CH2)4CHCH2O*,7,7,14,1,surface,烷氧基型
-CH3(CH2)4CHCHOH*,7,7,14,1,surface,羟烷基型
-CH3(CH2)4CH2CHO*,7,7,14,1,surface,醛型
-CH3(CH2)4CH2COH*,7,7,14,1,surface,羟基卡宾/烯醇型
-CH3(CH2)4CHCH2OH*,7,7,15,1,surface,醇型
-CH3(CH2)4CH2CH2O*,7,7,15,1,surface,烷氧基型
-CH3(CH2)4CH2CHOH*,7,7,15,1,surface,羟烷基型
-CH3(CH2)4CH2CH2OH*,7,7,16,1,surface,醇型
-C7H14(g),7,7,14,0,gas,产物:直链 α-烯烃
-C7H16(g),7,7,16,0,gas,产物:正构烷烃
-CH3(CH2)5CC*,8,8,13,0,surface,炔基 alkynyl
-CH3(CH2)5CCH*,8,8,14,0,surface,1-炔(吸附)
-CH3(CH2)5CHC*,8,8,14,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)5CCH2*,8,8,15,0,surface,1-烯-2-基
-CH3(CH2)5CHCH*,8,8,15,0,surface,1-烯基 alkenyl
-CH3(CH2)6C*,8,8,15,0,surface,次烷基 alkylidyne
-CH3(CH2)4CHCHCH2*,8,8,15,0,surface,η3-烯丙基
-CH3(CH2)5CCH3*,8,8,16,0,surface,2-亚烷基
-CH3(CH2)5CHCH2*,8,8,16,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)6CH*,8,8,16,0,surface,亚烷基 alkylidene
-CH3(CH2)5CHCH3*,8,8,17,0,surface,2-烷基(仲烷基)
-CH3(CH2)6CH2*,8,8,17,0,surface,1-烷基 alkyl
-CH3(CH2)6CH3*,8,8,18,0,surface,正构烷烃(物理吸附)
-CH3(CH2)5CCO*,8,8,13,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)5CHCO*,8,8,14,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)5CCHO*,8,8,14,1,surface,醛型
-CH3(CH2)5CCOH*,8,8,14,1,surface,羟基卡宾/烯醇型
-CH3(CH2)5CH2CO*,8,8,15,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)5CCH2O*,8,8,15,1,surface,烷氧基型
-CH3(CH2)5CCHOH*,8,8,15,1,surface,羟烷基型
-CH3(CH2)5CHCHO*,8,8,15,1,surface,醛型
-CH3(CH2)5CHCOH*,8,8,15,1,surface,羟基卡宾/烯醇型
-CH3(CH2)5CCH2OH*,8,8,16,1,surface,醇型
-CH3(CH2)5CHCH2O*,8,8,16,1,surface,烷氧基型
-CH3(CH2)5CHCHOH*,8,8,16,1,surface,羟烷基型
-CH3(CH2)5CH2CHO*,8,8,16,1,surface,醛型
-CH3(CH2)5CH2COH*,8,8,16,1,surface,羟基卡宾/烯醇型
-CH3(CH2)5CHCH2OH*,8,8,17,1,surface,醇型
-CH3(CH2)5CH2CH2O*,8,8,17,1,surface,烷氧基型
-CH3(CH2)5CH2CHOH*,8,8,17,1,surface,羟烷基型
-CH3(CH2)5CH2CH2OH*,8,8,18,1,surface,醇型
-C8H16(g),8,8,16,0,gas,产物:直链 α-烯烃
-C8H18(g),8,8,18,0,gas,产物:正构烷烃
-CH3(CH2)6CC*,9,9,15,0,surface,炔基 alkynyl
-CH3(CH2)6CCH*,9,9,16,0,surface,1-炔(吸附)
-CH3(CH2)6CHC*,9,9,16,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)6CCH2*,9,9,17,0,surface,1-烯-2-基
-CH3(CH2)6CHCH*,9,9,17,0,surface,1-烯基 alkenyl
-CH3(CH2)7C*,9,9,17,0,surface,次烷基 alkylidyne
-CH3(CH2)5CHCHCH2*,9,9,17,0,surface,η3-烯丙基
-CH3(CH2)6CCH3*,9,9,18,0,surface,2-亚烷基
-CH3(CH2)6CHCH2*,9,9,18,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)7CH*,9,9,18,0,surface,亚烷基 alkylidene
-CH3(CH2)6CHCH3*,9,9,19,0,surface,2-烷基(仲烷基)
-CH3(CH2)7CH2*,9,9,19,0,surface,1-烷基 alkyl
-CH3(CH2)7CH3*,9,9,20,0,surface,正构烷烃(物理吸附)
-CH3(CH2)6CCO*,9,9,15,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)6CHCO*,9,9,16,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)6CCHO*,9,9,16,1,surface,醛型
-CH3(CH2)6CCOH*,9,9,16,1,surface,羟基卡宾/烯醇型
-CH3(CH2)6CH2CO*,9,9,17,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)6CCH2O*,9,9,17,1,surface,烷氧基型
-CH3(CH2)6CCHOH*,9,9,17,1,surface,羟烷基型
-CH3(CH2)6CHCHO*,9,9,17,1,surface,醛型
-CH3(CH2)6CHCOH*,9,9,17,1,surface,羟基卡宾/烯醇型
-CH3(CH2)6CCH2OH*,9,9,18,1,surface,醇型
-CH3(CH2)6CHCH2O*,9,9,18,1,surface,烷氧基型
-CH3(CH2)6CHCHOH*,9,9,18,1,surface,羟烷基型
-CH3(CH2)6CH2CHO*,9,9,18,1,surface,醛型
-CH3(CH2)6CH2COH*,9,9,18,1,surface,羟基卡宾/烯醇型
-CH3(CH2)6CHCH2OH*,9,9,19,1,surface,醇型
-CH3(CH2)6CH2CH2O*,9,9,19,1,surface,烷氧基型
-CH3(CH2)6CH2CHOH*,9,9,19,1,surface,羟烷基型
-CH3(CH2)6CH2CH2OH*,9,9,20,1,surface,醇型
-C9H18(g),9,9,18,0,gas,产物:直链 α-烯烃
-C9H20(g),9,9,20,0,gas,产物:正构烷烃
-CH3(CH2)7CC*,10,10,17,0,surface,炔基 alkynyl
-CH3(CH2)7CCH*,10,10,18,0,surface,1-炔(吸附)
-CH3(CH2)7CHC*,10,10,18,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)7CCH2*,10,10,19,0,surface,1-烯-2-基
-CH3(CH2)7CHCH*,10,10,19,0,surface,1-烯基 alkenyl
-CH3(CH2)8C*,10,10,19,0,surface,次烷基 alkylidyne
-CH3(CH2)6CHCHCH2*,10,10,19,0,surface,η3-烯丙基
-CH3(CH2)7CCH3*,10,10,20,0,surface,2-亚烷基
-CH3(CH2)7CHCH2*,10,10,20,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)8CH*,10,10,20,0,surface,亚烷基 alkylidene
-CH3(CH2)7CHCH3*,10,10,21,0,surface,2-烷基(仲烷基)
-CH3(CH2)8CH2*,10,10,21,0,surface,1-烷基 alkyl
-CH3(CH2)8CH3*,10,10,22,0,surface,正构烷烃(物理吸附)
-CH3(CH2)7CCO*,10,10,17,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)7CHCO*,10,10,18,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)7CCHO*,10,10,18,1,surface,醛型
-CH3(CH2)7CCOH*,10,10,18,1,surface,羟基卡宾/烯醇型
-CH3(CH2)7CH2CO*,10,10,19,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)7CCH2O*,10,10,19,1,surface,烷氧基型
-CH3(CH2)7CCHOH*,10,10,19,1,surface,羟烷基型
-CH3(CH2)7CHCHO*,10,10,19,1,surface,醛型
-CH3(CH2)7CHCOH*,10,10,19,1,surface,羟基卡宾/烯醇型
-CH3(CH2)7CCH2OH*,10,10,20,1,surface,醇型
-CH3(CH2)7CHCH2O*,10,10,20,1,surface,烷氧基型
-CH3(CH2)7CHCHOH*,10,10,20,1,surface,羟烷基型
-CH3(CH2)7CH2CHO*,10,10,20,1,surface,醛型
-CH3(CH2)7CH2COH*,10,10,20,1,surface,羟基卡宾/烯醇型
-CH3(CH2)7CHCH2OH*,10,10,21,1,surface,醇型
-CH3(CH2)7CH2CH2O*,10,10,21,1,surface,烷氧基型
-CH3(CH2)7CH2CHOH*,10,10,21,1,surface,羟烷基型
-CH3(CH2)7CH2CH2OH*,10,10,22,1,surface,醇型
-C10H20(g),10,10,20,0,gas,产物:直链 α-烯烃
-C10H22(g),10,10,22,0,gas,产物:正构烷烃
-CH3(CH2)8CC*,11,11,19,0,surface,炔基 alkynyl
-CH3(CH2)8CCH*,11,11,20,0,surface,1-炔(吸附)
-CH3(CH2)8CHC*,11,11,20,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)8CCH2*,11,11,21,0,surface,1-烯-2-基
-CH3(CH2)8CHCH*,11,11,21,0,surface,1-烯基 alkenyl
-CH3(CH2)9C*,11,11,21,0,surface,次烷基 alkylidyne
-CH3(CH2)7CHCHCH2*,11,11,21,0,surface,η3-烯丙基
-CH3(CH2)8CCH3*,11,11,22,0,surface,2-亚烷基
-CH3(CH2)8CHCH2*,11,11,22,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)9CH*,11,11,22,0,surface,亚烷基 alkylidene
-CH3(CH2)8CHCH3*,11,11,23,0,surface,2-烷基(仲烷基)
-CH3(CH2)9CH2*,11,11,23,0,surface,1-烷基 alkyl
-CH3(CH2)9CH3*,11,11,24,0,surface,正构烷烃(物理吸附)
-CH3(CH2)8CCO*,11,11,19,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)8CHCO*,11,11,20,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)8CCHO*,11,11,20,1,surface,醛型
-CH3(CH2)8CCOH*,11,11,20,1,surface,羟基卡宾/烯醇型
-CH3(CH2)8CH2CO*,11,11,21,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)8CCH2O*,11,11,21,1,surface,烷氧基型
-CH3(CH2)8CCHOH*,11,11,21,1,surface,羟烷基型
-CH3(CH2)8CHCHO*,11,11,21,1,surface,醛型
-CH3(CH2)8CHCOH*,11,11,21,1,surface,羟基卡宾/烯醇型
-CH3(CH2)8CCH2OH*,11,11,22,1,surface,醇型
-CH3(CH2)8CHCH2O*,11,11,22,1,surface,烷氧基型
-CH3(CH2)8CHCHOH*,11,11,22,1,surface,羟烷基型
-CH3(CH2)8CH2CHO*,11,11,22,1,surface,醛型
-CH3(CH2)8CH2COH*,11,11,22,1,surface,羟基卡宾/烯醇型
-CH3(CH2)8CHCH2OH*,11,11,23,1,surface,醇型
-CH3(CH2)8CH2CH2O*,11,11,23,1,surface,烷氧基型
-CH3(CH2)8CH2CHOH*,11,11,23,1,surface,羟烷基型
-CH3(CH2)8CH2CH2OH*,11,11,24,1,surface,醇型
-C11H22(g),11,11,22,0,gas,产物:直链 α-烯烃
-C11H24(g),11,11,24,0,gas,产物:正构烷烃
-CH3(CH2)9CC*,12,12,21,0,surface,炔基 alkynyl
-CH3(CH2)9CCH*,12,12,22,0,surface,1-炔(吸附)
-CH3(CH2)9CHC*,12,12,22,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)9CCH2*,12,12,23,0,surface,1-烯-2-基
-CH3(CH2)9CHCH*,12,12,23,0,surface,1-烯基 alkenyl
-CH3(CH2)10C*,12,12,23,0,surface,次烷基 alkylidyne
-CH3(CH2)8CHCHCH2*,12,12,23,0,surface,η3-烯丙基
-CH3(CH2)9CCH3*,12,12,24,0,surface,2-亚烷基
-CH3(CH2)9CHCH2*,12,12,24,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)10CH*,12,12,24,0,surface,亚烷基 alkylidene
-CH3(CH2)9CHCH3*,12,12,25,0,surface,2-烷基(仲烷基)
-CH3(CH2)10CH2*,12,12,25,0,surface,1-烷基 alkyl
-CH3(CH2)10CH3*,12,12,26,0,surface,正构烷烃(物理吸附)
-CH3(CH2)9CCO*,12,12,21,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)9CHCO*,12,12,22,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)9CCHO*,12,12,22,1,surface,醛型
-CH3(CH2)9CCOH*,12,12,22,1,surface,羟基卡宾/烯醇型
-CH3(CH2)9CH2CO*,12,12,23,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)9CCH2O*,12,12,23,1,surface,烷氧基型
-CH3(CH2)9CCHOH*,12,12,23,1,surface,羟烷基型
-CH3(CH2)9CHCHO*,12,12,23,1,surface,醛型
-CH3(CH2)9CHCOH*,12,12,23,1,surface,羟基卡宾/烯醇型
-CH3(CH2)9CCH2OH*,12,12,24,1,surface,醇型
-CH3(CH2)9CHCH2O*,12,12,24,1,surface,烷氧基型
-CH3(CH2)9CHCHOH*,12,12,24,1,surface,羟烷基型
-CH3(CH2)9CH2CHO*,12,12,24,1,surface,醛型
-CH3(CH2)9CH2COH*,12,12,24,1,surface,羟基卡宾/烯醇型
-CH3(CH2)9CHCH2OH*,12,12,25,1,surface,醇型
-CH3(CH2)9CH2CH2O*,12,12,25,1,surface,烷氧基型
-CH3(CH2)9CH2CHOH*,12,12,25,1,surface,羟烷基型
-CH3(CH2)9CH2CH2OH*,12,12,26,1,surface,醇型
-C12H24(g),12,12,24,0,gas,产物:直链 α-烯烃
-C12H26(g),12,12,26,0,gas,产物:正构烷烃
-CH3(CH2)10CC*,13,13,23,0,surface,炔基 alkynyl
-CH3(CH2)10CCH*,13,13,24,0,surface,1-炔(吸附)
-CH3(CH2)10CHC*,13,13,24,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)10CCH2*,13,13,25,0,surface,1-烯-2-基
-CH3(CH2)10CHCH*,13,13,25,0,surface,1-烯基 alkenyl
-CH3(CH2)11C*,13,13,25,0,surface,次烷基 alkylidyne
-CH3(CH2)9CHCHCH2*,13,13,25,0,surface,η3-烯丙基
-CH3(CH2)10CCH3*,13,13,26,0,surface,2-亚烷基
-CH3(CH2)10CHCH2*,13,13,26,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)11CH*,13,13,26,0,surface,亚烷基 alkylidene
-CH3(CH2)10CHCH3*,13,13,27,0,surface,2-烷基(仲烷基)
-CH3(CH2)11CH2*,13,13,27,0,surface,1-烷基 alkyl
-CH3(CH2)11CH3*,13,13,28,0,surface,正构烷烃(物理吸附)
-CH3(CH2)10CCO*,13,13,23,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)10CHCO*,13,13,24,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)10CCHO*,13,13,24,1,surface,醛型
-CH3(CH2)10CCOH*,13,13,24,1,surface,羟基卡宾/烯醇型
-CH3(CH2)10CH2CO*,13,13,25,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)10CCH2O*,13,13,25,1,surface,烷氧基型
-CH3(CH2)10CCHOH*,13,13,25,1,surface,羟烷基型
-CH3(CH2)10CHCHO*,13,13,25,1,surface,醛型
-CH3(CH2)10CHCOH*,13,13,25,1,surface,羟基卡宾/烯醇型
-CH3(CH2)10CCH2OH*,13,13,26,1,surface,醇型
-CH3(CH2)10CHCH2O*,13,13,26,1,surface,烷氧基型
-CH3(CH2)10CHCHOH*,13,13,26,1,surface,羟烷基型
-CH3(CH2)10CH2CHO*,13,13,26,1,surface,醛型
-CH3(CH2)10CH2COH*,13,13,26,1,surface,羟基卡宾/烯醇型
-CH3(CH2)10CHCH2OH*,13,13,27,1,surface,醇型
-CH3(CH2)10CH2CH2O*,13,13,27,1,surface,烷氧基型
-CH3(CH2)10CH2CHOH*,13,13,27,1,surface,羟烷基型
-CH3(CH2)10CH2CH2OH*,13,13,28,1,surface,醇型
-C13H26(g),13,13,26,0,gas,产物:直链 α-烯烃
-C13H28(g),13,13,28,0,gas,产物:正构烷烃
-CH3(CH2)11CC*,14,14,25,0,surface,炔基 alkynyl
-CH3(CH2)11CCH*,14,14,26,0,surface,1-炔(吸附)
-CH3(CH2)11CHC*,14,14,26,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)11CCH2*,14,14,27,0,surface,1-烯-2-基
-CH3(CH2)11CHCH*,14,14,27,0,surface,1-烯基 alkenyl
-CH3(CH2)12C*,14,14,27,0,surface,次烷基 alkylidyne
-CH3(CH2)10CHCHCH2*,14,14,27,0,surface,η3-烯丙基
-CH3(CH2)11CCH3*,14,14,28,0,surface,2-亚烷基
-CH3(CH2)11CHCH2*,14,14,28,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)12CH*,14,14,28,0,surface,亚烷基 alkylidene
-CH3(CH2)11CHCH3*,14,14,29,0,surface,2-烷基(仲烷基)
-CH3(CH2)12CH2*,14,14,29,0,surface,1-烷基 alkyl
-CH3(CH2)12CH3*,14,14,30,0,surface,正构烷烃(物理吸附)
-CH3(CH2)11CCO*,14,14,25,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)11CHCO*,14,14,26,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)11CCHO*,14,14,26,1,surface,醛型
-CH3(CH2)11CCOH*,14,14,26,1,surface,羟基卡宾/烯醇型
-CH3(CH2)11CH2CO*,14,14,27,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)11CCH2O*,14,14,27,1,surface,烷氧基型
-CH3(CH2)11CCHOH*,14,14,27,1,surface,羟烷基型
-CH3(CH2)11CHCHO*,14,14,27,1,surface,醛型
-CH3(CH2)11CHCOH*,14,14,27,1,surface,羟基卡宾/烯醇型
-CH3(CH2)11CCH2OH*,14,14,28,1,surface,醇型
-CH3(CH2)11CHCH2O*,14,14,28,1,surface,烷氧基型
-CH3(CH2)11CHCHOH*,14,14,28,1,surface,羟烷基型
-CH3(CH2)11CH2CHO*,14,14,28,1,surface,醛型
-CH3(CH2)11CH2COH*,14,14,28,1,surface,羟基卡宾/烯醇型
-CH3(CH2)11CHCH2OH*,14,14,29,1,surface,醇型
-CH3(CH2)11CH2CH2O*,14,14,29,1,surface,烷氧基型
-CH3(CH2)11CH2CHOH*,14,14,29,1,surface,羟烷基型
-CH3(CH2)11CH2CH2OH*,14,14,30,1,surface,醇型
-C14H28(g),14,14,28,0,gas,产物:直链 α-烯烃
-C14H30(g),14,14,30,0,gas,产物:正构烷烃
-CH3(CH2)12CC*,15,15,27,0,surface,炔基 alkynyl
-CH3(CH2)12CCH*,15,15,28,0,surface,1-炔(吸附)
-CH3(CH2)12CHC*,15,15,28,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)12CCH2*,15,15,29,0,surface,1-烯-2-基
-CH3(CH2)12CHCH*,15,15,29,0,surface,1-烯基 alkenyl
-CH3(CH2)13C*,15,15,29,0,surface,次烷基 alkylidyne
-CH3(CH2)11CHCHCH2*,15,15,29,0,surface,η3-烯丙基
-CH3(CH2)12CCH3*,15,15,30,0,surface,2-亚烷基
-CH3(CH2)12CHCH2*,15,15,30,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)13CH*,15,15,30,0,surface,亚烷基 alkylidene
-CH3(CH2)12CHCH3*,15,15,31,0,surface,2-烷基(仲烷基)
-CH3(CH2)13CH2*,15,15,31,0,surface,1-烷基 alkyl
-CH3(CH2)13CH3*,15,15,32,0,surface,正构烷烃(物理吸附)
-CH3(CH2)12CCO*,15,15,27,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)12CHCO*,15,15,28,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)12CCHO*,15,15,28,1,surface,醛型
-CH3(CH2)12CCOH*,15,15,28,1,surface,羟基卡宾/烯醇型
-CH3(CH2)12CH2CO*,15,15,29,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)12CCH2O*,15,15,29,1,surface,烷氧基型
-CH3(CH2)12CCHOH*,15,15,29,1,surface,羟烷基型
-CH3(CH2)12CHCHO*,15,15,29,1,surface,醛型
-CH3(CH2)12CHCOH*,15,15,29,1,surface,羟基卡宾/烯醇型
-CH3(CH2)12CCH2OH*,15,15,30,1,surface,醇型
-CH3(CH2)12CHCH2O*,15,15,30,1,surface,烷氧基型
-CH3(CH2)12CHCHOH*,15,15,30,1,surface,羟烷基型
-CH3(CH2)12CH2CHO*,15,15,30,1,surface,醛型
-CH3(CH2)12CH2COH*,15,15,30,1,surface,羟基卡宾/烯醇型
-CH3(CH2)12CHCH2OH*,15,15,31,1,surface,醇型
-CH3(CH2)12CH2CH2O*,15,15,31,1,surface,烷氧基型
-CH3(CH2)12CH2CHOH*,15,15,31,1,surface,羟烷基型
-CH3(CH2)12CH2CH2OH*,15,15,32,1,surface,醇型
-C15H30(g),15,15,30,0,gas,产物:直链 α-烯烃
-C15H32(g),15,15,32,0,gas,产物:正构烷烃
-CH3(CH2)13CC*,16,16,29,0,surface,炔基 alkynyl
-CH3(CH2)13CCH*,16,16,30,0,surface,1-炔(吸附)
-CH3(CH2)13CHC*,16,16,30,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)13CCH2*,16,16,31,0,surface,1-烯-2-基
-CH3(CH2)13CHCH*,16,16,31,0,surface,1-烯基 alkenyl
-CH3(CH2)14C*,16,16,31,0,surface,次烷基 alkylidyne
-CH3(CH2)12CHCHCH2*,16,16,31,0,surface,η3-烯丙基
-CH3(CH2)13CCH3*,16,16,32,0,surface,2-亚烷基
-CH3(CH2)13CHCH2*,16,16,32,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)14CH*,16,16,32,0,surface,亚烷基 alkylidene
-CH3(CH2)13CHCH3*,16,16,33,0,surface,2-烷基(仲烷基)
-CH3(CH2)14CH2*,16,16,33,0,surface,1-烷基 alkyl
-CH3(CH2)14CH3*,16,16,34,0,surface,正构烷烃(物理吸附)
-CH3(CH2)13CCO*,16,16,29,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)13CHCO*,16,16,30,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)13CCHO*,16,16,30,1,surface,醛型
-CH3(CH2)13CCOH*,16,16,30,1,surface,羟基卡宾/烯醇型
-CH3(CH2)13CH2CO*,16,16,31,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)13CCH2O*,16,16,31,1,surface,烷氧基型
-CH3(CH2)13CCHOH*,16,16,31,1,surface,羟烷基型
-CH3(CH2)13CHCHO*,16,16,31,1,surface,醛型
-CH3(CH2)13CHCOH*,16,16,31,1,surface,羟基卡宾/烯醇型
-CH3(CH2)13CCH2OH*,16,16,32,1,surface,醇型
-CH3(CH2)13CHCH2O*,16,16,32,1,surface,烷氧基型
-CH3(CH2)13CHCHOH*,16,16,32,1,surface,羟烷基型
-CH3(CH2)13CH2CHO*,16,16,32,1,surface,醛型
-CH3(CH2)13CH2COH*,16,16,32,1,surface,羟基卡宾/烯醇型
-CH3(CH2)13CHCH2OH*,16,16,33,1,surface,醇型
-CH3(CH2)13CH2CH2O*,16,16,33,1,surface,烷氧基型
-CH3(CH2)13CH2CHOH*,16,16,33,1,surface,羟烷基型
-CH3(CH2)13CH2CH2OH*,16,16,34,1,surface,醇型
-C16H32(g),16,16,32,0,gas,产物:直链 α-烯烃
-C16H34(g),16,16,34,0,gas,产物:正构烷烃
-CH3(CH2)14CC*,17,17,31,0,surface,炔基 alkynyl
-CH3(CH2)14CCH*,17,17,32,0,surface,1-炔(吸附)
-CH3(CH2)14CHC*,17,17,32,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)14CCH2*,17,17,33,0,surface,1-烯-2-基
-CH3(CH2)14CHCH*,17,17,33,0,surface,1-烯基 alkenyl
-CH3(CH2)15C*,17,17,33,0,surface,次烷基 alkylidyne
-CH3(CH2)13CHCHCH2*,17,17,33,0,surface,η3-烯丙基
-CH3(CH2)14CCH3*,17,17,34,0,surface,2-亚烷基
-CH3(CH2)14CHCH2*,17,17,34,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)15CH*,17,17,34,0,surface,亚烷基 alkylidene
-CH3(CH2)14CHCH3*,17,17,35,0,surface,2-烷基(仲烷基)
-CH3(CH2)15CH2*,17,17,35,0,surface,1-烷基 alkyl
-CH3(CH2)15CH3*,17,17,36,0,surface,正构烷烃(物理吸附)
-CH3(CH2)14CCO*,17,17,31,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)14CHCO*,17,17,32,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)14CCHO*,17,17,32,1,surface,醛型
-CH3(CH2)14CCOH*,17,17,32,1,surface,羟基卡宾/烯醇型
-CH3(CH2)14CH2CO*,17,17,33,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)14CCH2O*,17,17,33,1,surface,烷氧基型
-CH3(CH2)14CCHOH*,17,17,33,1,surface,羟烷基型
-CH3(CH2)14CHCHO*,17,17,33,1,surface,醛型
-CH3(CH2)14CHCOH*,17,17,33,1,surface,羟基卡宾/烯醇型
-CH3(CH2)14CCH2OH*,17,17,34,1,surface,醇型
-CH3(CH2)14CHCH2O*,17,17,34,1,surface,烷氧基型
-CH3(CH2)14CHCHOH*,17,17,34,1,surface,羟烷基型
-CH3(CH2)14CH2CHO*,17,17,34,1,surface,醛型
-CH3(CH2)14CH2COH*,17,17,34,1,surface,羟基卡宾/烯醇型
-CH3(CH2)14CHCH2OH*,17,17,35,1,surface,醇型
-CH3(CH2)14CH2CH2O*,17,17,35,1,surface,烷氧基型
-CH3(CH2)14CH2CHOH*,17,17,35,1,surface,羟烷基型
-CH3(CH2)14CH2CH2OH*,17,17,36,1,surface,醇型
-C17H34(g),17,17,34,0,gas,产物:直链 α-烯烃
-C17H36(g),17,17,36,0,gas,产物:正构烷烃
-CH3(CH2)15CC*,18,18,33,0,surface,炔基 alkynyl
-CH3(CH2)15CCH*,18,18,34,0,surface,1-炔(吸附)
-CH3(CH2)15CHC*,18,18,34,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)15CCH2*,18,18,35,0,surface,1-烯-2-基
-CH3(CH2)15CHCH*,18,18,35,0,surface,1-烯基 alkenyl
-CH3(CH2)16C*,18,18,35,0,surface,次烷基 alkylidyne
-CH3(CH2)14CHCHCH2*,18,18,35,0,surface,η3-烯丙基
-CH3(CH2)15CCH3*,18,18,36,0,surface,2-亚烷基
-CH3(CH2)15CHCH2*,18,18,36,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)16CH*,18,18,36,0,surface,亚烷基 alkylidene
-CH3(CH2)15CHCH3*,18,18,37,0,surface,2-烷基(仲烷基)
-CH3(CH2)16CH2*,18,18,37,0,surface,1-烷基 alkyl
-CH3(CH2)16CH3*,18,18,38,0,surface,正构烷烃(物理吸附)
-CH3(CH2)15CCO*,18,18,33,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)15CHCO*,18,18,34,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)15CCHO*,18,18,34,1,surface,醛型
-CH3(CH2)15CCOH*,18,18,34,1,surface,羟基卡宾/烯醇型
-CH3(CH2)15CH2CO*,18,18,35,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)15CCH2O*,18,18,35,1,surface,烷氧基型
-CH3(CH2)15CCHOH*,18,18,35,1,surface,羟烷基型
-CH3(CH2)15CHCHO*,18,18,35,1,surface,醛型
-CH3(CH2)15CHCOH*,18,18,35,1,surface,羟基卡宾/烯醇型
-CH3(CH2)15CCH2OH*,18,18,36,1,surface,醇型
-CH3(CH2)15CHCH2O*,18,18,36,1,surface,烷氧基型
-CH3(CH2)15CHCHOH*,18,18,36,1,surface,羟烷基型
-CH3(CH2)15CH2CHO*,18,18,36,1,surface,醛型
-CH3(CH2)15CH2COH*,18,18,36,1,surface,羟基卡宾/烯醇型
-CH3(CH2)15CHCH2OH*,18,18,37,1,surface,醇型
-CH3(CH2)15CH2CH2O*,18,18,37,1,surface,烷氧基型
-CH3(CH2)15CH2CHOH*,18,18,37,1,surface,羟烷基型
-CH3(CH2)15CH2CH2OH*,18,18,38,1,surface,醇型
-C18H36(g),18,18,36,0,gas,产物:直链 α-烯烃
-C18H38(g),18,18,38,0,gas,产物:正构烷烃
-CH3(CH2)16CC*,19,19,35,0,surface,炔基 alkynyl
-CH3(CH2)16CCH*,19,19,36,0,surface,1-炔(吸附)
-CH3(CH2)16CHC*,19,19,36,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)16CCH2*,19,19,37,0,surface,1-烯-2-基
-CH3(CH2)16CHCH*,19,19,37,0,surface,1-烯基 alkenyl
-CH3(CH2)17C*,19,19,37,0,surface,次烷基 alkylidyne
-CH3(CH2)15CHCHCH2*,19,19,37,0,surface,η3-烯丙基
-CH3(CH2)16CCH3*,19,19,38,0,surface,2-亚烷基
-CH3(CH2)16CHCH2*,19,19,38,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)17CH*,19,19,38,0,surface,亚烷基 alkylidene
-CH3(CH2)16CHCH3*,19,19,39,0,surface,2-烷基(仲烷基)
-CH3(CH2)17CH2*,19,19,39,0,surface,1-烷基 alkyl
-CH3(CH2)17CH3*,19,19,40,0,surface,正构烷烃(物理吸附)
-CH3(CH2)16CCO*,19,19,35,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)16CHCO*,19,19,36,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)16CCHO*,19,19,36,1,surface,醛型
-CH3(CH2)16CCOH*,19,19,36,1,surface,羟基卡宾/烯醇型
-CH3(CH2)16CH2CO*,19,19,37,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)16CCH2O*,19,19,37,1,surface,烷氧基型
-CH3(CH2)16CCHOH*,19,19,37,1,surface,羟烷基型
-CH3(CH2)16CHCHO*,19,19,37,1,surface,醛型
-CH3(CH2)16CHCOH*,19,19,37,1,surface,羟基卡宾/烯醇型
-CH3(CH2)16CCH2OH*,19,19,38,1,surface,醇型
-CH3(CH2)16CHCH2O*,19,19,38,1,surface,烷氧基型
-CH3(CH2)16CHCHOH*,19,19,38,1,surface,羟烷基型
-CH3(CH2)16CH2CHO*,19,19,38,1,surface,醛型
-CH3(CH2)16CH2COH*,19,19,38,1,surface,羟基卡宾/烯醇型
-CH3(CH2)16CHCH2OH*,19,19,39,1,surface,醇型
-CH3(CH2)16CH2CH2O*,19,19,39,1,surface,烷氧基型
-CH3(CH2)16CH2CHOH*,19,19,39,1,surface,羟烷基型
-CH3(CH2)16CH2CH2OH*,19,19,40,1,surface,醇型
-C19H38(g),19,19,38,0,gas,产物:直链 α-烯烃
-C19H40(g),19,19,40,0,gas,产物:正构烷烃
-CH3(CH2)17CC*,20,20,37,0,surface,炔基 alkynyl
-CH3(CH2)17CCH*,20,20,38,0,surface,1-炔(吸附)
-CH3(CH2)17CHC*,20,20,38,0,surface,亚乙烯基型 vinylidene
-CH3(CH2)17CCH2*,20,20,39,0,surface,1-烯-2-基
-CH3(CH2)17CHCH*,20,20,39,0,surface,1-烯基 alkenyl
-CH3(CH2)18C*,20,20,39,0,surface,次烷基 alkylidyne
-CH3(CH2)16CHCHCH2*,20,20,39,0,surface,η3-烯丙基
-CH3(CH2)17CCH3*,20,20,40,0,surface,2-亚烷基
-CH3(CH2)17CHCH2*,20,20,40,0,surface,α-烯烃(π/di-σ 吸附)
-CH3(CH2)18CH*,20,20,40,0,surface,亚烷基 alkylidene
-CH3(CH2)17CHCH3*,20,20,41,0,surface,2-烷基(仲烷基)
-CH3(CH2)18CH2*,20,20,41,0,surface,1-烷基 alkyl
-CH3(CH2)18CH3*,20,20,42,0,surface,正构烷烃(物理吸附)
-CH3(CH2)17CCO*,20,20,37,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)17CHCO*,20,20,38,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)17CCHO*,20,20,38,1,surface,醛型
-CH3(CH2)17CCOH*,20,20,38,1,surface,羟基卡宾/烯醇型
-CH3(CH2)17CH2CO*,20,20,39,1,surface,酰基/烯酮型(CO 插入产物)
-CH3(CH2)17CCH2O*,20,20,39,1,surface,烷氧基型
-CH3(CH2)17CCHOH*,20,20,39,1,surface,羟烷基型
-CH3(CH2)17CHCHO*,20,20,39,1,surface,醛型
-CH3(CH2)17CHCOH*,20,20,39,1,surface,羟基卡宾/烯醇型
-CH3(CH2)17CCH2OH*,20,20,40,1,surface,醇型
-CH3(CH2)17CHCH2O*,20,20,40,1,surface,烷氧基型
-CH3(CH2)17CHCHOH*,20,20,40,1,surface,羟烷基型
-CH3(CH2)17CH2CHO*,20,20,40,1,surface,醛型
-CH3(CH2)17CH2COH*,20,20,40,1,surface,羟基卡宾/烯醇型
-CH3(CH2)17CHCH2OH*,20,20,41,1,surface,醇型
-CH3(CH2)17CH2CH2O*,20,20,41,1,surface,烷氧基型
-CH3(CH2)17CH2CHOH*,20,20,41,1,surface,羟烷基型
-CH3(CH2)17CH2CH2OH*,20,20,42,1,surface,醇型
-C20H40(g),20,20,40,0,gas,产物:直链 α-烯烃
-C20H42(g),20,20,42,0,gas,产物:正构烷烃
+﻿species,carbon_number,C,H,O,phase,type,free_valence,radical_form
+H*,0,0,1,0,surface,,1,氢原子 H·
+O*,0,0,0,1,surface,,2,氧原子 ·O·
+OH*,0,0,1,1,surface,,1,羟基自由基 ·OH
+H2O*,0,0,2,1,surface,,0,闭壳层分子(物理吸附)
+H2(g),0,0,2,0,gas,气相,0,闭壳层分子
+H2O(g),0,0,2,1,gas,气相,0,闭壳层分子
+C*,1,1,0,0,surface,表面碳(碳化物),4,碳原子
+CH*,1,1,1,0,surface,次甲基 CH,3,次甲基自由基 ·CH (卡拜)
+CH2*,1,1,2,0,surface,亚甲基 CH2,2,亚甲基 :CH2 (卡宾)
+CH3*,1,1,3,0,surface,甲基 CH3,1,甲基自由基 ·CH3
+CH4*,1,1,4,0,surface,甲烷(物理吸附),0,闭壳层分子(物理吸附)
+CO*,1,1,0,1,surface,,0,闭壳层分子(物理吸附)
+COH*,1,1,1,1,surface,羟基次甲基,3,羟基卡拜 ·C–OH
+HCO*,1,1,1,1,surface,甲酰基,3,甲酰基自由基 HĊ=O
+CH2O*,1,1,2,1,surface,甲醛型,2,甲醛 CH2=O (闭壳层)
+HCOH*,1,1,2,1,surface,羟基卡宾,2,羟基卡宾 H–C̈–OH
+CH2OH*,1,1,3,1,surface,羟甲基,1,羟甲基自由基 ·CH2OH
+CH3O*,1,1,3,1,surface,甲氧基,1,甲氧基自由基 CH3O·
+CO2*,1,1,0,2,surface,,0,闭壳层分子(物理吸附)
+COOH*,1,1,1,2,surface,羧基,1,羧基自由基 ·COOH
+HCOO*,1,1,1,2,surface,甲酸根,1,甲酰氧基自由基 HCOO·
+CH4(g),1,1,4,0,gas,产物:正构烷烃,0,闭壳层分子
+CO(g),1,1,0,1,gas,气相,0,闭壳层分子
+CO2(g),1,1,0,2,gas,气相,0,闭壳层分子
+CC*,2,2,0,0,surface,C2 二聚体,6,C2 双原子碳
+CHC*,2,2,1,0,surface,乙炔基,5,乙炔基自由基 HC≡C·
+CH2C*,2,2,2,0,surface,亚乙烯基,4,亚乙烯基卡宾 CH2=C:
+CHCH*,2,2,2,0,surface,乙炔(吸附),4,乙炔 (闭壳层)
+CH2CH*,2,2,3,0,surface,乙烯基,3,乙烯基自由基 CH2=ĊH
+CH3C*,2,2,3,0,surface,次乙基,3,甲基卡拜 CH3C⋮
+CH2CH2*,2,2,4,0,surface,乙烯(π/di-σ 吸附),2,"乙烯 (闭壳层) / 1,2-双自由基"
+CH3CH*,2,2,4,0,surface,亚乙基,2,甲基卡宾 CH3C̈H
+CH3CH2*,2,2,5,0,surface,乙基,1,乙基自由基 CH3ĊH2
+CH3CH3*,2,2,6,0,surface,乙烷(物理吸附),0,闭壳层分子(物理吸附)
+CCO*,2,2,0,1,surface,酰基/烯酮型(CO 插入产物),6,含氧端基: 酰基 –Ċ=O
+CCHO*,2,2,1,1,surface,醛型,5,含氧端基: 醛基 –CH=O
+CCOH*,2,2,1,1,surface,羟基卡宾/烯醇型,5,含氧端基: 羟基卡宾 –C̈–OH
+CHCO*,2,2,1,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CCH2O*,2,2,2,1,surface,烷氧基型,4,含氧端基: 烷氧基 –CH2O·
+CCHOH*,2,2,2,1,surface,羟烷基型,4,含氧端基: α-羟烷基 –ĊHOH
+CH2CO*,2,2,2,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CHCHO*,2,2,2,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CHCOH*,2,2,2,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CCH2OH*,2,2,3,1,surface,醇型,3,含氧端基: 醇 –CH2OH
+CH2CHO*,2,2,3,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH2COH*,2,2,3,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3CO*,2,2,3,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CHCH2O*,2,2,3,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CHCHOH*,2,2,3,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH2CH2O*,2,2,4,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH2CHOH*,2,2,4,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3CHO*,2,2,4,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3COH*,2,2,4,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CHCH2OH*,2,2,4,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH2CH2OH*,2,2,5,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3CH2O*,2,2,5,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3CHOH*,2,2,5,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3CH2OH*,2,2,6,1,surface,醇型,0,闭壳层分子(物理吸附)
+C2H4(g),2,2,4,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C2H6(g),2,2,6,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3CC*,3,3,3,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3CCH*,3,3,4,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3CHC*,3,3,4,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH2CHCH2*,3,3,5,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3CCH2*,3,3,5,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3CH2C*,3,3,5,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3CHCH*,3,3,5,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3CCH3*,3,3,6,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3CH2CH*,3,3,6,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3CHCH2*,3,3,6,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3CH2CH2*,3,3,7,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3CHCH3*,3,3,7,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3CH2CH3*,3,3,8,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3CCO*,3,3,3,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3CCHO*,3,3,4,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3CCOH*,3,3,4,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3CHCO*,3,3,4,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3CCH2O*,3,3,5,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3CCHOH*,3,3,5,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3CH2CO*,3,3,5,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3CHCHO*,3,3,5,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3CHCOH*,3,3,5,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3CCH2OH*,3,3,6,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3CH2CHO*,3,3,6,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3CH2COH*,3,3,6,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3CHCH2O*,3,3,6,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3CHCHOH*,3,3,6,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3CH2CH2O*,3,3,7,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3CH2CHOH*,3,3,7,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3CHCH2OH*,3,3,7,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3CH2CH2OH*,3,3,8,1,surface,醇型,0,闭壳层分子(物理吸附)
+C3H6(g),3,3,6,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C3H8(g),3,3,8,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3CH2CC*,4,4,5,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3CH2CCH*,4,4,6,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3CH2CHC*,4,4,6,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)2C*,4,4,7,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3CH2CCH2*,4,4,7,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3CH2CHCH*,4,4,7,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3CHCHCH2*,4,4,7,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)2CH*,4,4,8,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3CH2CCH3*,4,4,8,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3CH2CHCH2*,4,4,8,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)2CH2*,4,4,9,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3CH2CHCH3*,4,4,9,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)2CH3*,4,4,10,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3CH2CCO*,4,4,5,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3CH2CCHO*,4,4,6,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3CH2CCOH*,4,4,6,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3CH2CHCO*,4,4,6,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3CH2CCH2O*,4,4,7,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3CH2CCHOH*,4,4,7,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3CH2CH2CO*,4,4,7,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3CH2CHCHO*,4,4,7,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3CH2CHCOH*,4,4,7,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3CH2CCH2OH*,4,4,8,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3CH2CH2CHO*,4,4,8,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3CH2CH2COH*,4,4,8,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3CH2CHCH2O*,4,4,8,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3CH2CHCHOH*,4,4,8,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3CH2CH2CH2O*,4,4,9,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3CH2CH2CHOH*,4,4,9,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3CH2CHCH2OH*,4,4,9,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3CH2CH2CH2OH*,4,4,10,1,surface,醇型,0,闭壳层分子(物理吸附)
+C4H8(g),4,4,8,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C4H10(g),4,4,10,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)2CC*,5,5,7,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)2CCH*,5,5,8,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)2CHC*,5,5,8,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)2CCH2*,5,5,9,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)2CHCH*,5,5,9,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)3C*,5,5,9,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3CH2CHCHCH2*,5,5,9,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)2CCH3*,5,5,10,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)2CHCH2*,5,5,10,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)3CH*,5,5,10,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)2CHCH3*,5,5,11,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)3CH2*,5,5,11,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)3CH3*,5,5,12,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)2CCO*,5,5,7,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)2CCHO*,5,5,8,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)2CCOH*,5,5,8,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)2CHCO*,5,5,8,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)2CCH2O*,5,5,9,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)2CCHOH*,5,5,9,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)2CH2CO*,5,5,9,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)2CHCHO*,5,5,9,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)2CHCOH*,5,5,9,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)2CCH2OH*,5,5,10,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)2CH2CHO*,5,5,10,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)2CH2COH*,5,5,10,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)2CHCH2O*,5,5,10,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)2CHCHOH*,5,5,10,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)2CH2CH2O*,5,5,11,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)2CH2CHOH*,5,5,11,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)2CHCH2OH*,5,5,11,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)2CH2CH2OH*,5,5,12,1,surface,醇型,0,闭壳层分子(物理吸附)
+C5H10(g),5,5,10,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C5H12(g),5,5,12,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)3CC*,6,6,9,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)3CCH*,6,6,10,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)3CHC*,6,6,10,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)2CHCHCH2*,6,6,11,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)3CCH2*,6,6,11,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)3CHCH*,6,6,11,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)4C*,6,6,11,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)3CCH3*,6,6,12,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)3CHCH2*,6,6,12,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)4CH*,6,6,12,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)3CHCH3*,6,6,13,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)4CH2*,6,6,13,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)4CH3*,6,6,14,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)3CCO*,6,6,9,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)3CCHO*,6,6,10,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)3CCOH*,6,6,10,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)3CHCO*,6,6,10,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)3CCH2O*,6,6,11,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)3CCHOH*,6,6,11,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)3CH2CO*,6,6,11,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)3CHCHO*,6,6,11,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)3CHCOH*,6,6,11,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)3CCH2OH*,6,6,12,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)3CH2CHO*,6,6,12,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)3CH2COH*,6,6,12,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)3CHCH2O*,6,6,12,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)3CHCHOH*,6,6,12,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)3CH2CH2O*,6,6,13,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)3CH2CHOH*,6,6,13,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)3CHCH2OH*,6,6,13,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)3CH2CH2OH*,6,6,14,1,surface,醇型,0,闭壳层分子(物理吸附)
+C6H12(g),6,6,12,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C6H14(g),6,6,14,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)4CC*,7,7,11,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)4CCH*,7,7,12,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)4CHC*,7,7,12,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)3CHCHCH2*,7,7,13,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)4CCH2*,7,7,13,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)4CHCH*,7,7,13,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)5C*,7,7,13,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)4CCH3*,7,7,14,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)4CHCH2*,7,7,14,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)5CH*,7,7,14,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)4CHCH3*,7,7,15,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)5CH2*,7,7,15,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)5CH3*,7,7,16,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)4CCO*,7,7,11,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)4CCHO*,7,7,12,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)4CCOH*,7,7,12,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)4CHCO*,7,7,12,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)4CCH2O*,7,7,13,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)4CCHOH*,7,7,13,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)4CH2CO*,7,7,13,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)4CHCHO*,7,7,13,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)4CHCOH*,7,7,13,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)4CCH2OH*,7,7,14,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)4CH2CHO*,7,7,14,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)4CH2COH*,7,7,14,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)4CHCH2O*,7,7,14,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)4CHCHOH*,7,7,14,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)4CH2CH2O*,7,7,15,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)4CH2CHOH*,7,7,15,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)4CHCH2OH*,7,7,15,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)4CH2CH2OH*,7,7,16,1,surface,醇型,0,闭壳层分子(物理吸附)
+C7H14(g),7,7,14,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C7H16(g),7,7,16,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)5CC*,8,8,13,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)5CCH*,8,8,14,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)5CHC*,8,8,14,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)4CHCHCH2*,8,8,15,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)5CCH2*,8,8,15,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)5CHCH*,8,8,15,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)6C*,8,8,15,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)5CCH3*,8,8,16,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)5CHCH2*,8,8,16,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)6CH*,8,8,16,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)5CHCH3*,8,8,17,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)6CH2*,8,8,17,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)6CH3*,8,8,18,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)5CCO*,8,8,13,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)5CCHO*,8,8,14,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)5CCOH*,8,8,14,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)5CHCO*,8,8,14,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)5CCH2O*,8,8,15,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)5CCHOH*,8,8,15,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)5CH2CO*,8,8,15,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)5CHCHO*,8,8,15,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)5CHCOH*,8,8,15,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)5CCH2OH*,8,8,16,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)5CH2CHO*,8,8,16,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)5CH2COH*,8,8,16,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)5CHCH2O*,8,8,16,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)5CHCHOH*,8,8,16,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)5CH2CH2O*,8,8,17,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)5CH2CHOH*,8,8,17,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)5CHCH2OH*,8,8,17,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)5CH2CH2OH*,8,8,18,1,surface,醇型,0,闭壳层分子(物理吸附)
+C8H16(g),8,8,16,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C8H18(g),8,8,18,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)6CC*,9,9,15,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)6CCH*,9,9,16,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)6CHC*,9,9,16,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)5CHCHCH2*,9,9,17,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)6CCH2*,9,9,17,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)6CHCH*,9,9,17,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)7C*,9,9,17,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)6CCH3*,9,9,18,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)6CHCH2*,9,9,18,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)7CH*,9,9,18,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)6CHCH3*,9,9,19,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)7CH2*,9,9,19,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)7CH3*,9,9,20,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)6CCO*,9,9,15,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)6CCHO*,9,9,16,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)6CCOH*,9,9,16,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)6CHCO*,9,9,16,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)6CCH2O*,9,9,17,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)6CCHOH*,9,9,17,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)6CH2CO*,9,9,17,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)6CHCHO*,9,9,17,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)6CHCOH*,9,9,17,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)6CCH2OH*,9,9,18,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)6CH2CHO*,9,9,18,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)6CH2COH*,9,9,18,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)6CHCH2O*,9,9,18,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)6CHCHOH*,9,9,18,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)6CH2CH2O*,9,9,19,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)6CH2CHOH*,9,9,19,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)6CHCH2OH*,9,9,19,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)6CH2CH2OH*,9,9,20,1,surface,醇型,0,闭壳层分子(物理吸附)
+C9H18(g),9,9,18,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C9H20(g),9,9,20,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)7CC*,10,10,17,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)7CCH*,10,10,18,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)7CHC*,10,10,18,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)6CHCHCH2*,10,10,19,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)7CCH2*,10,10,19,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)7CHCH*,10,10,19,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)8C*,10,10,19,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)7CCH3*,10,10,20,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)7CHCH2*,10,10,20,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)8CH*,10,10,20,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)7CHCH3*,10,10,21,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)8CH2*,10,10,21,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)8CH3*,10,10,22,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)7CCO*,10,10,17,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)7CCHO*,10,10,18,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)7CCOH*,10,10,18,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)7CHCO*,10,10,18,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)7CCH2O*,10,10,19,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)7CCHOH*,10,10,19,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)7CH2CO*,10,10,19,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)7CHCHO*,10,10,19,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)7CHCOH*,10,10,19,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)7CCH2OH*,10,10,20,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)7CH2CHO*,10,10,20,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)7CH2COH*,10,10,20,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)7CHCH2O*,10,10,20,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)7CHCHOH*,10,10,20,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)7CH2CH2O*,10,10,21,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)7CH2CHOH*,10,10,21,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)7CHCH2OH*,10,10,21,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)7CH2CH2OH*,10,10,22,1,surface,醇型,0,闭壳层分子(物理吸附)
+C10H20(g),10,10,20,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C10H22(g),10,10,22,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)8CC*,11,11,19,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)8CCH*,11,11,20,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)8CHC*,11,11,20,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)7CHCHCH2*,11,11,21,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)8CCH2*,11,11,21,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)8CHCH*,11,11,21,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)9C*,11,11,21,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)8CCH3*,11,11,22,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)8CHCH2*,11,11,22,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)9CH*,11,11,22,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)8CHCH3*,11,11,23,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)9CH2*,11,11,23,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)9CH3*,11,11,24,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)8CCO*,11,11,19,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)8CCHO*,11,11,20,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)8CCOH*,11,11,20,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)8CHCO*,11,11,20,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)8CCH2O*,11,11,21,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)8CCHOH*,11,11,21,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)8CH2CO*,11,11,21,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)8CHCHO*,11,11,21,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)8CHCOH*,11,11,21,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)8CCH2OH*,11,11,22,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)8CH2CHO*,11,11,22,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)8CH2COH*,11,11,22,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)8CHCH2O*,11,11,22,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)8CHCHOH*,11,11,22,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)8CH2CH2O*,11,11,23,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)8CH2CHOH*,11,11,23,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)8CHCH2OH*,11,11,23,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)8CH2CH2OH*,11,11,24,1,surface,醇型,0,闭壳层分子(物理吸附)
+C11H22(g),11,11,22,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C11H24(g),11,11,24,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)9CC*,12,12,21,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)9CCH*,12,12,22,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)9CHC*,12,12,22,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)10C*,12,12,23,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)8CHCHCH2*,12,12,23,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)9CCH2*,12,12,23,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)9CHCH*,12,12,23,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)10CH*,12,12,24,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)9CCH3*,12,12,24,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)9CHCH2*,12,12,24,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)10CH2*,12,12,25,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)9CHCH3*,12,12,25,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)10CH3*,12,12,26,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)9CCO*,12,12,21,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)9CCHO*,12,12,22,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)9CCOH*,12,12,22,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)9CHCO*,12,12,22,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)9CCH2O*,12,12,23,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)9CCHOH*,12,12,23,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)9CH2CO*,12,12,23,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)9CHCHO*,12,12,23,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)9CHCOH*,12,12,23,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)9CCH2OH*,12,12,24,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)9CH2CHO*,12,12,24,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)9CH2COH*,12,12,24,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)9CHCH2O*,12,12,24,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)9CHCHOH*,12,12,24,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)9CH2CH2O*,12,12,25,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)9CH2CHOH*,12,12,25,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)9CHCH2OH*,12,12,25,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)9CH2CH2OH*,12,12,26,1,surface,醇型,0,闭壳层分子(物理吸附)
+C12H24(g),12,12,24,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C12H26(g),12,12,26,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)10CC*,13,13,23,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)10CCH*,13,13,24,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)10CHC*,13,13,24,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)10CCH2*,13,13,25,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)10CHCH*,13,13,25,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)11C*,13,13,25,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)9CHCHCH2*,13,13,25,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)10CCH3*,13,13,26,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)10CHCH2*,13,13,26,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)11CH*,13,13,26,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)10CHCH3*,13,13,27,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)11CH2*,13,13,27,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)11CH3*,13,13,28,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)10CCO*,13,13,23,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)10CCHO*,13,13,24,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)10CCOH*,13,13,24,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)10CHCO*,13,13,24,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)10CCH2O*,13,13,25,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)10CCHOH*,13,13,25,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)10CH2CO*,13,13,25,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)10CHCHO*,13,13,25,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)10CHCOH*,13,13,25,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)10CCH2OH*,13,13,26,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)10CH2CHO*,13,13,26,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)10CH2COH*,13,13,26,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)10CHCH2O*,13,13,26,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)10CHCHOH*,13,13,26,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)10CH2CH2O*,13,13,27,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)10CH2CHOH*,13,13,27,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)10CHCH2OH*,13,13,27,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)10CH2CH2OH*,13,13,28,1,surface,醇型,0,闭壳层分子(物理吸附)
+C13H26(g),13,13,26,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C13H28(g),13,13,28,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)11CC*,14,14,25,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)11CCH*,14,14,26,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)11CHC*,14,14,26,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)10CHCHCH2*,14,14,27,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)11CCH2*,14,14,27,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)11CHCH*,14,14,27,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)12C*,14,14,27,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)11CCH3*,14,14,28,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)11CHCH2*,14,14,28,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)12CH*,14,14,28,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)11CHCH3*,14,14,29,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)12CH2*,14,14,29,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)12CH3*,14,14,30,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)11CCO*,14,14,25,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)11CCHO*,14,14,26,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)11CCOH*,14,14,26,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)11CHCO*,14,14,26,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)11CCH2O*,14,14,27,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)11CCHOH*,14,14,27,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)11CH2CO*,14,14,27,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)11CHCHO*,14,14,27,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)11CHCOH*,14,14,27,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)11CCH2OH*,14,14,28,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)11CH2CHO*,14,14,28,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)11CH2COH*,14,14,28,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)11CHCH2O*,14,14,28,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)11CHCHOH*,14,14,28,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)11CH2CH2O*,14,14,29,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)11CH2CHOH*,14,14,29,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)11CHCH2OH*,14,14,29,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)11CH2CH2OH*,14,14,30,1,surface,醇型,0,闭壳层分子(物理吸附)
+C14H28(g),14,14,28,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C14H30(g),14,14,30,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)12CC*,15,15,27,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)12CCH*,15,15,28,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)12CHC*,15,15,28,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)11CHCHCH2*,15,15,29,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)12CCH2*,15,15,29,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)12CHCH*,15,15,29,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)13C*,15,15,29,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)12CCH3*,15,15,30,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)12CHCH2*,15,15,30,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)13CH*,15,15,30,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)12CHCH3*,15,15,31,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)13CH2*,15,15,31,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)13CH3*,15,15,32,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)12CCO*,15,15,27,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)12CCHO*,15,15,28,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)12CCOH*,15,15,28,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)12CHCO*,15,15,28,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)12CCH2O*,15,15,29,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)12CCHOH*,15,15,29,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)12CH2CO*,15,15,29,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)12CHCHO*,15,15,29,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)12CHCOH*,15,15,29,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)12CCH2OH*,15,15,30,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)12CH2CHO*,15,15,30,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)12CH2COH*,15,15,30,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)12CHCH2O*,15,15,30,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)12CHCHOH*,15,15,30,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)12CH2CH2O*,15,15,31,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)12CH2CHOH*,15,15,31,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)12CHCH2OH*,15,15,31,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)12CH2CH2OH*,15,15,32,1,surface,醇型,0,闭壳层分子(物理吸附)
+C15H30(g),15,15,30,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C15H32(g),15,15,32,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)13CC*,16,16,29,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)13CCH*,16,16,30,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)13CHC*,16,16,30,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)12CHCHCH2*,16,16,31,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)13CCH2*,16,16,31,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)13CHCH*,16,16,31,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)14C*,16,16,31,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)13CCH3*,16,16,32,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)13CHCH2*,16,16,32,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)14CH*,16,16,32,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)13CHCH3*,16,16,33,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)14CH2*,16,16,33,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)14CH3*,16,16,34,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)13CCO*,16,16,29,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)13CCHO*,16,16,30,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)13CCOH*,16,16,30,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)13CHCO*,16,16,30,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)13CCH2O*,16,16,31,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)13CCHOH*,16,16,31,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)13CH2CO*,16,16,31,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)13CHCHO*,16,16,31,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)13CHCOH*,16,16,31,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)13CCH2OH*,16,16,32,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)13CH2CHO*,16,16,32,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)13CH2COH*,16,16,32,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)13CHCH2O*,16,16,32,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)13CHCHOH*,16,16,32,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)13CH2CH2O*,16,16,33,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)13CH2CHOH*,16,16,33,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)13CHCH2OH*,16,16,33,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)13CH2CH2OH*,16,16,34,1,surface,醇型,0,闭壳层分子(物理吸附)
+C16H32(g),16,16,32,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C16H34(g),16,16,34,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)14CC*,17,17,31,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)14CCH*,17,17,32,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)14CHC*,17,17,32,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)13CHCHCH2*,17,17,33,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)14CCH2*,17,17,33,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)14CHCH*,17,17,33,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)15C*,17,17,33,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)14CCH3*,17,17,34,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)14CHCH2*,17,17,34,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)15CH*,17,17,34,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)14CHCH3*,17,17,35,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)15CH2*,17,17,35,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)15CH3*,17,17,36,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)14CCO*,17,17,31,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)14CCHO*,17,17,32,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)14CCOH*,17,17,32,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)14CHCO*,17,17,32,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)14CCH2O*,17,17,33,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)14CCHOH*,17,17,33,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)14CH2CO*,17,17,33,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)14CHCHO*,17,17,33,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)14CHCOH*,17,17,33,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)14CCH2OH*,17,17,34,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)14CH2CHO*,17,17,34,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)14CH2COH*,17,17,34,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)14CHCH2O*,17,17,34,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)14CHCHOH*,17,17,34,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)14CH2CH2O*,17,17,35,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)14CH2CHOH*,17,17,35,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)14CHCH2OH*,17,17,35,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)14CH2CH2OH*,17,17,36,1,surface,醇型,0,闭壳层分子(物理吸附)
+C17H34(g),17,17,34,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C17H36(g),17,17,36,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)15CC*,18,18,33,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)15CCH*,18,18,34,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)15CHC*,18,18,34,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)14CHCHCH2*,18,18,35,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)15CCH2*,18,18,35,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)15CHCH*,18,18,35,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)16C*,18,18,35,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)15CCH3*,18,18,36,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)15CHCH2*,18,18,36,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)16CH*,18,18,36,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)15CHCH3*,18,18,37,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)16CH2*,18,18,37,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)16CH3*,18,18,38,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)15CCO*,18,18,33,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)15CCHO*,18,18,34,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)15CCOH*,18,18,34,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)15CHCO*,18,18,34,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)15CCH2O*,18,18,35,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)15CCHOH*,18,18,35,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)15CH2CO*,18,18,35,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)15CHCHO*,18,18,35,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)15CHCOH*,18,18,35,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)15CCH2OH*,18,18,36,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)15CH2CHO*,18,18,36,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)15CH2COH*,18,18,36,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)15CHCH2O*,18,18,36,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)15CHCHOH*,18,18,36,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)15CH2CH2O*,18,18,37,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)15CH2CHOH*,18,18,37,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)15CHCH2OH*,18,18,37,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)15CH2CH2OH*,18,18,38,1,surface,醇型,0,闭壳层分子(物理吸附)
+C18H36(g),18,18,36,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C18H38(g),18,18,38,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)16CC*,19,19,35,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)16CCH*,19,19,36,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)16CHC*,19,19,36,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)15CHCHCH2*,19,19,37,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)16CCH2*,19,19,37,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)16CHCH*,19,19,37,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)17C*,19,19,37,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)16CCH3*,19,19,38,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)16CHCH2*,19,19,38,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)17CH*,19,19,38,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)16CHCH3*,19,19,39,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)17CH2*,19,19,39,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)17CH3*,19,19,40,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)16CCO*,19,19,35,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)16CCHO*,19,19,36,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)16CCOH*,19,19,36,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)16CHCO*,19,19,36,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)16CCH2O*,19,19,37,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)16CCHOH*,19,19,37,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)16CH2CO*,19,19,37,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)16CHCHO*,19,19,37,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)16CHCOH*,19,19,37,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)16CCH2OH*,19,19,38,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)16CH2CHO*,19,19,38,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)16CH2COH*,19,19,38,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)16CHCH2O*,19,19,38,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)16CHCHOH*,19,19,38,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)16CH2CH2O*,19,19,39,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)16CH2CHOH*,19,19,39,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)16CHCH2OH*,19,19,39,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)16CH2CH2OH*,19,19,40,1,surface,醇型,0,闭壳层分子(物理吸附)
+C19H38(g),19,19,38,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C19H40(g),19,19,40,0,gas,产物:正构烷烃,0,闭壳层分子
+CH3(CH2)17CC*,20,20,37,0,surface,炔基 alkynyl,5,炔基自由基 RC≡C·
+CH3(CH2)17CCH*,20,20,38,0,surface,1-炔(吸附),4,1-炔 (闭壳层)
+CH3(CH2)17CHC*,20,20,38,0,surface,亚乙烯基型 vinylidene,4,亚乙烯基卡宾 RCH=C:
+CH3(CH2)16CHCHCH2*,20,20,39,0,surface,η3-烯丙基,3,烯丙基自由基 (共振稳定)
+CH3(CH2)17CCH2*,20,20,39,0,surface,1-烯-2-基,3,2-烯基自由基 RĊ=CH2
+CH3(CH2)17CHCH*,20,20,39,0,surface,1-烯基 alkenyl,3,烯基自由基 RCH=ĊH
+CH3(CH2)18C*,20,20,39,0,surface,次烷基 alkylidyne,3,烷基卡拜 RCH2C⋮
+CH3(CH2)17CCH3*,20,20,40,0,surface,2-亚烷基,2,二烷基卡宾 R–C̈–CH3
+CH3(CH2)17CHCH2*,20,20,40,0,surface,α-烯烃(π/di-σ 吸附),2,"α-烯烃 (闭壳层) / 1,2-双自由基"
+CH3(CH2)18CH*,20,20,40,0,surface,亚烷基 alkylidene,2,烷基卡宾 RCH2C̈H
+CH3(CH2)17CHCH3*,20,20,41,0,surface,2-烷基(仲烷基),1,仲烷基自由基 RĊHCH3
+CH3(CH2)18CH2*,20,20,41,0,surface,1-烷基 alkyl,1,伯烷基自由基 RCH2ĊH2
+CH3(CH2)18CH3*,20,20,42,0,surface,正构烷烃(物理吸附),0,闭壳层分子(物理吸附)
+CH3(CH2)17CCO*,20,20,37,1,surface,酰基/烯酮型(CO 插入产物),5,含氧端基: 酰基 –Ċ=O
+CH3(CH2)17CCHO*,20,20,38,1,surface,醛型,4,含氧端基: 醛基 –CH=O
+CH3(CH2)17CCOH*,20,20,38,1,surface,羟基卡宾/烯醇型,4,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)17CHCO*,20,20,38,1,surface,酰基/烯酮型(CO 插入产物),4,含氧端基: 酰基 –Ċ=O
+CH3(CH2)17CCH2O*,20,20,39,1,surface,烷氧基型,3,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)17CCHOH*,20,20,39,1,surface,羟烷基型,3,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)17CH2CO*,20,20,39,1,surface,酰基/烯酮型(CO 插入产物),3,含氧端基: 酰基 –Ċ=O
+CH3(CH2)17CHCHO*,20,20,39,1,surface,醛型,3,含氧端基: 醛基 –CH=O
+CH3(CH2)17CHCOH*,20,20,39,1,surface,羟基卡宾/烯醇型,3,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)17CCH2OH*,20,20,40,1,surface,醇型,2,含氧端基: 醇 –CH2OH
+CH3(CH2)17CH2CHO*,20,20,40,1,surface,醛型,2,含氧端基: 醛基 –CH=O
+CH3(CH2)17CH2COH*,20,20,40,1,surface,羟基卡宾/烯醇型,2,含氧端基: 羟基卡宾 –C̈–OH
+CH3(CH2)17CHCH2O*,20,20,40,1,surface,烷氧基型,2,含氧端基: 烷氧基 –CH2O·
+CH3(CH2)17CHCHOH*,20,20,40,1,surface,羟烷基型,2,含氧端基: α-羟烷基 –ĊHOH
+CH3(CH2)17CH2CH2O*,20,20,41,1,surface,烷氧基型,1,含氧端基: 烷氧基 –CH2O· (单自由基)
+CH3(CH2)17CH2CHOH*,20,20,41,1,surface,羟烷基型,1,含氧端基: α-羟烷基 –ĊHOH (单自由基)
+CH3(CH2)17CHCH2OH*,20,20,41,1,surface,醇型,1,含氧端基: 醇 –CH2OH (单自由基)
+CH3(CH2)17CH2CH2OH*,20,20,42,1,surface,醇型,0,闭壳层分子(物理吸附)
+C20H40(g),20,20,40,0,gas,产物:直链 α-烯烃,0,闭壳层分子
+C20H42(g),20,20,42,0,gas,产物:正构烷烃,0,闭壳层分子
