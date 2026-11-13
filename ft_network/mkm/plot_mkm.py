@@ -45,7 +45,7 @@ def title(ax, t, sub):
 
 
 fig = plt.figure(figsize=(17, 13.2), facecolor=SURF)
-gs = fig.add_gridspec(2, 2, hspace=0.32, wspace=0.17, left=0.05, right=0.985, top=0.885, bottom=0.05,
+gs = fig.add_gridspec(2, 2, hspace=0.32, wspace=0.17, left=0.12, right=0.985, top=0.885, bottom=0.05,
                       width_ratios=[1.15, 1])
 
 # ------------------------------------------------------------------ (a) 网络
@@ -101,7 +101,7 @@ ax.text(4.05, 6.15, f"2OH → H2O + O：{dft['ohoh']:.2f} → {fit['ohoh']:.2f}"
 edge("O*", "CO2(g)", "co2", dx=-0.25, dy=0.25, rad=-0.15)
 edge("CH3* = R1", "Rn*（烷基）", None)
 edge("Rn*（烷基）", "R(n+1)*", "grow", dx=0.95)
-ax.text(10.0, 2.45, "+ CH2*", fontsize=10, color=MUTE, ha="left", va="center", fontfamily="DejaVu Sans")
+ax.text(9.85, 2.45, "+ CH2*", fontsize=10, color=MUTE, ha="right", va="center")
 edge("Rn*（烷基）", "CnH2n+2(g)", "par", dx=0.62)
 edge("Rn*（烷基）", "En*（烯烃）", "beta", dx=-0.68, two=True)
 edge("En*（烯烃）", "CnH2n(g)", None)
@@ -130,7 +130,7 @@ ax.set_ylim(-6, 0.15)
 ax.set_xlim(0, 40.5)
 ax.legend(loc="upper right", frameon=False, fontsize=10, labelcolor=INK)
 title(ax, "(b) 产物分布：纯 DFT 几乎只出甲烷，拟合后接近 α≈0.9",
-      "220 °C 附近（210 °C，20 bar，H2/CO = 2.1）；直线越平 α 越大")
+      "210 °C，20 bar，H2/CO = 2.1；直线越平 α 越大；拟合曲线约 C10 后变平（双 α）")
 
 # ------------------------------------------------------------------ (c) 指标对比
 ax = fig.add_subplot(gs[1, 0])
@@ -154,7 +154,7 @@ ax.set_yticklabels([f"{names[k]}（实验 {tg[k]:g}）" for k in keys], fontsize
 ax.invert_yaxis()
 ax.set_xlim(-8.5, 8.5)
 ax.set_xlabel("（预测 − 实验）/ 容差；绿色带 = 在容差内，超出 ±8 截断显示", color=MUTE, fontsize=10.5)
-ax.legend(loc="lower left", frameon=False, fontsize=9.5, labelcolor=INK, ncol=2)
+ax.legend(loc="lower right", frameon=False, fontsize=9.5, labelcolor=INK, ncol=1)
 title(ax, "(c) 各指标与实验的偏差", "纯 DFT 参数多数指标偏离很远；拟合的好坏以落在绿色带内的数目衡量")
 
 # ------------------------------------------------------------------ (d) 参数调整 + DRC
@@ -182,7 +182,7 @@ title(ax, f"(d) 拟合 {BEST} 需要把参数调多少，哪些步骤控制结�
       "DRC = 速率控制度 ∂ln y / ∂ln k；只标出 |DRC| > 0.05 的步骤")
 
 fig.suptitle("钴基费托 MKM：文献 DFT 参数能否复现实验？", x=0.05, y=0.975, ha="left", fontsize=19, fontweight="bold", color=INK)
-fig.text(0.05, 0.935, "单位点平均场集总模型（台阶位），21 个可调参数以 DFT 文献值为先验；实验基准为 210 °C、20 bar、H2/CO = 2.1、"
+fig.text(0.05, 0.935, "平均场集总模型（台阶位），21 个可调参数以 DFT 文献值为先验；实验基准为 210 °C、20 bar、H2/CO = 2.1、"
          "低转化率、Co 颗粒 > 10 nm。文献数值来自摘要，未核对原文。", fontsize=11.5, color=MUTE)
 out = HERE.parent / "figures" / "co_mkm_fit.png"
 fig.savefig(out, dpi=170, facecolor=SURF)
