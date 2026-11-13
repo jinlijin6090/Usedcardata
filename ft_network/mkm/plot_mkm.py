@@ -15,8 +15,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from params_lit import DFT_STEP, TARGETS  # noqa: E402
 
-BEST = sys.argv[1] if len(sys.argv) > 1 else "C"
-VARIANTS = [v for v in ("A", "B", "C") if (HERE / f"fit_result_{v}.json").exists()]
+BEST = sys.argv[1] if len(sys.argv) > 1 else "D"
+VARIANTS = [v for v in ("A", "B", "C", "D") if (HERE / f"fit_result_{v}.json").exists()]
 FIT = {v: json.loads((HERE / f"fit_result_{v}.json").read_text()) for v in VARIANTS}
 AN = json.loads((HERE / "analysis.json").read_text())
 
@@ -24,8 +24,8 @@ plt.rcParams["font.sans-serif"] = ["WenQuanYi Zen Hei", "DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
 INK, MUTE, GRID, SURF = "#1B2A33", "#6B7880", "#E3E7EA", "#FCFCFB"
 PAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]       # 已用 validate_palette.js 校验
-COL = {"DFT": PAL[1], "A": PAL[3], "B": PAL[2], "C": PAL[0]}
-LAB = {"DFT": "纯 DFT 参数", "A": "拟合 A：单位点", "B": "拟合 B：单位点 + θCO 约束", "C": "拟合 C：CO 解离需两个空位"}
+COL = {"DFT": PAL[1], "A": PAL[3], "B": PAL[2], "C": PAL[4], "D": PAL[0]}
+LAB = {"DFT": "纯 DFT 参数", "A": "拟合 A：单位点", "B": "拟合 B：+ θCO 约束", "C": "拟合 C：+ CO 解离需两个空位", "D": "拟合 D：+ H 独立位点"}
 
 
 def style(ax):
@@ -141,7 +141,7 @@ keys = list(names)
 y = np.arange(len(keys))
 ax.axvspan(-1, 1, color="#E8F3EC", zorder=0)
 ax.axvline(0, color="#2E8B57", lw=1)
-off = {"DFT": -0.27, "A": -0.09, "B": 0.09, "C": 0.27}
+off = {"DFT": -0.3, "A": -0.15, "B": 0.0, "C": 0.15, "D": 0.3}
 src = FIT[VARIANTS[0]]
 tg = {k: t for k, t, *_ in TARGETS}
 tol = {k: s for k, _, s, *_ in TARGETS}

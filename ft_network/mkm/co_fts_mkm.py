@@ -28,6 +28,10 @@
 
 速率常数: 表面步骤 k = (kB T/h)·exp(−Ea/kBT), 逆反应 Ea − ΔE (忽略吸附物熵变)。
 吸附: 碰撞理论 (粘附系数 S0); 脱附: 由吸附平衡常数 (气相熵全部损失) 求出。
+
+变体选项:
+  nsite_dir = 2 : CO 解离需要两个空位 (位点系综)
+  h_sep = True  : H 吸附在独立的一组位点上 (不与 CO 和碳物种抢位点); 生成 H* 的方向使用 H 空位
 """
 from __future__ import annotations
 
@@ -61,7 +65,7 @@ DEFAULT = dict(
     ch=(0.70, -0.20), ch2=(0.65, 0.10), ch3=(0.60, -0.15), ch4=(0.95, -0.10),
     oh=(1.20, 0.10), h2o=(1.00, -0.10), ohoh=(0.72, -0.10), co2=(1.30, -0.20),
     grow=(0.80, -0.50), par=(1.00, -0.40), beta=(0.75, 0.25),
-    E_des0=0.55, c_des=0.035, d_C2=0.0, nsite_dir=1,
+    E_des0=0.55, c_des=0.035, d_C2=0.0, nsite_dir=1, h_sep=False,
 )
 
 
@@ -147,28 +151,33 @@ class CoMKM:
         CO, H, O, OH, C, CH, CH2, HCO = (th[i[s]] for s in self.NFIX)
         R = th[self.iR:self.iR + N]               # R[0] = R_1
         E = th[self.iE:self.iE + N - 1]           # E[0] = E_2
-        free = 1.0 - th.sum()
+        if self.p["h_sep"]:
+            free = 1.0 - th.sum() + H              # 主位点空位 (不含 H)
+            fH = 1.0 - H                           # H 位点空位
+        else:
+            free = 1.0 - th.sum()
+            fH = free
         tot_cov = th.sum()
         kd_co = k["co_des0"] * math.exp(k["w_co"] * CO / k["kT"])
         kd_h2 = k["h2_des0"] * math.exp(2 * k["w_h"] * H / k["kT"])
         r = {}
         r["co_ads"] = k["co_ads"] * free - kd_co * CO
-        r["h2_ads"] = k["h2_ads"] * free ** 2 - kd_h2 * H ** 2
+        r["h2_ads"] = k["h2_ads"] * fH ** 2 - kd_h2 * H ** 2
         ns = self.p["nsite_dir"]
         r["dir"] = k["dir"][0] * CO * free ** ns - k["dir"][1] * C * O * free ** (ns - 1)
-        r["hco"] = k["hco"][0] * CO * H - k["hco"][1] * HCO * free
+        r["hco"] = k["hco"][0] * CO * H - k["hco"][1] * HCO * fH
         r["hcod"] = k["hcod"][0] * HCO * free - k["hcod"][1] * CH * O
-        r["ch"] = k["ch"][0] * C * H - k["ch"][1] * CH * free
-        r["ch2"] = k["ch2"][0] * CH * H - k["ch2"][1] * CH2 * free
-        r["ch3"] = k["ch3"][0] * CH2 * H - k["ch3"][1] * R[0] * free
+        r["ch"] = k["ch"][0] * C * H - k["ch"][1] * CH * fH
+        r["ch2"] = k["ch2"][0] * CH * H - k["ch2"][1] * CH2 * fH
+        r["ch3"] = k["ch3"][0] * CH2 * H - k["ch3"][1] * R[0] * fH
         r["ch4"] = k["ch4"][0] * R[0] * H
-        r["oh"] = k["oh"][0] * O * H - k["oh"][1] * OH * free
+        r["oh"] = k["oh"][0] * O * H - k["oh"][1] * OH * fH
         r["h2o"] = k["h2o"][0] * OH * H
         r["ohoh"] = k["ohoh"][0] * OH * OH
         r["co2"] = k["co2"][0] * CO * O
         g = k["grow"][0] * R[:-1] * CH2           # R_n → R_{n+1}, n = 1…N−1
         par = k["par"][0] * R[1:] * H             # n = 2…N
-        beta = k["beta"][0] * R[1:] * free - k["beta"][1] * E * H
+        beta = k["beta"][0] * R[1:] * fH - k["beta"][1] * E * H
         des = k["des"] * E
         return r, g, par, beta, des, free, tot_cov
 
@@ -224,6 +233,8 @@ class CoMKM:
         theta["CH3"] = th[self.iR]
         theta["E(olefin)"] = th[self.iE:].sum()
         theta["*"] = free
+        if self.p["h_sep"]:
+            theta["*H"] = 1.0 - theta["H"]
         resid = float(np.abs(self.deriv(th)).max())
         return Result(T, P, h2co, theta, tof, r["ch4"] / tof if tof > 0 else float("nan"),
                       r["co2"] / tof if tof > 0 else float("nan"), paraffin, olefin, resid,

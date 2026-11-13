@@ -10,12 +10,15 @@ from co_fts_mkm import DEFAULT, CoMKM
 from params_lit import P_REF, R_REF, T_REF, dft_params
 
 HERE = Path(__file__).resolve().parent
+import os
+BEST = os.environ.get("BEST", "D")
 STEPS = ["dir", "hco", "hcod", "ch", "ch2", "ch3", "ch4", "oh", "h2o", "ohoh", "co2", "grow", "par", "beta"]
 
 
 def model(variant):
     p = dict(DEFAULT, **dft_params())
-    p["nsite_dir"] = 2 if variant == "C" else 1
+    p["nsite_dir"] = 2 if variant in ("C", "D") else 1
+    p["h_sep"] = variant == "D"
     if variant != "DFT":
         fit = json.loads((HERE / f"fit_result_{variant}.json").read_text())["fit"]
         for k, v in fit.items():
@@ -44,7 +47,7 @@ def drc(m, d=0.01):
 
 if __name__ == "__main__":
     res = {}
-    for v in ("DFT", "A", "C"):
+    for v in ("DFT", "A", "B", "C", "D"):
         m = model(v)
         r = m.solve(T_REF, P_REF, R_REF)
         n = np.arange(len(r.paraffin))
@@ -59,7 +62,7 @@ if __name__ == "__main__":
         print(v, "TOF", f"{r.tof_co:.3g}", "S_CH4", f"{r.s_ch4:.3f}", "alpha10-20", f"{r.alpha():.3f}",
               "alpha_n(1,2,3,5,10,20)", [round(alpha_n[k - 1], 3) for k in (1, 2, 3, 5, 10, 20)],
               "O/P(2,3,5,10)", [round(r.olefin[k] / r.paraffin[k], 2) for k in (2, 3, 5, 10)])
-        if v == "C":
+        if v == BEST:
             dr = drc(m)
             res[v]["drc"] = dr
             for s, x in dr.items():

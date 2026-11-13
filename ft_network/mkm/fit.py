@@ -26,7 +26,9 @@ HI = X0 + 4 * SIG
 
 def to_params(x):
     p = dict(DEFAULT, **dft_params())
-    p["nsite_dir"] = 2 if os.environ.get("FIT_VARIANT", "A") == "C" else 1
+    var = os.environ.get("FIT_VARIANT", "A")
+    p["nsite_dir"] = 2 if var in ("C", "D") else 1
+    p["h_sep"] = var == "D"
     for (k, v, _, _), xi in zip(DFT_STEP, x):
         p[k] = (float(xi), v[1]) if isinstance(v, tuple) else float(xi)
     return p
@@ -42,7 +44,7 @@ def predict(m, T=T_REF, P=P_REF, R=R_REF):
 
 # 变体 B: 额外要求 CO 覆盖度约 0.4–0.5 ML (反应条件下 Co 表面 CO 覆盖度高; 软约束)
 VARIANT = os.environ.get("FIT_VARIANT", "A")
-if VARIANT in ("B", "C"):
+if VARIANT in ("B", "C", "D"):
     TARGETS = TARGETS + [("theta_CO", 0.45, 0.08, "软约束: 反应条件下 CO 覆盖度约 0.4–0.5 ML")]
 
 
@@ -68,9 +70,7 @@ def main():
     MODEL.p = to_params(X0)
     pred0, _ = predict(MODEL)
     start = X0.copy()
-    if VARIANT == "C":                          # 变体 C: CO 解离需要两个空位
-        MODEL.p["nsite_dir"] = 2
-    if VARIANT in ("B", "C"):                   # 从 CO 吸附更强的起点出发
+    if VARIANT in ("B", "C", "D"):                   # 从 CO 吸附更强的起点出发
         start[NAMES.index("E_CO")] = 1.40
         start[NAMES.index("w_CO")] = 1.00
         MODEL._last = None
