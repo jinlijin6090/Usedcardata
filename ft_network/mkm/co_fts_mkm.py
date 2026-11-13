@@ -6,7 +6,7 @@
 网络 (全部基元步骤, 括号内为参数名):
   CO(g) + *      ⇌ CO*                 (E_CO, w_CO: CO 吸附能及其覆盖度相关的侧向排斥)
   H2(g) + 2*     ⇌ 2H*                 (E_H2, w_H: 每个 H2 的解离吸附能)
-  CO* + *        ⇌ C* + O*             (dir)   CO 直接解离
+  CO* + *        ⇌ C* + O*             (dir)   CO 直接解离; 若 nsite_dir = 2, 需要额外一个相邻空位 (位点系综)
   CO* + H*       ⇌ HCO* + *            (hco)   氢助活化第一步
   HCO* + *       ⇌ CH* + O*            (hcod)  HCO 的 C–O 断裂
   C* + H*        ⇌ CH* + *             (ch)
@@ -15,11 +15,13 @@
   CH3* + H*      →  CH4(g) + 2*        (ch4)   甲烷化
   O* + H*        ⇌ OH* + *             (oh)
   OH* + H*       →  H2O(g) + 2*        (h2o)
+  2OH*           →  H2O(g) + O* + *    (ohoh)  羟基歧化除氧
   CO* + O*       →  CO2(g) + 2*        (co2)
   R_n* + CH2*    →  R_{n+1}* + *       (grow)  链增长 (R_1 = CH3*, R_n = CnH2n+1* 烷基)
   R_n* + H*      →  CnH2n+2(g) + 2*    (par)   链终止: 烷烃 (n ≥ 2)
   R_n* + *       ⇌  E_n* + H*          (beta)  β-H 消除 → 吸附 α-烯烃 (n ≥ 2)
-  E_n*           →  CnH2n(g) + *       (des)   烯烃脱附, 脱附能随 n 线性增加: E_des0 + c_des·(n−2)
+  E_n*           →  CnH2n(g) + *       (des)   烯烃脱附, 脱附能随 n 线性增加: E_des0 + c_des·(n−2);
+                                                乙烯额外多 d_C2 (乙烯吸附更强 → C2 偏少)
 
 “烯烃再吸附”用 E_n* 的再加氢 (beta 逆反应) 与脱附的竞争来表示; 脱附能随链长增加 → 长链烯烃更容易被
 再加氢并继续增长, 这对应 Iglesia / Kuipers 解释的 α 随链长增大与烯烃/烷烃比随链长下降。
@@ -57,9 +59,9 @@ DEFAULT = dict(
     # 表面步骤: (Ea, ΔE) eV
     dir=(1.10, -0.40), hco=(1.00, 0.70), hcod=(0.90, -0.90),
     ch=(0.70, -0.20), ch2=(0.65, 0.10), ch3=(0.60, -0.15), ch4=(0.95, -0.10),
-    oh=(1.20, 0.10), h2o=(1.00, -0.10), co2=(1.30, -0.20),
+    oh=(1.20, 0.10), h2o=(1.00, -0.10), ohoh=(0.72, -0.10), co2=(1.30, -0.20),
     grow=(0.80, -0.50), par=(1.00, -0.40), beta=(0.75, 0.25),
-    E_des0=0.55, c_des=0.035,
+    E_des0=0.55, c_des=0.035, d_C2=0.0, nsite_dir=1,
 )
 
 
@@ -119,7 +121,7 @@ class CoMKM:
         pre = KB * T / H_PL
         f = lambda Ea: pre * np.exp(-np.asarray(Ea, float) / kT)                     # noqa: E731
         k = {}
-        for name in ["dir", "hco", "hcod", "ch", "ch2", "ch3", "ch4", "oh", "h2o", "co2", "grow", "par", "beta"]:
+        for name in ["dir", "hco", "hcod", "ch", "ch2", "ch3", "ch4", "oh", "h2o", "ohoh", "co2", "grow", "par", "beta"]:
             Ea, dE = p[name]
             k[name] = (f(Ea), f(Ea - dE))
         if pp is None:
@@ -136,7 +138,7 @@ class CoMKM:
         k["h2_des0"] = ka_h2 * P0 * math.exp(-(p["E_H2"] - T * s_gas("H2", T)) / kT)
         k["w_co"], k["w_h"], k["kT"] = p["w_CO"], p["w_H"], kT
         n = np.arange(2, self.N + 1)
-        k["des"] = f(p["E_des0"] + p["c_des"] * (n - 2))
+        k["des"] = f(p["E_des0"] + p["c_des"] * (n - 2) + p["d_C2"] * (n == 2))
         self.k = k
 
     # ---------------------------------------------------------------- 速率
@@ -152,7 +154,8 @@ class CoMKM:
         r = {}
         r["co_ads"] = k["co_ads"] * free - kd_co * CO
         r["h2_ads"] = k["h2_ads"] * free ** 2 - kd_h2 * H ** 2
-        r["dir"] = k["dir"][0] * CO * free - k["dir"][1] * C * O
+        ns = self.p["nsite_dir"]
+        r["dir"] = k["dir"][0] * CO * free ** ns - k["dir"][1] * C * O * free ** (ns - 1)
         r["hco"] = k["hco"][0] * CO * H - k["hco"][1] * HCO * free
         r["hcod"] = k["hcod"][0] * HCO * free - k["hcod"][1] * CH * O
         r["ch"] = k["ch"][0] * C * H - k["ch"][1] * CH * free
@@ -161,6 +164,7 @@ class CoMKM:
         r["ch4"] = k["ch4"][0] * R[0] * H
         r["oh"] = k["oh"][0] * O * H - k["oh"][1] * OH * free
         r["h2o"] = k["h2o"][0] * OH * H
+        r["ohoh"] = k["ohoh"][0] * OH * OH
         r["co2"] = k["co2"][0] * CO * O
         g = k["grow"][0] * R[:-1] * CH2           # R_n → R_{n+1}, n = 1…N−1
         par = k["par"][0] * R[1:] * H             # n = 2…N
@@ -175,8 +179,8 @@ class CoMKM:
         d[i["CO"]] = r["co_ads"] - r["dir"] - r["hco"] - r["co2"]
         d[i["H"]] = (2 * r["h2_ads"] - r["hco"] - r["ch"] - r["ch2"] - r["ch3"] - r["ch4"] - r["oh"] - r["h2o"]
                      - par.sum() + beta.sum())
-        d[i["O"]] = r["dir"] + r["hcod"] - r["oh"] - r["co2"]
-        d[i["OH"]] = r["oh"] - r["h2o"]
+        d[i["O"]] = r["dir"] + r["hcod"] - r["oh"] - r["co2"] + r["ohoh"]
+        d[i["OH"]] = r["oh"] - r["h2o"] - 2 * r["ohoh"]
         d[i["C"]] = r["dir"] - r["ch"]
         d[i["CH"]] = r["hcod"] + r["ch"] - r["ch2"]
         d[i["CH2"]] = r["ch2"] - r["ch3"] - g.sum()
