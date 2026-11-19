@@ -6,8 +6,10 @@
 
 modes
   ch4  : first C-H cleavage (CH4 -> CH3* + H*) of the CH4 nearest the pore axis. CV = C-H
-         coordination (4 -> 3). The molecule is held within `--zmax` A of the exposed Ni and
-         within the pore radius of the pore axis by walls, so it reacts on exposed Ni / the rim.
+         coordination (~3.8 -> ~2.9). Walls keep the molecule in a cylinder above the pore
+         (radius pore-1 A, height `--zmax`): this is the gas reference state, so the rate
+         constant refers to one molecule in V_ref and is scaled to the real pressure with
+         p*V_ref/kT. CH4 never dissociates in unbiased gas-collision MD (~1e-8 per collision).
   co2  : first C-O cleavage (CO2 -> CO* + O*), CV = C-O coordination of one CO2 (2 -> 1).
   coke : 2-D FES of carbon gasification vs coking among pre-adsorbed C*/O* (S2 models):
          CV1 = N(C-O) (CO formed), CV2 = N(C-C) (C-C bonds = coke nuclei). Lattice-O uptake by
@@ -26,8 +28,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from meo_lib import TAG  # noqa: E402
 
 
-def sw(d0, r0):
-    return "SWITCH={RATIONAL D_0=%.2f R_0=%.2f NN=6 MM=12}" % (d0, r0)
+def sw(r0, nn=6, mm=12):
+    """Rational switching function s(r) = (1-(r/r0)^nn)/(1-(r/r0)^mm), s(r0) = 0.5.
+
+    r0 is put near the transition-state bond length, so reactant, transition state and
+    product are all resolved and the bias still acts at neighbour-site distances (2.5-3 A).
+    (A narrow D_0/R_0 switch squeezes the transition state onto the product value.)
+    """
+    return "SWITCH={RATIONAL R_0=%.2f NN=%d MM=%d}" % (r0, nn, mm)
 
 
 def lst(idx):
@@ -88,7 +96,8 @@ def main():
     ap.add_argument("--T", type=float, default=873.0)
     ap.add_argument("--barrier", type=float, default=None, help="OPES BARRIER (eV)")
     ap.add_argument("--pace", type=int, default=500)
-    ap.add_argument("--zmax", type=float, default=3.2, help="max height of C above exposed Ni (A)")
+    ap.add_argument("--zmax", type=float, default=6.5,
+                    help="max height of C above exposed Ni (A); with the lateral wall it defines the gas reference volume")
     ap.add_argument("--stride", type=int, default=50)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
@@ -99,14 +108,18 @@ def main():
     if a.mode in ("ch4", "co2"):
         ci, nb = molecule_near_axis(at, a.mode, c)
         if a.mode == "ch4":
-            L += ["cn: COORDINATION GROUPA=%d GROUPB=%s %s" % (ci + 1, lst(nb), sw(1.10, 0.30)),
-                  "lw: LOWER_WALLS ARG=cn AT=2.6 KAPPA=20.0   # stop at CH3*+H* (first C-H cleavage)"]
+            # CH4 ~3.8, transition state (one C-H ~1.6 A) ~3.4, CH3* + H* ~2.9
+            L += ["cn: COORDINATION GROUPA=%d GROUPB=%s %s" % (ci + 1, lst(nb), sw(1.60, 8, 16)),
+                  "lw: LOWER_WALLS ARG=cn AT=2.5 KAPPA=20.0   # stop at CH3*+H* (first C-H cleavage)"]
             barrier = a.barrier or 1.5
         else:
-            L += ["cn: COORDINATION GROUPA=%d GROUPB=%s %s" % (ci + 1, lst(nb), sw(1.30, 0.30)),
+            # CO2 ~1.9, transition state (one C-O ~1.85 A) ~1.45, CO* + O* ~1.0
+            L += ["cn: COORDINATION GROUPA=%d GROUPB=%s %s" % (ci + 1, lst(nb), sw(1.85, 8, 16)),
                   "lw: LOWER_WALLS ARG=cn AT=0.6 KAPPA=20.0   # stop at CO*+O*"]
             barrier = a.barrier or 1.5
         L += mol_restraints(ci, c, r, z_surf, a.zmax)
+        v_ref = np.pi * max(r - 1.0, 2.0) ** 2 * a.zmax
+        L.insert(2, "# gas reference volume V_ref ~ %.0f A^3: events per site per s = k(V_ref) * p*V_ref/kT / N_exposed_Ni" % v_ref)
         L += ["opes: OPES_METAD ARG=cn PACE=%d BARRIER=%.2f TEMP=%g FILE=KERNELS STATE_WFILE=STATE STATE_WSTRIDE=10000"
               % (a.pace, barrier, a.T),
               "PRINT ARG=cn,d.z,rxy,opes.bias,uwz.bias,uwr.bias,lw.bias STRIDE=%d FILE=COLVAR" % a.stride]
@@ -119,10 +132,11 @@ def main():
         dxy = at.positions[:, :2] - c
         dxy -= np.round(dxy / Lxy) * Lxy
         Olat = np.where((sym == "O") & (tags == TAG["meo"]) & (np.linalg.norm(dxy, axis=1) < r + 6.0))[0]
-        L += ["nco: COORDINATION GROUPA=%s GROUPB=%s %s" % (lst(C), lst(O), sw(1.25, 0.35)),
-              "ncc: COORDINATION GROUPA=%s %s" % (lst(C), sw(1.40, 0.35))]
+        # bonded pair ~0.9, transition state ~0.5, neighbouring sites (2.5 A) ~0.2, far apart ~0
+        L += ["nco: COORDINATION GROUPA=%s GROUPB=%s %s" % (lst(C), lst(O), sw(1.90)),
+              "ncc: COORDINATION GROUPA=%s %s" % (lst(C), sw(2.00))]
         if len(Olat):
-            L += ["ncolat: COORDINATION GROUPA=%s GROUPB=%s %s" % (lst(C), lst(Olat), sw(1.25, 0.35))]
+            L += ["ncolat: COORDINATION GROUPA=%s GROUPB=%s %s" % (lst(C), lst(Olat), sw(1.90))]
         barrier = a.barrier or 2.0
         L += ["opes: OPES_METAD ARG=nco,ncc PACE=%d BARRIER=%.2f TEMP=%g FILE=KERNELS STATE_WFILE=STATE STATE_WSTRIDE=10000"
               % (a.pace, barrier, a.T),
