@@ -2,14 +2,17 @@
 
 spec strings:
   mace:small | mace:medium | mace:medium-mpa-0 | mace:medium-omat-0 | mace:<path.model>
-  uma:uma-s-1p1/oc20        (fairchem-core >= 2; task: oc20 | omat | omol ...; needs HF access)
-  sevennet:7net-mf-ompa/mpa (SevenNet; name/modal)
+  mace:mace-matpes-pbe-0    (PBE without +U: the consistent starting point for Ni0 next to oxide)
+  mace:mh-1@omat_pbe        (multi-head model trained on OMat/OMol/OC20/MatPES; "@head" picks the head)
+  uma:uma-s-1p2p1/oc20      (fairchem-core >= 2; task: oc20 | oc22 | oc25 | omat | omol ...; needs HF access)
+  sevennet:7net-omni/matpes_pbe (SevenNet; name/modal; older: 7net-mf-ompa/mpa)
   mattersim:MatterSim-v1.0.0-5M.pth
   orb:orb_v3_conservative_inf_omat
   dp:<path.pt>[@head]       (DeePMD-kit / DPA-3 fine-tuned model)
   emt                       (ASE EMT, pipeline tests only: no Mg/Si)
 
-Only the MACE and EMT branches were run in this repository; the others follow each
+Only "mace:small" and "mace:medium" were run in this repository. The other MACE names are
+those listed by the installed mace-torch 0.3.17; the remaining branches follow each
 package's documented ASE interface - check them against the version you install.
 """
 import os
@@ -22,11 +25,13 @@ def get_calculator(spec, device="cpu", dtype="float32"):
             from mace.calculators import MACECalculator
             return MACECalculator(model_paths=arg, device=device, default_dtype=dtype)
         from mace.calculators import mace_mp
-        return mace_mp(model=arg or "medium", device=device, default_dtype=dtype)
+        name, _, head = arg.partition("@")
+        kw = {"head": head} if head else {}
+        return mace_mp(model=name or "medium", device=device, default_dtype=dtype, **kw)
     if kind == "uma":
         from fairchem.core import FAIRChemCalculator, pretrained_mlip
         name, _, task = arg.partition("/")
-        pu = pretrained_mlip.get_predict_unit(name or "uma-s-1p1", device=device)
+        pu = pretrained_mlip.get_predict_unit(name or "uma-s-1p2p1", device=device)
         return FAIRChemCalculator(pu, task_name=task or "oc20")
     if kind == "sevennet":
         from sevenn.calculator import SevenNetCalculator

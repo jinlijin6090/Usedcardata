@@ -60,8 +60,12 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 |---|---|---|
 | MACE-MP-0 small/medium | MPtrj（PBE/PBE+U，体相为主） | 氧化物可以，**Ni–O 吸附很差（见下）** |
 | MACE-MPA-0 / MACE-OMAT-0 | sAlex+MPtrj / OMat24（含非平衡构型） | 高温结构更稳，但仍是 PBE+U 体系 |
-| UMA-S（fairchem）`oc20` / `omat` 头 | OC20（金属表面+吸附质，RPBE）/ OMat24 | 表面反应最接近；氧化物层覆盖较弱 |
-| SevenNet-MF-ompa、MatterSim、ORB-v3、DPA-3（OpenLAM） | 各自多数据集 | 一起横评 |
+| MACE-MATPES-PBE-0 | MatPES（PBE，**不加 U**） | 金属 Ni 与氧化物同处一个能量标度，是最一致的微调起点；缺吸附物数据 |
+| MACE-MH-1（多头） | OMat/OMol/OC20/MatPES | 跨体相、分子、表面；需选头（如 `omat_pbe`） |
+| UMA-S 1.2（fairchem，`uma-s-1p2p1`）`oc20` / `oc22` / `omat` 头 | OC20（金属表面+吸附质，RPBE，无自旋、无氧化物）/ OC22（氧化物，PBE+U）/ OMat24 | 表面反应最接近；每次只能微调一个头 |
+| SevenNet-Omni、MatterSim、ORB-v3（只用能量守恒版本）、DPA 系列 | 各自多数据集 | 一起横评 |
+
+上表后四行是 2026 年 11 月按各软件包的发布说明补充的，这些模型尚未在本仓库测试。没有任何一个现成的头在同一 DFT 水平上同时覆盖金属 Ni、吸附物和含 Ni²⁺ 的氧化物。
 
 **本仓库已经实测到的问题**（`data/benchmark_umlip.json`，Ni(111) p(3×3)，见第 6 节）：
 
