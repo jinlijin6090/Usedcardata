@@ -1,0 +1,25 @@
+# Single-point DFT labels for fine-tuning (VASP). Keep EVERY setting identical across the
+# whole training set - never mix functionals, U values, ENCUT or smearing in one dataset.
+SYSTEM  = OxNi label
+GGA     = PE          # PBE. Use GGA = RP (RPBE) instead if you fine-tune a UMA/OC20 head
+IVDW    = 12          # D3(BJ); keep or drop for the whole dataset, not per frame
+PREC    = Accurate
+ENCUT   = 450
+EDIFF   = 1E-6
+NELM    = 200
+ALGO    = Normal      # switch to All if Ni/oxide frames struggle to converge
+LREAL   = Auto
+LASPH   = .TRUE.
+ISPIN   = 2
+# MAGMOM: metallic Ni 0.7, Ni2+ in the MEO 1.8, everything else 0 (write per atom from the tags)
+ISMEAR  = 0
+SIGMA   = 0.05        # train on the force-consistent free energy (TOTEN), see vasp_to_extxyz.py
+IBRION  = -1
+NSW     = 0
+ISYM    = 0
+LWAVE   = .FALSE.
+LCHARG  = .FALSE.
+LORBIT  = 11          # magnetic moments per atom, used to check Ni0 / Ni2+ assignment
+# Hubbard U: recommended baseline is NO U (metal/oxide interface, Ni moves between Ni0 and Ni2+).
+# Sensitivity test only, on a few frames: duplicate the Ni POTCAR as a second species for MEO Ni
+# and set LDAU = .TRUE.; LDAUL = -1 2 ...; LDAUU = 0 6.2 ... ; LDAUTYPE = 2

@@ -1,0 +1,9 @@
+{
+ "_comment": "Reactive MD with CH4/CO2 gas (S1/S3 + gas). Langevin equilibration, then Bussi (CSVR, weak global coupling) production: 1 ns. Read events per collision, not per second (gas is ~10^2-10^3 bar).",
+ "log_every": 200, "traj_every": 1000,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.3, "steps": 300, "freeze_tags": [1, 4]},
+  {"name": "eq", "T": 1073, "steps": 20000, "dt_fs": 0.5, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "prod", "T": 1073, "steps": 2000000, "dt_fs": 0.5, "thermostat": "bussi", "taut_fs": 100, "freeze_tags": [1, 4]}
+ ]
+}

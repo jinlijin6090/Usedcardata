@@ -1,0 +1,9 @@
+{
+ "_comment": "CPU pipeline test only: short pre-relaxation + 100 MD steps. Not a physical result.",
+ "log_every": 10, "traj_every": 20,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.5, "steps": 40, "freeze_tags": [1, 4]},
+  {"name": "md873", "T": 873, "steps": 100, "dt_fs": 0.5, "thermostat": "langevin",
+   "friction_per_fs": 0.02, "freeze_tags": [1, 4]}
+ ]
+}

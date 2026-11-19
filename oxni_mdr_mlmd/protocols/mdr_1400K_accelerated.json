@@ -1,0 +1,9 @@
+{
+ "_comment": "Temperature-accelerated exploration (event discovery + active-learning data). Mechanisms may differ from 873-1073 K: confirm every event at the real T with OPES.",
+ "log_every": 200, "traj_every": 500,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.3, "steps": 300, "freeze_tags": [1, 4]},
+  {"name": "eq", "T": 1400, "steps": 10000, "dt_fs": 0.5, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "prod", "T": 1400, "steps": 1000000, "dt_fs": 0.5, "thermostat": "bussi", "taut_fs": 100, "freeze_tags": [1, 4]}
+ ]
+}

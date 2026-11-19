@@ -1,0 +1,7 @@
+{
+ "_comment": "Use with --plumed (single timestep). Start from an equilibrated frame (run_md *_final.extxyz). 2 ns; extend until the FES converges (watch dF vs time).",
+ "log_every": 1000, "traj_every": 2000,
+ "stages": [
+  {"name": "opes", "T": 873, "steps": 4000000, "dt_fs": 0.5, "thermostat": "bussi", "taut_fs": 100, "freeze_tags": [1, 4]}
+ ]
+}

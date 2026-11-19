@@ -1,0 +1,9 @@
+{
+ "_comment": "S2 models (C*/O* pre-loaded): unbiased C diffusion, C-C clustering, subsurface C, C+O recombination. 2 ns. Pair with plumed coke OPES for the free energies.",
+ "log_every": 500, "traj_every": 2000,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.2, "steps": 300, "freeze_tags": [1, 4]},
+  {"name": "eq", "T": 873, "steps": 20000, "dt_fs": 0.5, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "prod", "T": 873, "steps": 4000000, "dt_fs": 0.5, "thermostat": "bussi", "taut_fs": 100, "freeze_tags": [1, 4]}
+ ]
+}

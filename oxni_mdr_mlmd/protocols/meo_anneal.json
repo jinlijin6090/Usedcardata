@@ -1,0 +1,12 @@
+{
+ "_comment": "Turn the random rock-salt MEO into an 'in-situ evolved' overlayer. Gas-free models only (S1_*_nogas, S3, P1, P2). 1 fs is fine without H. ~180 ps total.",
+ "log_every": 500, "traj_every": 2000,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.3, "steps": 500, "freeze_tags": [1, 4]},
+  {"name": "meo_melt", "T": 2000, "steps": 20000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.02, "freeze_tags": [0, 1, 3, 4]},
+  {"name": "quench", "T": 2000, "T_end": 1073, "steps": 30000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.02, "freeze_tags": [0, 1, 3, 4]},
+  {"name": "anneal1073", "T": 1073, "steps": 100000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "cool873", "T": 1073, "T_end": 873, "steps": 20000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "eq873", "T": 873, "steps": 10000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]}
+ ]
+}

@@ -1,0 +1,9 @@
+{
+ "_comment": "Particle models P1/P2 (no H, 1 fs). Shape, Ni mobility, detachment, coalescence, MEO integrity; 2 ns. 1173 K matches the in-situ TEM test.",
+ "log_every": 1000, "traj_every": 5000,
+ "stages": [
+  {"type": "opt", "name": "prerelax", "fmax": 0.3, "steps": 500, "freeze_tags": [1, 4]},
+  {"name": "eq", "T": 1073, "steps": 20000, "dt_fs": 1.0, "thermostat": "langevin", "friction_per_fs": 0.01, "freeze_tags": [1, 4]},
+  {"name": "prod", "T": 1073, "steps": 2000000, "dt_fs": 1.0, "thermostat": "bussi", "taut_fs": 200, "freeze_tags": [1, 4]}
+ ]
+}

@@ -1,0 +1,103 @@
+S0_smoke_ni211_meo_pore_gas
+627 atoms, cell [18.31 19.93 40.91]
+  tag 0 ni              168  Ni168
+  tag 1 ni_fixed        120  Ni120
+  tag 2 meo             291  Al30Mg30Ni27O170Si34  (formal q=+0)
+  tag 5 gas              48  C12H24O12
+  info: {'pore_center_xy': (9.155620568809084, 9.967377187605575), 'pore_radius': 5.0, 'film_strain_xy': (0.027619268281894982, -0.04108843537414952), 'wall_z': 36.91266836577059}
+
+S0_smoke_ref_ni211_bare_gas
+336 atoms, cell [18.31 19.93 30.41]
+  tag 0 ni              168  Ni168
+  tag 1 ni_fixed        120  Ni120
+  tag 5 gas              48  C12H24O12
+  info: {'pore_center_xy': (9.155620568809084, 9.967377187605575), 'pore_radius': 5.0, 'wall_z': 26.412668365770593}
+
+S1_ni211_meo_pore_nogas
+1271 atoms, cell [24.41 27.41 34.67]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  tag 2 meo             611  Al60Mg68Ni62O354Si67  (formal q=+0)
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'film_strain_xy': (0.027619268281894982, 0.02550264550264547), 'wall_z': 30.670668829162572}
+
+S1_ref_ni211_bare_nogas
+660 atoms, cell [24.41 27.41 22.07]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'wall_z': 18.07066882916257}
+
+S1_ni211_meo_pore_gas
+1367 atoms, cell [24.41 27.41 55.17]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  tag 2 meo             611  Al60Mg68Ni62O354Si67  (formal q=+0)
+  tag 5 gas              96  C24H48O24
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'film_strain_xy': (0.027619268281894982, 0.02550264550264547), 'wall_z': 51.17066882916257}
+
+S1_ref_ni211_bare_gas
+756 atoms, cell [24.41 27.41 42.57]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  tag 5 gas              96  C24H48O24
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'wall_z': 38.57066882916257}
+
+S2_ni211_meo_pore_CO
+1279 atoms, cell [24.41 27.41 36.67]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  tag 2 meo             611  Al60Mg68Ni62O354Si67  (formal q=+0)
+  tag 6 ads               8  C4O4
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'film_strain_xy': (0.027619268281894982, 0.02550264550264547), 'wall_z': 32.67066882916257}
+
+S2_ref_ni211_bare_CO
+668 atoms, cell [24.41 27.41 24.92]
+  tag 0 ni              440  Ni440
+  tag 1 ni_fixed        220  Ni220
+  tag 6 ads               8  C4O4
+  info: {'pore_center_xy': (12.207494091745446, 13.705143632957665), 'pore_radius': 6.0, 'wall_z': 20.91884955294347}
+
+S3_ni111_meo_pore_gas
+1471 atoms, cell [27.41 25.9  53.24]
+  tag 0 ni              396  Ni396
+  tag 1 ni_fixed        264  Ni264
+  tag 2 meo             715  Al78Mg72Ni71O416Si78  (formal q=+0)
+  tag 5 gas              96  C24H48O24
+  info: {'pore_center_xy': (13.705143632957665, 12.948002780351878), 'pore_radius': 6.0, 'film_strain_xy': (0.02550264550264547, -0.031151262559885318), 'wall_z': 49.238329394496965}
+
+S3_ref_ni111_bare_gas
+756 atoms, cell [27.41 25.9  40.64]
+  tag 0 ni              396  Ni396
+  tag 1 ni_fixed        264  Ni264
+  tag 5 gas              96  C24H48O24
+  info: {'pore_center_xy': (13.705143632957665, 12.948002780351878), 'pore_radius': 6.0, 'wall_z': 36.638329394496964}
+
+P1_np3nm_meo_on_MgAlO
+9258 atoms, cell [71.48 71.48 57.43]
+  tag 0 ni             1183  Ni1183
+  tag 2 meo            3762  Al396Mg396Ni396O2178Si396  (formal q=+0)
+  tag 3 support        2154  Al308Mg694O1152  (formal q=+0)
+  tag 4 support_fixed  2159  Al282Mg725O1152
+  info: {}
+
+P1_ref_np3nm_bare_on_MgAlO
+5496 atoms, cell [71.48 71.48 46.32]
+  tag 0 ni             1183  Ni1183
+  tag 3 support        2154  Al308Mg694O1152  (formal q=+0)
+  tag 4 support_fixed  2159  Al282Mg725O1152
+  info: {}
+
+P2_pair_np2.5nm_meo
+12952 atoms, cell [119.13  59.57  53.57]
+  tag 0 ni             1396  Ni1396
+  tag 2 meo            5566  Al586Mg586Ni587O3222Si585  (formal q=+0)
+  tag 3 support        2996  Al405Mg991O1600  (formal q=+0)
+  tag 4 support_fixed  2994  Al415Mg979O1600
+  info: {}
+
+P2_ref_pair_np2.5nm_bare
+7386 atoms, cell [119.13  59.57  42.8 ]
+  tag 0 ni             1396  Ni1396
+  tag 3 support        2996  Al405Mg991O1600  (formal q=+0)
+  tag 4 support_fixed  2994  Al415Mg979O1600
+  info: {}
+

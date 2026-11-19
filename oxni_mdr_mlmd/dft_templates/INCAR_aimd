@@ -1,0 +1,23 @@
+# Short reference AIMD (VASP) to validate the fine-tuned potential: ~200-300 atom cut of the
+# S1 model, 873 K, 5-10 ps. Compare RDFs, VDOS, adsorbate MSD, and per-frame forces.
+SYSTEM  = OxNi AIMD reference
+GGA     = PE
+IVDW    = 12
+PREC    = Normal
+ENCUT   = 400
+EDIFF   = 1E-5
+ALGO    = Fast
+LREAL   = Auto
+ISPIN   = 2
+ISMEAR  = 0
+SIGMA   = 0.10
+ISYM    = 0
+IBRION  = 0
+MDALGO  = 2           # Nose-Hoover
+SMASS   = 0
+TEBEG   = 873
+POTIM   = 0.5
+NSW     = 20000
+NBLOCK  = 1
+LWAVE   = .FALSE.
+LCHARG  = .FALSE.
