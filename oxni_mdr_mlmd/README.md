@@ -2,7 +2,7 @@
 
 对象：He et al., ACS Catal. 2021, 11, 12409。约 15 nm Ni 颗粒外覆 1–2 nm 多元氧化物（MEO：Ni²⁺/Mg/Al/Si/O），
 用于 CH₄ + CO₂ 干重整（MDR），873 K 下几乎不积碳。
-**研究计划见 [`PLAN.md`](PLAN.md)**。本文件只说明代码和数据。
+**机理研究和动态模拟的设计见 [`MECHANISM_PLAN.md`](MECHANISM_PLAN.md)；势函数和工作流见 [`PLAN.md`](PLAN.md)。** 本文件只说明代码和数据。
 
 ## 目录
 

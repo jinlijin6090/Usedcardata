@@ -1,5 +1,9 @@
 # OxNi 甲烷干重整：用通用机器学习势做"类 AIMD"反应动力学研究计划
 
+> **更新（2026-11）**：机理判别和动态模拟的设计见 [`MECHANISM_PLAN.md`](MECHANISM_PLAN.md)，它经过多轮独立设计和评审，并取代了本文件的以下内容：
+> 用带气体的反应 MD 直接观察反应（§4 的 3c）；以 4 个原子的 C+C 对 C+O 作为核心测试（3e）；把等摩尔岩盐膜当默认壳层（§3）；用 3 nm 颗粒对的 MD 判断烧结（3b）。
+> 本文件关于势函数选择、微调、主动学习和快速势的部分（§2、阶段 1–2）仍然有效。
+
 参考文献：L. He, …, W. Shen, A.-H. Lu, *Robust and Coke-free Ni Catalyst Stabilized by 1–2 nm-Thick
 Multielement Oxide for Methane Dry Reforming*, ACS Catal. 2021, 11, 12409–12416.
 
