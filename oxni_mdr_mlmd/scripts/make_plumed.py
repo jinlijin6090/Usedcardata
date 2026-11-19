@@ -105,8 +105,9 @@ def put_molecule_in_cylinder(at, kind, c, z_surf, z_film, r_wall, zmax, min_dist
 
     Start height: in the gas part of the cylinder (above the film if there is one). The
     molecule nearest the axis is moved rigidly; if the structure has none, one is built.
-    The cell is made tall enough that the cylinder top is >= 8 A below the periodic image,
-    and info['wall_z'] (reflecting wall of run_md.py) is lifted above the PLUMED wall.
+    The cell is made tall enough that the cylinder top is >= 8 A below the periodic image and
+    below half the cell height (minimum-image convention of PLUMED's DISTANCE), and
+    info['wall_z'] (reflecting wall of run_md.py) is lifted above the PLUMED wall.
     """
     at = at.copy()
     changed = False
@@ -143,7 +144,11 @@ def put_molecule_in_cylinder(at, kind, c, z_surf, z_film, r_wall, zmax, min_dist
         else:
             raise RuntimeError("no free start position in the reference cylinder; raise --zmax")
         changed = True
-    need = z_surf + zmax + 8.0
+    # (i) cylinder top >= 8 A below the periodic image of the slab; (ii) cell taller than twice
+    # the cylinder: PLUMED's DISTANCE takes the minimum image in z as well (ASE passes the full
+    # cell whatever the pbc flags), so d.z would change sign at half the cell height and the
+    # upper wall would never act.
+    need = max(z_surf + zmax + 8.0, 2.0 * zmax + 4.0)
     if at.cell[2, 2] < need:
         at.cell[2, 2] = need
         changed = True

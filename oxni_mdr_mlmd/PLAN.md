@@ -21,6 +21,8 @@ Multielement Oxide for Methane Dry Reforming*, ACS Catal. 2021, 11, 12409–1241
 
 主线：**Q1（积碳–消碳平衡）** 最能体现"动态过程"，也最直接对应论文的核心结论，建议作为主要成果；Q2–Q4 作为机理支撑，Q5 作为结构基础。
 
+【已更新】问题表和主线由 `MECHANISM_PLAN.md` 第 2 节取代：核心不再是"C–C 偶联对 C+O 气化"，而是碳相能否成核、成核后能否长出去，以及边缘的除碳通量；Q2、Q3 里的 Ni²⁺ 活化位和晶格氧只在结构门槛通过后才考虑。
+
 ---
 
 ## 1. 先说清楚：MD 能直接看到什么，看不到什么
@@ -85,7 +87,7 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 - 生产：LAMMPS（MACE 通过 ML-IAP/KOKKOS 或 symmetrix 接口，`fix plumed`）。GPU 必需。
 - 增强采样：PLUMED ≥ 2.9，编译时打开 OPES 模块（conda-forge 版本默认包含）。
 - DFT：VASP（模板已给），或 CP2K（做更大的 AIMD 验证）。
-- 微调：`mace_run_train` 多头微调（`dft_templates/finetune_mace.sh`）；若用 DPA-3 则用 DP-GEN2。
+- 微调：`mace_run_train`（`dft_templates/finetune_mace.sh`）。默认基础模型是 `mace-matpes-pbe-0`；只有用 `PT_TRAIN` 给出一份预训练数据（MatPES-PBE 的子集）时才是多头微调，否则脚本走普通微调。若用 DPA-3 则用 DP-GEN2。
 - 分析：本仓库 `species.py`（图论物种识别、积碳指标、Ni 结构指标）、OVITO（CNA、团簇）、ReacNetGenerator（反应网络）。
 
 ### 2.4 用更快的势函数：能换来什么，怎么用
@@ -163,6 +165,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 3. 定下 2.1 节的所有 DFT 参数，此后冻结。
 
 ### 阶段 1（2–3 周）：DFT 基准集 + 通用势横评
+
+【已更新】B2、B3 里等摩尔 MEO 孔边缘和 Ni²⁺ 位点的基准，改为 `MECHANISM_PLAN.md` 第 3 节的模型：先 Ni–C–H（L0），再 L2、L3、PER 的氧化物和边缘。
 - **B1** 气相：干重整、RWGS、Boudouard 反应能。
 - **B2** 吸附能：H、C、O、OH、CH₁₋₃、CO、CO₂ 在 Ni(111)、Ni(211)、Ni/MEO 孔边缘、MgO(100)/MEO 表面（含 CO₂→碳酸盐）。
 - **B3** 能垒（CI-NEB）：CH₄→CH₃+H（平台/台阶/周界/Ni²⁺），CH→C+H，CO₂→CO+O，C+O→CO，CH+O→CHO，C+C→C₂，C 表面→次表层。
@@ -171,6 +175,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 - 合格线（建议）：吸附能 MAE < 0.1 eV，能垒误差 < 0.15 eV，反应构型力 MAE < 0.1 eV/Å。预期没有一个通用势能达标，据此选出误差最小、最稳定的 1–2 个作为微调起点。【已更新】微调后的合格线以 `MECHANISM_PLAN.md` 第 6 节为准（吸附能 0.08 eV，能垒 0.10–0.12 eV，另加 C<sub>N</sub> 团簇的门槛）。
 
 ### 阶段 2（4–6 周）：主动学习微调（核心工作量）
+
+【已更新】流程不变，数据集和合格线有变：初始数据和探索体系分成先 Ni–C–H、再氧化物和边缘两块，不再以等摩尔 MEO 的熔淬快照为主；收敛判据里的能垒误差以 `MECHANISM_PLAN.md` 第 6 节为准（0.10–0.12 eV）。
 1. **初始数据**（约 500–800 帧）：B1–B4、NEB 路径上的所有图像、带随机扰动/应变的结构、MEO 熔淬快照、Ni/MEO 界面、孤立分子、单原子（用于 E0）。DFT 单点用 100–250 原子的小 cell（用同一套 builder 生成 12–15 Å 的版本），少量全尺寸 S 帧。
 2. **循环**（每轮约 1 周）：用当前模型做探索 MD（873/1073/1400 K；带气体；不同 C/O 覆盖度；颗粒）→ `select_frames.py` 用 4 个不同种子的微调模型做委员会，选出 0.1 < σ<sub>F,max</sub> < 0.6 eV/Å 的帧 → DFT → 重新训练 → 下一轮。**OPES 探索到的过渡态附近构型一定要加入训练集**，反应区是通用势最弱的地方。
 3. 收敛判据：新探索轨迹中超过 95% 的帧 σ<sub>F,max</sub> < 0.1 eV/Å；B3 能垒误差 < 0.1–0.15 eV；和 DFT-AIMD 的 RDF、振动态密度（VDOS）、H/C 均方位移一致。
@@ -215,7 +221,7 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 
 ## 6. 计算量与时间（粗估，请用 `*_timing.json` 实测更新）
 
-【已更新】预算和周期以 `MECHANISM_PLAN.md` 第 7 节为准：最小可行版本两个人约 6–8 个月，DFT 约 4×10⁵–1×10⁶ 核时，GPU 约 2.5×10³–1.2×10⁴ h。下面是较早的估计。
+【已更新】预算和周期以 `MECHANISM_PLAN.md` 第 7 节为准：最小可行版本两个人约 6–8 个月，DFT 约 4×10⁵–1.1×10⁶ 核时，GPU 约 2.4×10³–1.3×10⁴ h。下面是较早的估计。
 
 - 本容器实测（4 核 CPU，MACE-MP-0 small，float32）：627 原子 1.8 s/步，即 0.024 ns/天。**CPU 不能做生产**。
 - GPU（A100/H100 量级）粗估：约 1000 原子时 1–10 ns/天，约 1 万原子时 0.1–1 ns/天，取决于模型大小和 cuEquivariance 等加速。
@@ -260,6 +266,8 @@ python plot_runs.py ../runs/S2a_meo_log.csv ../runs/S2a_bare_log.csv --labels Ox
 ---
 
 ## 8. 接下来两周的清单
+
+【已更新】以 `MECHANISM_PLAN.md` 第 7 节第 0–1 个月的内容为准：先做阶段 0（读 SI、重新归一化实验数据）、泛函检验和 Ni–C–H 部分。下面第 4 条的等摩尔岩盐膜退火不再是起点。
 
 1. [ ] 确定 DFT 软件和参数（2.1），完成收敛测试。
 2. [ ] 准备 GPU 环境，用 `benchmark_umlip.py` 跑 MACE-MATPES-PBE-0、MACE-MH-1、MACE-OMAT-0、UMA-S 1.2（oc20/oc22/omat）、SevenNet-Omni。

@@ -45,7 +45,7 @@ MEO 默认组成为等摩尔 Mg:Ni:Al:Si（论文没有给出比例，这只是�
 - `run_md.py` + MACE-MP-0 small：S0 模型 FIRE 预优化 + 873 K Langevin 100 步，运行正常，1.8 s/步（0.024 ns/天，CPU）。
 - `species.py`、`plot_runs.py`、`add_species.py`、`select_frames.py`（small+medium 两模型委员会）均已在冒烟输出上跑通（输出未保留，按用户要求目前只交付建模部分）。
 - `benchmark_umlip.py`：已对 MACE-MP-0 small/medium 运行，结果见下（MACE-OMAT-0 等其余模型留到 GPU 环境再跑）。
-- `make_plumed.py`：四个 CH₄/CO₂ 示例的起始结构已用 numpy 复算，分子在参考圆柱之内（墙的自变量在范围内，与其余原子的最小距离大于 4.7 Å，集合变量取反应物的值）。PLUMED 本身没有运行。
+- `make_plumed.py`：四个 CH₄/CO₂ 示例的起始结构已用 numpy 复算，分子在参考圆柱之内（墙的自变量在范围内，与其余原子的最小距离大于 4.7 Å，集合变量取反应物的值），晶胞高度大于圆柱顶的两倍（PLUMED 的 `DISTANCE` 取最小镜像，晶胞不够高时顶墙不起作用）。PLUMED 本身没有运行。
 - **未在本容器测试**：UMA/SevenNet/MatterSim/ORB/DPA 的调用分支、PLUMED 输入的实际运行（没有 PLUMED kernel）、`fes_reweight.py`、VASP 模板、`finetune_mace.sh`（只核对了所用参数在 mace-torch 0.3.17 里存在）。首次使用时先用 `plumed driver` 对一段轨迹检查 CV。
 
 ## 基础模型基准（Ni(111) p(3×3)，单位 eV）
