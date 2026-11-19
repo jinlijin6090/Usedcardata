@@ -165,7 +165,7 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 - 总量：探索与主动学习约 500 GPU·h；生产（3a–3e，含多条轨迹和约 20 个 OPES 自由能面）约 2000–5000 GPU·h。DFT 标签 2000–4000 帧 × 30–100 核时/帧（100–250 原子，自旋极化）≈ 10–30 万核时。
 - 周期：约 4–6 个月（阶段 0–1：1 个月；阶段 2：1.5 个月；阶段 3：2 个月；阶段 4：1 个月）。
 
-本仓库对三个 MACE 基础模型的实测结果（Ni(111) p(3×3)，单位 eV；吸附能参考 CH₄、H₂、H₂O、CO、CO₂ 气相）：见 `data/benchmark_umlip.json` 和 README 中的表。
+本仓库对 MACE-MP-0 small/medium 两个基础模型的实测结果（Ni(111) p(3×3)，单位 eV；吸附能参考 CH₄、H₂、H₂O、CO、CO₂ 气相）：见 `data/benchmark_umlip.json` 和 README 中的表。
 
 ---
 

@@ -22,7 +22,6 @@
 | `dft_templates/` | VASP 标注/AIMD INCAR、KPOINTS、vasprun→extxyz、MACE 多头微调脚本 |
 | `plumed/` | 由 `make_plumed.py` 生成的 S1/S2 输入示例 |
 | `data/benchmark_umlip.json` | MACE 基础模型基准结果（无 DFT 对照，见下） |
-| `runs/smoke/` | CPU 冒烟测试输出（627 原子，MACE-MP-0 small，100 步） |
 
 Tag 约定：0 Ni，1 Ni（冻结），2 MEO，3 载体，4 载体（冻结），5 气体分子，6 预置吸附原子。
 
@@ -44,8 +43,8 @@ MEO 默认组成为等摩尔 Mg:Ni:Al:Si（论文没有给出比例，这只是�
 
 - `build_models.py`：全部模型生成并渲染，MEO/载体形式电荷为 0。
 - `run_md.py` + MACE-MP-0 small：S0 模型 FIRE 预优化 + 873 K Langevin 100 步，运行正常，1.8 s/步（0.024 ns/天，CPU）。
-- `species.py`、`plot_runs.py`、`add_species.py`、`select_frames.py`（small+medium 两模型委员会）均已在冒烟输出上跑通。
-- `benchmark_umlip.py`：已对 MACE-MP-0 small/medium 和 MACE-OMAT-0 medium 运行，结果见下。
+- `species.py`、`plot_runs.py`、`add_species.py`、`select_frames.py`（small+medium 两模型委员会）均已在冒烟输出上跑通（输出未保留，按用户要求目前只交付建模部分）。
+- `benchmark_umlip.py`：已对 MACE-MP-0 small/medium 运行，结果见下（MACE-OMAT-0 等其余模型留到 GPU 环境再跑）。
 - **未在本容器测试**：UMA/SevenNet/MatterSim/ORB/DPA 的调用分支、PLUMED 输入（没有 PLUMED kernel）、`fes_reweight.py`、VASP 模板、`finetune_mace.sh`。首次使用时先用 `plumed driver` 对一段轨迹检查 CV。
 
 ## 基础模型基准（Ni(111) p(3×3)，单位 eV）

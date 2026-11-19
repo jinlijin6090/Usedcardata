@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
-runs/*
-!runs/smoke/
+runs/
 al/
 COLVAR*
 KERNELS*
