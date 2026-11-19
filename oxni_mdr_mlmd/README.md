@@ -16,11 +16,11 @@
 | `scripts/add_species.py` | 给退火后的结构加气体或吸附原子 |
 | `scripts/select_frames.py` | 主动学习：委员会力偏差选帧，供 DFT 标注 |
 | `scripts/benchmark_umlip.py` | 通用势横评：Ni(111) 吸附能、反应能，及与 DFT 帧的 parity |
-| `scripts/make_plumed.py`, `fes_reweight.py` | OPES 输入（CH₄ C–H 断裂、CO₂ 解离、C+O vs C+C 二维）与 FES/TST 速率 |
+| `scripts/make_plumed.py`, `fes_reweight.py` | OPES 输入模板（一个 CH₄ 的 C–H 断裂、一个 CO₂ 的解离、C+O vs C+C 二维）与 FES/TST 速率。CH₄/CO₂ 模式要用不带气体的结构：脚本把一个分子放进开口轴线上的参考圆柱，并写出 `*_start.extxyz` 作为 MD 的起始结构 |
 | `scripts/plot_runs.py` | 对比多条轨迹（MEO vs 裸 Ni） |
 | `protocols/*.json` | 冒烟、MEO 退火、873/1073/1400 K 反应、积碳、烧结、OPES |
-| `dft_templates/` | VASP 标注/AIMD INCAR、KPOINTS、vasprun→extxyz、MACE 多头微调脚本 |
-| `plumed/` | 由 `make_plumed.py` 生成的 S1/S2 输入示例 |
+| `dft_templates/` | VASP 标注/AIMD INCAR、KPOINTS、vasprun→extxyz、MACE 微调脚本（默认基础模型是不加 U 的 `mace-matpes-pbe-0`） |
+| `plumed/` | 由 `make_plumed.py` 生成的 S1/S2 输入示例，以及 CH₄/CO₂ 输入对应的起始结构 |
 | `data/benchmark_umlip.json` | MACE 基础模型基准结果（无 DFT 对照，见下） |
 
 Tag 约定：0 Ni，1 Ni（冻结），2 MEO，3 载体，4 载体（冻结），5 气体分子，6 预置吸附原子。
@@ -45,7 +45,8 @@ MEO 默认组成为等摩尔 Mg:Ni:Al:Si（论文没有给出比例，这只是�
 - `run_md.py` + MACE-MP-0 small：S0 模型 FIRE 预优化 + 873 K Langevin 100 步，运行正常，1.8 s/步（0.024 ns/天，CPU）。
 - `species.py`、`plot_runs.py`、`add_species.py`、`select_frames.py`（small+medium 两模型委员会）均已在冒烟输出上跑通（输出未保留，按用户要求目前只交付建模部分）。
 - `benchmark_umlip.py`：已对 MACE-MP-0 small/medium 运行，结果见下（MACE-OMAT-0 等其余模型留到 GPU 环境再跑）。
-- **未在本容器测试**：UMA/SevenNet/MatterSim/ORB/DPA 的调用分支、PLUMED 输入（没有 PLUMED kernel）、`fes_reweight.py`、VASP 模板、`finetune_mace.sh`。首次使用时先用 `plumed driver` 对一段轨迹检查 CV。
+- `make_plumed.py`：四个 CH₄/CO₂ 示例的起始结构已用 numpy 复算，分子在参考圆柱之内（墙的自变量在范围内，与其余原子的最小距离大于 4.7 Å，集合变量取反应物的值）。PLUMED 本身没有运行。
+- **未在本容器测试**：UMA/SevenNet/MatterSim/ORB/DPA 的调用分支、PLUMED 输入的实际运行（没有 PLUMED kernel）、`fes_reweight.py`、VASP 模板、`finetune_mace.sh`（只核对了所用参数在 mace-torch 0.3.17 里存在）。首次使用时先用 `plumed driver` 对一段轨迹检查 CV。
 
 ## 基础模型基准（Ni(111) p(3×3)，单位 eV）
 

@@ -1,8 +1,8 @@
 # OxNi 甲烷干重整：用通用机器学习势做"类 AIMD"反应动力学研究计划
 
-> **更新（2026-11）**：机理判别和动态模拟的设计见 [`MECHANISM_PLAN.md`](MECHANISM_PLAN.md)，它经过多轮独立设计和评审，并取代了本文件的以下内容：
-> 用带气体的反应 MD 直接观察反应（§4 的 3c）；以 4 个原子的 C+C 对 C+O 作为核心测试（3e）；把等摩尔岩盐膜当默认壳层（§3）；用 3 nm 颗粒对的 MD 判断烧结（3b）。
-> 本文件关于势函数选择、微调、主动学习和快速势的部分（§2、阶段 1–2）仍然有效。
+> **更新（2026-11）**：机理判别和动态模拟的设计见 [`MECHANISM_PLAN.md`](MECHANISM_PLAN.md)。两份文件有出入时以它为准。
+> 本文件仍然有效的部分：DFT 参考层级（§2.1）、基础模型的实测问题（§2.2）、软件栈（§2.3）、主动学习微调的流程（阶段 2）。
+> 已被取代的内容列在 `MECHANISM_PLAN.md` 第 10 节，主要是：用带气体的反应 MD 直接观察反应；以 4 个 C\* 加 4 个 O\* 之间的 C+C 对 C+O 作为核心测试；把等摩尔岩盐膜当默认壳层；用颗粒 MD 判断烧结；默认蒸馏快速势；0 K 零点能修正；微调合格线；阶段 3–4 的任务表；计算量和周期。下文相应的位置加了"【已更新】"的注。
 
 参考文献：L. He, …, W. Shen, A.-H. Lu, *Robust and Coke-free Ni Catalyst Stabilized by 1–2 nm-Thick
 Multielement Oxide for Methane Dry Reforming*, ACS Catal. 2021, 11, 12409–12416.
@@ -40,7 +40,7 @@ Multielement Oxide for Methane Dry Reforming*, ACS Catal. 2021, 11, 12409–1241
 
 DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进入次表层的能垒多数在 0.7–2 eV 之间，所以：
 
-- **直接 MLMD 可以研究**：吸附/脱附、H/C/O 扩散、H₂ 生成、台阶上较快的 C–H 断裂（需要高压气体加速碰撞）、MEO 层与 Ni 颗粒的结构动力学、烧结前驱过程（原子剥离、形貌涨落、颗粒接触）。
+- **直接 MLMD 可以研究**：吸附/脱附、H/C/O 扩散、H₂ 生成、MEO 层与 Ni 颗粒的结构动力学、烧结前驱过程（原子剥离、形貌涨落、颗粒接触）。【已更新】CH₄ 的 C–H 断裂不在此列：873 K 下每次碰撞的反应概率约 10⁻⁸，加压也等不到，见 `MECHANISM_PLAN.md` 5.1。
 - **必须用增强采样**：C+O/CH+O 气化、C–C 偶联（成焦）、CO₂ 在平台上的解离、C 溶入次表层。用 OPES/Metadynamics 在真实温度下算**自由能垒 ΔF‡(T)**。它自带非谐、构型熵和动态位点重构的效应，这正是"动态催化"相对静态 NEB 的价值。
 - **升温加速（1400 K）** 只用来发现事件和采集训练数据，结论必须回到 873/1073 K 用 OPES 复核。
 - 最后用 ΔF‡ 搭**微观动力学模型/kMC**，得到 TOF 和积碳、消碳速率，再和实验的 g g<sub>Ni</sub>⁻¹ h⁻¹ 数据比较。
@@ -101,6 +101,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 | 100 ns（快 100 倍） | 1.13 eV | 1.39 eV |
 | 1 µs | 1.30 eV | 1.60 eV |
 
+【已更新】下面关于直接观察 CH₄ 活化、用颗粒 MD 研究烧结、模拟 15 nm 全尺寸颗粒的说法已被 `MECHANISM_PLAN.md` 取代（5.1 规则 1、A7、第 9 节）；快速势只在任务需要 5000 原子以上或每个条件 50 ns 以上时才蒸馏，自由能用精确势算（第 6 节）。
+
 所以快 10–100 倍时：
 - **能多做的**：台阶上 CH₄ 活化、C 扩散、部分 C–C 偶联可以在 1073 K 直接观察并做统计；烧结和颗粒合并可以跑到 10–100 ns；颗粒可以放大到 5–8 nm，甚至直接模拟 15 nm 全尺寸颗粒（Ni 约 15 万原子 + 1.5 nm MEO 壳 + 载体，共约 30 万原子，可跑 ns 量级）；OPES 可以开更多副本，收敛更快。
 - **做不到的**：873 K 下 C+O→CO（1.5 eV 以上）仍然看不到，增强采样省不掉。速度也不解决精度问题。§2.2 里 Ni–O 能量标度出错是数据的问题，而小模型通常比大模型更不准。
@@ -130,6 +132,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 ---
 
 ## 3. 模型体系（已建好，`structures/`，渲染图在 `renders/`）
+
+【已更新】这些模型在 `MECHANISM_PLAN.md` 里只作为对照体系（EQ）和示意用的颗粒；新的模型阶梯见该文件第 3 节。下面"退火后要检查 2.2 Å 条纹和 Ni²⁺"的要求不再作为验证门槛。
 
 | 编号 | 体系 | 原子数 | 用途 |
 |---|---|---|---|
@@ -164,7 +168,7 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 - **B3** 能垒（CI-NEB）：CH₄→CH₃+H（平台/台阶/周界/Ni²⁺），CH→C+H，CO₂→CO+O，C+O→CO，CH+O→CHO，C+C→C₂，C 表面→次表层。
 - **B4** 873 K 下 5 ps DFT-AIMD（约 200 原子的 S1 局部模型）的力对比。
 - 运行 `benchmark_umlip.py --calcs ... --dft-ref dft_ref.json --parity b4.extxyz`。
-- 合格线（建议）：吸附能 MAE < 0.1 eV，能垒误差 < 0.15 eV，反应构型力 MAE < 0.1 eV/Å。预期没有一个通用势能达标，据此选出误差最小、最稳定的 1–2 个作为微调起点。
+- 合格线（建议）：吸附能 MAE < 0.1 eV，能垒误差 < 0.15 eV，反应构型力 MAE < 0.1 eV/Å。预期没有一个通用势能达标，据此选出误差最小、最稳定的 1–2 个作为微调起点。【已更新】微调后的合格线以 `MECHANISM_PLAN.md` 第 6 节为准（吸附能 0.08 eV，能垒 0.10–0.12 eV，另加 C<sub>N</sub> 团簇的门槛）。
 
 ### 阶段 2（4–6 周）：主动学习微调（核心工作量）
 1. **初始数据**（约 500–800 帧）：B1–B4、NEB 路径上的所有图像、带随机扰动/应变的结构、MEO 熔淬快照、Ni/MEO 界面、孤立分子、单原子（用于 E0）。DFT 单点用 100–250 原子的小 cell（用同一套 builder 生成 12–15 Å 的版本），少量全尺寸 S 帧。
@@ -173,6 +177,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 4. 预计 5–8 轮，总计 2000–4000 帧 DFT。
 
 ### 阶段 3（4–8 周）：生产模拟
+
+【已更新】本阶段的任务表由 `MECHANISM_PLAN.md` 的 A1–A7 和 T1–T7 取代。3b、3c、3e 不再按下表做；3a 的 2.2 Å 和 Ni²⁺ 检查、3d 的 Ni²⁺ 位点不再作为目标。下表留作记录。
 
 | 子任务 | 模型 / 协议 | 主要输出 | 对应问题 |
 |---|---|---|---|
@@ -185,6 +191,8 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 3e 的核心预期：如果论文的机理成立，MEO 限域的小 Ni 区域上，C 原子的迁移和聚集受到孔边缘阻挡，C–C 偶联自由能垒应该升高，或者 C₂ 在热力学上不稳定；同时孔边缘的晶格 O 或 O* 提供更近的氧，C+O 气化能垒应该降低。裸 Ni 上应该相反。要扫描孔径和 C 覆盖度，看这个"交叉"出现在什么条件下。
 
 ### 阶段 4（3–4 周）：尺度上推与实验对照
+
+【已更新】由 `MECHANISM_PLAN.md` 的 A5 和门槛 G4 取代。脉冲速率的复现只是一致性检查，不再称为"很强的结果"；XPS Ni²⁺ 和 2.2 Å 条纹不再作为对照量。
 1. **微观动力学模型 / kMC**：以 ΔF‡(T) 和吸附自由能为输入，计算 TOF、CH₄/CO₂ 转化率随温度的变化（对照 Fig. 2a）、H₂/CO 比（RWGS 使其 < 1，对照 Fig. S7）、积碳与消碳速率；做速控度（DRC）分析。
 2. **换算到实验单位**：r<sub>C</sub>[g<sub>C</sub> g<sub>Ni</sub>⁻¹ h⁻¹] = TOF<sub>C</sub>[s⁻¹] × 3600 × D × f<sub>exp</sub> × M<sub>C</sub>/M<sub>Ni</sub>。D 是 15 nm 颗粒的分散度（约 0.07），f<sub>exp</sub> 是 MEO 下仍暴露的表面 Ni 比例（从 P1 退火结构或 H₂ 化学吸附得到）。对照实验：OxNi 0.24（积碳）/0.51（消碳），参比 Ni 2.39/1.79。**定性复现"OxNi 消碳 > 积碳、参比 Ni 积碳 > 消碳"就是一个很强的结果。**
 3. 其他可对照的实验量：原位 TEM/XRD 粒径不变；Raman 显示少量无定形碳；XPS Ni²⁺（用 Bader 电荷/磁矩作代理）；MEO 条纹 2.2 Å、Ni(111) 2.0 Å。
@@ -199,13 +207,15 @@ DFT 文献里 Ni 上 CH₄ 首个 C–H 断裂、C+O→CO、C–C 偶联、C 进
 | ML 势不显含磁性/长程静电（金属–氧化物界面有电荷转移） | DFT 标签统一磁矩初始化；界面误差偏大时尝试更大截断半径或带电荷/长程项的模型；用 Bader/磁矩做后验 |
 | 高压气体、温度加速可能改变机理 | 速率只用 OPES 在真实 T 下得到的 ΔF‡；无偏 MD 只用于发现事件和统计位点 |
 | 生产段恒温器扰动反应放热的耗散 | 平衡段用 Langevin，生产段用弱耦合的 Bussi（τ = 100 fs）；关键事件用 NVE 片段复核 |
-| 经典核运动忽略零点能（C–H 断裂受影响约 0.1–0.2 eV） | 对关键能垒加谐振 ZPE 修正；有条件时用 i-PI 做 PIMD 检验 |
+| 经典核运动忽略核量子效应 | 【已更新】对 C–H 断裂加有限温度的量子修正（873 K 下约 −0.05 至 −0.09 eV），不用 0 K 的谐振零点能修正（0.1–0.2 eV 会高估）；有条件时用 i-PI 做 PIMD 检验 |
 | MEO 组成、孔径未知 | 做 2–3 种组成 × 3 种孔径的敏感性扫描，结论只报告稳健的趋势 |
 | 统计误差 | 每个条件至少 3–5 条独立轨迹；OPES 检查 ΔF 随时间的收敛并做分块误差分析 |
 
 ---
 
 ## 6. 计算量与时间（粗估，请用 `*_timing.json` 实测更新）
+
+【已更新】预算和周期以 `MECHANISM_PLAN.md` 第 7 节为准：最小可行版本两个人约 6–8 个月，DFT 约 4×10⁵–1×10⁶ 核时，GPU 约 2.5×10³–1.2×10⁴ h。下面是较早的估计。
 
 - 本容器实测（4 核 CPU，MACE-MP-0 small，float32）：627 原子 1.8 s/步，即 0.024 ns/天。**CPU 不能做生产**。
 - GPU（A100/H100 量级）粗估：约 1000 原子时 1–10 ns/天，约 1 万原子时 0.1–1 ns/天，取决于模型大小和 cuEquivariance 等加速。
@@ -230,7 +240,8 @@ python run_md.py ../structures/S1_ni211_meo_pore_nogas.extxyz --calc mace:medium
 # 2) 加气体 / 预置 C*、O*
 python add_species.py ../runs/S1_anneal_final.extxyz --gas 12 12 --out ../structures/S1a_gas.extxyz
 python add_species.py ../runs/S1_anneal_final.extxyz --adatoms C=4,O=4 --out ../structures/S2a_CO.extxyz
-# 3) 反应 MD / 积碳 MD
+# 3) 反应 MD / 积碳 MD（【已更新】第 3、4 步不再是核心测试，见 MECHANISM_PLAN.md；CH4/CO2 的 OPES 输入要用不带气体的结构，
+#    make_plumed.py 会把一个分子放进参考圆柱并写出 *_start.extxyz）
 python run_md.py ../structures/S1a_gas.extxyz --calc mace:<微调模型> --device cuda \
        --protocol ../protocols/mdr_873K.json --out ../runs/S1a_873K
 # 4) 增强采样
@@ -241,7 +252,7 @@ python fes_reweight.py ../runs/COLVAR --cv nco ncc --T 873 --png ../runs/S2a_fes
 # 5) 主动学习选帧、基准、作图
 python select_frames.py ../runs/S1a_873K.extxyz --models mace:m1.model mace:m2.model mace:m3.model \
        --out ../al/iter1.extxyz
-python benchmark_umlip.py --calcs mace:medium-omat-0 uma:uma-s-1p1/oc20 --dft-ref ../data/dft_ref.json
+python benchmark_umlip.py --calcs mace:mace-matpes-pbe-0 uma:uma-s-1p2p1/oc20 --dft-ref ../data/dft_ref.json
 python plot_runs.py ../runs/S2a_meo_log.csv ../runs/S2a_bare_log.csv --labels OxNi bare \
        --cols "CO(g)" C_in_Cn largest_C_cluster C_dissolved --out ../runs/S2_compare.png
 ```
@@ -251,7 +262,7 @@ python plot_runs.py ../runs/S2a_meo_log.csv ../runs/S2a_bare_log.csv --labels Ox
 ## 8. 接下来两周的清单
 
 1. [ ] 确定 DFT 软件和参数（2.1），完成收敛测试。
-2. [ ] 准备 GPU 环境，用 `benchmark_umlip.py` 跑 MACE-OMAT-0、MACE-MPA-0、UMA-S（oc20/omat）、SevenNet、DPA-3。
+2. [ ] 准备 GPU 环境，用 `benchmark_umlip.py` 跑 MACE-MATPES-PBE-0、MACE-MH-1、MACE-OMAT-0、UMA-S 1.2（oc20/oc22/omat）、SevenNet-Omni。
 3. [ ] 计算 B1–B3 基准集（约 40 个吸附构型 + 8–10 条 NEB），写入 `data/dft_ref.json`。
 4. [ ] 用选出的基础模型跑 `meo_anneal.json`（S1、S3、P1 各一次），检查 MEO 结构是否合理；从退火轨迹中抽取第一批 DFT 帧。
 5. [ ] 和实验同事确认：MEO 的 EDS 半定量比例、孔径/BET、H₂ 化学吸附得到的暴露 Ni 比例。这三个数直接决定模型参数。
